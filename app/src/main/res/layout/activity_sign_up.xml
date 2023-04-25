@@ -7,15 +7,6 @@
     tools:context=".SignUp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/back_button"
-        />
-
-    <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="28dp"
-        android:layout_below="@id/emailtitle1"
+       android:layout_below="@id/emailtitle1"
         android:layout_marginTop="5dp"
         android:hint="Your Email"
         android:layout_marginRight="20dp"
@@ -118,7 +109,7 @@
         android:layout_marginRight="20dp"
         android:layout_below="@id/inputpassword1"
         android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_button"
+        android:background="@color/rgs_green"
         android:text="Login"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white" />

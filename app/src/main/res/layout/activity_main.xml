@@ -8,13 +8,19 @@
     android:background="@color/rgs_bg">
 
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.rgs_chequepickup.HomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
+        android:background="@drawable/nav"
         >
 
         <LinearLayout
