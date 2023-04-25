@@ -130,13 +130,13 @@
             android:text="Have an account?" />
 
         <TextView
-            android:id="@+id/signup"
+            android:id="@+id/signing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/noaccount"
             android:layout_marginLeft="5dp"
             android:textColor="@color/rgs_green"
-            android:text="Sign up" />
+            android:text="Sign in" />
 
     </RelativeLayout>
 
