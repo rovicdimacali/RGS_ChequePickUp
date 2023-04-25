@@ -5,4 +5,6 @@
     <color name="rgs_bg">#f8f8f8</color>
     <color name="rgs_green">#b0e32e</color>
     <color name="rgs_gray">#787878</color>
+    <color name="rgs_gray1">#B0B0B0</color>
+    <color name="green">#109300 </color>
 </resources>
