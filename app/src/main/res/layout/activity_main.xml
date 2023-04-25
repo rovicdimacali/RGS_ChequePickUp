@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="50"
             android:gravity="center"
+            android:id="@+id/profile_button"
             android:orientation="vertical"
             >
 

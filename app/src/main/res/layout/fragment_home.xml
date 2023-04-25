@@ -25,7 +25,6 @@
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="353dp"
@@ -111,68 +110,6 @@
                                     android:fontFamily="@font/poppins"
                                     android:textSize="14dp"
                                     />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    android:layout_marginTop="-20dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="10dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardUseCompatPadding="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:id="@+id/card_image2"
-                            app:shapeAppearanceOverlay="@style/circleImageView"
-                            app:srcCompat="@drawable/cheque_pic" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_toRightOf="@id/card_image2"
-                            android:layout_centerVertical="true"
-                            android:padding="10dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kurt Paguio"
-                                android:textColor="@color/black"
-                                android:fontFamily="@font/poppins"
-                                android:textSize="19dp"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="8 Policy St. Project 8, Quezon City"
-                                android:textColor="@color/black"
-                                android:fontFamily="@font/poppins"
-                                android:textSize="13dp"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="+63 9274815025"
-                                android:textColor="@color/black"
-                                android:fontFamily="@font/poppins"
-                                android:textSize="14dp"
-                                />
                         </LinearLayout>
 
                     </RelativeLayout>

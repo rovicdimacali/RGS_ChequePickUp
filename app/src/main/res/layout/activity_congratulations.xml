@@ -7,52 +7,50 @@
     tools:context=".Congratulations"
     android:padding="10dp">
 
-    <ImageView
-        android:layout_width="277dp"
-        android:layout_height="215dp"
-        android:layout_above="@+id/congrats"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
-        android:src="@drawable/complete">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
 
-    </ImageView>
+        <TextView
+            android:id="@+id/congrats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Congratulations!!"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/congrats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Congratulations!!"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/words"
+            android:layout_width="331dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/congrats"
+            android:text="your account is complete, please enjoy the best menu from us."
+            android:textAlignment="center"
+            android:textColor="@color/rgs_gray1" />
 
-    <TextView
-        android:id="@+id/words"
-        android:layout_width="331dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_below="@+id/congrats"
-        android:text="your account is complete, please enjoy the best menu from us."
-        android:textAlignment="center"
-        android:textColor="@color/rgs_gray1" />
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="28dp"
+            android:layout_below="@+id/words"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:text="Get Started!"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/continue_button"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="28dp"
-        android:layout_below="@+id/words"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:text="Get Started!"
-        android:background="@drawable/rounded_button"
-        android:textColor="@color/white" />
+    </LinearLayout  >
 
 </RelativeLayout>
