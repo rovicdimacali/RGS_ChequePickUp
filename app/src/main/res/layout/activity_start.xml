@@ -58,5 +58,4 @@
         android:text="Sign in"
         android:textColor="@color/rgs_gray"/>
 
-
 </RelativeLayout>
