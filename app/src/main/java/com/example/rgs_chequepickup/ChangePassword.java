@@ -8,17 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class LoginActivity extends AppCompatActivity {
-
-    TextView back_button, forgotpassword;
+public class ChangePassword extends AppCompatActivity {
+    TextView back_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_change_password);
         back_button = (TextView) findViewById(R.id.back_button);
-
-        forgotpassword = (TextView) findViewById(R.id.forgotpassword);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -28,25 +24,12 @@ public class LoginActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 openStartAct();
-            }
-        });
-
-        forgotpassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openForgotPass();
             }
         });
     }
     public void openStartAct() {
-        Intent intent = new Intent(this, StartActivity.class);
-        startActivity(intent);
-    }
-
-    public void openForgotPass(){
-        Intent intent = new Intent(this, ForgotPassword.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

@@ -7,6 +7,16 @@
     tools:context=".Congratulations"
     android:padding="10dp">
 
+    <ImageView
+        android:layout_width="277dp"
+        android:layout_height="215dp"
+        android:layout_above="@+id/congrats"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/complete">
+
+    </ImageView>
+
     <TextView
         android:id="@+id/congrats"
         android:layout_width="wrap_content"
