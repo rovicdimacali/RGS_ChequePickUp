@@ -16,13 +16,7 @@
             android:name=".OneTimePass"
             android:exported="false" />
         <activity
-            android:name=".ChangePassword"
-            android:exported="false" />
-        <activity
             android:name=".Congratulations"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".SignUp"
