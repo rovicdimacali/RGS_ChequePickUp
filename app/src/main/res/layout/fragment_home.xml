@@ -55,6 +55,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/customer_btn"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:layout_marginTop="-20dp"

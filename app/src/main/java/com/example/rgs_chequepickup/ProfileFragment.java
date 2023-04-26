@@ -67,15 +67,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
+        RelativeLayout history_btn = (RelativeLayout) view.findViewById(R.id.history_btn);
         TextView logout_btn = (TextView) view.findViewById(R.id.logout_btn);
-
-        changepass_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChangePassword.class);
-                startActivity(intent);
-            }
-        });
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +77,23 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        changepass_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+
+       history_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
 }
