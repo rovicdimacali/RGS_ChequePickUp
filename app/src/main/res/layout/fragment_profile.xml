@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/header"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/poppins_bold"
             android:paddingTop="15dp"
             android:text="Profile"
             android:textAlignment="center"
@@ -86,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_header"
             android:orientation="horizontal"
+            android:id="@+id/changepass_btn"
             android:padding="20dp">
 
             <ImageView

@@ -18,7 +18,7 @@
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/header"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/poppins_bold"
             android:paddingTop="15dp"
             android:text="Dashboard"
             android:textAlignment="center"

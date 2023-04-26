@@ -29,7 +29,7 @@ public class ChangePassword extends AppCompatActivity {
         });
     }
     public void openStartAct() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
