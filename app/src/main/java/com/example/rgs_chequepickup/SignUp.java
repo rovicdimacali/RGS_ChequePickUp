@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SignUp extends AppCompatActivity {
+
+    private Button login_button;
     TextView signing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,8 @@ public class SignUp extends AppCompatActivity {
 
         signing = (TextView) findViewById(R.id.signing);
 
+        login_button = (Button) findViewById(R.id.login_button);
+
         signing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -25,9 +29,21 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCongrats();
+            }
+        });
+
     }
     public void openLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void openCongrats(){
+        Intent intent = new Intent(this, Congratulations.class);
         startActivity(intent);
     }
 }
