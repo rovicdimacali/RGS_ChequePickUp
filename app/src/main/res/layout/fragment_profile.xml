@@ -55,7 +55,6 @@
                     android:id="@+id/profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans"
                     android:text="Kurt Paguio"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -89,11 +88,64 @@
             android:orientation="horizontal"
             android:padding="20dp">
 
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/icon_password"
+                app:srcCompat="@drawable/locked"
+                android:layout_centerVertical="true"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_password"
+                android:text="Change Password"
+                android:textSize="17dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/right_arrow"
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_header"
+            android:orientation="horizontal"
+            android:padding="20dp">
 
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/icon_history"
+                app:srcCompat="@drawable/history"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_history"
+                android:text="Pick Up History"
+                android:textSize="17dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/right_arrow"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
