@@ -37,10 +37,10 @@
             android:layout_marginHorizontal="30dp">
 
             <ImageView
+                android:id="@+id/captured_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="70dp"
-                android:id="@+id/captured_image"
                 />
 
             <LinearLayout
