@@ -58,6 +58,14 @@ public class ChequePickUp extends AppCompatActivity {
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="));
             }
         });
+
+        arrived_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChequePickUp.this, CaptureCheque.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void DisplayMap(String address){
