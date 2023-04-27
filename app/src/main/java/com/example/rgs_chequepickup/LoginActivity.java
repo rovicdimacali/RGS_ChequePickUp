@@ -35,6 +35,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openForgotPass();
+            }
+        });
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openForgotPass(){
+        Intent intent = new Intent(this, ForgotPassword.class);
+        startActivity(intent);
+    }
 
     public void openSignup(){
         Intent intent = new Intent(this, SignUp.class);
