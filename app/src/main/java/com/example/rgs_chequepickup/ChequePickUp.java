@@ -44,6 +44,13 @@ public class ChequePickUp extends AppCompatActivity {
         icon_location.setText("\uf015");
         icon_number.setText("\uf2a0");
 
+        arrived_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCapturecheque();
+            }
+        });
+
         //LAUNCH GMAPS BASED ON ADDRESS
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,5 +89,10 @@ public class ChequePickUp extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+    }
+
+    public void openCapturecheque(){
+        Intent intent = new Intent(this, CaptureCheque.class);
+        startActivity(intent);
     }
 }

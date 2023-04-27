@@ -6,17 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class SplashActivity extends AppCompatActivity {
+public class ChequeReceived extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_cheque_received);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, ChequePickUp.class);
+                Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

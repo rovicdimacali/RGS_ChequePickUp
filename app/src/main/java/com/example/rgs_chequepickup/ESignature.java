@@ -2,6 +2,7 @@ package com.example.rgs_chequepickup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +45,13 @@ public class ESignature extends AppCompatActivity {
             public void onClick(View v) {
                 Bitmap bitmap = signature_pad.getSignatureBitmap();
                 imageView.setImageBitmap(bitmap);
+
+                openChequereceived();
                 }
         });
+    }
+    public void openChequereceived(){
+        Intent intent = new Intent(this, ChequeReceived.class);
+        startActivity(intent);
     }
 }
