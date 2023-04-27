@@ -13,13 +13,5 @@ public class ChequeReceived extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheque_received);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 3000);
     }
 }
