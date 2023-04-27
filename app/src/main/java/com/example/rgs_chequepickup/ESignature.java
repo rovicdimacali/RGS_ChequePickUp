@@ -29,7 +29,7 @@ public class ESignature extends AppCompatActivity {
 
         load_image = (Button) findViewById(R.id.load_image);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+        //imageView = (ImageView) findViewById(R.id.imageView);
 
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
 
@@ -43,15 +43,17 @@ public class ESignature extends AppCompatActivity {
         load_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bitmap = signature_pad.getSignatureBitmap();
-                imageView.setImageBitmap(bitmap);
+                //Bitmap bitmap = signature_pad.getSignatureBitmap();
+                //imageView.setImageBitmap(bitmap);
+                Intent intent = new Intent(ESignature.this, ChequeReceived.class);
+                startActivity(intent);
 
-                openChequereceived();
+                //openChequereceived();
                 }
         });
     }
-    public void openChequereceived(){
+    /*public void openChequereceived(){
         Intent intent = new Intent(this, ChequeReceived.class);
         startActivity(intent);
-    }
+    }*/
 }

@@ -46,20 +46,12 @@
         <com.github.gcacace.signaturepad.views.SignaturePad
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:id="@+id/signature_pad"
             app:penColor="@color/black">
 
         </com.github.gcacace.signaturepad.views.SignaturePad>
 
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".5"
-            android:id="@+id/imageView">
-
-        </ImageView>
 
     </LinearLayout>
 
@@ -83,7 +75,7 @@
                 android:id="@+id/clear_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear Image"
+                android:text="Clear Signature"
                 android:layout_weight=".5"
                 android:layout_marginRight="10dp"
                 android:background="@color/rgs_green"
@@ -93,7 +85,7 @@
                 android:id="@+id/load_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Load Image"
+                android:text="Next"
                 android:layout_weight=".5"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_secondary"

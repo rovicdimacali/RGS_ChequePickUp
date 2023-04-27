@@ -35,7 +35,7 @@ public class CaptureCheque extends AppCompatActivity {
             ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
         }
         else{
-            Toast.makeText(getApplicationContext(),"Camera Disabled/Not Found!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Camera Disabled/Not Found!", Toast.LENGTH_SHORT).show();
         }
 
         camera_button.setOnClickListener(new View.OnClickListener() {
