@@ -22,6 +22,7 @@ public class CaptureCheque extends AppCompatActivity {
 
     ImageView captured_image;
     Button camera_button, next_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class CaptureCheque extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 101);
+
             }
         });
 
@@ -63,4 +65,5 @@ public class CaptureCheque extends AppCompatActivity {
             captured_image.setImageBitmap(bitmap);
         }
     }
+
 }
