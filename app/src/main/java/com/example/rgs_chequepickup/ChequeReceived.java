@@ -25,6 +25,13 @@ public class ChequeReceived extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        /*new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);*/
     }
 }
