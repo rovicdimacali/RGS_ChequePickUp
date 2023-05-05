@@ -46,7 +46,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SqlDatabase sql = new SqlDatabase(SignUp.this);
-                sql.addUser(un, em, passwd);
+                sql.addUser(un.trim(), em.trim(), passwd.trim());
                 openCongrats();
             }
         });
