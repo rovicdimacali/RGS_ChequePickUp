@@ -7,20 +7,33 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class SignUp extends AppCompatActivity {
 
-    private Button login_button;
+    private Button signup_button;
+    private EditText username, email, password;
+    private String un, em, passwd;
     TextView signing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        //BUTTONS
         signing = (TextView) findViewById(R.id.signing);
+        signup_button = (Button) findViewById(R.id.signup_button);
 
-        login_button = (Button) findViewById(R.id.login_button);
+        //INPUTS
+        username = (EditText) findViewById(R.id.inputname);
+        un = username.getText().toString();
+
+        email = (EditText) findViewById(R.id.inputemail1);
+        em = email.getText().toString();
+
+        password = (EditText) findViewById(R.id.inputpassword1);
+        passwd = password.getText().toString();
 
         signing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,9 +42,11 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        login_button.setOnClickListener(new View.OnClickListener() {
+        signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SqlDatabase sql = new SqlDatabase(SignUp.this);
+                sql.addUser(un, em, passwd);
                 openCongrats();
             }
         });
