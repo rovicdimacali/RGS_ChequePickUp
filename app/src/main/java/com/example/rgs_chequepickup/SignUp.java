@@ -3,7 +3,9 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +52,7 @@ public class SignUp extends AppCompatActivity {
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //SqlDatabase sql = new SqlDatabase(SignUp.this);
+                SqlDatabase sql = new SqlDatabase(SignUp.this);
                 Random r = new Random();
                 otp = r.nextInt(9999-1000) + 1000;
 
@@ -61,11 +63,20 @@ public class SignUp extends AppCompatActivity {
                         //if(result == 1){
                             //Toast.makeText(SignUp.this, "Account Created!", Toast.LENGTH_SHORT).show();
                             //openCongrats();
-                        openOTP();
                         //}
                         //else if(result == -1){
                             //Toast.makeText(SignUp.this, "Error Creating Account!", Toast.LENGTH_SHORT).show();
                         //}
+
+                        //CHECK IF AN ACCOUNT ALREADY EXISTS
+                        Cursor res = sql.checkAccount(name.getText().toString().trim(), email.getText().toString().trim());
+                        if(res.getCount() == 0){ //NO ACCOUNT
+                            //sendEmail(otp);
+                            openOTP(otp);
+                        }
+                        else{
+                            Toast.makeText(SignUp.this, "Account already exists.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else if(name.getText().toString().trim().matches(".*[0-9].*")){
                         Toast.makeText(SignUp.this,"Name must not contain numbers.", Toast.LENGTH_SHORT).show();
@@ -95,16 +106,17 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openOTP(){
+    public void openOTP(long otp_signup){
         Intent intent = new Intent(this, OneTimePass.class);
-        intent.putExtra("otp", "signup");
+        intent.putExtra("otpstat", "signup");
         intent.putExtra("signupName", name.getText().toString().trim());
         intent.putExtra("signupEmail",email.getText().toString().trim());
         intent.putExtra("signupPass", password.getText().toString().trim());
+        intent.putExtra("otp", otp_signup);
         startActivity(intent);
     }
 
-    public void sendEmail(){
-        String recipientList = email.getText().toString();
+    public void sendEmail(long otp_signup){
+
     }
 }

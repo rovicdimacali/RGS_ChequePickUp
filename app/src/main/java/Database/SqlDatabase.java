@@ -2,9 +2,9 @@ package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -42,7 +42,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int addUser(String name, String email, String password, int otp) {
+    public int addUser(String name, String email, String password, long otp) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -56,8 +56,20 @@ public class SqlDatabase extends SQLiteOpenHelper {
             return -1;
             //Toast.makeText(context, "Data not inserted!", Toast.LENGTH_SHORT).show();
         } else {
+            String tbl_query = "UPDATE " + tbl_name + " SET signup_otp = 0 WHERE name = '" + name + "' " +
+                    "AND email = '" + email + "';";
+            db.execSQL(tbl_query);
             return 1;
             //Toast.makeText(context, "Data inserted!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public Cursor checkAccount(String name, String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String user_check = "SELECT * FROM " + tbl_name +
+                        " WHERE name = '" + name + "' AND email = '" + email + "';";
+
+        Cursor cur = db.rawQuery(user_check, null);
+        return cur;
     }
 }
