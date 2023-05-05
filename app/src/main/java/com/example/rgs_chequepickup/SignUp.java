@@ -71,7 +71,7 @@ public class SignUp extends AppCompatActivity {
                         //CHECK IF AN ACCOUNT ALREADY EXISTS
                         Cursor res = sql.checkAccount(name.getText().toString().trim(), email.getText().toString().trim());
                         if(res.getCount() == 0){ //NO ACCOUNT
-                            //sendEmail(otp);
+                            sendEmail(otp);
                             openOTP(otp);
                         }
                         else{
@@ -117,6 +117,10 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void sendEmail(long otp_signup){
-
+        String mail = String.valueOf(email.getText());
+        String subject = "OTP Code";
+        String final_otp = Long.toString(otp);
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,final_otp);
+        javaMailAPI.execute();
     }
 }
