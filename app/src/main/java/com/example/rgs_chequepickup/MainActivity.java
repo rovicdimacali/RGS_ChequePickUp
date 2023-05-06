@@ -3,6 +3,7 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,17 +11,24 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import Database.SqlDatabase;
+import SessionPackage.SessionManagement;
+import SessionPackage.UserSession;
 public class MainActivity extends AppCompatActivity {
 
     TextView home,  profile, icon_home, text_home, icon_profile, text_profile;
     LinearLayout home_btn, profile_btn;
+    //Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //intent = getIntent();
         /* ------------ START: Get textview to replace text with font awesome ------------ */
+        //String inputemail = intent.getStringExtra("email");
+        //String inputpass = intent.getStringExtra("pass");
 
         home = (TextView) findViewById(R.id.icon_home);
         profile = (TextView) findViewById(R.id.icon_profile);
@@ -82,4 +90,26 @@ public class MainActivity extends AppCompatActivity {
         /* ------------ END: Change Fragment and Change Color of Nav Buttons On Click Navbar Buttons ------------ */
         
     }
+    /*
+    protected void onStart() {
+        super.onStart();
+
+        //check if user is logged in
+        SessionManagement sm = new SessionManagement(MainActivity.this);
+        String isLoggedIn = sm.getSession();
+
+        if(!(isLoggedIn.equals("none"))){
+            openLogin();
+        }
+        else if(isLoggedIn.equals("none")){
+            //Intent intent = new Intent(this, LoginActivity.class);
+            //startActivity(intent);
+        }
+    }
+    public void openLogin(){
+        //Move to main activity
+        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }*/
 }

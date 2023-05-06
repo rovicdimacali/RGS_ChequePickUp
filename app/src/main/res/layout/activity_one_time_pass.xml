@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_below="@+id/otp"
-        android:text="Please enter the code that was sent to your device."
+        android:text="Please enter the code that was sent to your email."
         android:textAlignment="center"
         android:textColor="@color/rgs_gray1" />
 
@@ -54,7 +54,7 @@
         />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit_button"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -62,7 +62,7 @@
         android:layout_below="@id/inputotp"
         android:layout_marginTop="60dp"
         android:background="@drawable/rounded_button"
-        android:text="Login"
+        android:text="Submit"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white" />
 
