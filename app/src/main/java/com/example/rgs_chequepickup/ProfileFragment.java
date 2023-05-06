@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import SessionPackage.SessionManagement;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
@@ -30,7 +32,7 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    Context cont;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -65,6 +67,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        cont = getActivity();
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
         RelativeLayout history_btn = (RelativeLayout) view.findViewById(R.id.history_btn);
@@ -73,7 +76,11 @@ public class ProfileFragment extends Fragment {
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), StartActivity.class);
+                SessionManagement sm = new SessionManagement(cont);
+                sm.removeSession();
+
+                Intent intent = new Intent(cont,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
