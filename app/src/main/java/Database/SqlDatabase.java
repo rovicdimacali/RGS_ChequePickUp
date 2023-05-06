@@ -64,11 +64,18 @@ public class SqlDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor checkAccount(String name, String email){
+    public Cursor checkAccount(String name, String email, String pass){
         SQLiteDatabase db = this.getReadableDatabase();
-        String user_check = "SELECT * FROM " + tbl_name +
-                        " WHERE name = '" + name + "' AND email = '" + email + "';";
+        String user_check = null;
 
+        if(pass.isEmpty() && !(name.isEmpty())){
+            user_check = "SELECT * FROM " + tbl_name +
+                    " WHERE email = '" + email + "';";
+        }
+        else if(!(pass.isEmpty()) && name.isEmpty()) {
+            user_check = "SELECT * FROM " + tbl_name +
+                    " WHERE passwd = '" + pass + "' AND email = '" + email + "';";
+        }
         Cursor cur = db.rawQuery(user_check, null);
         return cur;
     }

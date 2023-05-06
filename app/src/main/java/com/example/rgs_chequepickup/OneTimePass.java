@@ -41,7 +41,7 @@ public class OneTimePass extends AppCompatActivity {
         long otp = intent.getLongExtra("otp", 0);
 
         String final_otp = Long.toString(otp);
-        otptext.setText(final_otp);
+        //otptext.setText(final_otp);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 import Database.SqlDatabase;
+import Email.JavaMailAPI;
+import Email.Utils;
 
 public class SignUp extends AppCompatActivity {
 
@@ -69,13 +70,13 @@ public class SignUp extends AppCompatActivity {
                         //}
 
                         //CHECK IF AN ACCOUNT ALREADY EXISTS
-                        Cursor res = sql.checkAccount(name.getText().toString().trim(), email.getText().toString().trim());
+                        Cursor res = sql.checkAccount(name.getText().toString().trim(), email.getText().toString().trim(), "");
                         if(res.getCount() == 0){ //NO ACCOUNT
-                            sendEmail(otp);
+                            sendEmail();
                             openOTP(otp);
                         }
                         else{
-                            Toast.makeText(SignUp.this, "Account already exists.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "Email is already associated with an another account.", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else if(name.getText().toString().trim().matches(".*[0-9].*")){
@@ -107,6 +108,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void openOTP(long otp_signup){
+        Toast.makeText(SignUp.this, "A One-Time Pin was sent to your email.", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, OneTimePass.class);
         intent.putExtra("otpstat", "signup");
         intent.putExtra("signupName", name.getText().toString().trim());
@@ -116,11 +118,15 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void sendEmail(long otp_signup){
+
+    public void sendEmail(){
         String mail = String.valueOf(email.getText());
-        String subject = "OTP Code";
-        String final_otp = Long.toString(otp);
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,final_otp);
+        String subject = "RGS Express: One-Time Pin for Account Creation";
+        String message = "<h1 align=center>Hi, Mr./Ms. " + String.valueOf(name.getText()) + "</h1><br><p align = center>Here is your OTP for account creation.\n" +
+                "Do not share it to anyone.</p><h1 align = center>"+ Long.toString(otp) +"</h1><br>\n" +
+                "<h6><center>If you\'re not the one who created the account, ignore the this email and change your password to prevent an account breach.<br>Only the person with access\n" +
+                "to your email can see the OTP for the account creation.</h6></center>";
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
         javaMailAPI.execute();
     }
 }

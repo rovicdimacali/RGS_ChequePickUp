@@ -1,4 +1,4 @@
-package com.example.rgs_chequepickup;
+package Email;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +12,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import Email.Utils;
 
 public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
@@ -90,7 +92,8 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             //Adding subject
             mm.setSubject(mSubject);
             //Adding message
-            mm.setText(mMessage);
+            //mm.setText(mMessage);
+            mm.setContent(mMessage, "text/html");
             //Sending email
             Transport.send(mm);
 
