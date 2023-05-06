@@ -18,7 +18,7 @@
             android:layout_width="160dp"
             android:layout_height="173dp"
             android:layout_above="@+id/congrats"
-            android:layout_gravity=""
+            android:layout_gravity="center"
             android:src="@drawable/complete" />
 
         <TextView
