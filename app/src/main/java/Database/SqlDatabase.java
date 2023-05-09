@@ -79,4 +79,8 @@ public class SqlDatabase extends SQLiteOpenHelper {
         Cursor cur = db.rawQuery(user_check, null);
         return cur;
     }
+
+    public void forgotPassword(String email){
+
+    }
 }
