@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -27,12 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //tv = (TextView) findViewById(R.id.text_home);
-        //intent = getIntent();
+        tv = (TextView) findViewById(R.id.text_home);
+        intent = getIntent();
 
         /* ------------ START: Get textview to replace text with font awesome ------------ */
-        //String inputemail = intent.getStringExtra("email");
+        String inputemail = intent.getStringExtra("email");
         //tv.setText(inputemail);
+        if(!(inputemail.equals(" "))){
+            Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(MainActivity.this,"Failed to pass data", Toast.LENGTH_SHORT).show();
+        }
         //String inputpass = intent.getStringExtra("pass");
 
 

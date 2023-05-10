@@ -43,7 +43,7 @@ public class StartActivity extends AppCompatActivity {
 
         if(!(isLoggedIn.equals("none"))){
             //String email = sm.getEmail();
-            openMain();
+            openMain(isLoggedIn);
         }
         else if(isLoggedIn.equals("none")){
             //Intent intent = new Intent(this, LoginActivity.class);
@@ -55,10 +55,10 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openMain(){
+    public void openMain(String email){
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //intent.putExtra("email", email);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
