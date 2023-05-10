@@ -43,6 +43,12 @@
             android:name=".ChangePassword"
             android:exported="false" />
         <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotEmail"
+            android:exported="false" />
+        <activity
             android:name=".OneTimePass"
             android:exported="false" />
         <activity

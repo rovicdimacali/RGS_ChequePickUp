@@ -35,9 +35,13 @@ public class OneTimePass extends AppCompatActivity {
         //String user_otp = input_otp.getText().toString();
 
         //INTENT VALUES
+        String otpstat = intent.getStringExtra("otpstat");
         String name = intent.getStringExtra("signupName");
         String email = intent.getStringExtra("signupEmail");
         String pass = intent.getStringExtra("signupPass");
+
+        String femail = intent.getStringExtra("forgotEmail");
+
         long otp = intent.getLongExtra("otp", 0);
 
         String final_otp = Long.toString(otp);
@@ -50,7 +54,14 @@ public class OneTimePass extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openStartAct();
+                // If previous activity was SignUp
+                if(otpstat.equals("signup")){
+                    openStartAct();
+                }
+                // If previous activity was ForgotEmail
+                else if (otpstat.equals("forgot")) {
+                    openForgotEmailAct();
+                }
             }
         });
 
@@ -60,14 +71,21 @@ public class OneTimePass extends AppCompatActivity {
                 if (input_otp.getText().toString().equals(final_otp)) {
                     SqlDatabase sql = new SqlDatabase(OneTimePass.this);
                     int result = sql.addUser(name, email, pass, otp);
-
-                    if(result == 1){
-                        Toast.makeText(OneTimePass.this, "Account Created!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(OneTimePass.this, Congratulations.class);
-                        startActivity(intent);
+                    // If previous activity was SignUp
+                    if(otpstat.equals("signup")) {
+                        if(result == 1){
+                            Toast.makeText(OneTimePass.this, "Account Created!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(OneTimePass.this, Congratulations.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(OneTimePass.this, "Error Creating Account!", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else{
-                        Toast.makeText(OneTimePass.this, "Error Creating Account!", Toast.LENGTH_SHORT).show();
+                    // If previous activity was ForgotEmail
+                    else if (otpstat.equals("forgot")) {
+                        Intent intent = new Intent(OneTimePass.this, ChangePassword.class);
+                        startActivity(intent);
                     }
                 }
                 else {
@@ -78,6 +96,11 @@ public class OneTimePass extends AppCompatActivity {
     }
     public void openStartAct() {
         Intent intent = new Intent(OneTimePass.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void openForgotEmailAct() {
+        Intent intent = new Intent(OneTimePass.this, ForgotEmail.class);
         startActivity(intent);
     }
 }
