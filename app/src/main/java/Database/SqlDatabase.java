@@ -19,6 +19,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
     private static final String col_password = "passwd";
     private static final String col_email = "email";
     private static final String col_signup_otp = "signup_otp";
+    private static final String col_phone = "phone_num";
 
     public SqlDatabase(@Nullable Context context) {
         super(context, db_name, null, db_version);
@@ -32,6 +33,7 @@ public class SqlDatabase extends SQLiteOpenHelper {
                 col_name + " TEXT, " +
                 col_email + " TEXT, " +
                 col_password + " PASSWORD, " +
+                col_phone + " TEXT, " +
                 col_signup_otp + " BIGINT);";
         db.execSQL(tbl_query);
     }
@@ -42,13 +44,14 @@ public class SqlDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int addUser(String name, String email, String password, long otp) {
+    public int addUser(String name, String email, String password, String phone, long otp) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(col_name, name);
         cv.put(col_email, email);
         cv.put(col_password, password);
+        cv.put(col_phone, phone);
         cv.put(col_signup_otp, otp);
         long result = db.insert(tbl_name, null, cv);
 
@@ -76,7 +79,16 @@ public class SqlDatabase extends SQLiteOpenHelper {
             user_check = "SELECT * FROM " + tbl_name +
                     " WHERE passwd = '" + pass + "' AND email = '" + email + "';";
         }
+        else if(pass.isEmpty() && name.isEmpty()) {
+            user_check = "SELECT * FROM " + tbl_name +
+                    " WHERE email = '" + email + "';";
+        }
+
         Cursor cur = db.rawQuery(user_check, null);
         return cur;
+    }
+
+    public void forgotPassword(String email){
+
     }
 }

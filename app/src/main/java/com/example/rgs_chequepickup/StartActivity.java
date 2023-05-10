@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import SessionPackage.SessionManagement;
+import SessionPackage.UserSession;
+
 public class StartActivity extends AppCompatActivity {
     private Button start_button;
     private Button login_button;
@@ -31,8 +34,31 @@ public class StartActivity extends AppCompatActivity {
             }
         });
     }
+     protected void onStart() {
+        super.onStart();
+
+        //check if user is logged in
+        SessionManagement sm = new SessionManagement(StartActivity.this);
+        String isLoggedIn = sm.getSession();
+
+        if(!(isLoggedIn.equals("none"))){
+            //String email = sm.getEmail();
+            openMain(isLoggedIn);
+        }
+        else if(isLoggedIn.equals("none")){
+            //Intent intent = new Intent(this, LoginActivity.class);
+            //startActivity(intent);
+        }
+    }
     public void openSignUp() {
         Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
+    }
+
+    public void openMain(String email){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 

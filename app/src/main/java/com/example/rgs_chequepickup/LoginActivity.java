@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 openForgotPass();
             }
         });
@@ -123,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("email", String.valueOf(inputemail.getText()));
-        intent.putExtra("pass", String.valueOf(inputpassword.getText()));
+        //intent.putExtra("pass", String.valueOf(inputpassword.getText()));
         startActivity(intent);
     }
 }

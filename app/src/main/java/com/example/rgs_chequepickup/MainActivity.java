@@ -3,32 +3,45 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.CharArrayBuffer;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import Database.SqlDatabase;
 import SessionPackage.SessionManagement;
 import SessionPackage.UserSession;
 public class MainActivity extends AppCompatActivity {
 
-    TextView home,  profile, icon_home, text_home, icon_profile, text_profile;
+    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile;
     LinearLayout home_btn, profile_btn;
-    //Intent intent;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //intent = getIntent();
+        tv = (TextView) findViewById(R.id.text_home);
+        intent = getIntent();
+
         /* ------------ START: Get textview to replace text with font awesome ------------ */
-        //String inputemail = intent.getStringExtra("email");
+        String inputemail = intent.getStringExtra("email");
+        //tv.setText(inputemail);
         //String inputpass = intent.getStringExtra("pass");
+
 
         home = (TextView) findViewById(R.id.icon_home);
         profile = (TextView) findViewById(R.id.icon_profile);
@@ -90,20 +103,29 @@ public class MainActivity extends AppCompatActivity {
         /* ------------ END: Change Fragment and Change Color of Nav Buttons On Click Navbar Buttons ------------ */
         
     }
-    /*
+
     protected void onStart() {
         super.onStart();
 
         //check if user is logged in
+        SqlDatabase sql = new SqlDatabase(MainActivity.this);
         SessionManagement sm = new SessionManagement(MainActivity.this);
         String isLoggedIn = sm.getSession();
 
         if(!(isLoggedIn.equals("none"))){
-            openLogin();
+            Cursor res = sql.checkAccount("", isLoggedIn, "");
+            if(res.getCount() == 0){ //NO ACCOUNT
+                sm.removeSession();
+                Toast.makeText(MainActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                openLogin();
+            }
+            else{
+                Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(isLoggedIn.equals("none")){
-            //Intent intent = new Intent(this, LoginActivity.class);
-            //startActivity(intent);
+            Toast.makeText(MainActivity.this, "Error saving your session", Toast.LENGTH_SHORT).show();
+            openLogin();
         }
     }
     public void openLogin(){
@@ -111,5 +133,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }*/
+    }
 }
