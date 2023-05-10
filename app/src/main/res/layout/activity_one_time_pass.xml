@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_below="@+id/otp"
-        android:text="Please enter the code that was sent to your email."
+        android:text="Please enter the code that was sent to your Email/Phone Number."
         android:textAlignment="center"
         android:textColor="@color/rgs_gray1" />
 
@@ -53,6 +53,17 @@
         android:textSize="15dp"
         />
 
+    <TextView
+        android:id="@+id/resend"
+        android:layout_width="331dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/inputotp"
+        android:text="Resend OTP"
+        android:textAlignment="center"
+        android:textColor="@color/rgs_gray1" />
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="310dp"
@@ -65,5 +76,16 @@
         android:text="Submit"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/switchverif"
+        android:layout_width="331dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@+id/submit_button"
+        android:text="Click here for SMS Verification Code"
+        android:textColor="@color/rgs_gray1" />
 
 </RelativeLayout>

@@ -39,6 +39,7 @@ public class OneTimePass extends AppCompatActivity {
         String name = intent.getStringExtra("signupName");
         String email = intent.getStringExtra("signupEmail");
         String pass = intent.getStringExtra("signupPass");
+        String phone = intent.getStringExtra("signupPhone");
 
         String femail = intent.getStringExtra("forgotEmail");
 
@@ -70,22 +71,16 @@ public class OneTimePass extends AppCompatActivity {
             public void onClick(View v) {
                 if (input_otp.getText().toString().equals(final_otp)) {
                     SqlDatabase sql = new SqlDatabase(OneTimePass.this);
-                    int result = sql.addUser(name, email, pass, otp);
+                    int result = sql.addUser(name, email, pass, phone, otp);
                     // If previous activity was SignUp
-                    if(otpstat.equals("signup")) {
-                        if(result == 1){
-                            Toast.makeText(OneTimePass.this, "Account Created!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(OneTimePass.this, Congratulations.class);
-                            startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(OneTimePass.this, "Error Creating Account!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    // If previous activity was ForgotEmail
-                    else if (otpstat.equals("forgot")) {
-                        Intent intent = new Intent(OneTimePass.this, ChangePassword.class);
+
+                    if(result == 1){
+                        Toast.makeText(OneTimePass.this, "Account Created!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(OneTimePass.this, Congratulations.class);
                         startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(OneTimePass.this, "Error Creating Account!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {

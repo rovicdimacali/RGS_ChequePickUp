@@ -64,7 +64,7 @@ public class ForgotEmail extends Activity {
         });
     }
     public void openStartAct() {
-        Intent intent = new Intent(ForgotEmail.this, LoginActivity.class);
+        Intent intent = new Intent(ForgotEmail.this, ForgotPassword.class);
         startActivity(intent);
     }
 

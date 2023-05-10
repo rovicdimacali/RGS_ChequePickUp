@@ -20,7 +20,7 @@ import Email.Utils;
 public class SignUp extends AppCompatActivity {
 
     Button signup_button;
-    EditText name, email, password;
+    EditText name, email, password,phone;
     //String un, em, passwd;
     TextView signing;
     int otp, result;
@@ -42,6 +42,7 @@ public class SignUp extends AppCompatActivity {
 
         password = (EditText) findViewById(R.id.inputpassword1);
         //passwd = password.getText().toString().trim();
+        phone = (EditText) findViewById(R.id.inputphonenumber);
 
         signing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +58,8 @@ public class SignUp extends AppCompatActivity {
                 Random r = new Random();
                 otp = r.nextInt(9999-1000) + 1000;
 
-                if(!(name.getText().toString().trim().isEmpty() || email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty())){
-                    if(email.getText().toString().trim().contains("@") && password.getText().toString().trim().length() >= 6 && !(name.getText().toString().trim().matches(".*[0-9].*"))){
+                if(!(name.getText().toString().trim().isEmpty() || email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty() || phone.getText().toString().trim().isEmpty())){
+                    if(email.getText().toString().trim().contains("@") && phone.getText().toString().trim().length() == 11 && password.getText().toString().trim().length() >= 6 && !(name.getText().toString().trim().matches(".*[0-9].*"))){
                         //result = sql.addUser(name.getText().toString().trim(), email.getText().toString().trim(), password.getText().toString().trim(), otp);
                         //openCongrats();
                         //if(result == 1){
@@ -88,6 +89,9 @@ public class SignUp extends AppCompatActivity {
                     else if(!(email.getText().toString().trim().contains("@"))){
                         Toast.makeText(SignUp.this,"Invalid Email Address", Toast.LENGTH_SHORT).show();
                     }
+                    else if(!(phone.getText().toString().trim().length() == 11)){
+                        Toast.makeText(SignUp.this,"Phone Number must be 11 digits", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
                     Toast.makeText(SignUp.this,"Fill up all fields", Toast.LENGTH_SHORT).show();
@@ -114,6 +118,7 @@ public class SignUp extends AppCompatActivity {
         intent.putExtra("signupName", name.getText().toString().trim());
         intent.putExtra("signupEmail",email.getText().toString().trim());
         intent.putExtra("signupPass", password.getText().toString().trim());
+        intent.putExtra("signupPhone", phone.getText().toString().trim());
         intent.putExtra("otp", otp_signup);
         startActivity(intent);
     }

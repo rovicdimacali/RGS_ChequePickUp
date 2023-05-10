@@ -3,9 +3,15 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.CharArrayBuffer;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -34,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
         /* ------------ START: Get textview to replace text with font awesome ------------ */
         String inputemail = intent.getStringExtra("email");
         //tv.setText(inputemail);
-        if(!(inputemail.equals(" "))){
-            Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(MainActivity.this,"Failed to pass data", Toast.LENGTH_SHORT).show();
-        }
         //String inputpass = intent.getStringExtra("pass");
 
 
@@ -103,20 +103,29 @@ public class MainActivity extends AppCompatActivity {
         /* ------------ END: Change Fragment and Change Color of Nav Buttons On Click Navbar Buttons ------------ */
         
     }
-    /*
+
     protected void onStart() {
         super.onStart();
 
         //check if user is logged in
+        SqlDatabase sql = new SqlDatabase(MainActivity.this);
         SessionManagement sm = new SessionManagement(MainActivity.this);
         String isLoggedIn = sm.getSession();
 
         if(!(isLoggedIn.equals("none"))){
-            openLogin();
+            Cursor res = sql.checkAccount("", isLoggedIn, "");
+            if(res.getCount() == 0){ //NO ACCOUNT
+                sm.removeSession();
+                Toast.makeText(MainActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                openLogin();
+            }
+            else{
+                Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(isLoggedIn.equals("none")){
-            //Intent intent = new Intent(this, LoginActivity.class);
-            //startActivity(intent);
+            Toast.makeText(MainActivity.this, "Error saving your session", Toast.LENGTH_SHORT).show();
+            openLogin();
         }
     }
     public void openLogin(){
@@ -124,5 +133,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }*/
+    }
 }
