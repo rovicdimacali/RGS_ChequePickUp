@@ -1,32 +1,48 @@
 package com.example.rgs_chequepickup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import Database.SqlDatabase;
+import Email.JavaMailAPI;
 
 public class OneTimePass extends AppCompatActivity {
 
-    TextView back_button, otptext;
+    TextView back_button, otptext, resend, switchverif;
     EditText input_otp;
     Intent intent;
     Button submit_button;
-
+    private static final int PERMISSION_SEND_SMS = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_time_pass);
 
+        //ActivityCompat.requestPermissions(OneTimePass.this, new String[]{Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
+
         back_button = (TextView) findViewById(R.id.back_button);
         submit_button = (Button) findViewById(R.id.submit_button);
+        resend = (TextView) findViewById(R.id.resend);
+        switchverif = (TextView) findViewById(R.id.switchverif);
+
         input_otp = (EditText) findViewById(R.id.inputotp);
         otptext = (TextView) findViewById(R.id.otp);
         intent = getIntent();
@@ -41,8 +57,6 @@ public class OneTimePass extends AppCompatActivity {
         String pass = intent.getStringExtra("signupPass");
         String phone = intent.getStringExtra("signupPhone");
 
-        String femail = intent.getStringExtra("forgotEmail");
-
         long otp = intent.getLongExtra("otp", 0);
 
         String final_otp = Long.toString(otp);
@@ -55,14 +69,7 @@ public class OneTimePass extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // If previous activity was SignUp
-                if(otpstat.equals("signup")){
-                    openStartAct();
-                }
-                // If previous activity was ForgotEmail
-                else if (otpstat.equals("forgot")) {
-                    openForgotEmailAct();
-                }
+                openLogin();
             }
         });
 
@@ -88,8 +95,31 @@ public class OneTimePass extends AppCompatActivity {
                 }
             }
         });
+
+        switchverif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT >= 23){
+                    if(ContextCompat.checkSelfPermission(OneTimePass.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(OneTimePass.this, new String[]{Manifest.permission.SEND_SMS}, PERMISSION_SEND_SMS);
+                    }
+                    else{
+                        sendSMS();
+                    }
+                }
+                else{
+                    sendSMS();
+                }
+            }
+        });
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }
+        });
     }
-    public void openStartAct() {
+    public void openLogin() {
         Intent intent = new Intent(OneTimePass.this, LoginActivity.class);
         startActivity(intent);
     }
@@ -98,4 +128,47 @@ public class OneTimePass extends AppCompatActivity {
         Intent intent = new Intent(OneTimePass.this, ForgotEmail.class);
         startActivity(intent);
     }
+
+    public void sendEmail(){
+        String mail = intent.getStringExtra("signupEmail");
+        String name = intent.getStringExtra("signupName");
+        String otp = Long.toString(intent.getLongExtra("otp", 0));
+
+        String subject = "RGS Express: One-Time Pin for Account Creation";
+        String message = "<h1 align=center>Hi, Mr./Ms. " + name + "</h1><br><p align = center>Here is your OTP for account creation.\n" +
+                "Do not share it to anyone.</p><h1 align = center>"+ otp +"</h1><br>\n" +
+                "<h6><center>If you\'re not the one who created the account, ignore the this email and change your password to prevent an account breach.<br>Only the person with access\n" +
+                "to your email can see the OTP for the account creation.</h6></center>";
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
+        javaMailAPI.execute();
+    }
+    private void sendSMS(){
+        //String mail = intent.getStringExtra("signupEmail");
+        String name = intent.getStringExtra("signupName");
+        String otp = Long.toString(intent.getLongExtra("otp", 0));
+
+        String message = "Good Day, Mr./Ms. " + name + "\nHere is your One-Time Password: " + otp + "\nEnter it to complete " +
+                "" +"your account creation. DON'T SHARE IT TO ANYONE.";
+        //String message = "is your OTP.";
+        String number = intent.getStringExtra("signupPhone");
+
+        SmsManager sms_man = SmsManager.getDefault();
+        ArrayList<String> parts = sms_man.divideMessage(message);
+        sms_man.sendMultipartTextMessage(number,null,parts,null,null);
+        Toast.makeText(this, "OTP was sent to your phone number", Toast.LENGTH_SHORT).show();
+    }
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if(requestCode == PERMISSION_SEND_SMS){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                sendSMS();
+            }
+            else{
+                Toast.makeText(this," Permission DENIED " + grantResults[0], Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
 }
+
