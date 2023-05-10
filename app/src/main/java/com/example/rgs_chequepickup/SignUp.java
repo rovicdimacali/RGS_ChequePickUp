@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class SignUp extends AppCompatActivity {
     Button signup_button;
     EditText name, email, password,phone;
     //String un, em, passwd;
-    TextView signing;
+    TextView signing, back_button;
     int otp, result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         //BUTTONS
+        back_button = (TextView) findViewById(R.id.back_button);
         signing = (TextView) findViewById(R.id.signing);
         signup_button = (Button) findViewById(R.id.signup_button);
 
@@ -44,6 +46,17 @@ public class SignUp extends AppCompatActivity {
         //passwd = password.getText().toString().trim();
         phone = (EditText) findViewById(R.id.inputphonenumber);
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        back_button.setTypeface(font);
+        back_button.setText("\uf060");
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUp.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         signing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
