@@ -8,6 +8,7 @@ public class SessionManagement {
     SharedPreferences.Editor editor;
     String SHARED_PREF_NAME = "session";
     String SESSION_KEY = "session_user";
+    String email;
     public SessionManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -15,7 +16,6 @@ public class SessionManagement {
 
     public void saveSession(UserSession user){ //save user's session when logged in
         String activeEmail = user.getEmail();
-
         editor.putString(SESSION_KEY, activeEmail).commit();
     }
 
@@ -26,4 +26,5 @@ public class SessionManagement {
     public void removeSession(){ //Logout
         editor.putString(SESSION_KEY, "none").commit();
     }
+
 }

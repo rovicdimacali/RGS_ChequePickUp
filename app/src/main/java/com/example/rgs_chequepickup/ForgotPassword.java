@@ -26,7 +26,7 @@ public class ForgotPassword extends AppCompatActivity {
 
         back_button = (TextView) findViewById(R.id.back_button);
 
-        continue_button = (Button) findViewById(R.id.continue_button);
+        //continue_button = (Button) findViewById(R.id.continue_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 

@@ -11,24 +11,30 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import Database.SqlDatabase;
 import SessionPackage.SessionManagement;
 import SessionPackage.UserSession;
 public class MainActivity extends AppCompatActivity {
 
-    TextView home,  profile, icon_home, text_home, icon_profile, text_profile;
+    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile;
     LinearLayout home_btn, profile_btn;
-    //Intent intent;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //tv = (TextView) findViewById(R.id.text_home);
         //intent = getIntent();
+
         /* ------------ START: Get textview to replace text with font awesome ------------ */
         //String inputemail = intent.getStringExtra("email");
+        //tv.setText(inputemail);
         //String inputpass = intent.getStringExtra("pass");
+
 
         home = (TextView) findViewById(R.id.icon_home);
         profile = (TextView) findViewById(R.id.icon_profile);
