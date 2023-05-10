@@ -11,10 +11,11 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/rgs_express_2" />
 
+        app:srcCompat="@drawable/rgs_express" />
 
     <ImageView
         android:id="@+id/imageView4"
