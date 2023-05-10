@@ -116,6 +116,7 @@ public class OneTimePass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendEmail();
+                Toast.makeText(OneTimePass.this, "The OTP was sent to your email", Toast.LENGTH_SHORT).show();
             }
         });
     }
