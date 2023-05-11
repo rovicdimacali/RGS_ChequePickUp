@@ -3,8 +3,10 @@ package Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -67,6 +69,20 @@ public class SqlDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public int editOTP(String name, String email, String otp){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String tbl_query = "UPDATE " + tbl_name + " SET signup_otp = 0 WHERE name = '" + name + "' " +
+                "AND email = '" + email + "';";
+
+        try{
+            db.execSQL(tbl_query);
+            return 1;
+        }
+        catch(SQLException e){
+            return -1;
+        }
+
+    }
     public Cursor checkAccount(String name, String email, String pass){
         SQLiteDatabase db = this.getReadableDatabase();
         String user_check = null;
@@ -88,7 +104,16 @@ public class SqlDatabase extends SQLiteOpenHelper {
         return cur;
     }
 
-    public void forgotPassword(String email){
+    public int forgotPassword(String email, String pass){
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String tbl_query = "UPDATE " + tbl_name + " SET passwd = '" + pass + "' WHERE email = '" + email + "';";
+            db.execSQL(tbl_query);
 
+            return 1;
+        }
+        catch(SQLException e){
+           return -1;
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.rgs_chequepickup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +29,7 @@ public class ForgotEmail extends Activity {
         setContentView(R.layout.activity_forgot_email);
 
         Random r = new Random();
-        otp = r.nextInt(9999-1000) + 1000;
+        otp = r.nextInt(999999-100000) + 100000;
 
         back_button = (TextView) findViewById(R.id.back_button);
         submit_button = (Button) findViewById(R.id.submit_button);
@@ -57,8 +58,16 @@ public class ForgotEmail extends Activity {
                 else if (!(input_email.getText().toString().trim().contains("@"))) {
                     Toast.makeText(ForgotEmail.this,"Please enter a valid email address.", Toast.LENGTH_SHORT).show();
                 } else{
-                    sendEmail();
-                    openOTP(otp);
+                    SqlDatabase sql = new SqlDatabase(ForgotEmail.this);
+                    Cursor res = sql.checkAccount("",input_email.getText().toString().trim(), "");
+                    if(res.getCount() == 0){ //NO ACCOUNT
+                        Toast.makeText(ForgotEmail.this, "Email is not associated with a registered account.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        sendEmail();
+                        openOTP(otp);
+                    }
+
                 }
             }
         });
@@ -70,8 +79,8 @@ public class ForgotEmail extends Activity {
 
     public void openOTP(long otp) {
         Toast.makeText(ForgotEmail.this, "A One-Time Pin was sent to your email.", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, OneTimePass.class);
-        intent.putExtra("otpstat", "forgot");
+        Intent intent = new Intent(this, OneTimePassForgotPass.class);
+        //intent.putExtra("otpstat", "forgot");
         intent.putExtra("forgotEmail",input_email.getText().toString().trim());
         intent.putExtra("otp", otp);
         startActivity(intent);
@@ -80,10 +89,10 @@ public class ForgotEmail extends Activity {
     public void sendEmail(){
         String mail = String.valueOf(input_email.getText());
         String subject = "RGS Express: One-Time Pin for Forgot Password";
-        String message = "<h1 align=center>Hello. </h1><br><p align = center>Here is your OTP for the forgot password.\n" +
+        String message = "<h1 align=center>Good Day! </h1><br><p align = center>Here is your OTP to reset your password.\n" +
                 "Do not share it to anyone.</p><h1 align = center>"+ Long.toString(otp) +"</h1><br>\n" +
-                "<h6><center>If you\'re not the one who created the account, ignore the this email and change your password to prevent an account breach.<br>Only the person with access\n" +
-                "to your email can see the OTP for the account creation.</h6></center>";
+                "<h6><center>If you\'re not the one who requested for the password change, ignore the this email and change your password to prevent an account breach.<br>Only the person with access\n" +
+                "to your email can see the OTP for the password change.</h6></center>";
         JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
         javaMailAPI.execute();
     }

@@ -69,7 +69,7 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
                 SqlDatabase sql = new SqlDatabase(SignUp.this);
                 Random r = new Random();
-                otp = r.nextInt(9999-1000) + 1000;
+                otp = r.nextInt(999999-100000) + 100000;
 
                 if(!(name.getText().toString().trim().isEmpty() || email.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty() || phone.getText().toString().trim().isEmpty())){
                     if(email.getText().toString().trim().contains("@") && phone.getText().toString().trim().length() == 11 && password.getText().toString().trim().length() >= 6 && !(name.getText().toString().trim().matches(".*[0-9].*"))){

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "840688643623",
+    "project_id": "rgs---otp-verification",
+    "storage_bucket": "rgs---otp-verification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840688643623:android:313551b992a741945b2802",
+        "android_client_info": {
+          "package_name": "com.example.rgs_chequepickup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840688643623-cp2cdqtcb42bhn1snflugkb07t8r7n4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rgs_chequepickup",
+            "certificate_hash": "d19c61e9fcd92f765da391a7228dc140a2fa8adc"
+          }
+        },
+        {
+          "client_id": "840688643623-59nbj21s1lnl305om3vcth19vbjlahrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpqQ5UfdswlmVmiXlz1DRnllvkRWn6DYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840688643623-59nbj21s1lnl305om3vcth19vbjlahrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
