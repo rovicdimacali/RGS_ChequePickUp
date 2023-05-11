@@ -8,18 +8,34 @@
     android:orientation="vertical"
     tools:context=".ChequePickUp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cheque Pick Up"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:id="@+id/header"
-        android:fontFamily="@font/poppins_bold"
-        android:textColor="@color/black"
-        android:background="@drawable/header"
-        android:paddingVertical="15dp"
-        />
+        android:id="@+id/header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_button"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cheque Pick Up"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/black"
+            android:background="@drawable/header"
+            android:paddingVertical="15dp"
+            />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

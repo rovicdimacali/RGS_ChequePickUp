@@ -12,18 +12,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CaptureCheque extends AppCompatActivity {
 
     ImageView captured_image;
     Button camera_button, next_button;
+
+    TextView back_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,12 @@ public class CaptureCheque extends AppCompatActivity {
         captured_image = (ImageView) findViewById(R.id.captured_image);
         camera_button = (Button) findViewById(R.id.camera_button);
         next_button = (Button) findViewById(R.id.next_button);
+        back_button = (TextView) findViewById(R.id.back_button);
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        back_button.setTypeface(font);
+        back_button.setText("\uf060");
 
         if(ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
@@ -40,6 +50,14 @@ public class CaptureCheque extends AppCompatActivity {
         else{
             //Toast.makeText(getApplicationContext(),"Camera Disabled/Not Found!", Toast.LENGTH_SHORT).show();
         }
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CaptureCheque.this, ChequePickUp.class);
+                startActivity(intent);
+            }
+        });
 
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override

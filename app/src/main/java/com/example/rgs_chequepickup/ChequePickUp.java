@@ -15,8 +15,10 @@ import android.widget.Toast;
 
 public class ChequePickUp extends AppCompatActivity {
 
-    TextView icon_name, icon_location, icon_number, address;
+    TextView icon_name, icon_location, icon_number, address, back_button;
     Button go_button, arrived_button;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class ChequePickUp extends AppCompatActivity {
         icon_number = (TextView) findViewById(R.id.icon_number);
         address = (TextView) findViewById(R.id.address);//Address
 
+        back_button = (TextView) findViewById(R.id.back_button);
+
         //BUTTONS
         go_button = (Button) findViewById(R.id.go_button);
         arrived_button = (Button) findViewById(R.id.arrived_button);
@@ -39,10 +43,12 @@ public class ChequePickUp extends AppCompatActivity {
         icon_name.setTypeface(font);
         icon_location.setTypeface(font);
         icon_number.setTypeface(font);
+        back_button.setTypeface(font);
 
         icon_name.setText("\uf007");
         icon_location.setText("\uf015");
         icon_number.setText("\uf2a0");
+        back_button.setText("\uf060");
 
         arrived_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +76,14 @@ public class ChequePickUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChequePickUp.this, CaptureCheque.class);
+                startActivity(intent);
+            }
+        });
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
                 startActivity(intent);
             }
         });

@@ -13,8 +13,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout home_btn, profile_btn;
     Intent intent;
 
+    RelativeLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        layout = (RelativeLayout) findViewById(R.id.relative);
 
         tv = (TextView) findViewById(R.id.text_home);
         intent = getIntent();
@@ -101,7 +111,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* ------------ END: Change Fragment and Change Color of Nav Buttons On Click Navbar Buttons ------------ */
-        
+
+        CreatePopUpWindow();
+    }
+
+    private void CreatePopUpWindow() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.notification_popup, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                //popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        Button go_button = popUpView.findViewById(R.id.go_button);
+
+        go_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChequePickUp.class);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void onStart() {

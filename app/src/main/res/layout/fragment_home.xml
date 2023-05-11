@@ -57,7 +57,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/customer_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="220dp"
                     android:layout_marginTop="-20dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
@@ -69,21 +69,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:id="@+id/card_image"
-                            app:shapeAppearanceOverlay="@style/circleImageView"
-                            app:srcCompat="@drawable/cheque_pic" />
-
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_toRightOf="@id/card_image"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
                                 android:layout_centerVertical="true"
                                 android:padding="10dp">
 
@@ -101,7 +92,7 @@
                                     android:text="4726 F Old Sta. Mesa Manila"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
-                                    android:textSize="13dp"
+                                    android:textSize="15dp"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -109,7 +100,15 @@
                                     android:text="+63 9274815025"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
-                                    android:textSize="14dp"
+                                    android:textSize="15dp"
+                                    />
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="LET'S GO"
+                                    android:fontFamily="@font/poppins_bold"
+                                    android:background="@color/rgs_green"
                                     />
                         </LinearLayout>
 
@@ -117,6 +116,27 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="-20dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Add New Record +"
+                        android:fontFamily="@font/poppins"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:textSize="17dp"/>
+
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
         </ScrollView>

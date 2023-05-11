@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +42,8 @@ public class ESignature extends AppCompatActivity {
 
     private ImageView imageView;
 
+    private TextView back_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +54,24 @@ public class ESignature extends AppCompatActivity {
 
         save_image = (Button) findViewById(R.id.save_image);
 
+        back_button = (TextView) findViewById(R.id.back_button);
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        back_button.setTypeface(font);
+        back_button.setText("\uf060");
+
         //next_btn = (Button) findViewById(R.id.next_btn);
         //imageView = (ImageView) findViewById(R.id.imageView);
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ESignature.this, CaptureCheque.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
         signature_pad.setOnSignedListener(new SignaturePad.OnSignedListener() {
