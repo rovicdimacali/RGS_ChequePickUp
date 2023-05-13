@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Button go_button;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,9 +64,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Button go_btn = (Button) view.findViewById(R.id.go_btn);
+        CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
+        go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
-        go_btn.setOnClickListener(new View.OnClickListener() {
+        go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);

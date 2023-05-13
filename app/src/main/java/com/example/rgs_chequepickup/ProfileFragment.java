@@ -2,6 +2,7 @@ package com.example.rgs_chequepickup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -15,6 +16,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
+import Database.SqlDatabase;
 import SessionPackage.SessionManagement;
 
 /**
@@ -32,7 +36,9 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    TextView profile_name, profile_number;
     Context cont;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -57,6 +63,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -67,15 +74,32 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         cont = getActivity();
+
+        SessionManagement sm = new SessionManagement(cont);
+        SqlDatabase sql = new SqlDatabase(cont);
+        String email = sm.getSession();
+        Cursor name = sql.displayName(email);
+        Cursor cp = sql.displayNumber(email);
+        name.moveToFirst();
+        cp.moveToFirst();
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
         RelativeLayout history_btn = (RelativeLayout) view.findViewById(R.id.history_btn);
         TextView logout_btn = (TextView) view.findViewById(R.id.logout_btn);
 
+        profile_name = (TextView) view.findViewById(R.id.profile_name);
+        profile_number = (TextView) view.findViewById(R.id.profile_number);
+
+        profile_name.setText(name.getString(0));
+        profile_number.setText(cp.getString(0));
+
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cont = getActivity();
                 SessionManagement sm = new SessionManagement(cont);
                 sm.removeSession();
 

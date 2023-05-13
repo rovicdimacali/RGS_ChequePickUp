@@ -45,10 +45,7 @@ public class EnterNewPassForgot extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!(newpass.getText().toString().isEmpty() && confpass.getText().toString().isEmpty())){
-                    if(newpass.getText().toString().isEmpty() || confpass.getText().toString().isEmpty()){
-                        Toast.makeText(EnterNewPassForgot.this,"Fill up all the fields", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(newpass.getText().toString().length() < 6 || confpass.getText().toString().length() < 6){
+                    if(newpass.getText().toString().length() < 6 || confpass.getText().toString().length() < 6){
                         Toast.makeText(EnterNewPassForgot.this,"Lengths must be greater than 6 characters", Toast.LENGTH_SHORT).show();
                     }
                     else if(newpass.getText().toString().equals(confpass.getText().toString())) {
@@ -71,9 +68,11 @@ public class EnterNewPassForgot extends AppCompatActivity {
                         }
                     }
                     else{
-                        Toast.makeText(EnterNewPassForgot.this,"Passwords are not the same: " + newpass.getText().toString()
-                                + " " + confpass.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EnterNewPassForgot.this,"Passwords are not the same", Toast.LENGTH_SHORT).show();
                     }
+                }
+                else if(newpass.getText().toString().isEmpty() || confpass.getText().toString().isEmpty()){
+                    Toast.makeText(EnterNewPassForgot.this,"Fill up all the fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });

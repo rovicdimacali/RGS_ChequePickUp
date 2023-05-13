@@ -77,7 +77,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/white" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/switchverif"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
@@ -86,6 +86,6 @@
         android:layout_marginTop="10dp"
         android:text="Click here for SMS Verification Code"
         android:textAlignment="center"
-        android:textColor="@color/rgs_gray1" />-->
+        android:textColor="@color/rgs_gray1" />
 
 </RelativeLayout>

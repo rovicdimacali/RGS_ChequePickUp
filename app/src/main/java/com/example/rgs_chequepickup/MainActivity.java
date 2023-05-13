@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 openLogin();
             }
             else{
-                Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,"You are now logged in", Toast.LENGTH_SHORT).show();
             }
         }
         else if(isLoggedIn.equals("none")){
