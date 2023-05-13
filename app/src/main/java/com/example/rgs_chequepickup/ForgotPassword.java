@@ -18,12 +18,15 @@ public class ForgotPassword extends AppCompatActivity {
     private Button continue_button;
 
     TextView back_button;
-
+    Intent intent;
+    String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        intent = getIntent();
+        type = intent.getStringExtra("type");
         back_button = (TextView) findViewById(R.id.back_button);
 
         //continue_button = (Button) findViewById(R.id.continue_button);
@@ -74,6 +77,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
     public void openForgotEmail(){
         Intent intent = new Intent (this, ForgotEmail.class);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 }

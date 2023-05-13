@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,10 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +63,8 @@ public class OneTimePass extends AppCompatActivity {
         resend = (TextView) findViewById(R.id.resend);
         switchverif = (TextView) findViewById(R.id.switchverif);
         mAuth = FirebaseAuth.getInstance();
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         input_otp = (EditText) findViewById(R.id.inputotp);
         otptext = (TextView) findViewById(R.id.otp);
         intent = getIntent();
@@ -126,7 +132,7 @@ public class OneTimePass extends AppCompatActivity {
                 else{
                     sendSMS();
                 }*/
-               sendOTP(phone.substring(1), false);
+               sendOTP(final_otp, phone, name);
             }
         });
         resend.setOnClickListener(new View.OnClickListener() {
@@ -161,40 +167,34 @@ public class OneTimePass extends AppCompatActivity {
         javaMailAPI.execute();
     }
 
-    void sendOTP(String number, boolean isResend){
-        PhoneAuthOptions.Builder build =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+63"+number)
-                        .setTimeout(60L,TimeUnit.SECONDS)
-                        .setActivity(OneTimePass.this)
-                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                            @Override
-                            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                                signIn(credential);
-                            }
+    public void sendOTP(String otp, String cp, String name){
+        try {
+            // Construct data
+            String apiKey = "apikey=" + "NjY0YTcwMzQzOTQ1NDQ1NjcwNzU2OTZiNGY0ZjYxMzE= ";
+            String message = "&message=" + "Good Day, " + name + "! Here is your One-Time Password: " + otp + "\nDo not share it to anyone.";
+            String sender = "&sender=" + "RGS Express";
+            String numbers = "&numbers=" + cp;
 
-                            @Override
-                            public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Toast.makeText(OneTimePass.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                                super.onCodeSent(s,token);
-                                verify_id = s;
-                                verify_token = token;
-                                Toast.makeText(OneTimePass.this,"OTP sent successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-        if(isResend){
-            PhoneAuthProvider.verifyPhoneNumber(build.setForceResendingToken(verify_token).build());
+            // Send data
+            HttpURLConnection conn = (HttpURLConnection) new URL("https://api.txtlocal.com/send/?").openConnection();
+            String data = apiKey + numbers + message + sender;
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+            conn.getOutputStream().write(data.getBytes("UTF-8"));
+            final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            final StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                stringBuffer.append(line);
+            }
+            rd.close();
+            Toast.makeText(OneTimePass.this, "OTP was sent to your mobile number", Toast.LENGTH_SHORT).show();
+            //return stringBuffer.toString();
+        } catch (Exception e) {
+            Toast.makeText(OneTimePass.this, "Error: "+e, Toast.LENGTH_SHORT).show();
+            //return "Error "+e;
         }
-        else{
-            PhoneAuthProvider.verifyPhoneNumber(build.build());
-        }
-    }
-    void signIn(PhoneAuthCredential cred){
-        startActivity(new Intent(OneTimePass.this, Congratulations.class));
     }
     /*private void sendSMS(){
         //String mail = intent.getStringExtra("signupEmail");

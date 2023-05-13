@@ -6,9 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class SqlDatabase extends SQLiteOpenHelper {
 
@@ -115,5 +116,26 @@ public class SqlDatabase extends SQLiteOpenHelper {
         catch(SQLException e){
            return -1;
         }
+    }
+
+    public Cursor displayName(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> name = new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT name FROM "+tbl_name + " WHERE email = '" + email + "';",null, null);
+
+        if(cur.getCount() > 0){
+            cur.moveToFirst();
+        }
+        return cur;
+    }
+    public Cursor displayNumber(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> name = new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT phone_num FROM "+tbl_name + " WHERE email = '" + email + "';",null, null);
+
+        if(cur.getCount() > 0){
+            cur.moveToFirst();
+        }
+        return cur;
     }
 }

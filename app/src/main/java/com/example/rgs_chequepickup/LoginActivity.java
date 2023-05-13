@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void openForgotPass(){
         Intent intent = new Intent(this, ForgotPassword.class);
+        intent.putExtra("type", "forgot");
         startActivity(intent);
     }
 
