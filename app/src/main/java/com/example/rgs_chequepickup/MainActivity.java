@@ -126,12 +126,29 @@ public class MainActivity extends AppCompatActivity {
         layout.post(new Runnable() {
             @Override
             public void run() {
-                //popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                home_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                    }
+                });
             }
         });
 
         Button go_button = popUpView.findViewById(R.id.go_button);
+        RelativeLayout overlay = popUpView.findViewById(R.id.overlay);
 
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                overlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
