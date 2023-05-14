@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/layout"
     android:layout_height="match_parent"
     android:backgroundTint="@color/rgs_bg"
     android:orientation="vertical"
@@ -124,7 +125,7 @@
                     android:textColor="@color/black"
                     android:layout_toRightOf="@id/icon_location"
                     android:layout_centerVertical="true"
-                    android:text="4726 Old Sta. Mesa St, Santa Mesa, Manila, Metro Manila"/>
+                    android:text="4726 Old Sta Mesa Street Manila"/>
 
             </RelativeLayout>
 
@@ -181,7 +182,7 @@
                     android:text="Arrived"
                     android:layout_weight=".5"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/rgs_gray1"
+                    android:background="@drawable/btn_secondary"
                     android:textAllCaps="false"/>
 
             </LinearLayout>

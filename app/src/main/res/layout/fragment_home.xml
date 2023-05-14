@@ -108,7 +108,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:text="LET'S GO"
-                                    android:id="@+id/go_btn"
                                     android:fontFamily="@font/poppins_bold"
                                     android:background="@color/rgs_green"
                                     />

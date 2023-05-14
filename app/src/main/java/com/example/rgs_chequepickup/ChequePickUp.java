@@ -17,8 +17,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +39,7 @@ public class ChequePickUp extends AppCompatActivity {
 
     TextView icon_name, icon_location, icon_number, address, back_button, number;
     Button go_button, arrived_button;
+    RelativeLayout layout;
     FusedLocationProviderClient fspc;
     private final static int REQUEST_CODE = 100;
     double cur_lat, cur_long, des_lat, des_long;
@@ -146,14 +152,16 @@ public class ChequePickUp extends AppCompatActivity {
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
                             if(distance < 100){
-                                Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
+                                ArrivedPopupWindow();
+                                //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(true);
                                 //arrived_button.setBackground(ContextCompat.getDrawable(ChequePickUp.this, R.drawable.btn_secondary));
                                 openCapturecheque();
                             }
                             else{
+                                NotArrivedPopupWindow();
                                 arrived_button.setActivated(false);
-                                Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -190,5 +198,56 @@ public class ChequePickUp extends AppCompatActivity {
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void ArrivedPopupWindow() {
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_arrived, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        Button capture = (Button) popUpView.findViewById(R.id.capture_button);
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChequePickUp.this, CaptureCheque.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void NotArrivedPopupWindow() {
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        Button dismiss = (Button) popUpView.findViewById(R.id.dismiss_button);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    popupWindow.dismiss();
+            }
+        });
     }
 }
