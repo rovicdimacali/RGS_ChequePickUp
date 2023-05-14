@@ -125,7 +125,7 @@
                     android:textColor="@color/black"
                     android:layout_toRightOf="@id/icon_location"
                     android:layout_centerVertical="true"
-                    android:text="4726 Old Sta Mesa Street Manila"/>
+                    android:text="2163 Dapitan Street Sampaloc Manila"/>
 
             </RelativeLayout>
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ViewFlipper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +27,8 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Button go_button;
+    Button go_button, go_button1 , skip_button, skip_button1;
+    ViewFlipper carousel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,13 +67,32 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
+        CardView customer_btn1 = (CardView) view.findViewById(R.id.customer_btn1);
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
+        go_button1 = (Button) customer_btn1.findViewById(R.id.go_button1);
+        skip_button = (Button) customer_btn.findViewById(R.id.skip_button);
+        skip_button1 = (Button) customer_btn1.findViewById(R.id.skip_button1);
+        carousel = (ViewFlipper) view.findViewById(R.id.carousel);
 
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
                 startActivity(intent);
+            }
+        });
+
+        skip_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
+            }
+        });
+
+        skip_button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
             }
         });
         return view;

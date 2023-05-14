@@ -54,7 +54,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
+                <ViewFlipper
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/carousel">
+
+                    <androidx.cardview.widget.CardView
                     android:id="@+id/customer_btn"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
@@ -68,6 +73,91 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kurt Paguio"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="19dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2163 Dapitan St. Sampaloc Manila"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+63 9274815025"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn1"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -102,20 +192,43 @@
                                     android:fontFamily="@font/poppins"
                                     android:textSize="15dp"
                                     />
-                                <Button
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:id="@+id/go_button"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:text="LET'S GO"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:background="@color/rgs_green"
-                                    />
-                        </LinearLayout>
+                                    android:orientation="horizontal">
 
-                    </RelativeLayout>
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button1"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
 
-                </androidx.cardview.widget.CardView>
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button1"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </ViewFlipper>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
