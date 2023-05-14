@@ -17,6 +17,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -69,9 +70,17 @@ public class ChequePickUp extends AppCompatActivity {
         back_button.setText("\uf060");
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
+
+        distanceTrack();
         arrived_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(!(arrived_button.isActivated())){
+                    Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    openCapturecheque();
+                }*/
                 getCurrentLocation();
                 //openCapturecheque();
             }
@@ -101,23 +110,7 @@ public class ChequePickUp extends AppCompatActivity {
         });
     }
 
-    private void DisplayMap(String address){
-        try{
-            Uri uri = Uri.parse("google.navigation:q=" + address);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setPackage("com.google.android.apps.maps");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        catch(ActivityNotFoundException e){
-            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-    }
-
-    private void getCurrentLocation(){
+    public void distanceTrack(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED){
             fspc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -145,15 +138,17 @@ public class ChequePickUp extends AppCompatActivity {
 
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
-                            if(distance < 100){
-                                Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
+                            if(distance < 10){
+                                Toast.makeText(ChequePickUp.this, "NEAR | distance: " + distance + " meters", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(true);
-                                //arrived_button.setBackground(ContextCompat.getDrawable(ChequePickUp.this, R.drawable.btn_secondary));
-                                openCapturecheque();
+                                arrived_button.setBackground(ContextCompat.getDrawable(ChequePickUp.this, R.drawable.btn_secondary));
+                                //openCapturecheque();;
                             }
                             else{
+                                arrived_button.setBackground(ContextCompat.getDrawable(ChequePickUp.this, R.color.rgs_gray1));
+                                Toast.makeText(ChequePickUp.this, "FAR | distance: " + distance + " meters", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(false);
-                                Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -166,6 +161,25 @@ public class ChequePickUp extends AppCompatActivity {
         else{
             askPermission();
         }
+    }
+    private void DisplayMap(String address){
+        try{
+            Uri uri = Uri.parse("google.navigation:q=" + address);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        catch(ActivityNotFoundException e){
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    private void getCurrentLocation(){
+
     }
     public void openCapturecheque(){
         Intent intent = new Intent(this, CaptureCheque.class);

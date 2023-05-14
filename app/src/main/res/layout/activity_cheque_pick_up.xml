@@ -124,7 +124,7 @@
                     android:textColor="@color/black"
                     android:layout_toRightOf="@id/icon_location"
                     android:layout_centerVertical="true"
-                    android:text="4726 Old Sta. Mesa St, Santa Mesa, Manila, Metro Manila"/>
+                    android:text="M2C8+5W5, Policy, Project 8, Quezon City, Metro Manila"/>
 
             </RelativeLayout>
 
