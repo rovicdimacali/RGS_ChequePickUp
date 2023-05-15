@@ -62,7 +62,7 @@
                     <androidx.cardview.widget.CardView
                     android:id="@+id/customer_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="-20dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
@@ -81,20 +81,32 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="20dp"
                                 android:layout_centerVertical="true"
-                                android:padding="10dp">
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Kurt Paguio"
+
+                                    android:text="PARAMOUNT HOTELS &amp; FACILITIES MANAGEMENT COMPANY, INC."
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
-                                    android:textSize="19dp"
+                                    android:textSize="18dp"
                                     />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="2163 Dapitan St. Sampaloc Manila"
+                                    android:text="Ms. Norly Araneta"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="G/F Microtel Bldg. UP Ayala Land Technohub Commonwealth Ave., Diliman Quezon City"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
                                     android:textSize="15dp"
@@ -102,7 +114,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="+63 9274815025"
+                                    android:text="+63 9178434921"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
                                     android:textSize="15dp"
@@ -147,7 +159,7 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/customer_btn1"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="-20dp"
                         app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="20dp"
@@ -166,20 +178,31 @@
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="20dp"
                                 android:layout_centerVertical="true"
-                                android:padding="10dp">
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Rovic Dimacali"
+                                    android:text="PREMIERE MEDICAL AND CARDIOVASCULAR LABORATORY, INC."
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
-                                    android:textSize="19dp"
+                                    android:textSize="18dp"
                                     />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="4726 F Old Sta. Mesa Manila"
+                                    android:text="Avegail Ferasol"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="G/F Bell-Kenz Tower 127 Malakas st. Diliman, Quezon City"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
                                     android:textSize="15dp"
@@ -187,11 +210,12 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="+63 9274815025"
+                                    android:text="+63 9176245003"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/poppins"
                                     android:textSize="15dp"
                                     />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -212,6 +236,394 @@
                                     <Button
                                         android:layout_width="match_parent"
                                         android:id="@+id/skip_button1"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="REJ DIAMOND PHARMACEUTICALS, INC."
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Charmaine De Jesus"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#8 Feria Road Commonwealth Ave. Diliman, Quezon City"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+63 9175876919"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button2"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button2"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="AYALA LAND METRO NORTH, INC"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ranny A. Pimentel"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="249, U.P Town Center, 216 katipunan Ave., Diliman Quezon city"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+63 9178643759"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button3"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button3"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="MEGAWIDE CONSTRUCTION CORP."
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rebecca Aycocho"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="# 20 N. Domingo St., Brgy. Valencia, Quezon City"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+63 9178544177"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button4"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button4"
+                                        android:layout_weight=".5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="SKIP"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_gray1"
+                                        />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="PINAKAMASARAP CORPORATION"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rowena Bahillo"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#23 P. Dela St. San Bartolome Novaliches Quezon City"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+63 9175694437"
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button5"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight=".5"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/skip_button5"
                                         android:layout_weight=".5"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="10dp"

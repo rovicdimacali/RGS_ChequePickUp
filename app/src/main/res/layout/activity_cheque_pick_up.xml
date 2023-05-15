@@ -46,7 +46,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:layout_alignParentBottom="true"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
@@ -74,8 +74,36 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/name_container"
+                android:id="@+id/company_container"
                 android:layout_below="@id/address_header"
+                android:layout_marginVertical="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_company"
+                    android:textSize="23dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:text="O"/>
+
+                <TextView
+                    android:id="@+id/company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/icon_company"
+                    android:text="Next Gen Dev."
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_container"
+                android:layout_below="@id/company_container"
                 android:layout_marginVertical="5dp">
 
                 <TextView

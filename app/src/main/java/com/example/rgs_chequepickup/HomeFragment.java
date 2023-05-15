@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Button go_button, go_button1 , skip_button, skip_button1;
+    Button go_button, go_button1 , go_button2 , go_button3 , go_button4 , go_button5 , skip_button, skip_button1, skip_button2, skip_button3, skip_button4, skip_button5;
     ViewFlipper carousel;
 
     public HomeFragment() {
@@ -68,13 +68,33 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
         CardView customer_btn1 = (CardView) view.findViewById(R.id.customer_btn1);
+        CardView customer_btn2 = (CardView) view.findViewById(R.id.customer_btn2);
+        CardView customer_btn3 = (CardView) view.findViewById(R.id.customer_btn3);
+        CardView customer_btn4 = (CardView) view.findViewById(R.id.customer_btn4);
+        CardView customer_btn5 = (CardView) view.findViewById(R.id.customer_btn5);
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
         go_button1 = (Button) customer_btn1.findViewById(R.id.go_button1);
+        go_button2 = (Button) customer_btn2.findViewById(R.id.go_button2);
+        go_button3 = (Button) customer_btn3.findViewById(R.id.go_button3);
+        go_button4 = (Button) customer_btn4.findViewById(R.id.go_button4);
+        go_button5 = (Button) customer_btn5.findViewById(R.id.go_button5);
         skip_button = (Button) customer_btn.findViewById(R.id.skip_button);
         skip_button1 = (Button) customer_btn1.findViewById(R.id.skip_button1);
+        skip_button2 = (Button) customer_btn2.findViewById(R.id.skip_button2);
+        skip_button3 = (Button) customer_btn3.findViewById(R.id.skip_button3);
+        skip_button4 = (Button) customer_btn4.findViewById(R.id.skip_button4);
+        skip_button5 = (Button) customer_btn5.findViewById(R.id.skip_button5);
         carousel = (ViewFlipper) view.findViewById(R.id.carousel);
 
         go_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                startActivity(intent);
+            }
+        });
+
+        go_button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
@@ -90,6 +110,34 @@ public class HomeFragment extends Fragment {
         });
 
         skip_button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
+            }
+        });
+
+        skip_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
+            }
+        });
+
+        skip_button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
+            }
+        });
+
+        skip_button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showNext();
+            }
+        });
+
+        skip_button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 carousel.showNext();
