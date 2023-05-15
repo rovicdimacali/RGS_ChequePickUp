@@ -49,6 +49,21 @@
             android:inputType="text"
             android:textSize="15dp" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/rgs_bg">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

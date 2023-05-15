@@ -20,10 +20,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,6 +114,7 @@ public class CaptureCheque extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
 
+
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
@@ -123,6 +127,26 @@ public class CaptureCheque extends AppCompatActivity {
         });
 
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
+
+        String[] services = {"Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
+        Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String value = parent.getItemAtPosition(position).toString();
+                Toast.makeText(CaptureCheque.this, value, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
