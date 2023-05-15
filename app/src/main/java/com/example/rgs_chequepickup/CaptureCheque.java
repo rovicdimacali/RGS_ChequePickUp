@@ -16,9 +16,14 @@ import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,8 @@ public class CaptureCheque extends AppCompatActivity {
 
     ImageView captured_image;
     Button camera_button, next_button;
+
+    RelativeLayout layout;
 
     TextView back_button;
 
@@ -89,8 +96,7 @@ public class CaptureCheque extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
-                        startActivity(intent);
+                        VerifyPopupWindow();
                     }
                 });
 
@@ -98,6 +104,34 @@ public class CaptureCheque extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void VerifyPopupWindow() {
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        Button verify = (Button) popUpView.findViewById(R.id.verify_button);
+        verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Enter code here for cheque verification
+
+                Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
