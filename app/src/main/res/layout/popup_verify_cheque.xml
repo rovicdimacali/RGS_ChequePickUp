@@ -46,7 +46,7 @@
             android:padding="10dp"
             android:hint=""
             android:id="@+id/cheque_number"
-            android:inputType="text"
+            android:inputType="number"
             android:textSize="15dp" />
 
         <androidx.cardview.widget.CardView

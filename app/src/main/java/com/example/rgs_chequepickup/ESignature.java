@@ -106,7 +106,7 @@ public class ESignature extends AppCompatActivity {
                 Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
                 if (addJpgSignatureToGallery(signatureBitmap)) {
                     Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ESignature.this, ChequeReceived.class);
+                    Intent intent = new Intent(ESignature.this, OfficialReceipt.class);
                     startActivity(intent);
                     finish();
                 } else {

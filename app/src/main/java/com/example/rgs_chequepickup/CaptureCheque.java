@@ -23,13 +23,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import Database.CheckerCheque;
 public class CaptureCheque extends AppCompatActivity {
 
     ImageView captured_image;
@@ -114,6 +115,7 @@ public class CaptureCheque extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
 
+        EditText chequeNum = popUpView.findViewById(R.id.cheque_number);
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -128,7 +130,7 @@ public class CaptureCheque extends AppCompatActivity {
 
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
 
-        String[] services = {"Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
+        String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
         Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
@@ -138,8 +140,97 @@ public class CaptureCheque extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String value = parent.getItemAtPosition(position).toString();
-                Toast.makeText(CaptureCheque.this, value, Toast.LENGTH_SHORT).show();
+                String service = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(CaptureCheque.this, service, Toast.LENGTH_SHORT).show();
+
+                verify.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Enter code here for cheque verification
+
+                        //NO SERVICE SELECTED
+                        if(service.equals("--SERVICES--")){
+                            Toast.makeText(CaptureCheque.this,"Please select a service", Toast.LENGTH_SHORT).show();
+                        }
+                        //BAYAN SERVICES
+                        else if(service.equals("Bayan")){
+                            if(chequeNum.getText().toString().length() == 9){ //Check if Account Number has 9 digits
+                                if(Long.parseLong(chequeNum.getText().toString()) >= 700000000 &&
+                                        Long.parseLong(chequeNum.getText().toString()) <= 799999999){
+                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
+                                    int result = cc.BayanChecker(Long.parseLong(chequeNum.getText().toString()));
+                                    if(result == 1){
+                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to BAYAN service", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(CaptureCheque.this, "Account Number for BAYAN service must be 9 digits", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        //INNOVE SERVICES
+                        else if(service.equals("Innove")){
+                            if(chequeNum.getText().toString().length() == 9){ //Check if Account Number has 9 digits
+                                if(Long.parseLong(chequeNum.getText().toString()) >= 100000000 &&
+                                        Long.parseLong(chequeNum.getText().toString()) <= 999999999){
+                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
+                                    int result = cc.InnoveChecker(Long.parseLong(chequeNum.getText().toString()));
+                                    if(result == 1){
+                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to INNOVE service", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(CaptureCheque.this, "Account Number for INNOVE service must be 9 digits", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        //GLOBE HANDYPHONE SERVICES
+                        else if(service.equals("Globe Handyphone")){
+                            if(chequeNum.getText().toString().length() == 8){ //Check if Account Number has 9 digits
+                                if(Long.parseLong(chequeNum.getText().toString()) >= 10000000 &&
+                                        Long.parseLong(chequeNum.getText().toString()) <= 99999999){
+                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
+                                    int result = cc.GlobeHandyphoneChecker(Long.parseLong(chequeNum.getText().toString()));
+                                    if(result == 1){
+                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to GLOBE HP service", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(CaptureCheque.this, "Account Number for GLOBE HP service must be 8 digits", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        //Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                        //startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -147,7 +238,7 @@ public class CaptureCheque extends AppCompatActivity {
 
             }
         });
-        verify.setOnClickListener(new View.OnClickListener() {
+        /*verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Enter code here for cheque verification
@@ -155,7 +246,7 @@ public class CaptureCheque extends AppCompatActivity {
                 Intent intent = new Intent(CaptureCheque.this, ESignature.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
