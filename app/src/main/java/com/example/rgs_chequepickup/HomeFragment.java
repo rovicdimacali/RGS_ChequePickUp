@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 /**
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
     Button go_button, go_button1 , go_button2 , go_button3 , go_button4 , go_button5 , skip_button, skip_button1, skip_button2, skip_button3, skip_button4, skip_button5;
     ViewFlipper carousel;
+    TextView comp1, comp2, comp3, comp4, comp5, comp6, p1,p2,p3,p4,p5,p6, ad1,ad2,ad3,ad4,ad5,ad6, cont1,cont2,cont3,cont4,cont5,cont6;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,10 +88,43 @@ public class HomeFragment extends Fragment {
         skip_button5 = (Button) customer_btn5.findViewById(R.id.skip_button5);
         carousel = (ViewFlipper) view.findViewById(R.id.carousel);
 
+        //TEXTVIEWS
+        comp1 = (TextView) customer_btn.findViewById(R.id.companyname1);
+        comp2 = (TextView) customer_btn1.findViewById(R.id.companyname2);
+        comp3 = (TextView) customer_btn2.findViewById(R.id.companyname3);
+        comp4 = (TextView) customer_btn3.findViewById(R.id.companyname4);
+        comp5 = (TextView) customer_btn4.findViewById(R.id.companyname5);
+        comp6 = (TextView) customer_btn5.findViewById(R.id.companyname6);
+
+        p1 = (TextView) customer_btn.findViewById(R.id.companyperson1);
+        p2 = (TextView) customer_btn1.findViewById(R.id.companyperson2);
+        p3 = (TextView) customer_btn2.findViewById(R.id.companyperson3);
+        p4 = (TextView) customer_btn3.findViewById(R.id.companyperson4);
+        p5 = (TextView) customer_btn4.findViewById(R.id.companyperson5);
+        p6 = (TextView) customer_btn5.findViewById(R.id.companyperson6);
+
+        ad1 = (TextView) customer_btn.findViewById(R.id.companyadd1);
+        ad2 = (TextView) customer_btn1.findViewById(R.id.companyadd2);
+        ad3 = (TextView) customer_btn2.findViewById(R.id.companyadd3);
+        ad4 = (TextView) customer_btn3.findViewById(R.id.companyadd4);
+        ad5 = (TextView) customer_btn4.findViewById(R.id.companyadd5);
+        ad6 = (TextView) customer_btn5.findViewById(R.id.companyadd6);
+
+        cont1 = (TextView) customer_btn.findViewById(R.id.companycontact1);
+        cont2 = (TextView) customer_btn1.findViewById(R.id.companycontact2);
+        cont3 = (TextView) customer_btn2.findViewById(R.id.companycontact3);
+        cont4 = (TextView) customer_btn3.findViewById(R.id.companycontact4);
+        cont5 = (TextView) customer_btn4.findViewById(R.id.companycontact5);
+        cont6 = (TextView) customer_btn5.findViewById(R.id.companycontact6);
+        //
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp1.getText().toString());
+                intent.putExtra("person", p1.getText().toString());
+                intent.putExtra("address", ad1.getText().toString());
+                intent.putExtra("contact", cont1.getText().toString());
                 startActivity(intent);
             }
         });
@@ -98,6 +133,58 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp2.getText().toString());
+                intent.putExtra("person", p2.getText().toString());
+                intent.putExtra("address", ad2.getText().toString());
+                intent.putExtra("contact", cont2.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        go_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp3.getText().toString());
+                intent.putExtra("person", p3.getText().toString());
+                intent.putExtra("address", ad3.getText().toString());
+                intent.putExtra("contact", cont3.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        go_button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp4.getText().toString());
+                intent.putExtra("person", p4.getText().toString());
+                intent.putExtra("address", ad4.getText().toString());
+                intent.putExtra("contact", cont4.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        go_button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp5.getText().toString());
+                intent.putExtra("person", p5.getText().toString());
+                intent.putExtra("address", ad5.getText().toString());
+                intent.putExtra("contact", cont5.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        go_button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                intent.putExtra("company", comp6.getText().toString());
+                intent.putExtra("person", p6.getText().toString());
+                intent.putExtra("address", ad6.getText().toString());
+                intent.putExtra("contact", cont6.getText().toString());
                 startActivity(intent);
             }
         });

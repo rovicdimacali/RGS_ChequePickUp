@@ -38,6 +38,7 @@ import java.util.Locale;
 public class ChequePickUp extends AppCompatActivity {
 
     TextView icon_company, icon_name, icon_location, icon_number, address, back_button, number;
+    TextView company, person, addr, contact;
     Button go_button, arrived_button;
     RelativeLayout layout;
     FusedLocationProviderClient fspc;
@@ -49,6 +50,23 @@ public class ChequePickUp extends AppCompatActivity {
         setContentView(R.layout.activity_cheque_pick_up);
         Fragment fragment = new MapFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+
+        Intent details = getIntent();
+
+        String comp = details.getStringExtra("company");
+        String per = details.getStringExtra("person");
+        String add = details.getStringExtra("address");
+        String cont = details.getStringExtra("contact");
+
+        company = (TextView) findViewById(R.id.company);
+        person = (TextView) findViewById(R.id.name);
+        addr = (TextView) findViewById(R.id.address);
+        contact = (TextView) findViewById(R.id.number);
+
+        company.setText(comp);
+        person.setText(per);
+        addr.setText(add);
+        contact.setText(cont);
 
         //TEXTVIEWS
         icon_company = (TextView) findViewById(R.id.icon_company);
