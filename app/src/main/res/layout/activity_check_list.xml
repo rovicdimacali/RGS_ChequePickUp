@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CheckList">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_button"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingVertical="15dp"
+
+            android:text="Check List"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_payable"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Cheque should be payable (Globe Telecom, Innove Communications, Bayan Telecomunications)." />
+        <CheckBox android:id="@+id/checkbox_date"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Cheque date should be written in the correct format."/>
+        <CheckBox android:id="@+id/checkbox_6months"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Cheque is valid within 6 mos from the date of issue. "/>
+        <CheckBox android:id="@+id/checkbox_figures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textSize="15dp"
+            android:text="The amount in figures and the amount in words should tally. Ensure that the amount in words are spelled correctly."/>
+        <CheckBox android:id="@+id/checkbox_signature"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Ensure that cheque has the customer's signature."/>
+        <CheckBox android:id="@+id/checkbox_erasures"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Cheques with erasures, alterations, or missing details, even with a counter signature, should not be accepted."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:background="@color/rgs_green"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -65,7 +65,7 @@ public class CaptureCheque extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CaptureCheque.this, ChequePickUp.class);
+                Intent intent = new Intent(CaptureCheque.this, CheckList.class);
                 startActivity(intent);
             }
         });
