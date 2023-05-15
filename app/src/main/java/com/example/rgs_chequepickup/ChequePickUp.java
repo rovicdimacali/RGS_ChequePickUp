@@ -151,7 +151,7 @@ public class ChequePickUp extends AppCompatActivity {
 
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
-                            if(distance < 10){
+                            if(distance < 100){
                                 ArrivedPopupWindow();
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(true);

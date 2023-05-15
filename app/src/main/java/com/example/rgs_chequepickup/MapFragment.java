@@ -85,8 +85,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onSuccess(Location location) {
                                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
+                                //LatLng latLng1 = new LatLng(14.67, 121.07);
                                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+                                //gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 17));
                             }
                         });
 
