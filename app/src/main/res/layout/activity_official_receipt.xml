@@ -61,7 +61,7 @@
         android:padding="20dp"
         android:background="#F2F2F2"
         android:textSize="15dp"
-        android:inputType="textPassword"/>
+        android:inputType="text"/>
 
     <TextView
         android:id="@+id/tinNumber"
@@ -85,7 +85,7 @@
         android:padding="20dp"
         android:background="#F2F2F2"
         android:textSize="15dp"
-        android:inputType="textPassword"/>
+        android:inputType="text"/>
 
     <TextView
         android:id="@+id/chequeamount"
@@ -109,7 +109,7 @@
         android:padding="20dp"
         android:background="#F2F2F2"
         android:textSize="15dp"
-        android:inputType="textPassword"/>
+        android:inputType="text"/>
 
     <TextView
         android:id="@+id/chequenumber"
@@ -133,7 +133,7 @@
         android:padding="20dp"
         android:background="#F2F2F2"
         android:textSize="15dp"
-        android:inputType="textPassword"/>
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/submit_button"

@@ -82,7 +82,8 @@ public class CaptureCheque extends AppCompatActivity {
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
+                VerifyPopupWindow();
+               /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
                 builder.setCancelable(true);
                 builder.setTitle("Defective Cheque");
@@ -104,7 +105,7 @@ public class CaptureCheque extends AppCompatActivity {
                     }
                 });
 
-                builder.show();
+                builder.show();*/
             }
         });
 
