@@ -1,5 +1,6 @@
 package com.example.rgs_chequepickup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+
+import SessionPackage.LocationManagement;
+import SessionPackage.LocationSession;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +32,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Context cont;
     Button go_button, go_button1 , go_button2 , go_button3 , go_button4 , go_button5 , skip_button, skip_button1, skip_button2, skip_button3, skip_button4, skip_button5;
     ViewFlipper carousel;
     TextView comp1, comp2, comp3, comp4, comp5, comp6, p1,p2,p3,p4,p5,p6, ad1,ad2,ad3,ad4,ad5,ad6, cont1,cont2,cont3,cont4,cont5,cont6;
@@ -67,6 +72,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        cont = getContext();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
         CardView customer_btn1 = (CardView) view.findViewById(R.id.customer_btn1);
@@ -121,10 +127,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp1.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp1.getText()), String.valueOf(p1.getText()),
+                        String.valueOf(ad1.getText()),String.valueOf(cont1.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp1.getText().toString());
                 intent.putExtra("person", p1.getText().toString());
                 intent.putExtra("address", ad1.getText().toString());
-                intent.putExtra("contact", cont1.getText().toString());
+                intent.putExtra("contact", cont1.getText().toString());*/
                 startActivity(intent);
             }
         });
@@ -133,10 +143,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp2.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp2.getText()), String.valueOf(p2.getText()),
+                        String.valueOf(ad2.getText()),String.valueOf(cont2.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp2.getText().toString());
                 intent.putExtra("person", p2.getText().toString());
                 intent.putExtra("address", ad2.getText().toString());
-                intent.putExtra("contact", cont2.getText().toString());
+                intent.putExtra("contact", cont2.getText().toString());*/
                 startActivity(intent);
             }
         });
@@ -145,10 +159,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp3.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp3.getText()), String.valueOf(p3.getText()),
+                        String.valueOf(ad3.getText()),String.valueOf(cont3.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp3.getText().toString());
                 intent.putExtra("person", p3.getText().toString());
                 intent.putExtra("address", ad3.getText().toString());
-                intent.putExtra("contact", cont3.getText().toString());
+                intent.putExtra("contact", cont3.getText().toString());*/
                 startActivity(intent);
             }
         });
@@ -157,10 +175,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp4.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp4.getText()), String.valueOf(p4.getText()),
+                        String.valueOf(ad4.getText()),String.valueOf(cont4.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp4.getText().toString());
                 intent.putExtra("person", p4.getText().toString());
                 intent.putExtra("address", ad4.getText().toString());
-                intent.putExtra("contact", cont4.getText().toString());
+                intent.putExtra("contact", cont4.getText().toString());*/
                 startActivity(intent);
             }
         });
@@ -169,10 +191,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp5.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp5.getText()), String.valueOf(p5.getText()),
+                        String.valueOf(ad5.getText()),String.valueOf(cont5.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp5.getText().toString());
                 intent.putExtra("person", p5.getText().toString());
                 intent.putExtra("address", ad5.getText().toString());
-                intent.putExtra("contact", cont5.getText().toString());
+                intent.putExtra("contact", cont5.getText().toString());*/
                 startActivity(intent);
             }
         });
@@ -181,10 +207,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                intent.putExtra("company", comp6.getText().toString());
+                LocationManagement lm = new LocationManagement(cont);
+                LocationSession ls = new LocationSession(String.valueOf(comp6.getText()), String.valueOf(p6.getText()),
+                        String.valueOf(ad6.getText()),String.valueOf(cont6.getText()));
+                lm.saveLocation(ls);
+                /*intent.putExtra("company", comp6.getText().toString());
                 intent.putExtra("person", p6.getText().toString());
                 intent.putExtra("address", ad6.getText().toString());
-                intent.putExtra("contact", cont6.getText().toString());
+                intent.putExtra("contact", cont6.getText().toString());*/
                 startActivity(intent);
             }
         });

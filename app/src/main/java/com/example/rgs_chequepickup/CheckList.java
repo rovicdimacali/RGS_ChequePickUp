@@ -1,13 +1,16 @@
 package com.example.rgs_chequepickup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,42 @@ public class CheckList extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
+        CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked() && !(erase.isChecked())) {
+                    submit.setClickable(true);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
+                }
+                else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked()) && erase.isChecked()){
+                    submit.setClickable(true);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
+                }
+                else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked() && erase.isChecked())){
+                    submit.setClickable(false);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                }
+                else if(payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked() && erase.isChecked()){
+                    submit.setClickable(false);
+                    Toast.makeText(CheckList.this, "Invalid checklist.", Toast.LENGTH_SHORT).show();
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                }
+            }
+        };
+
+        payable.setOnCheckedChangeListener(cbl);
+        date.setOnCheckedChangeListener(cbl);
+        figures.setOnCheckedChangeListener(cbl);
+        months.setOnCheckedChangeListener(cbl);
+        sign.setOnCheckedChangeListener(cbl);
+        erase.setOnCheckedChangeListener(cbl);
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,13 +88,18 @@ public class CheckList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(payable.isChecked() && date.isChecked() && figures.isChecked()
-                && months.isChecked() && sign.isChecked() && erase.isChecked()){
-                    Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
+                && months.isChecked() && sign.isChecked() && !(erase.isChecked())){
+                    //Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    intent.putExtra("cheque", 1);
                     startActivity(intent);
                 }
-                else{
-                    Toast.makeText(CheckList.this, "Cheque has one or more defects", Toast.LENGTH_SHORT).show();
+                else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked()) && erase.isChecked()){
+                    Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    intent.putExtra("cheque", -1);
+                    startActivity(intent);
                 }
 
             }

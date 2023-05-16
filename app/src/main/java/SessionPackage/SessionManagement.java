@@ -20,10 +20,12 @@ public class SessionManagement {
     }
 
     public String getSession(){ //return saved session
+
         return sp.getString(SESSION_KEY, "none");
     }
 
     public void removeSession(){ //Logout
+
         editor.putString(SESSION_KEY, "none").commit();
     }
 

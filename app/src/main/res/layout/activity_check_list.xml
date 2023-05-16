@@ -82,14 +82,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:background="@color/rgs_green"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/submit"
+            android:clickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/rgs_gray1"
+            android:text="Submit" />
 
     </LinearLayout>
 

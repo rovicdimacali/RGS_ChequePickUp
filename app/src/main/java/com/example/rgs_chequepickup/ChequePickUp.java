@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import SessionPackage.LocationManagement;
+import SessionPackage.LocationSession;
+
 public class ChequePickUp extends AppCompatActivity {
 
     TextView icon_company, icon_name, icon_location, icon_number, address, back_button, number;
@@ -53,10 +56,16 @@ public class ChequePickUp extends AppCompatActivity {
 
         Intent details = getIntent();
 
-        String comp = details.getStringExtra("company");
+        LocationManagement lm = new LocationManagement(ChequePickUp.this);
+
+        /*String comp = details.getStringExtra("company");
         String per = details.getStringExtra("person");
         String add = details.getStringExtra("address");
-        String cont = details.getStringExtra("contact");
+        String cont = details.getStringExtra("contact");*/
+        String comp = lm.getComp();
+        String per = lm.getPer();
+        String add = lm.getAdd();
+        String cont = lm.getCont();
 
         company = (TextView) findViewById(R.id.company);
         person = (TextView) findViewById(R.id.name);
@@ -122,6 +131,8 @@ public class ChequePickUp extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LocationManagement lm = new LocationManagement(ChequePickUp.this);
+                lm.removeLocation();
                 Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
                 startActivity(intent);
             }

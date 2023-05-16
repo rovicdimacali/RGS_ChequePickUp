@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
+import SessionPackage.LocationManagement;
+
 public class ChequeReceived extends AppCompatActivity {
 
     Button back_button;
@@ -22,6 +24,8 @@ public class ChequeReceived extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                LocationManagement lm = new LocationManagement(ChequeReceived.this);
+                lm.removeLocation();
                 startActivity(intent);
             }
         });
