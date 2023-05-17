@@ -2,17 +2,27 @@ package com.example.rgs_chequepickup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+
+import org.w3c.dom.Text;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
@@ -29,13 +39,17 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //final float density = getContext().getResources().getDisplayMetrics().density;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int ctr = 5;
     Context cont;
-    Button go_button, go_button1 , go_button2 , go_button3 , go_button4 , go_button5 , skip_button, skip_button1, skip_button2, skip_button3, skip_button4, skip_button5;
+    Button go_button, skip_button;
     ViewFlipper carousel;
-    TextView comp1, comp2, comp3, comp4, comp5, comp6, p1,p2,p3,p4,p5,p6, ad1,ad2,ad3,ad4,ad5,ad6, cont1,cont2,cont3,cont4,cont5,cont6;
+    LinearLayout layout;
+    TextView comp1,p1,ad1,cont1;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -73,56 +87,180 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         cont = getContext();
+        String args[] = {"One", "Two", "Three"};
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        layout = view.findViewById(R.id.linearlayout);
+
         CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
-        CardView customer_btn1 = (CardView) view.findViewById(R.id.customer_btn1);
-        CardView customer_btn2 = (CardView) view.findViewById(R.id.customer_btn2);
-        CardView customer_btn3 = (CardView) view.findViewById(R.id.customer_btn3);
-        CardView customer_btn4 = (CardView) view.findViewById(R.id.customer_btn4);
-        CardView customer_btn5 = (CardView) view.findViewById(R.id.customer_btn5);
+
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
-        go_button1 = (Button) customer_btn1.findViewById(R.id.go_button1);
-        go_button2 = (Button) customer_btn2.findViewById(R.id.go_button2);
-        go_button3 = (Button) customer_btn3.findViewById(R.id.go_button3);
-        go_button4 = (Button) customer_btn4.findViewById(R.id.go_button4);
-        go_button5 = (Button) customer_btn5.findViewById(R.id.go_button5);
+
         skip_button = (Button) customer_btn.findViewById(R.id.skip_button);
-        skip_button1 = (Button) customer_btn1.findViewById(R.id.skip_button1);
-        skip_button2 = (Button) customer_btn2.findViewById(R.id.skip_button2);
-        skip_button3 = (Button) customer_btn3.findViewById(R.id.skip_button3);
-        skip_button4 = (Button) customer_btn4.findViewById(R.id.skip_button4);
-        skip_button5 = (Button) customer_btn5.findViewById(R.id.skip_button5);
+
         carousel = (ViewFlipper) view.findViewById(R.id.carousel);
 
-        //TEXTVIEWS
-        comp1 = (TextView) customer_btn.findViewById(R.id.companyname1);
-        comp2 = (TextView) customer_btn1.findViewById(R.id.companyname2);
-        comp3 = (TextView) customer_btn2.findViewById(R.id.companyname3);
-        comp4 = (TextView) customer_btn3.findViewById(R.id.companyname4);
-        comp5 = (TextView) customer_btn4.findViewById(R.id.companyname5);
-        comp6 = (TextView) customer_btn5.findViewById(R.id.companyname6);
+        //DETAILS
+        comp1 = (TextView) customer_btn.findViewById(R.id.companyname);
+        p1 = (TextView) customer_btn.findViewById(R.id.companyperson);
+        ad1 = (TextView) customer_btn.findViewById(R.id.companyadd);
+        cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
 
-        p1 = (TextView) customer_btn.findViewById(R.id.companyperson1);
-        p2 = (TextView) customer_btn1.findViewById(R.id.companyperson2);
-        p3 = (TextView) customer_btn2.findViewById(R.id.companyperson3);
-        p4 = (TextView) customer_btn3.findViewById(R.id.companyperson4);
-        p5 = (TextView) customer_btn4.findViewById(R.id.companyperson5);
-        p6 = (TextView) customer_btn5.findViewById(R.id.companyperson6);
+        /*comp1.setText("Company 1" );
+        p1.setText("Person 1");
+        ad1.setText("Address 1");
+        cont1.setText("Contact 1");*/
 
-        ad1 = (TextView) customer_btn.findViewById(R.id.companyadd1);
-        ad2 = (TextView) customer_btn1.findViewById(R.id.companyadd2);
-        ad3 = (TextView) customer_btn2.findViewById(R.id.companyadd3);
-        ad4 = (TextView) customer_btn3.findViewById(R.id.companyadd4);
-        ad5 = (TextView) customer_btn4.findViewById(R.id.companyadd5);
-        ad6 = (TextView) customer_btn5.findViewById(R.id.companyadd6);
+        for(int i = 0; i < 4; i++){ //LOOP CARDS
+            //BUTTONS
+            Button skip = new Button(cont);
+            LinearLayout.LayoutParams skipbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.MarginLayoutParams skip_margins = (ViewGroup.MarginLayoutParams) skip_button.getLayoutParams();
 
-        cont1 = (TextView) customer_btn.findViewById(R.id.companycontact1);
-        cont2 = (TextView) customer_btn1.findViewById(R.id.companycontact2);
-        cont3 = (TextView) customer_btn2.findViewById(R.id.companycontact3);
-        cont4 = (TextView) customer_btn3.findViewById(R.id.companycontact4);
-        cont5 = (TextView) customer_btn4.findViewById(R.id.companycontact5);
-        cont6 = (TextView) customer_btn5.findViewById(R.id.companycontact6);
-        //
+            skip_margins.topMargin = -5;
+            float skip_weight = 0.5f;
+            skipbtn.setMarginEnd(10);
+            skipbtn.weight = skip_weight;
+            skip.setLayoutParams(skip_margins);
+            skip.setLayoutParams(skipbtn);
+            skip.setId(R.id.skip_button+i);
+            skip.setBackgroundColor(ContextCompat.getColor(cont, R.color.rgs_gray1));
+            skip.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
+            skip.setText("SKIP");
+            //skip.setTypeface(null, Typeface.BOLD);
+
+            skip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    carousel.showNext();
+                }
+            });
+            Button go = new Button(cont);
+            LinearLayout.LayoutParams gobtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.MarginLayoutParams go_margins = (ViewGroup.MarginLayoutParams) go_button.getLayoutParams();
+
+            go_margins.topMargin = -5;
+            float go_weight = 0.5f;
+            gobtn.setMarginEnd(10);
+            gobtn.weight = go_weight;
+            go.setLayoutParams(go_margins);
+            go.setLayoutParams(gobtn);
+            go.setId(R.id.go_button+i);
+            go.setBackgroundColor(ContextCompat.getColor(cont, R.color.rgs_green));
+            go.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
+            go.setText("LET'S GO");
+            //go.setTypeface(null, Typeface.BOLD);
+
+            //2ND LINEAR LAYOUT
+            LinearLayout.LayoutParams new_2ll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout new_2ll = new LinearLayout(cont);
+
+            new_2ll.setLayoutParams(new_2ll_params);
+            new_2ll.setOrientation(LinearLayout.HORIZONTAL);
+
+            //TEXT VIEWS
+            TextView contact = new TextView(cont);
+            LinearLayout.LayoutParams conttext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            contact.setLayoutParams(conttext);
+            contact.setText("09123454556 " + i);
+            contact.setTextColor(Color.BLACK);
+            contact.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
+            contact.setTextSize(15);
+
+            TextView add = new TextView(cont);
+            LinearLayout.LayoutParams addtext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            add.setLayoutParams(addtext);
+            add.setText("Address City of Village Subdivision Hello World " + i);
+            add.setTextColor(Color.BLACK);
+            add.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
+            add.setTextSize(15);
+
+            TextView per = new TextView(cont);
+            LinearLayout.LayoutParams pertext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            per.setLayoutParams(pertext);
+            per.setText("Mr. Person People " + i);
+            per.setTextColor(Color.BLACK);
+            per.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
+            per.setTextSize(18);
+
+            TextView comp = new TextView(cont);
+            LinearLayout.LayoutParams comptext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            comp.setLayoutParams(comptext);
+            comp.setText("PARAMOUNT HOTELS " + i);
+            comp.setTextColor(Color.BLACK);
+            comp.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
+            comp.setTextSize(18);
+
+            go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                    LocationManagement lm = new LocationManagement(cont);
+                    LocationSession ls = new LocationSession(String.valueOf(comp.getText()), String.valueOf(per.getText()),
+                            String.valueOf(add.getText()),String.valueOf(contact.getText()));
+                    lm.saveLocation(ls);
+                /*intent.putExtra("company", comp1.getText().toString());
+                intent.putExtra("person", p1.getText().toString());
+                intent.putExtra("address", ad1.getText().toString());
+                intent.putExtra("contact", cont1.getText().toString());*/
+                    startActivity(intent);
+                }
+            });
+
+            //NEW LLAYOUT
+            LinearLayout.LayoutParams new_ll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            new_ll_params.setMarginEnd(20);
+            new_ll_params.setMarginStart(20);
+            new_ll_params.gravity = Gravity.CENTER_VERTICAL;
+
+            LinearLayout new_ll = new LinearLayout(cont);
+            new_ll.setLayoutParams(new_ll_params);
+            new_ll.setOrientation(LinearLayout.VERTICAL);
+            new_ll.setId(R.id.linearlayout+i);
+            new_ll.setPadding(70, 50, 70, 50);
+
+            //NEW RLAYOUT
+            RelativeLayout new_rl = new RelativeLayout(cont);
+            new_rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT));
+            new_rl.setId(R.id.relativeLayout+i);
+
+            //NEW CARD
+            CardView.LayoutParams new_card_params = new CardView.LayoutParams(CardView.LayoutParams.MATCH_PARENT,
+                    CardView.LayoutParams.WRAP_CONTENT);
+            CardView new_card = new CardView(cont);
+            ViewGroup.MarginLayoutParams new_card_margins = (ViewGroup.MarginLayoutParams) customer_btn.getLayoutParams();
+
+            new_card_margins.topMargin = -20;
+            new_card.setLayoutParams(new_card_margins);
+            new_card.setLayoutParams(new_card_params);
+            new_card.setId(R.id.customer_btn+i);
+            new_card.setRadius(50);
+            new_card.setElevation(40);
+            new_card.setPreventCornerOverlap(true);
+            new_card.setUseCompatPadding(true);
+            //LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) new_card.getLayoutParams();
+            //lp.setMargins(0,10,0,0);
+
+            new_ll.addView(comp);
+            new_ll.addView(per);
+            new_ll.addView(add);
+            new_ll.addView(contact);
+            new_ll.addView(new_2ll);
+            new_2ll.addView(go);
+            new_2ll.addView(skip);
+            new_rl.addView(new_ll);
+            new_card.addView(new_rl);
+            carousel.addView(new_card);
+        } //END OF LOOP CARDS
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,127 +277,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        go_button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                LocationManagement lm = new LocationManagement(cont);
-                LocationSession ls = new LocationSession(String.valueOf(comp2.getText()), String.valueOf(p2.getText()),
-                        String.valueOf(ad2.getText()),String.valueOf(cont2.getText()));
-                lm.saveLocation(ls);
-                /*intent.putExtra("company", comp2.getText().toString());
-                intent.putExtra("person", p2.getText().toString());
-                intent.putExtra("address", ad2.getText().toString());
-                intent.putExtra("contact", cont2.getText().toString());*/
-                startActivity(intent);
-            }
-        });
-
-        go_button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                LocationManagement lm = new LocationManagement(cont);
-                LocationSession ls = new LocationSession(String.valueOf(comp3.getText()), String.valueOf(p3.getText()),
-                        String.valueOf(ad3.getText()),String.valueOf(cont3.getText()));
-                lm.saveLocation(ls);
-                /*intent.putExtra("company", comp3.getText().toString());
-                intent.putExtra("person", p3.getText().toString());
-                intent.putExtra("address", ad3.getText().toString());
-                intent.putExtra("contact", cont3.getText().toString());*/
-                startActivity(intent);
-            }
-        });
-
-        go_button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                LocationManagement lm = new LocationManagement(cont);
-                LocationSession ls = new LocationSession(String.valueOf(comp4.getText()), String.valueOf(p4.getText()),
-                        String.valueOf(ad4.getText()),String.valueOf(cont4.getText()));
-                lm.saveLocation(ls);
-                /*intent.putExtra("company", comp4.getText().toString());
-                intent.putExtra("person", p4.getText().toString());
-                intent.putExtra("address", ad4.getText().toString());
-                intent.putExtra("contact", cont4.getText().toString());*/
-                startActivity(intent);
-            }
-        });
-
-        go_button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                LocationManagement lm = new LocationManagement(cont);
-                LocationSession ls = new LocationSession(String.valueOf(comp5.getText()), String.valueOf(p5.getText()),
-                        String.valueOf(ad5.getText()),String.valueOf(cont5.getText()));
-                lm.saveLocation(ls);
-                /*intent.putExtra("company", comp5.getText().toString());
-                intent.putExtra("person", p5.getText().toString());
-                intent.putExtra("address", ad5.getText().toString());
-                intent.putExtra("contact", cont5.getText().toString());*/
-                startActivity(intent);
-            }
-        });
-
-        go_button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                LocationManagement lm = new LocationManagement(cont);
-                LocationSession ls = new LocationSession(String.valueOf(comp6.getText()), String.valueOf(p6.getText()),
-                        String.valueOf(ad6.getText()),String.valueOf(cont6.getText()));
-                lm.saveLocation(ls);
-                /*intent.putExtra("company", comp6.getText().toString());
-                intent.putExtra("person", p6.getText().toString());
-                intent.putExtra("address", ad6.getText().toString());
-                intent.putExtra("contact", cont6.getText().toString());*/
-                startActivity(intent);
-            }
-        });
-
         skip_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 carousel.showNext();
             }
         });
+        //carousel.setAutoStart(true);
+        //carousel.setFlipInterval(1000);
+        //carousel.startFlipping();
+        //TEXTVIEWS
+        //
 
-        skip_button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
-
-        skip_button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
-
-        skip_button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
-
-        skip_button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
-
-        skip_button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
         return view;
     }
 }
