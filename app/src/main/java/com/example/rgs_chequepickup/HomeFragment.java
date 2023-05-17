@@ -130,12 +130,6 @@ public class HomeFragment extends Fragment {
             skip.setText("SKIP");
             //skip.setTypeface(null, Typeface.BOLD);
 
-            skip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    carousel.showNext();
-                }
-            });
             Button go = new Button(cont);
             LinearLayout.LayoutParams gobtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -198,22 +192,6 @@ public class HomeFragment extends Fragment {
             comp.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             comp.setTextSize(18);
 
-            go.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ChequePickUp.class);
-                    LocationManagement lm = new LocationManagement(cont);
-                    LocationSession ls = new LocationSession(String.valueOf(comp.getText()), String.valueOf(per.getText()),
-                            String.valueOf(add.getText()),String.valueOf(contact.getText()));
-                    lm.saveLocation(ls);
-                /*intent.putExtra("company", comp1.getText().toString());
-                intent.putExtra("person", p1.getText().toString());
-                intent.putExtra("address", ad1.getText().toString());
-                intent.putExtra("contact", cont1.getText().toString());*/
-                    startActivity(intent);
-                }
-            });
-
             //NEW LLAYOUT
             LinearLayout.LayoutParams new_ll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -260,6 +238,29 @@ public class HomeFragment extends Fragment {
             new_rl.addView(new_ll);
             new_card.addView(new_rl);
             carousel.addView(new_card);
+
+            skip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    carousel.showNext();
+                }
+            });
+
+            go.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ChequePickUp.class);
+                    LocationManagement lm = new LocationManagement(cont);
+                    LocationSession ls = new LocationSession(String.valueOf(comp.getText()), String.valueOf(per.getText()),
+                            String.valueOf(add.getText()),String.valueOf(contact.getText()));
+                    lm.saveLocation(ls);
+                /*intent.putExtra("company", comp1.getText().toString());
+                intent.putExtra("person", p1.getText().toString());
+                intent.putExtra("address", ad1.getText().toString());
+                intent.putExtra("contact", cont1.getText().toString());*/
+                    startActivity(intent);
+                }
+            });
         } //END OF LOOP CARDS
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
