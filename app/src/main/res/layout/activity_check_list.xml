@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/linear"
     tools:context=".CheckList">
 
     <RelativeLayout
@@ -48,10 +49,17 @@
             android:text="Cheque should be payable (Globe Telecom, Innove Communications, Bayan Telecomunications)." />
         <CheckBox android:id="@+id/checkbox_date"
             android:layout_width="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:text="Cheque date should be written in the correct format."/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap Here to View Date Formats"
+            android:layout_marginBottom="20dp"
+            android:textColor="#005DFF"
+            android:layout_marginStart="33dp"
+            android:id="@+id/date_btn"/>
         <CheckBox android:id="@+id/checkbox_6months"
             android:layout_width="wrap_content"
             android:layout_marginBottom="20dp"

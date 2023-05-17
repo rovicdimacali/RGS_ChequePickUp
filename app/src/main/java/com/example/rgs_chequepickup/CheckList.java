@@ -7,18 +7,24 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CheckList extends AppCompatActivity {
 
-    TextView back_button;
+    TextView back_button, date_btn;
     Button submit;
     CheckBox payable, date, figures, months, sign, erase;
+    LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +108,42 @@ public class CheckList extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+            }
+        });
+    }
+
+    private void PopUpDate(){
+        layout = (LinearLayout) findViewById(R.id.linear);
+        date_btn = (TextView) findViewById(R.id.date_btn);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_dates, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                date_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                    }
+                });
+            }
+        });
+
+        Button dismiss = (Button) popUpView.findViewById(R.id.dismiss_button);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                dismiss.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
             }
         });
     }
