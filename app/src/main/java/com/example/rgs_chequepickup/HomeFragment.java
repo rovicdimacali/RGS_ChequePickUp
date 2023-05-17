@@ -94,6 +94,21 @@ public class HomeFragment extends Fragment {
 
         CardView customer_btn = (CardView) view.findViewById(R.id.customer_btn);
 
+        TextView back_arrow, next_arrow;
+
+        back_arrow = (TextView) view.findViewById(R.id.back_arrow);
+
+        next_arrow = (TextView) view.findViewById(R.id.next_arrow);
+
+        Typeface font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        back_arrow.setTypeface(font);
+        next_arrow.setTypeface(font);
+        back_arrow.setText("\uf060");
+        next_arrow.setText("\uf061");
+
+
+
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
         skip_button = (Button) customer_btn.findViewById(R.id.skip_button);

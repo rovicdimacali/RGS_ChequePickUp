@@ -129,28 +129,39 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/back_arrow"
+                                        android:layout_weight="1"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="Back"
+                                        android:fontFamily="@font/poppins_bold"
+                                        />
+
                                     <Button
                                         android:layout_width="match_parent"
                                         android:id="@+id/go_button"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="10dp"
-                                        android:layout_weight=".5"
+                                        android:layout_weight="1"
                                         android:layout_marginEnd="10dp"
                                         android:text="LET'S GO"
                                         android:fontFamily="@font/poppins_bold"
                                         android:background="@color/rgs_green"
                                         />
 
-                                    <Button
+                                    <TextView
                                         android:layout_width="match_parent"
-                                        android:id="@+id/skip_button"
-                                        android:layout_weight=".5"
+                                        android:id="@+id/next_arrow"
+                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="10dp"
                                         android:layout_marginTop="10dp"
-                                        android:text="SKIP"
+                                        android:text="Next"
+                                        android:textAlignment="textEnd"
                                         android:fontFamily="@font/poppins_bold"
-                                        android:background="@color/rgs_gray1"
                                         />
 
                                 </LinearLayout>
