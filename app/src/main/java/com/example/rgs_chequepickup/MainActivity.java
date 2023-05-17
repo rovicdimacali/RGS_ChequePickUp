@@ -126,12 +126,12 @@ public class MainActivity extends AppCompatActivity {
         layout.post(new Runnable() {
             @Override
             public void run() {
-                home_btn.setOnClickListener(new View.OnClickListener() {
+                /*home_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
                     }
-                });
+                });*/
             }
         });
 

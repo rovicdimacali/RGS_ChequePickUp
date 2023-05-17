@@ -37,6 +37,7 @@ public class CheckList extends AppCompatActivity {
         months = (CheckBox) findViewById(R.id.checkbox_6months);
         sign = (CheckBox) findViewById(R.id.checkbox_signature) ;
         erase = (CheckBox) findViewById(R.id.checkbox_erasures);
+        date_btn = (TextView) findViewById(R.id.date_btn);
 
         back_button = (TextView) findViewById(R.id.back_button);
         submit = (Button) findViewById(R.id.submit);
@@ -82,6 +83,12 @@ public class CheckList extends AppCompatActivity {
         sign.setOnCheckedChangeListener(cbl);
         erase.setOnCheckedChangeListener(cbl);
 
+        date_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopUpDate();
+            }
+        });
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +121,6 @@ public class CheckList extends AppCompatActivity {
 
     private void PopUpDate(){
         layout = (LinearLayout) findViewById(R.id.linear);
-        date_btn = (TextView) findViewById(R.id.date_btn);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_dates, null);
 
@@ -125,12 +131,7 @@ public class CheckList extends AppCompatActivity {
         layout.post(new Runnable() {
             @Override
             public void run() {
-                date_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-                    }
-                });
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
             }
         });
 

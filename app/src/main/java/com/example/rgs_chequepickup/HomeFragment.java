@@ -46,10 +46,10 @@ public class HomeFragment extends Fragment {
     private String mParam2;
     private int ctr = 5;
     Context cont;
-    Button go_button, skip_button;
+    Button go_button;
     ViewFlipper carousel;
     LinearLayout layout;
-    TextView comp1,p1,ad1,cont1;
+    TextView comp1,p1,ad1,cont1, next_arr, back_arr;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,7 +87,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         cont = getContext();
-        String args[] = {"One", "Two", "Three"};
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         layout = view.findViewById(R.id.linearlayout);
@@ -107,13 +106,16 @@ public class HomeFragment extends Fragment {
         back_arrow.setText("\uf060");
         next_arrow.setText("\uf061");
 
-
-
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
-        skip_button = (Button) customer_btn.findViewById(R.id.skip_button);
+        next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
+        back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
 
         carousel = (ViewFlipper) view.findViewById(R.id.carousel);
+        //ViewGroup.MarginLayoutParams carousel_margins = (ViewGroup.MarginLayoutParams) carousel.getLayoutParams();
+        //carousel_margins.setMarginStart(30);
+        //carousel_margins.setMarginEnd(30);
+        //carousel.setLayoutParams(carousel_margins);
 
         //DETAILS
         comp1 = (TextView) customer_btn.findViewById(R.id.companyname);
@@ -128,21 +130,43 @@ public class HomeFragment extends Fragment {
 
         for(int i = 0; i < 4; i++){ //LOOP CARDS
             //BUTTONS
-            Button skip = new Button(cont);
+            TextView back = new TextView(cont);
+            LinearLayout.LayoutParams backbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.MarginLayoutParams back_margins = (ViewGroup.MarginLayoutParams) back_arr.getLayoutParams();
+
+            back_margins.topMargin = 20;
+            float back_weight = 1f;
+            //backbtn.setMarginStart(20);
+            backbtn.weight = back_weight;
+            back.setLayoutParams(back_margins);
+            back.setLayoutParams(backbtn);
+            back.setId(R.id.back_arrow+i);
+            back.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
+            back.setText("BACK");
+            back.setTextSize(20);
+            //back.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
+            back.setTypeface(font);
+            back.setText("\uf060");
+
+            TextView skip = new TextView(cont);
             LinearLayout.LayoutParams skipbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            ViewGroup.MarginLayoutParams skip_margins = (ViewGroup.MarginLayoutParams) skip_button.getLayoutParams();
+            ViewGroup.MarginLayoutParams skip_margins = (ViewGroup.MarginLayoutParams) next_arr.getLayoutParams();
 
-            skip_margins.topMargin = -5;
-            float skip_weight = 0.5f;
+            skip_margins.topMargin = 20;
+            float skip_weight = 1f;
             skipbtn.setMarginStart(20);
             skipbtn.weight = skip_weight;
             skip.setLayoutParams(skip_margins);
             skip.setLayoutParams(skipbtn);
-            skip.setId(R.id.skip_button+i);
-            skip.setBackgroundColor(ContextCompat.getColor(cont, R.color.rgs_gray1));
+            skip.setId(R.id.next_arrow+i);
             skip.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
-            skip.setText("SKIP");
+            skip.setText("NEXT");
+            skip.setTextSize(20);
+            skip.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
+            skip.setTypeface(font);
+            skip.setText("\uf061");
             //skip.setTypeface(null, Typeface.BOLD);
 
             Button go = new Button(cont);
@@ -150,8 +174,8 @@ public class HomeFragment extends Fragment {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             ViewGroup.MarginLayoutParams go_margins = (ViewGroup.MarginLayoutParams) go_button.getLayoutParams();
 
-            go_margins.topMargin = -5;
-            float go_weight = 0.5f;
+            go_margins.topMargin = 20;
+            float go_weight = 1f;
             gobtn.setMarginEnd(20);
             gobtn.weight = go_weight;
             go.setLayoutParams(go_margins);
@@ -211,8 +235,8 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams new_ll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            new_ll_params.setMarginEnd(40);
-            new_ll_params.setMarginStart(40);
+            new_ll_params.setMarginEnd(20);
+            new_ll_params.setMarginStart(20);
             new_ll_params.gravity = Gravity.CENTER_VERTICAL;
 
             LinearLayout new_ll = new LinearLayout(cont);
@@ -244,21 +268,33 @@ public class HomeFragment extends Fragment {
             //LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) new_card.getLayoutParams();
             //lp.setMargins(0,10,0,0);
 
+            //ViewGroup.MarginLayoutParams carousel_margins = (ViewGroup.MarginLayoutParams) carousel.getLayoutParams();
+            //carousel_margins.setMarginStart(20);
+            //carousel_margins.setMarginEnd(20);
+
             new_ll.addView(comp);
             new_ll.addView(per);
             new_ll.addView(add);
             new_ll.addView(contact);
             new_ll.addView(new_2ll);
+            new_2ll.addView(back);
             new_2ll.addView(go);
             new_2ll.addView(skip);
             new_rl.addView(new_ll);
             new_card.addView(new_rl);
             carousel.addView(new_card);
-
+            //carousel.setLayoutParams(carousel_margins);
             skip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     carousel.showNext();
+                }
+            });
+
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    carousel.showPrevious();
                 }
             });
 
@@ -294,10 +330,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        skip_button.setOnClickListener(new View.OnClickListener() {
+        next_arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 carousel.showNext();
+            }
+        });
+        back_arr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carousel.showPrevious();
             }
         });
         //carousel.setAutoStart(true);
