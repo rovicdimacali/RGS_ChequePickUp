@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
 
             skip_margins.topMargin = -5;
             float skip_weight = 0.5f;
-            skipbtn.setMarginEnd(10);
+            skipbtn.setMarginStart(20);
             skipbtn.weight = skip_weight;
             skip.setLayoutParams(skip_margins);
             skip.setLayoutParams(skipbtn);
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
 
             go_margins.topMargin = -5;
             float go_weight = 0.5f;
-            gobtn.setMarginEnd(10);
+            gobtn.setMarginEnd(20);
             gobtn.weight = go_weight;
             go.setLayoutParams(go_margins);
             go.setLayoutParams(gobtn);
@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams addtext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             add.setLayoutParams(addtext);
-            add.setText("Address City of Village Subdivision Hello World " + i);
+            add.setText("G/F Microtel Bldg. UP Ayala Land Technohub Commonwealth Ave., Diliman Quezon City " + i);
             add.setTextColor(Color.BLACK);
             add.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             add.setTextSize(15);
@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams comptext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             comp.setLayoutParams(comptext);
-            comp.setText("PARAMOUNT HOTELS " + i);
+            comp.setText("PARAMOUNT HOTELS & FACILITIES MANAGEMENT COMPANY, INC. " + i);
             comp.setTextColor(Color.BLACK);
             comp.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             comp.setTextSize(18);
@@ -195,15 +195,16 @@ public class HomeFragment extends Fragment {
             //NEW LLAYOUT
             LinearLayout.LayoutParams new_ll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            new_ll_params.setMarginEnd(20);
-            new_ll_params.setMarginStart(20);
+
+            new_ll_params.setMarginEnd(40);
+            new_ll_params.setMarginStart(40);
             new_ll_params.gravity = Gravity.CENTER_VERTICAL;
 
             LinearLayout new_ll = new LinearLayout(cont);
             new_ll.setLayoutParams(new_ll_params);
             new_ll.setOrientation(LinearLayout.VERTICAL);
             new_ll.setId(R.id.linearlayout+i);
-            new_ll.setPadding(70, 50, 70, 50);
+            new_ll.setPadding(70, 50, 40, 50);
 
             //NEW RLAYOUT
             RelativeLayout new_rl = new RelativeLayout(cont);
@@ -217,11 +218,11 @@ public class HomeFragment extends Fragment {
             CardView new_card = new CardView(cont);
             ViewGroup.MarginLayoutParams new_card_margins = (ViewGroup.MarginLayoutParams) customer_btn.getLayoutParams();
 
-            new_card_margins.topMargin = -20;
+            new_card_margins.topMargin = -40;
             new_card.setLayoutParams(new_card_margins);
             new_card.setLayoutParams(new_card_params);
             new_card.setId(R.id.customer_btn+i);
-            new_card.setRadius(50);
+            new_card.setRadius(60);
             new_card.setElevation(40);
             new_card.setPreventCornerOverlap(true);
             new_card.setUseCompatPadding(true);

@@ -87,14 +87,13 @@
                                 android:paddingVertical="20dp">
 
                                 <TextView
+                                    android:id="@+id/companyname"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/companyname"
+                                    android:fontFamily="@font/poppins"
                                     android:text="PARAMOUNT HOTELS &amp; FACILITIES MANAGEMENT COMPANY, INC."
                                     android:textColor="@color/black"
-                                    android:fontFamily="@font/poppins"
-                                    android:textSize="18dp"
-                                    />
+                                    android:textSize="18dp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
