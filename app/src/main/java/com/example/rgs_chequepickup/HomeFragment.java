@@ -123,12 +123,27 @@ public class HomeFragment extends Fragment {
         ad1 = (TextView) customer_btn.findViewById(R.id.companyadd);
         cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
 
-        /*comp1.setText("Company 1" );
-        p1.setText("Person 1");
-        ad1.setText("Address 1");
-        cont1.setText("Contact 1");*/
+        //COMPANY ARRAY
+        String compArr[] = {"PARAMOUNT HOTELS & FACILITIES MANAGEMENT COMPANY, INC.","PREMIERE MEDICAL AND CARDIOVASCULAR LABORATORY, INC."
+        ,"REJ DIAMOND PHARMACEUTICALS, INC.","AYALA LAND METRO NORTH, INC","MEGAWIDE CONSTRUCTION CORP.","PINAKAMASARAP CORPORATION"};
+        //PERSON ARRAY
+        String personArr[] = {"Ms. Norly Araneta","Avegail Ferasol","Charmaine De Jesus","Ranny A. Pimentel",
+                "Rebecca Aycocho","Rowena Bahillo"};
+        //ADDRESS ARRAY
+        String addressArr[] = {"G/F Microtel Bldg. UP Ayala Land Technohub Commonwealth Ave., Diliman Quezon City",
+                "G/F Bell-Kenz Tower 127 Malakas st. Diliman, Quezon City","#8 Feria Road Commonwealth Ave. Diliman QC",
+                "249, U.P Town Center, 216 katipunan Ave., Diliman Quezon city", "# 20 N. Domingo St., Brgy. Valencia, Quezon City",
+                "#23 P. Dela St. San Bartolome Novaliches Quezon City"};
+        //CONTACT ARRAY
+        String contactArr[] = {"9178434921","9176245003","9175876919","9178643759",
+                "9178544177","9175694437"};
 
-        for(int i = 0; i < 4; i++){ //LOOP CARDS
+        comp1.setText(compArr[0]);
+        p1.setText(personArr[0]);
+        ad1.setText(addressArr[0]);
+        cont1.setText("+63"+contactArr[0]);
+
+        for(int i = 1; i < 5; i++){ //LOOP CARDS
             //BUTTONS
             TextView back = new TextView(cont);
             LinearLayout.LayoutParams backbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -199,7 +214,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams conttext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             contact.setLayoutParams(conttext);
-            contact.setText("09123454556 " + i);
+            contact.setText("+63"+contactArr[i]);
             contact.setTextColor(Color.BLACK);
             contact.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             contact.setTextSize(15);
@@ -208,7 +223,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams addtext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             add.setLayoutParams(addtext);
-            add.setText("G/F Microtel Bldg. UP Ayala Land Technohub Commonwealth Ave., Diliman Quezon City " + i);
+            add.setText(addressArr[i]);
             add.setTextColor(Color.BLACK);
             add.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             add.setTextSize(15);
@@ -217,7 +232,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams pertext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             per.setLayoutParams(pertext);
-            per.setText("Mr. Person People " + i);
+            per.setText(personArr[i]);
             per.setTextColor(Color.BLACK);
             per.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             per.setTextSize(18);
@@ -226,7 +241,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams comptext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             comp.setLayoutParams(comptext);
-            comp.setText("PARAMOUNT HOTELS & FACILITIES MANAGEMENT COMPANY, INC. " + i);
+            comp.setText(compArr[i]);
             comp.setTextColor(Color.BLACK);
             comp.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             comp.setTextSize(18);
