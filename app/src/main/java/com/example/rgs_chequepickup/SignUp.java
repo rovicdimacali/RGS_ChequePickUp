@@ -20,7 +20,7 @@ import Email.Utils;
 
 public class SignUp extends AppCompatActivity {
 
-    Button signup_button;
+    /*Button signup_button;
     EditText name, email, password,phone;
     //String un, em, passwd;
     TextView signing, back_button;
@@ -146,5 +146,5 @@ public class SignUp extends AppCompatActivity {
                 "to your email can see the OTP for the account creation.</h6></center>";
         JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
         javaMailAPI.execute();
-    }
+    }*/
 }

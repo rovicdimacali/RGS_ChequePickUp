@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         client = new OkHttpClient();
 
         back_button = (TextView) findViewById(R.id.back_button);
-        signup = (TextView) findViewById(R.id.signup);
+        //signup = (TextView) findViewById(R.id.signup);
         forgotpassword = (TextView) findViewById(R.id.forgotpassword);
         signin = (TextView) findViewById(R.id.signin);
 
@@ -101,12 +101,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signup.setOnClickListener(new View.OnClickListener() {
+        /*signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openSignup();
             }
-        });
+        });*/
     }
     protected void onStart() {
         super.onStart();

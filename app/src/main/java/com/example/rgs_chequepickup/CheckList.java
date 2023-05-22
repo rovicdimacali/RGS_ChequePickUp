@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +107,7 @@ public class CheckList extends AppCompatActivity {
                     Intent intent = new Intent(CheckList.this, CaptureCheque.class);
                     intent.putExtra("cheque", 1);
                     startActivity(intent);
+                    //PopUpScenarios();
                 }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
@@ -140,6 +142,37 @@ public class CheckList extends AppCompatActivity {
             @Override
             public void run() {
                 dismiss.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+    private void PopUpScenarios(){
+        layout = (LinearLayout) findViewById(R.id.linear);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_scenarios, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        RelativeLayout overlay = (RelativeLayout) popUpView.findViewById(R.id.overlay);
+
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                overlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         popupWindow.dismiss();

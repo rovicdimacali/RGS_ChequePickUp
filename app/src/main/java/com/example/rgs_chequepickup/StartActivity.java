@@ -18,13 +18,13 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        start_button = (Button) findViewById(R.id.start_button);
-        start_button.setOnClickListener(new View.OnClickListener() {
+        //start_button = (Button) findViewById(R.id.start_button);
+        /*start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openSignUp();
             }
-        });
+        });*/
 
         login_button = (Button) findViewById(R.id.login_button);
         login_button.setOnClickListener(new View.OnClickListener() {

@@ -67,7 +67,7 @@ public class ESignature extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ESignature.this, CaptureCheque.class);
+                Intent intent = new Intent(ESignature.this, RemarksActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -131,7 +131,7 @@ public class CaptureCheque extends AppCompatActivity {
 
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
 
-        String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
+        String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Services"};
         Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
@@ -162,7 +162,7 @@ public class CaptureCheque extends AppCompatActivity {
                                     int result = cc.BayanChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
                                         startActivity(intent);
                                     }
                                     else{
