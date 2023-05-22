@@ -390,8 +390,7 @@ public class HomeFragment extends Fragment {
 
     /*public void post(String riderID){
         RequestBody rbody = new FormBody.Builder()
-                .add("company_name")
-    }*/
+                .add("company_name") */
 
     private String specificValue(String responseData){
         try{

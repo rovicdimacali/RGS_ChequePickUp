@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         cont = getActivity();
-
+        SessionManagement sm = new SessionManagement(cont);
         /*
         SessionManagement sm = new SessionManagement(cont);
         SqlDatabase sql = new SqlDatabase(cont);
@@ -97,8 +97,8 @@ public class ProfileFragment extends Fragment {
         //profile_name.setText(name.getString(0));
         //profile_number.setText(cp.getString(0));
 
-        profile_name.setText("Hello World");
-        profile_number.setText("09167065890");
+        profile_name.setText(sm.getSession());
+        //profile_number.setText("09167065890");
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
