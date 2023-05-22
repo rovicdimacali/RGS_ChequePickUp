@@ -104,17 +104,17 @@ public class CheckList extends AppCompatActivity {
                 if(payable.isChecked() && date.isChecked() && figures.isChecked()
                 && months.isChecked() && sign.isChecked() && !(erase.isChecked())){
                     //Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
-                    intent.putExtra("cheque", 1);
-                    startActivity(intent);
-                    //PopUpScenarios();
+                    //Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    //intent.putExtra("cheque", 1);
+                    //startActivity(intent);
+                    PopUpScenarios();
                 }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
-                    Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
-                    intent.putExtra("cheque", -1);
-                    startActivity(intent);
+                    //Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
+                    //Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    //intent.putExtra("cheque", -1);
+                    //startActivity(intent);
                 }
 
             }
