@@ -31,7 +31,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
             android:textAlignment="center"
-            android:text="Enter the Cheque Number"
+            android:text="Enter the Account Number"
             android:textColor="@color/black"
             android:textSize="18.5dp" />
 

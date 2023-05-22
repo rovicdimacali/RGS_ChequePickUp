@@ -160,9 +160,18 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+        SessionManagement sm = new SessionManagement(MainActivity.this);
+        String isLoggedIn = sm.getSession();
 
+        if(!(isLoggedIn.equals("none"))){
+            //Intent intent = new Intent(this, LoginActivity.class);
+            //startActivity(intent);
+        }
+        else if(isLoggedIn.equals("none")){
+            openLogin();
+        }
         //check if user is logged in
-        SqlDatabase sql = new SqlDatabase(MainActivity.this);
+        /*SqlDatabase sql = new SqlDatabase(MainActivity.this);
         SessionManagement sm = new SessionManagement(MainActivity.this);
         String isLoggedIn = sm.getSession();
 
@@ -180,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         else if(isLoggedIn.equals("none")){
             Toast.makeText(MainActivity.this, "Error saving your session", Toast.LENGTH_SHORT).show();
             openLogin();
-        }
+        }*/
     }
     public void openLogin(){
         //Move to main activity

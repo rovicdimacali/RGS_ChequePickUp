@@ -77,13 +77,14 @@ public class ProfileFragment extends Fragment {
 
         cont = getActivity();
 
+        /*
         SessionManagement sm = new SessionManagement(cont);
         SqlDatabase sql = new SqlDatabase(cont);
         String email = sm.getSession();
         Cursor name = sql.displayName(email);
         Cursor cp = sql.displayNumber(email);
         name.moveToFirst();
-        cp.moveToFirst();
+        cp.moveToFirst();*/
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
@@ -91,10 +92,13 @@ public class ProfileFragment extends Fragment {
         TextView logout_btn = (TextView) view.findViewById(R.id.logout_btn);
 
         profile_name = (TextView) view.findViewById(R.id.profile_name);
-        profile_number = (TextView) view.findViewById(R.id.profile_number);
+        //profile_number = (TextView) view.findViewById(R.id.profile_number);
 
-        profile_name.setText(name.getString(0));
-        profile_number.setText(cp.getString(0));
+        //profile_name.setText(name.getString(0));
+        //profile_number.setText(cp.getString(0));
+
+        profile_name.setText("Hello World");
+        profile_number.setText("09167065890");
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override

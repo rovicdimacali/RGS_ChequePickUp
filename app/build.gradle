@@ -55,4 +55,6 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
+    //OkHTTP
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 }

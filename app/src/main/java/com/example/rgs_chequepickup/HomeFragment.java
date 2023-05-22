@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -20,12 +21,26 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.io.IOException;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
+import SessionPackage.SessionManagement;
+import SessionPackage.UserSession;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,9 +65,12 @@ public class HomeFragment extends Fragment {
     ViewFlipper carousel;
     LinearLayout layout;
     TextView comp1,p1,ad1,cont1, next_arr, back_arr;
+    OkHttpClient client;
+    String responseData;
 
     public HomeFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -82,11 +100,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         cont = getContext();
+        SessionManagement sm = new SessionManagement(cont);
+        String rider = sm.getSession();
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         layout = view.findViewById(R.id.linearlayout);
@@ -365,4 +387,21 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+    /*public void post(String riderID){
+        RequestBody rbody = new FormBody.Builder()
+                .add("company_name")
+    }*/
+
+    private String specificValue(String responseData){
+        try{
+            JSONObject json = new JSONObject(responseData);
+            String value = json.getString("success");
+            return value;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
