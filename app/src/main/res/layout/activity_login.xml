@@ -111,7 +111,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/white" />
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_button"
@@ -134,7 +134,7 @@
             android:layout_toRightOf="@id/haveaccount"
             android:layout_marginLeft="5dp"
             android:text="Sign up" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 
 </RelativeLayout>

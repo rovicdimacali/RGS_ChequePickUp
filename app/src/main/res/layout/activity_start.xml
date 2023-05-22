@@ -37,7 +37,7 @@
         android:textColor="@color/rgs_gray"
         android:textSize="20dp" />
 
-    <Button
+    <!--<Button
         android:id="@+id/start_button"
         android:layout_width="323dp"
         android:layout_height="55dp"
@@ -46,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:backgroundTint="#94d300"
         android:text="Get Started"
-        android:textColor="@color/rgs_bg"/>
+        android:textColor="@color/rgs_bg"/>-->
 
     <Button
         android:id="@+id/login_button"
