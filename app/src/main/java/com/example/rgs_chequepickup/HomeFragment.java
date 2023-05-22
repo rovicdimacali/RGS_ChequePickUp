@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
@@ -67,7 +68,10 @@ public class HomeFragment extends Fragment {
     TextView comp1,p1,ad1,cont1, next_arr, back_arr;
     OkHttpClient client;
     String responseData;
-
+    ArrayList<String> compArr = new ArrayList<String>();
+    ArrayList<String> personArr = new ArrayList<String>();
+    ArrayList<String> contactArr = new ArrayList<String>();
+    ArrayList<String> addressArr = new ArrayList<String>();
     public HomeFragment() {
         // Required empty public constructor
 
@@ -107,9 +111,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         cont = getContext();
+        client = new OkHttpClient();
         SessionManagement sm = new SessionManagement(cont);
         String rider = sm.getSession();
-
+        Toast.makeText(cont, "rider " + rider, Toast.LENGTH_SHORT).show();
+        //post(rider);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         layout = view.findViewById(R.id.linearlayout);
 
@@ -146,7 +152,7 @@ public class HomeFragment extends Fragment {
         cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
 
         //COMPANY ARRAY
-        String compArr[] = {"PARAMOUNT HOTELS & FACILITIES MANAGEMENT COMPANY, INC.","PREMIERE MEDICAL AND CARDIOVASCULAR LABORATORY, INC."
+        /*String compArr[] = {"PARAMOUNT HOTELS & FACILITIES MANAGEMENT COMPANY, INC.","PREMIERE MEDICAL AND CARDIOVASCULAR LABORATORY, INC."
         ,"REJ DIAMOND PHARMACEUTICALS, INC.","AYALA LAND METRO NORTH, INC","MEGAWIDE CONSTRUCTION CORP.","PINAKAMASARAP CORPORATION"};
         //PERSON ARRAY
         String personArr[] = {"Ms. Norly Araneta","Avegail Ferasol","Charmaine De Jesus","Ranny A. Pimentel",
@@ -158,12 +164,14 @@ public class HomeFragment extends Fragment {
                 "#23 P. Dela St. San Bartolome Novaliches Quezon City"};
         //CONTACT ARRAY
         String contactArr[] = {"9178434921","9176245003","9175876919","9178643759",
-                "9178544177","9175694437"};
+                "9178544177","9175694437"};*/
 
-        comp1.setText(compArr[0]);
-        p1.setText(personArr[0]);
-        ad1.setText(addressArr[0]);
-        cont1.setText("+63"+contactArr[0]);
+        String api = "http://203.177.49.26:28110/tracker/api/accounts";
+        JsonObjectRe
+        comp1.setText(compArr.get(0));
+        p1.setText(personArr.get(0));
+        ad1.setText(addressArr.get(0));
+        cont1.setText("+63"+ contactArr.get(0));
 
         for(int i = 1; i < 5; i++){ //LOOP CARDS
             //BUTTONS
@@ -236,7 +244,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams conttext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             contact.setLayoutParams(conttext);
-            contact.setText("+63"+contactArr[i]);
+            contact.setText("+63"+ contactArr.get(i));
             contact.setTextColor(Color.BLACK);
             contact.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             contact.setTextSize(15);
@@ -245,7 +253,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams addtext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             add.setLayoutParams(addtext);
-            add.setText(addressArr[i]);
+            add.setText(addressArr.get(i));
             add.setTextColor(Color.BLACK);
             add.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             add.setTextSize(15);
@@ -254,7 +262,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams pertext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             per.setLayoutParams(pertext);
-            per.setText(personArr[i]);
+            per.setText(personArr.get(i));
             per.setTextColor(Color.BLACK);
             per.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             per.setTextSize(18);
@@ -263,7 +271,7 @@ public class HomeFragment extends Fragment {
             LinearLayout.LayoutParams comptext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             comp.setLayoutParams(comptext);
-            comp.setText(compArr[i]);
+            comp.setText(compArr.get(i));
             comp.setTextColor(Color.BLACK);
             comp.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
             comp.setTextSize(18);
@@ -388,19 +396,40 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    /*public void post(String riderID){
+    /*public void post(String rID){
         RequestBody rbody = new FormBody.Builder()
-                .add("company_name") */
-
-    private String specificValue(String responseData){
-        try{
-            JSONObject json = new JSONObject(responseData);
-            String value = json.getString("success");
-            return value;
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
+                .add("riderID", rID)
+                .build();
+        Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/accounts").post(rbody).build();
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(cont, "ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                };
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            responseData = response.body().string();
+                            JSONObject json = new JSONObject(responseData);
+                            compArr.add(json.getString( "company_name"));
+                            personArr.add(json.getString( "fullname"));
+                            contactArr.add(json.getString( "contact_no"));
+                            addressArr.add(json.getString( "address"));
+                        } catch (IOException | JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+            }
+        });
+    }*/
 }

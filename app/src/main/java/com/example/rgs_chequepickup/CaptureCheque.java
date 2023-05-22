@@ -39,7 +39,7 @@ public class CaptureCheque extends AppCompatActivity {
     RelativeLayout layout;
 
     TextView back_button;
-
+    int pic = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +73,16 @@ public class CaptureCheque extends AppCompatActivity {
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 101);
+                if(pic < 5){
+                    pic++;
+                    Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, 101);
+                }
+                else{
+                    Toast.makeText(CaptureCheque.this, "Counter Over", Toast.LENGTH_SHORT).show();
 
+                }
             }
         });
 
@@ -253,8 +260,8 @@ public class CaptureCheque extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            captured_image.setImageBitmap(bitmap);
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                captured_image.setImageBitmap(bitmap);
         }
     }
 }
