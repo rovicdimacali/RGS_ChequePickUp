@@ -31,19 +31,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import Database.CheckerCheque;
+import SessionPackage.accountManagement;
+import SessionPackage.accountSession;
+import SessionPackage.scenarioManagement;
+
 public class CaptureCheque extends AppCompatActivity {
 
     ImageView captured_image;
     Button camera_button, next_button;
-
+    Intent i;
+    String remark, cheq_stat;
     RelativeLayout layout;
-
     TextView back_button;
     int pic = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_cheque);
+
+        //INTENT
+        scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
+        remark = sm.getScene();
+        cheq_stat = sm.getStat();
 
         captured_image = (ImageView) findViewById(R.id.captured_image);
         camera_button = (Button) findViewById(R.id.camera_button);
@@ -65,6 +74,7 @@ public class CaptureCheque extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sm.removeScene();
                 Intent intent = new Intent(CaptureCheque.this, CheckList.class);
                 startActivity(intent);
             }
@@ -89,7 +99,7 @@ public class CaptureCheque extends AppCompatActivity {
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VerifyPopupWindow();
+                VerifyPopupWindow(remark);
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
                 builder.setCancelable(true);
@@ -118,12 +128,22 @@ public class CaptureCheque extends AppCompatActivity {
 
     }
 
-    private void VerifyPopupWindow() {
+    private void VerifyPopupWindow(String remark) {
         layout = (RelativeLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
 
         EditText chequeNum = popUpView.findViewById(R.id.cheque_number);
+        String[] services;
+        if(remark.equals("One Check, Multiple Accounts")  || remark.equals("One Cheque, Multiple Entities") ||
+                remark.equals("Multiple Cheques, One Entity") || remark.equals("Multiple Cheques, Multiple Entities")){
+            chequeNum.setText(remark);
+            chequeNum.setEnabled(false);
+            services = new String[]{"--SERVICES--", "Multiple Accounts", "Multiple Entities"};
+        }
+        else{
+            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts", "Multiple Entities"};
+        }
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -138,7 +158,7 @@ public class CaptureCheque extends AppCompatActivity {
 
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
 
-        String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Services"};
+        //String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Entities"};
         Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
@@ -170,6 +190,9 @@ public class CaptureCheque extends AppCompatActivity {
                                     if(result == 1){
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        accountManagement am = new accountManagement(CaptureCheque.this);
+                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                                        am.saveAccount(as);
                                         startActivity(intent);
                                     }
                                     else{
@@ -194,7 +217,10 @@ public class CaptureCheque extends AppCompatActivity {
                                     int result = cc.InnoveChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        accountManagement am = new accountManagement(CaptureCheque.this);
+                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                                        am.saveAccount(as);
                                         startActivity(intent);
                                     }
                                     else{
@@ -219,7 +245,10 @@ public class CaptureCheque extends AppCompatActivity {
                                     int result = cc.GlobeHandyphoneChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, ESignature.class);
+                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        accountManagement am = new accountManagement(CaptureCheque.this);
+                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                                        am.saveAccount(as);
                                         startActivity(intent);
                                     }
                                     else{
@@ -234,6 +263,43 @@ public class CaptureCheque extends AppCompatActivity {
                             else{
                                 Toast.makeText(CaptureCheque.this, "Account Number for GLOBE HP service must be 8 digits", Toast.LENGTH_SHORT).show();
                             }
+                        }
+                        //FA ID FOR POSTPAID
+                        else if(service.equals("FA ID: Postpaid")){
+                            if(chequeNum.getText().toString().length() == 9){
+                                CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
+                                int result = cc.FA_ID(chequeNum.getText().toString());
+                                if(result == 1){
+                                    Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                    accountManagement am = new accountManagement(CaptureCheque.this);
+                                    accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                                    am.saveAccount(as);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(CaptureCheque.this, "Account Number must be 9 digits", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(service.equals("Multiple Accounts")){
+                            Toast.makeText(CaptureCheque.this, "Multiple Accounts", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            accountManagement am = new accountManagement(CaptureCheque.this);
+                            accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                            am.saveAccount(as);
+                            startActivity(intent);
+                        }
+                        else if(service.equals("Multiple Entities")){
+                            Toast.makeText(CaptureCheque.this, "Multiple Entities", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            accountManagement am = new accountManagement(CaptureCheque.this);
+                            accountSession as = new accountSession(chequeNum.getText().toString(), service);
+                            am.saveAccount(as);
+                            startActivity(intent);
                         }
                         //Intent intent = new Intent(CaptureCheque.this, ESignature.class);
                         //startActivity(intent);

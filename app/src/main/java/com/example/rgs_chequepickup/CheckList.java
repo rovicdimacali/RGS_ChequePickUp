@@ -20,19 +20,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import SessionPackage.scenarioManagement;
+import SessionPackage.scenarioSession;
+
 public class CheckList extends AppCompatActivity {
 
     TextView back_button, date_btn;
-    Button submit;
+    Button submit, oneAcc, multAcc, multEnt, oneEnt, allMult;
     CheckBox payable, date, figures, months, sign, erase;
     LinearLayout layout;
+    Intent i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);
 
+
         //CHECKBOXES
-        payable = (CheckBox) findViewById(R.id.checkbox_payable);
+        payable = (CheckBox)findViewById(R.id.checkbox_payable);
         date = (CheckBox) findViewById(R.id.checkbox_date);
         figures = (CheckBox) findViewById(R.id.checkbox_figures);
         months = (CheckBox) findViewById(R.id.checkbox_6months);
@@ -112,9 +117,12 @@ public class CheckList extends AppCompatActivity {
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
                     //Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
-                    //Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    scenarioManagement sm = new scenarioManagement(CheckList.this);
+                    scenarioSession ss = new scenarioSession("Defective Cheque", "Defective");
+                    sm.saveScene(ss);
                     //intent.putExtra("cheque", -1);
-                    //startActivity(intent);
+                    startActivity(intent);
                 }
 
             }
@@ -130,6 +138,7 @@ public class CheckList extends AppCompatActivity {
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+
         layout.post(new Runnable() {
             @Override
             public void run() {
@@ -159,7 +168,65 @@ public class CheckList extends AppCompatActivity {
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
+
+        oneAcc = (Button) popUpView.findViewById(R.id.oneConeA);
+        multAcc = (Button) popUpView.findViewById(R.id.oneCmultA);
+        multEnt = (Button) popUpView.findViewById(R.id.oneCmultE);
+        oneEnt = (Button) popUpView.findViewById(R.id.multConeA);
+        allMult = (Button) popUpView.findViewById(R.id.multCmultE);
+
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+
+        oneAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(CheckList.this, CaptureCheque.class);
+                scenarioManagement sm = new scenarioManagement(CheckList.this);
+                scenarioSession ss = new scenarioSession("One Check, One Account", "Not Defective");
+                sm.saveScene(ss);
+                startActivity(i);
+            }
+        });
+        multAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(CheckList.this, CaptureCheque.class);
+                scenarioManagement sm = new scenarioManagement(CheckList.this);
+                scenarioSession ss = new scenarioSession("One Check, Multiple Accounts", "Not Defective");
+                sm.saveScene(ss);
+                startActivity(i);
+            }
+        });
+       multEnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(CheckList.this, CaptureCheque.class);
+                scenarioManagement sm = new scenarioManagement(CheckList.this);
+                scenarioSession ss = new scenarioSession("One Cheque, Multiple Entities", "Not Defective");
+                sm.saveScene(ss);
+                startActivity(i);
+            }
+        });
+        oneEnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(CheckList.this, CaptureCheque.class);
+                scenarioManagement sm = new scenarioManagement(CheckList.this);
+                scenarioSession ss = new scenarioSession("Multiple Cheques, One Entity", "Not Defective");
+                sm.saveScene(ss);
+                startActivity(i);
+            }
+        });
+       allMult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = new Intent(CheckList.this, CaptureCheque.class);
+                scenarioManagement sm = new scenarioManagement(CheckList.this);
+                scenarioSession ss = new scenarioSession("Multiple Cheques, Multiple Entities", "Not Defective");
+                sm.saveScene(ss);
+                startActivity(i);
+            }
+        });
         layout.post(new Runnable() {
             @Override
             public void run() {
