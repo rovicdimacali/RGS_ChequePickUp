@@ -192,7 +192,7 @@ public class CheckList extends AppCompatActivity {
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
                 scenarioManagement sm = new scenarioManagement(CheckList.this);
-                scenarioSession ss = new scenarioSession("One Check, Multiple Accounts", "Not Defective");
+                scenarioSession ss = new scenarioSession("One Account, Multiple Cheques", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
             }
@@ -202,7 +202,7 @@ public class CheckList extends AppCompatActivity {
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
                 scenarioManagement sm = new scenarioManagement(CheckList.this);
-                scenarioSession ss = new scenarioSession("One Cheque, Multiple Entities", "Not Defective");
+                scenarioSession ss = new scenarioSession("One Cheque, Multiple Accounts", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
             }
@@ -212,7 +212,7 @@ public class CheckList extends AppCompatActivity {
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
                 scenarioManagement sm = new scenarioManagement(CheckList.this);
-                scenarioSession ss = new scenarioSession("Multiple Cheques, One Entity", "Not Defective");
+                scenarioSession ss = new scenarioSession("One Cheque, Multiple Entities", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
             }
@@ -222,7 +222,7 @@ public class CheckList extends AppCompatActivity {
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
                 scenarioManagement sm = new scenarioManagement(CheckList.this);
-                scenarioSession ss = new scenarioSession("Multiple Cheques, Multiple Entities", "Not Defective");
+                scenarioSession ss = new scenarioSession("Multiple Accounts, Multiple Cheques", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
             }

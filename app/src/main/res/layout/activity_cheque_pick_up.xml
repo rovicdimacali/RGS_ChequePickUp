@@ -183,7 +183,23 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/black"
                     android:text="09274815025"/>
+            </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/code_container"
+                android:layout_below="@id/phone_container"
+                android:layout_marginVertical="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/compcode"
+                    android:textSize="20dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:text="09274815025"/>
             </RelativeLayout>
 
             <LinearLayout

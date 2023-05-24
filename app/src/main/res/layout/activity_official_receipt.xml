@@ -99,7 +99,7 @@
         android:textColor="@color/black" />
 
     <EditText
-        android:id="@+id/inputpassword"
+        android:id="@+id/inputchequeamount"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="28dp"
@@ -116,7 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_below="@+id/inputpassword"
+        android:layout_below="@+id/inputchequeamount"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
         android:text="Cheque Number"

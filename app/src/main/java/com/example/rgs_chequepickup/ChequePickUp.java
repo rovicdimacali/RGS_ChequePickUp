@@ -41,7 +41,7 @@ import SessionPackage.LocationSession;
 public class ChequePickUp extends AppCompatActivity {
 
     TextView icon_company, icon_name, icon_location, icon_number, address, back_button, number;
-    TextView company, person, addr, contact;
+    TextView company, person, addr, contact,code;
     Button go_button, arrived_button;
     RelativeLayout layout;
     FusedLocationProviderClient fspc;
@@ -66,17 +66,19 @@ public class ChequePickUp extends AppCompatActivity {
         String per = lm.getPer();
         String add = lm.getAdd();
         String cont = lm.getCont();
+        String company_code = lm.getCode();
 
         company = (TextView) findViewById(R.id.company);
         person = (TextView) findViewById(R.id.name);
         addr = (TextView) findViewById(R.id.address);
         contact = (TextView) findViewById(R.id.number);
+        code = (TextView) findViewById(R.id.compcode);
 
         company.setText(comp);
         person.setText(per);
         addr.setText(add);
         contact.setText(cont);
-
+        code.setText(company_code);
         //TEXTVIEWS
         icon_company = (TextView) findViewById(R.id.icon_company);
         icon_name = (TextView) findViewById(R.id.icon_name);

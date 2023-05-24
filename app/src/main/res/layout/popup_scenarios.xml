@@ -40,7 +40,7 @@
             android:id="@+id/oneCmultA"
             android:background="@color/rgs_green"
             android:fontFamily="@font/poppins_bold"
-            android:text="One Cheque - Multiple Accounts" />
+            android:text="One Account - Multiple Cheques" />
 
         <Button
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:id="@+id/oneCmultE"
             android:background="@color/rgs_green"
             android:fontFamily="@font/poppins_bold"
-            android:text="One Cheque - Multiple Entities" />
+            android:text="One Cheque - Multiple Accounts" />
 
         <Button
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             android:id="@+id/multConeA"
             android:background="@color/rgs_green"
             android:fontFamily="@font/poppins_bold"
-            android:text="Multiple Cheques - One Entity" />
+            android:text="One Cheque - Multiple Entities" />
 
         <Button
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:id="@+id/multCmultE"
             android:background="@color/rgs_green"
             android:fontFamily="@font/poppins_bold"
-            android:text="Multiple Cheques - Multiple Entities" />
+            android:text="Multiple Accounts - Multiple Cheques" />
 
     </LinearLayout>
 

@@ -31,6 +31,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import SessionPackage.LocationManagement;
+import SessionPackage.SignatureManagement;
+import SessionPackage.SignatureSession;
 
 public class ESignature extends AppCompatActivity {
 
@@ -77,7 +83,7 @@ public class ESignature extends AppCompatActivity {
         signature_pad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
             public void onStartSigning() {
-                Toast.makeText(ESignature.this, "Start Signing", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ESignature.this, "Start Signing", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -104,13 +110,13 @@ public class ESignature extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
-                if (addJpgSignatureToGallery(signatureBitmap)) {
+                if (addJpgSignatureToGallery(signatureBitmap) == true) {
                     Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ESignature.this, OfficialReceipt.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(ESignature.this, "Unable to store the signature", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ESignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
                 }
                 /*if (addSvgSignatureToGallery(signature_pad.getSignatureSvg())) {
                     Toast.makeText(ESignature.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
@@ -158,11 +164,28 @@ public class ESignature extends AppCompatActivity {
 
     public boolean addJpgSignatureToGallery(Bitmap signature) {
         boolean result = false;
+        Date currentDate = new Date();
+        SimpleDateFormat timeForm = new SimpleDateFormat("EEE, MMM d, ''yy");
+        String currentTime = timeForm.format(currentDate);
+
+        LocationManagement lm = new LocationManagement(ESignature.this);
+        String comp = lm.getComp();
+        String fileName = comp+"_"+currentTime+".jpg";
+
+        SignatureManagement sm = new SignatureManagement(ESignature.this);
+        SignatureSession ss = new SignatureSession(fileName);
+        sm.saveSign(ss);
+
         try {
-            File photo = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.jpg", System.currentTimeMillis()));
-            saveBitmapToJPG(signature, photo);
-            scanMediaFile(photo);
-            result = true;
+            if(signature == null){
+                result = false;
+            }
+            else{
+                File photo = new File(getAlbumStorageDir("RGS_Express Signs"), String.format(fileName, System.currentTimeMillis()));
+                saveBitmapToJPG(signature, photo);
+                scanMediaFile(photo);
+                result = true;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

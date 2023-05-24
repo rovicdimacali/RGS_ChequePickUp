@@ -14,7 +14,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,13 +32,28 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import Database.CheckerCheque;
+import SessionPackage.LocationManagement;
 import SessionPackage.accountManagement;
 import SessionPackage.accountSession;
+import SessionPackage.chequeManagement;
+import SessionPackage.chequeSession;
+import SessionPackage.remarkSession;
 import SessionPackage.scenarioManagement;
 
 public class CaptureCheque extends AppCompatActivity {
 
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     ImageView captured_image;
     Button camera_button, next_button;
     Intent i;
@@ -83,23 +100,28 @@ public class CaptureCheque extends AppCompatActivity {
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pic < 5){
-                    pic++;
-                    Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 101);
-                }
-                else{
-                    Toast.makeText(CaptureCheque.this, "Counter Over", Toast.LENGTH_SHORT).show();
-
-                }
+                //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 101);
             }
         });
 
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VerifyPopupWindow(remark);
+                scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
+                String res = sm.getStat();
+                if(res.equals("Defective")){
+                    accountSession as = new accountSession("N/A", "N/A");
+                    remarkSession rs = new remarkSession("Defective Cheque");
+
+                    Intent intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                    startActivity(intent);
+                }
+                else{
+                    VerifyPopupWindow(remark);
+                }
+
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
                 builder.setCancelable(true);
@@ -135,14 +157,14 @@ public class CaptureCheque extends AppCompatActivity {
 
         EditText chequeNum = popUpView.findViewById(R.id.cheque_number);
         String[] services;
-        if(remark.equals("One Check, Multiple Accounts")  || remark.equals("One Cheque, Multiple Entities") ||
-                remark.equals("Multiple Cheques, One Entity") || remark.equals("Multiple Cheques, Multiple Entities")){
+        if(remark.equals("One Cheque, Multiple Accounts")  || remark.equals("One Cheque, Multiple Entities") ||
+                remark.equals("Multiple Accounts, Multiple Cheques")){
             chequeNum.setText(remark);
             chequeNum.setEnabled(false);
             services = new String[]{"--SERVICES--", "Multiple Accounts", "Multiple Entities"};
         }
         else{
-            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts", "Multiple Entities"};
+            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
         }
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -328,6 +350,45 @@ public class CaptureCheque extends AppCompatActivity {
         if(requestCode == 101) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 captured_image.setImageBitmap(bitmap);
+                saveImageToGallery(bitmap);
         }
     }
+
+    private void saveImageToGallery(Bitmap bitmap) {
+        LocationManagement lm = new LocationManagement(CaptureCheque.this);
+        String comp = lm.getComp();
+
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
+
+        // GET DIR
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imageFile = new File(storageDir, imageName);
+
+        chequeManagement cm = new chequeManagement(CaptureCheque.this);
+        chequeSession cs = new chequeSession(String.valueOf(imageFile));
+        cm.saveCheck(cs);
+
+        try {
+            // CREATE DIRECTORY IF NONE
+            if (!storageDir.exists()) {
+                storageDir.mkdirs();
+            }
+            // IMAGE SAVE
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+            outputStream.close();
+
+            // SAVED IMAGED NOTIF
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri image = Uri.fromFile(imageFile);
+            intent.setData(image);
+            sendBroadcast(intent);
+
+            //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

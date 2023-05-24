@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
     CardView customer_btn;
     View view;
     LinearLayout layout;
-    TextView comp1,p1,ad1,cont1, next_arr, back_arr;
+    TextView comp1,p1,ad1,cont1,code1, next_arr, back_arr;
     OkHttpClient client;
     String responseData;
 
@@ -162,6 +162,7 @@ public class HomeFragment extends Fragment {
         p1 = (TextView) customer_btn.findViewById(R.id.companyperson);
         ad1 = (TextView) customer_btn.findViewById(R.id.companyadd);
         cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
+        code1 = (TextView) customer_btn.findViewById(R.id.company_code);
 
         //post(rider);
 
@@ -177,7 +178,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ChequePickUp.class);
                 LocationManagement lm = new LocationManagement(cont);
                 LocationSession ls = new LocationSession(String.valueOf(comp1.getText()), String.valueOf(p1.getText()),
-                        String.valueOf(ad1.getText()),String.valueOf(cont1.getText()));
+                        String.valueOf(ad1.getText()),String.valueOf(cont1.getText()), String.valueOf(code1.getText()));
                 lm.saveLocation(ls);
                 /*intent.putExtra("company", comp1.getText().toString());
                 intent.putExtra("person", p1.getText().toString());
@@ -257,16 +258,28 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    JSONObject item2 = associativeArray.getJSONObject(0);
-                    String og1 = item2.getString("company_name");
-                    String og2 = item2.getString("fullname");
-                    String og3 = item2.getString("address");
-                    String og4 = item2.getString("contact_no");
+                    if(associativeArray.length() == 0){
+                        comp1.setText("NULL");
+                        p1.setText("NULL");
+                        ad1.setText("NULL");
+                        cont1.setText("NULL");
+                        code1.setText("NULL");
+                    }
+                    else{
+                        JSONObject item2 = associativeArray.getJSONObject(0);
+                        String og1 = item2.getString("company_name");
+                        String og2 = item2.getString("fullname");
+                        String og3 = item2.getString("address");
+                        String og4 = item2.getString("contact_no");
+                        String og5 = item2.getString("company_code");
 
-                    comp1.setText(og1);
-                    p1.setText(og2);
-                    ad1.setText(og3);
-                    cont1.setText(og4);
+                        comp1.setText(og1);
+                        p1.setText(og2);
+                        ad1.setText(og3);
+                        cont1.setText(og4);
+                        code1.setText(og5);
+                    }
+
                     // Iterate over the associative array
                     for (int i = 1; i < associativeArray.length(); i++) {
                         JSONObject item = associativeArray.getJSONObject(i);
@@ -276,6 +289,7 @@ public class HomeFragment extends Fragment {
                         String value2 = item.getString("fullname");
                         String value3 = item.getString("address");
                         String value4 = item.getString("contact_no");
+                        String value5 = item.getString("company_code");
                         // Display the values or perform further processing
                         /*
                         Log.d("AssociativeArray", "Value 1: " + value1);
@@ -354,6 +368,15 @@ public class HomeFragment extends Fragment {
                         new_2ll.setOrientation(LinearLayout.HORIZONTAL);
 
                         //TEXT VIEWS
+                        TextView code = new TextView(cont);
+                        LinearLayout.LayoutParams codetext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                        code.setLayoutParams(codetext);
+                        code.setText(value5);
+                        code.setTextColor(Color.BLACK);
+                        code.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
+                        code.setTextSize(15);
+
                         TextView contact = new TextView(cont);
                         LinearLayout.LayoutParams conttext = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -428,6 +451,7 @@ public class HomeFragment extends Fragment {
                         new_ll.addView(per);
                         new_ll.addView(add);
                         new_ll.addView(contact);
+                        new_ll.addView(code);
                         new_ll.addView(new_2ll);
                         new_2ll.addView(back);
                         new_2ll.addView(go);
@@ -442,7 +466,7 @@ public class HomeFragment extends Fragment {
                                 Intent intent = new Intent(cont, ChequePickUp.class);
                                 LocationManagement lm = new LocationManagement(cont);
                                 LocationSession ls = new LocationSession(String.valueOf(comp.getText()), String.valueOf(per.getText()),
-                                        String.valueOf(add.getText()),String.valueOf(contact.getText()));
+                                        String.valueOf(add.getText()),String.valueOf(contact.getText()), String.valueOf(code.getText()));
                                 lm.saveLocation(ls);
                             /*intent.putExtra("company", comp1.getText().toString());
                             intent.putExtra("person", p1.getText().toString());

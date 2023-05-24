@@ -5,12 +5,14 @@ public class LocationSession {
     String person;
     String address;
     String contact;
+    String code;
 
-    public LocationSession(String company, String person, String address, String contact) {
+    public LocationSession(String company, String person, String address, String contact, String code) {
         this.company = company;
         this.person = person;
         this.address = address;
         this.contact = contact;
+        this.code = code;
     }
 
     public String getCompany() {
@@ -43,5 +45,13 @@ public class LocationSession {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.company = company;
     }
 }
