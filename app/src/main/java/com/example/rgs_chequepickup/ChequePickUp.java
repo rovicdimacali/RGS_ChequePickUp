@@ -40,7 +40,7 @@ import SessionPackage.LocationSession;
 
 public class ChequePickUp extends AppCompatActivity {
 
-    TextView icon_company, icon_name, icon_location, icon_number, address, back_button, number;
+    TextView icon_company, icon_name, icon_location, icon_number, icon_code, address, back_button, number;
     TextView company, person, addr, contact,code;
     Button go_button, arrived_button;
     RelativeLayout layout;
@@ -84,6 +84,7 @@ public class ChequePickUp extends AppCompatActivity {
         icon_name = (TextView) findViewById(R.id.icon_name);
         icon_location = (TextView) findViewById(R.id.icon_location);
         icon_number = (TextView) findViewById(R.id.icon_number);
+        icon_code = (TextView) findViewById(R.id.icon_code);
         address = (TextView) findViewById(R.id.address);//Address
         number = (TextView) findViewById(R.id.number);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -98,12 +99,14 @@ public class ChequePickUp extends AppCompatActivity {
         icon_name.setTypeface(font);
         icon_location.setTypeface(font);
         icon_number.setTypeface(font);
+        icon_code.setTypeface(font);
         back_button.setTypeface(font);
 
         icon_company.setText("\uf1ad");
         icon_name.setText("\uf007");
         icon_location.setText("\uf015");
         icon_number.setText("\uf2a0");
+        icon_code.setText("\uf25d");
         back_button.setText("\uf060");
 
         fspc = LocationServices.getFusedLocationProviderClient(this);

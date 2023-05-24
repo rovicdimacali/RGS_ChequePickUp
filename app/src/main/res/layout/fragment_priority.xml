@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rgs_bg"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/back_button"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Priority List"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:background="@drawable/header"
+                android:paddingVertical="15dp"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="353dp"
+            android:layout_height="177dp"
+            android:layout_below="@id/header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="-10dp"
+            android:layout_marginStart="-10dp"
+            android:background="@drawable/text_bg"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingVertical="65dp"
+            android:text="Priority Pick Up"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ViewFlipper
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/carousel">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/customer_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-20dp"
+                        android:layout_marginEnd="-5dp"
+                        android:layout_marginStart="-5dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/relativeLayout">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_centerVertical="true"
+                                android:paddingHorizontal="10dp"
+                                android:id="@+id/linearlayout"
+                                android:paddingVertical="20dp">
+
+                                <TextView
+                                    android:id="@+id/companyname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="18dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/companyperson"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="18dp"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/companyadd"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/companycontact"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/company_code"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="15dp"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/back_arrow"
+                                        android:layout_weight="1"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:text="Back"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:textSize="20dp"/>
+
+                                    <Button
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/go_button"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginEnd="10dp"
+                                        android:text="LET'S GO"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:background="@color/rgs_green"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/next_arrow"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="Next"
+                                        android:textAlignment="textEnd"
+                                        android:fontFamily="@font/poppins_bold"
+                                        android:textSize="20dp"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </ViewFlipper>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

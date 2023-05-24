@@ -31,8 +31,8 @@ import SessionPackage.SessionManagement;
 import SessionPackage.UserSession;
 public class MainActivity extends AppCompatActivity {
 
-    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile;
-    LinearLayout home_btn, profile_btn;
+    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile, text_priority, icon_priority;
+    LinearLayout home_btn, profile_btn, priority_btn;
     Intent intent;
 
     RelativeLayout layout;
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         layout = (RelativeLayout) findViewById(R.id.relative);
-
         tv = (TextView) findViewById(R.id.text_home);
         intent = getIntent();
 
@@ -55,14 +54,17 @@ public class MainActivity extends AppCompatActivity {
 
         home = (TextView) findViewById(R.id.icon_home);
         profile = (TextView) findViewById(R.id.icon_profile);
+        icon_priority = (TextView) findViewById(R.id.icon_priority);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         home.setTypeface(font);
         profile.setTypeface(font);
+        icon_priority.setTypeface(font);
 
         home.setText("\uf015");
         profile.setText("\uf007");
+        icon_priority.setText("\uf06a");
 
         /* ------------ END: Get textview to replace text with font awesome ------------ */
 
@@ -70,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         home_btn = (LinearLayout) findViewById(R.id.home_button);
         profile_btn= (LinearLayout) findViewById(R.id.profile_button);
+        priority_btn= (LinearLayout) findViewById(R.id.priority_button);
         icon_home = (TextView) findViewById(R.id.icon_home);
         text_home = (TextView) findViewById(R.id.text_home);
         icon_profile = (TextView) findViewById(R.id.icon_profile);
         text_profile = (TextView) findViewById(R.id.text_profile);
+        text_priority = (TextView) findViewById(R.id.text_priority);
 
         home_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +91,29 @@ public class MainActivity extends AppCompatActivity {
 
                 text_home.setTextColor(Color.parseColor("#b0e32e"));
                 icon_home.setTextColor(Color.parseColor("#b0e32e"));
+                text_priority.setTextColor(Color.parseColor("#808080"));
+                icon_priority.setTextColor(Color.parseColor("#808080"));
                 text_profile.setTextColor(Color.parseColor("#808080"));
                 icon_profile.setTextColor(Color.parseColor("#808080"));
+            }
+        });
 
+        priority_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainerView, PriorityFragment.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null)
+                        .commit();
+
+                text_home.setTextColor(Color.parseColor("#808080"));
+                icon_home.setTextColor(Color.parseColor("#808080"));
+                text_priority.setTextColor(Color.parseColor("#b0e32e"));
+                icon_priority.setTextColor(Color.parseColor("#b0e32e"));
+                text_profile.setTextColor(Color.parseColor("#808080"));
+                icon_profile.setTextColor(Color.parseColor("#808080"));
             }
         });
 
@@ -104,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
                 text_home.setTextColor(Color.parseColor("#808080"));
                 icon_home.setTextColor(Color.parseColor("#808080"));
+                text_priority.setTextColor(Color.parseColor("#808080"));
+                icon_priority.setTextColor(Color.parseColor("#808080"));
                 text_profile.setTextColor(Color.parseColor("#b0e32e"));
                 icon_profile.setTextColor(Color.parseColor("#b0e32e"));
 

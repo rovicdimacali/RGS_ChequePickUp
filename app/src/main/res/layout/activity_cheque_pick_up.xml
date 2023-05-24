@@ -195,8 +195,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/icon_code"
+                    android:textSize="23dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:text="O"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/compcode"
                     android:textSize="20dp"
+                    android:layout_toRightOf="@id/icon_code"
                     android:layout_centerVertical="true"
                     android:textColor="@color/black"
                     android:text="09274815025"/>

@@ -49,6 +49,36 @@
             android:inputType="number"
             android:textSize="15dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:id="@+id/services_checklist"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <CheckBox android:id="@+id/checkbox_bayan"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Bayan Services" />
+            <CheckBox android:id="@+id/checkbox_innove"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Innove Services" />
+            <CheckBox android:id="@+id/checkbox_globe"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Globe Handyphone Services" />
+
+        </LinearLayout>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_spinner"
             android:layout_width="match_parent"

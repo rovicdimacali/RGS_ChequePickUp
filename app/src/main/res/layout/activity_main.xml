@@ -57,6 +57,36 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/priority_button"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/icon_priority"
+                android:text=""
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_priority"
+                android:layout_below="@id/text_priority"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="Priority"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="50"
             android:gravity="center"
             android:id="@+id/profile_button"
