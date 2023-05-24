@@ -11,12 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import SessionPackage.LocationManagement;
+import SessionPackage.LocationSession;
+import SessionPackage.ReceiptManagement;
+import SessionPackage.ReceiptSession;
 import SessionPackage.scenarioManagement;
 
 public class OfficialReceipt extends AppCompatActivity {
 
     TextView back_button;
-    EditText cheq_num, cheq_amount;
+    EditText cheq_num, cheq_amount, compname, compadd, tin;
     Button submit_btn;
     String remark;
 
@@ -25,11 +29,24 @@ public class OfficialReceipt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_official_receipt);
 
+        ReceiptManagement rm = new ReceiptManagement(OfficialReceipt.this);
+        LocationManagement lm = new LocationManagement(OfficialReceipt.this);
         scenarioManagement sm = new scenarioManagement(OfficialReceipt.this);
         remark = sm.getScene();
 
+
+        compname = (EditText) findViewById(R.id.inputcompany);
+        compadd = (EditText) findViewById(R.id.inputaddress);
+        tin = (EditText) findViewById(R.id.inputtin);
         cheq_amount = (EditText) findViewById(R.id.inputchequeamount);
-        cheq_num = (EditText)  findViewById(R.id.inputchequenumber);
+        cheq_num = (EditText) findViewById(R.id.inputchequenumber);
+
+        /*if(!(rm.getTin().isEmpty())){
+            tin.setText(rm.getTin());
+        }*/
+
+        compname.setText(lm.getComp());
+        compadd.setText(lm.getAdd());
 
         if(remark.equals("One Account, Multiple Cheques") || remark.equals("Multiple Accounts, Multiple Cheques"))
         {
@@ -50,6 +67,7 @@ public class OfficialReceipt extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rm.removeReceipt();
                 openEsignature();
             }
         });
@@ -57,6 +75,8 @@ public class OfficialReceipt extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), String.valueOf(cheq_amount.getText()), String.valueOf(cheq_num.getText()));
+                rm.saveReceipt(rs);
                 //Toast.makeText(OfficialReceipt.this, "Transaction Completed", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
                 startActivity(intent);

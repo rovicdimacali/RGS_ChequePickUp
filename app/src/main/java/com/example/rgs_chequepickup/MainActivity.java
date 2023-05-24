@@ -1,5 +1,6 @@
 package com.example.rgs_chequepickup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -24,19 +25,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.w3c.dom.Text;
+
+import java.io.IOException;
 
 import Database.SqlDatabase;
 import SessionPackage.SessionManagement;
 import SessionPackage.UserSession;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
 
-    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile, text_priority, icon_priority;
+    TextView home,  tv, profile, icon_home, text_home, icon_profile, text_profile, text_priority;
+    private TextView icon_priority;
     LinearLayout home_btn, profile_btn, priority_btn;
     Intent intent;
-
+    //OkHttpClient client;
+    String responseData;
     RelativeLayout layout;
-
+    int prio_num;
+    int prio_res;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         layout = (RelativeLayout) findViewById(R.id.relative);
         tv = (TextView) findViewById(R.id.text_home);
         intent = getIntent();
+
+        SessionManagement sm = new SessionManagement(MainActivity.this);
+        String rider = sm.getSession();
+
+        fetchDataWithSpecificValue(rider);
 
         /* ------------ START: Get textview to replace text with font awesome ------------ */
         String inputemail = intent.getStringExtra("email");
@@ -66,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         profile.setText("\uf007");
         icon_priority.setText("\uf06a");
 
+
         /* ------------ END: Get textview to replace text with font awesome ------------ */
 
         /* ------------ START: Change Fragment and Change Color of Nav Buttons On Click Navbar Buttons ------------ */
@@ -78,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         icon_profile = (TextView) findViewById(R.id.icon_profile);
         text_profile = (TextView) findViewById(R.id.text_profile);
         text_priority = (TextView) findViewById(R.id.text_priority);
-
         home_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +113,12 @@ public class MainActivity extends AppCompatActivity {
                 text_home.setTextColor(Color.parseColor("#b0e32e"));
                 icon_home.setTextColor(Color.parseColor("#b0e32e"));
                 text_priority.setTextColor(Color.parseColor("#808080"));
-                icon_priority.setTextColor(Color.parseColor("#808080"));
+                if(prio_num == 1){
+                    icon_priority.setTextColor(Color.RED);
+                }
+                else{
+                    icon_priority.setTextColor(Color.parseColor("#808080"));
+                }
                 text_profile.setTextColor(Color.parseColor("#808080"));
                 icon_profile.setTextColor(Color.parseColor("#808080"));
             }
@@ -111,7 +137,12 @@ public class MainActivity extends AppCompatActivity {
                 text_home.setTextColor(Color.parseColor("#808080"));
                 icon_home.setTextColor(Color.parseColor("#808080"));
                 text_priority.setTextColor(Color.parseColor("#b0e32e"));
-                icon_priority.setTextColor(Color.parseColor("#b0e32e"));
+                if(prio_num == 1){
+                    icon_priority.setTextColor(Color.RED);
+                }
+                else{
+                    icon_priority.setTextColor(Color.parseColor("#b0e32e"));
+                }
                 text_profile.setTextColor(Color.parseColor("#808080"));
                 icon_profile.setTextColor(Color.parseColor("#808080"));
             }
@@ -129,7 +160,12 @@ public class MainActivity extends AppCompatActivity {
                 text_home.setTextColor(Color.parseColor("#808080"));
                 icon_home.setTextColor(Color.parseColor("#808080"));
                 text_priority.setTextColor(Color.parseColor("#808080"));
-                icon_priority.setTextColor(Color.parseColor("#808080"));
+                if(prio_num == 1){
+                    icon_priority.setTextColor(Color.RED);
+                }
+                else{
+                    icon_priority.setTextColor(Color.parseColor("#808080"));
+                }
                 text_profile.setTextColor(Color.parseColor("#b0e32e"));
                 icon_profile.setTextColor(Color.parseColor("#b0e32e"));
 
@@ -189,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
         SessionManagement sm = new SessionManagement(MainActivity.this);
         String isLoggedIn = sm.getSession();
 
+        fetchDataWithSpecificValue(sm.getSession());
+
         if(!(isLoggedIn.equals("none"))){
             //Intent intent = new Intent(this, LoginActivity.class);
             //startActivity(intent);
@@ -222,5 +260,55 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private void fetchDataWithSpecificValue(String riderID) {
+        OkHttpClient client = new OkHttpClient();
+
+        // Construct the URL with the specific value
+        String url = "http://203.177.49.26:28110/tracker/api/priority";
+        RequestBody rbody = new FormBody.Builder()
+                .add("riderID", riderID)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(rbody)
+                .build();
+
+        // Execute the request asynchronously
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    //String responseData = " ";
+                    //responseData = responseData.replace("<br", "");
+                    try {
+                        JSONArray jsonArray = new JSONArray(responseData);
+                        //JSONArray jsonArray = new JSONArray(resp);
+                        if(jsonArray.length() > 0){
+                            //icon_priority.setTextColor(Color.RED);
+                            icon_priority.setTextColor(Color.RED);
+                            prio_num = 1;
+                        }
+                        else{
+                            //icon_priority.setTextColor(Color.parseColor("#b0e32e"));
+                            icon_priority.setTextColor(Color.parseColor("#808080"));
+                            prio_num = -1;
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Handle unsuccessful response
+                }
+            }
+        });
     }
 }

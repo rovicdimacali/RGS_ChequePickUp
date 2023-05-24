@@ -37,7 +37,7 @@
             android:background="@drawable/text_bg"
             android:fontFamily="@font/poppins_bold"
             android:paddingVertical="65dp"
-            android:text="Priority Pick Up"
+            android:text="Pick Up Points"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="30dp" />

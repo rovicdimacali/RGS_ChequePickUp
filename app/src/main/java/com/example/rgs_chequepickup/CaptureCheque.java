@@ -3,6 +3,7 @@ package com.example.rgs_chequepickup;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PackageManagerCompat;
@@ -25,8 +26,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -56,9 +59,12 @@ public class CaptureCheque extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     ImageView captured_image;
     Button camera_button, next_button;
+    LinearLayout checklist;
     Intent i;
     String remark, cheq_stat;
     RelativeLayout layout;
+    CardView services_list;
+    CheckBox bayan, innove, globe;
     TextView back_button;
     int pic = 0;
     @Override
@@ -154,6 +160,17 @@ public class CaptureCheque extends AppCompatActivity {
         layout = (RelativeLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
+        services_list = popUpView.findViewById(R.id.cardView_spinner);
+
+        Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
+        checklist = (LinearLayout) popUpView.findViewById(R.id.services_checklist);
+
+        services_list.setVisibility(View.VISIBLE);
+        checklist.setVisibility(View.GONE);
+
+        bayan = (CheckBox) checklist.findViewById(R.id.checkbox_bayan);
+        innove = (CheckBox) checklist.findViewById(R.id.checkbox_innove);
+        globe = (CheckBox) checklist.findViewById(R.id.checkbox_globe);
 
         EditText chequeNum = popUpView.findViewById(R.id.cheque_number);
         String[] services;
@@ -161,7 +178,20 @@ public class CaptureCheque extends AppCompatActivity {
                 remark.equals("Multiple Accounts, Multiple Cheques")){
             chequeNum.setText(remark);
             chequeNum.setEnabled(false);
-            services = new String[]{"--SERVICES--", "Multiple Accounts", "Multiple Entities"};
+
+            String remarklist;
+
+            if(remark.equals("One Cheque, Multiple Entities")){
+                services_list.setVisibility(View.GONE);
+                checklist.setVisibility(View.VISIBLE);
+                remarklist = "Multiple Entities";
+            }
+            else{
+                services_list.setVisibility(View.VISIBLE);
+                checklist.setVisibility(View.GONE);
+                remarklist = "Multiple Accounts";
+            }
+            services = new String[]{remarklist};
         }
         else{
             services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
@@ -181,7 +211,6 @@ public class CaptureCheque extends AppCompatActivity {
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
 
         //String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Entities"};
-        Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
         adapter.setDropDownViewResource(R.layout.simple_spinner_item);
@@ -332,6 +361,19 @@ public class CaptureCheque extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+        verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String checked_services = String.valueOf(bayan.getText()) + ", " + String.valueOf(innove.getText()) +
+                        ", " + String.valueOf(globe.getText());
+                Toast.makeText(CaptureCheque.this, "Multiple Entities", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                accountManagement am = new accountManagement(CaptureCheque.this);
+                accountSession as = new accountSession(chequeNum.getText().toString(), checked_services);
+                am.saveAccount(as);
+                startActivity(intent);
             }
         });
         /*verify.setOnClickListener(new View.OnClickListener() {

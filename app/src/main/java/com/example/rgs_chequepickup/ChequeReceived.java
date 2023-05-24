@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import SessionPackage.LocationManagement;
+import SessionPackage.ReceiptManagement;
 import SessionPackage.SessionManagement;
 import SessionPackage.SignatureManagement;
 import SessionPackage.SignatureSession;
@@ -135,6 +136,7 @@ public class ChequeReceived extends AppCompatActivity {
     public void postResults(String longitude, String latitude){
         MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
+        ReceiptManagement rm = new ReceiptManagement(ChequeReceived.this);
         SessionManagement sess_m = new SessionManagement(ChequeReceived.this);
         scenarioManagement scene_m = new scenarioManagement(ChequeReceived.this);
         accountManagement acc_m = new accountManagement(ChequeReceived.this);
@@ -167,11 +169,17 @@ public class ChequeReceived extends AppCompatActivity {
                         .addFormDataPart("chk_address", loc_m.getAdd())
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
+                        .addFormDataPart("chk_tin", "None")
+                        .addFormDataPart("chk_amount", "None")
+                        .addFormDataPart("chk_number", "None")
                         .addFormDataPart("latitude", latitude)
                         .addFormDataPart("longitude", longitude)
                         .build();
             }
             //sign_m.getSign(), RequestBody.create(MEDIA_TYPE_JPEG, new File(imagePath))
+            /*.addFormDataPart("chk_tin", rm.getTin())
+                        .addFormDataPart("chk_amount", rm.getAmount())
+                        .addFormDataPart("chk_number", rm.getNumber())*/
             else{
                 rbody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -185,6 +193,9 @@ public class ChequeReceived extends AppCompatActivity {
                         .addFormDataPart("chk_address", loc_m.getAdd())
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
+                        .addFormDataPart("chk_tin", rm.getTin())
+                        .addFormDataPart("chk_amount", rm.getAmount())
+                        .addFormDataPart("chk_number", rm.getNumber())
                         .addFormDataPart("latitude", latitude)
                         .addFormDataPart("longitude", longitude)
                         .build();
@@ -212,8 +223,8 @@ public class ChequeReceived extends AppCompatActivity {
                                 String value = specificValue(responseData);
                                 //value.replace("<br />", "");
                                 if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                    Toast.makeText(ChequeReceived.this, "Transaction Success\nSuccess Code: " + value, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
                                     //sess_m.removeSession();
                                     scene_m.removeScene();
                                     acc_m.removeAcc();
@@ -221,6 +232,7 @@ public class ChequeReceived extends AppCompatActivity {
                                     loc_m.removeLocation();
                                     sign_m.removeSign();
                                     cs.removeCheck();
+                                    rm.removeReceipt();
                                     Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
@@ -230,7 +242,8 @@ public class ChequeReceived extends AppCompatActivity {
                                     loc_m.removeLocation();
                                     sign_m.removeSign();
                                     cs.removeCheck();
-                                    comp.setText(value);
+                                    rm.removeReceipt();
+                                    //comp.setText(value);
                                     Toast.makeText(ChequeReceived.this, value, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException e) {

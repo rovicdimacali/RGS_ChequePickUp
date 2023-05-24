@@ -138,27 +138,27 @@ public class HomeFragment extends Fragment {
 
         back_arrow = (TextView) view.findViewById(R.id.back_arrow);
         next_arrow = (TextView) view.findViewById(R.id.next_arrow);
-        company_icon = (TextView) view.findViewById(R.id.companyicon);
+        /*company_icon = (TextView) view.findViewById(R.id.companyicon);
         person_icon = (TextView) view.findViewById(R.id.personicon);
         address_icon = (TextView) view.findViewById(R.id.addressicon);
         number_icon = (TextView) view.findViewById(R.id.numbericon);
-        code_icon = (TextView) view.findViewById(R.id.codeicon);
+        code_icon = (TextView) view.findViewById(R.id.codeicon);*/
 
         Typeface font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
         back_arrow.setTypeface(font);
         next_arrow.setTypeface(font);
-        company_icon.setTypeface(font);
+        /*company_icon.setTypeface(font);
         person_icon.setTypeface(font);
         address_icon.setTypeface(font);
         number_icon.setTypeface(font);
-        code_icon.setTypeface(font);
+        code_icon.setTypeface(font);*/
 
-        company_icon.setText("\uf1ad");
+        /*company_icon.setText("\uf1ad");
         person_icon.setText("\uf007");
         address_icon.setText("\uf015");
         number_icon.setText("\uf2a0");
-        code_icon.setText("\uf25d");
+        code_icon.setText("\uf25d");*/
         back_arrow.setText("\uf060");
         next_arrow.setText("\uf061");
 
@@ -275,11 +275,11 @@ public class HomeFragment extends Fragment {
             public void run() {
                 try {
                     if(associativeArray.length() == 0){
-                        comp1.setText("NULL");
-                        p1.setText("NULL");
-                        ad1.setText("NULL");
-                        cont1.setText("NULL");
-                        code1.setText("NULL");
+                        comp1.setText("NO TASK");
+                        p1.setText("NO TASK");
+                        ad1.setText("NO TASK");
+                        cont1.setText("NO TASK");
+                        code1.setText("NO TASK");
                     }
                     else{
                         JSONObject item2 = associativeArray.getJSONObject(0);
