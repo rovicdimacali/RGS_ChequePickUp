@@ -42,13 +42,30 @@
             android:textColor="@color/white"
             android:textSize="30dp" />
 
+        <TextView
+            android:id="@+id/notask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="-10dp"
+            android:layout_marginStart="-10dp"
+            android:text="No Task Available"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
         <ScrollView
+            android:id="@+id/scroll_pick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
+            android:visibility="visible"
             android:layout_marginBottom="10dp">
 
             <LinearLayout
