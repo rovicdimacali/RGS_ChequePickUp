@@ -1,152 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OfficialReceipt"
-    android:layout_marginEnd="20dp">
+    android:orientation="vertical"
+    tools:context=".OfficialReceipt">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hello"
         android:textSize="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingVertical="15dp"
+        android:background="@color/rgs_bg"
         android:id="@+id/back_button"/>
 
-    <TextView
-        android:id="@+id/companytitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@id/back_button"
-        android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        android:text="Company Name"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/inputcompany"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/companytitle"
-        android:hint="Company Name"
-        android:padding="20dp"
-        android:background="#F2F2F2"
-        android:textSize="15dp" />
-
-    <TextView
-        android:id="@+id/businessaddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/inputcompany"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:text="Business Address"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/inputaddress"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_below="@+id/businessaddress"
-        android:layout_marginTop="5dp"
-        android:hint="Business Address"
-        android:padding="20dp"
-        android:background="#F2F2F2"
-        android:textSize="15dp"
-        android:inputType="text"/>
-
-    <TextView
-        android:id="@+id/tinNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/inputaddress"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:text="TIN Number"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/inputtin"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_below="@+id/tinNumber"
-        android:layout_marginTop="5dp"
-        android:hint="TIN Number"
-        android:padding="20dp"
-        android:background="#F2F2F2"
-        android:textSize="15dp"
-        android:inputType="text"/>
-
-    <TextView
-        android:id="@+id/chequeamount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/inputtin"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:text="Cheque Amount"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/inputchequeamount"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_below="@+id/chequeamount"
-        android:layout_marginTop="5dp"
-        android:hint="Cheque Amount"
-        android:padding="20dp"
-        android:background="#F2F2F2"
-        android:textSize="15dp"
-        android:inputType="text"/>
-
-    <TextView
-        android:id="@+id/chequenumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/inputchequeamount"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:text="Cheque Number"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/inputchequenumber"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_below="@+id/chequenumber"
-        android:layout_marginTop="5dp"
-        android:hint="Cheque Number"
-        android:padding="20dp"
-        android:background="#F2F2F2"
-        android:textSize="15dp"
-        android:inputType="text"/>
-
-    <Button
-        android:id="@+id/submit_button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="30dp"
-        android:layout_below="@id/inputchequenumber"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_button"
-        android:text="Submit"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/companytitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="Company Name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputcompany"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="Company Name"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/payeetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:textStyle="bold"
+                android:text="Payee"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputpayee"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="Payee"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/businessaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:text="Business Address"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputaddress"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="Business Address"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/tinNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:text="TIN Number"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputtin"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="TIN Number"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/chequenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:text="Cheque Number"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputchequenumber"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="Cheque Number"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/chequeamount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:text="Cheque Amount"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/inputchequeamount"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="5dp"
+                android:hint="Cheque Amount"
+                android:padding="20dp"
+                android:background="#F2F2F2"
+                android:textSize="15dp"
+                android:inputType="text"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/addCheque_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/btn_secondary"
+                    android:layout_weight=".5"
+                    android:text="Add Cheque"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_weight=".5"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Submit"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,8 +43,10 @@ public class ChequePickUp extends AppCompatActivity {
 
     TextView icon_company, icon_name, icon_location, icon_number, icon_code, address, back_button, number;
     TextView company, person, addr, contact,code;
-    Button go_button, arrived_button;
+    Button go_button, arrived_button, cancel_button;
     RelativeLayout layout;
+
+    View v;
     FusedLocationProviderClient fspc;
     private final static int REQUEST_CODE = 100;
     double cur_lat, cur_long, des_lat, des_long;
@@ -92,6 +95,7 @@ public class ChequePickUp extends AppCompatActivity {
         //BUTTONS
         go_button = (Button) findViewById(R.id.go_button);
         arrived_button = (Button) findViewById(R.id.arrived_button);
+        cancel_button = (Button) findViewById(R.id.cancel_button);
         arrived_button.setActivated(false);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -110,6 +114,14 @@ public class ChequePickUp extends AppCompatActivity {
         back_button.setText("\uf060");
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChequePickUp.this, CancelActivity.class);
+                startActivity(intent);
+            }
+        });
         arrived_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +155,8 @@ public class ChequePickUp extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void DisplayMap(String address){
         try{

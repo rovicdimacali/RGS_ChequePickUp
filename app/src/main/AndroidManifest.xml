@@ -26,6 +26,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Failed"
+            android:exported="false" />
+        <activity
+            android:name=".CancelActivity"
+            android:exported="false" />
+        <activity
             android:name=".RemarksActivity"
             android:exported="false" />
         <activity
