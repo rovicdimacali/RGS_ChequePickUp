@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import Database.SqlDatabase;
+import SessionPackage.LocationManagement;
 import SessionPackage.SessionManagement;
 
 /**
@@ -87,7 +88,7 @@ public class ProfileFragment extends Fragment {
         cp.moveToFirst();*/
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
+        //RelativeLayout changepass_btn = (RelativeLayout) view.findViewById(R.id.changepass_btn);
         RelativeLayout history_btn = (RelativeLayout) view.findViewById(R.id.history_btn);
         TextView logout_btn = (TextView) view.findViewById(R.id.logout_btn);
 
@@ -105,20 +106,22 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 cont = getActivity();
                 SessionManagement sm = new SessionManagement(cont);
+                LocationManagement loc_m = new LocationManagement(cont);
                 sm.removeSession();
+                loc_m.removeLocation();
 
                 Intent intent = new Intent(cont,LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
-        changepass_btn.setOnClickListener(new View.OnClickListener() {
+        /*changepass_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChangePassword.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
        history_btn.setOnClickListener(new View.OnClickListener() {
             @Override

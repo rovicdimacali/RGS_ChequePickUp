@@ -43,6 +43,7 @@ import SessionPackage.accountManagement;
 import SessionPackage.chequeManagement;
 import SessionPackage.remarkManagement;
 import SessionPackage.scenarioManagement;
+import Database.sqlPickUp;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -223,18 +224,26 @@ public class ChequeReceived extends AppCompatActivity {
                                 String value = specificValue(responseData);
                                 //value.replace("<br />", "");
                                 if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                    Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
-                                    //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
-                                    //sess_m.removeSession();
-                                    scene_m.removeScene();
-                                    acc_m.removeAcc();
-                                    rem_m.removeRemark();
-                                    loc_m.removeLocation();
-                                    sign_m.removeSign();
-                                    cs.removeCheck();
-                                    rm.removeReceipt();
-                                    Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                                    startActivity(intent);
+                                    //sqlPickUp spu = new sqlPickUp(ChequeReceived.this);
+                                    //int res = spu.addHistory(loc_m.getComp(), loc_m.getPer(), loc_m.getAdd(), loc_m.getCont(), loc_m.getCode());
+                                    //if(res == 1){
+                                        Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(ChequeReceived.this, "Transaction added to Pick Up history", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
+                                        //sess_m.removeSession();
+                                        scene_m.removeScene();
+                                        acc_m.removeAcc();
+                                        rem_m.removeRemark();
+                                        loc_m.removeLocation();
+                                        sign_m.removeSign();
+                                        cs.removeCheck();
+                                        rm.removeReceipt();
+                                        Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                                        startActivity(intent);
+                                    //}
+                                    //else{
+                                        //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
+                                    //}
                                 } else {
                                     scene_m.removeScene();
                                     acc_m.removeAcc();
@@ -244,7 +253,7 @@ public class ChequeReceived extends AppCompatActivity {
                                     cs.removeCheck();
                                     rm.removeReceipt();
                                     //comp.setText(value);
-                                    Toast.makeText(ChequeReceived.this, value, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ChequeReceived.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException e) {
                                 throw new RuntimeException(e);

@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import okhttp3.Call;
@@ -70,8 +71,9 @@ public class HomeFragment extends Fragment {
     CardView customer_btn;
     View view;
     LinearLayout layout;
-    TextView comp1,p1,ad1,cont1,code1, next_arr, back_arr;
+    TextView comp1,p1,ad1,cont1,code1, next_arr, back_arr, noTask;
     OkHttpClient client;
+    ScrollView scrollpick;
     String responseData;
 
     //COMPANY ARRAY
@@ -131,6 +133,9 @@ public class HomeFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_home, container, false);
         layout = view.findViewById(R.id.linearlayout);
+
+        noTask = (TextView) view.findViewById(R.id.notask);
+        scrollpick = (ScrollView) view.findViewById(R.id.scroll_pick);
 
         customer_btn = (CardView) view.findViewById(R.id.customer_btn);
 
@@ -248,6 +253,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
+                    //String responseData = "";
                     //responseData = responseData.replace("<br", "");
                     try {
                         // Parse the response JSON
@@ -275,6 +281,8 @@ public class HomeFragment extends Fragment {
             public void run() {
                 try {
                     if(associativeArray.length() == 0){
+                        noTask.setVisibility(View.VISIBLE);
+                        scrollpick.setVisibility(View.GONE);
                         comp1.setText("NO TASK");
                         p1.setText("NO TASK");
                         ad1.setText("NO TASK");
@@ -282,6 +290,8 @@ public class HomeFragment extends Fragment {
                         code1.setText("NO TASK");
                     }
                     else{
+                        noTask.setVisibility(View.GONE);
+                        scrollpick.setVisibility(View.VISIBLE);
                         JSONObject item2 = associativeArray.getJSONObject(0);
                         String og1 = item2.getString("company_name");
                         String og2 = item2.getString("fullname");

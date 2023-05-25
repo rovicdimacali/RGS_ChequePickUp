@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -47,13 +48,14 @@ import okhttp3.Response;
 public class PriorityFragment extends Fragment {
 
     Button go_button;
-    TextView comp1,p1,ad1,cont1,code1, next_arr, back_arr, title;
+    TextView comp1,p1,ad1,cont1,code1, next_arr, back_arr, title, noTask;
     CardView customer_btn;
     View view;
     Context cont;
     ViewFlipper carousel;
     LinearLayout layout;
     OkHttpClient client;
+    ScrollView scrollpick;
     String responseData;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -108,6 +110,9 @@ public class PriorityFragment extends Fragment {
         fetchDataWithSpecificValue(rider);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        noTask = (TextView) view.findViewById(R.id.notask);
+        scrollpick = (ScrollView) view.findViewById(R.id.scroll_pick);
 
         TextView back_arrow, next_arrow;
 
@@ -221,6 +226,8 @@ public class PriorityFragment extends Fragment {
             public void run() {
                 try {
                     if(associativeArray.length() == 0){
+                        noTask.setVisibility(View.VISIBLE);
+                        scrollpick.setVisibility(View.GONE);
                         comp1.setText("NO TASK");
                         p1.setText("NO TASK");
                         ad1.setText("NO TASK");
@@ -228,6 +235,8 @@ public class PriorityFragment extends Fragment {
                         code1.setText("NO TASK");
                     }
                     else{
+                        noTask.setVisibility(View.GONE);
+                        scrollpick.setVisibility(View.VISIBLE);
                         JSONObject item2 = associativeArray.getJSONObject(0);
                         String og1 = item2.getString("company_name");
                         String og2 = item2.getString("fullname");
