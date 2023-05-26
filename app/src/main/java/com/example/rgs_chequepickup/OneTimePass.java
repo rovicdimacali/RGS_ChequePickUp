@@ -50,7 +50,7 @@ public class OneTimePass extends AppCompatActivity {
     Intent intent;
     Button submit_button;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static final int PERMISSION_SEND_SMS = 100;
+    static final int PERMISSION_SEND_SMS = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

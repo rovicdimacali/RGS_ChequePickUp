@@ -1,5 +1,7 @@
 package com.example.rgs_chequepickup;
 
+import static com.example.rgs_chequepickup.OneTimePass.PERMISSION_SEND_SMS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +20,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,6 +143,14 @@ public class ChequePickUp extends AppCompatActivity {
                 }
                 else{
                     DisplayMap(add);
+                    if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
+                                PERMISSION_SEND_SMS);
+                    } else {
+                        // Permission already granted
+                        sendSMS("09274815025", "Hello, this is a test message!");
+                    }
                 }
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="));
             }
@@ -156,6 +167,22 @@ public class ChequePickUp extends AppCompatActivity {
         });
     }
 
+    public void onRequestPermissionsResultSMS(int requestCode, @NonNull String[] asd, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, asd, grantResults);
+        if (requestCode == PERMISSION_SEND_SMS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                sendSMS("Recipient's phone number", "Hello, this is a test message!");
+            } else {
+                Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void sendSMS(String phoneNumber, String message) {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+        Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+    }
 
 
     private void DisplayMap(String address){
