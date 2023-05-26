@@ -1,6 +1,6 @@
 package com.example.rgs_chequepickup;
 
-import static com.example.rgs_chequepickup.OneTimePass.PERMISSION_SEND_SMS;
+//import static com.example.rgs_chequepickup.OneTimePass.PERMISSION_SEND_SMS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +35,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,15 +45,17 @@ import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
 
 public class ChequePickUp extends AppCompatActivity {
-
+    String message1, message2;
     TextView icon_company, icon_name, icon_location, icon_number, icon_code, address, back_button, number;
     TextView company, person, addr, contact,code;
     Button go_button, arrived_button, cancel_button;
     RelativeLayout layout;
-
+    String comp, per, add, cont, company_code;
     View v;
     FusedLocationProviderClient fspc;
+    private static final int MAX_SMS_LENGTH = 160;
     private final static int REQUEST_CODE = 100;
+    static final int PERMISSION_SEND_SMS = 101;
     double cur_lat, cur_long, des_lat, des_long;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,13 @@ public class ChequePickUp extends AppCompatActivity {
         setContentView(R.layout.activity_cheque_pick_up);
         Fragment fragment = new MapFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+
+        /*message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location."
+        + "Please ensure that you are available at the designated pickup location to hand over the cheque(s). If there are any specific instructions, please let me know immediately."
+        +"For any further assistance or queries, please reach out or reply to me at this number."
+        +"Thank you for choosing RGS!";*/
+;
+        message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location.";
 
         Intent details = getIntent();
 
@@ -68,11 +79,11 @@ public class ChequePickUp extends AppCompatActivity {
         String per = details.getStringExtra("person");
         String add = details.getStringExtra("address");
         String cont = details.getStringExtra("contact");*/
-        String comp = lm.getComp();
-        String per = lm.getPer();
-        String add = lm.getAdd();
-        String cont = lm.getCont();
-        String company_code = lm.getCode();
+        comp = lm.getComp();
+        per = lm.getPer();
+        add = lm.getAdd();
+        cont = lm.getCont();
+        company_code = lm.getCode();
 
         company = (TextView) findViewById(R.id.company);
         person = (TextView) findViewById(R.id.name);
@@ -148,19 +159,19 @@ public class ChequePickUp extends AppCompatActivity {
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String add = address.getText().toString();
+                String add = addr.getText().toString();
                 if(add.equals("")){
                     Toast.makeText(getApplicationContext(),"No location found", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    DisplayMap(add);
                     if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
-                            != PackageManager.PERMISSION_GRANTED) {
+                            != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
                         ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
                                 PERMISSION_SEND_SMS);
-                    } else {
-                        // Permission already granted
-                        sendSMS("09274815025", "Hello, this is a test message!");
+                    } else {// PERMISSION GRANTED
+                        //sendSMS(cont, "Hello, this is a test message!");
+                        sendSMS(cont, message1);
+                        DisplayMap(add);
                     }
                 }
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="));
@@ -178,7 +189,7 @@ public class ChequePickUp extends AppCompatActivity {
         });
     }
 
-    public void onRequestPermissionsResultSMS(int requestCode, @NonNull String[] asd, @NonNull int[] grantResults) {
+    /*public void onRequestPermissionsResultSMS(int requestCode, @NonNull String[] asd, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, asd, grantResults);
         if (requestCode == PERMISSION_SEND_SMS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -187,13 +198,50 @@ public class ChequePickUp extends AppCompatActivity {
                 Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     private void sendSMS(String phoneNumber, String message) {
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-        Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        if(phoneNumber.substring(0,4).contains("+63") || phoneNumber.substring(0,4).contains("63") ||
+                phoneNumber.substring(0,4).contains("09")){
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Invalid cellphone number", Toast.LENGTH_SHORT).show();
+        }
     }
+
+    /*private void sendSMS(String phoneNumber, String message) {
+        ArrayList<String> parts = new ArrayList<>();
+
+        if(phoneNumber.substring(0,4).contains("+63") || phoneNumber.substring(0,4).contains("63") ||
+                phoneNumber.substring(0,4).contains("09")) {
+            StringBuilder sb = new StringBuilder();
+            String[] words = message.split(" ");
+            for (String word : words) {
+                if (sb.length() + word.length() + 1 > MAX_SMS_LENGTH) {
+                    parts.add(sb.toString());
+                    sb = new StringBuilder();
+                }
+                sb.append(word).append(" ");
+            }
+
+            if (sb.length() > 0) {
+                parts.add(sb.toString());
+            }
+
+            SmsManager smsManager = SmsManager.getDefault();
+            for (String part : parts) {
+                smsManager.sendTextMessage(phoneNumber, null, part, null, null);
+            }
+
+            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Invalid cellphone number", Toast.LENGTH_SHORT).show();
+        }
+    }*/
 
 
     private void DisplayMap(String address){
@@ -276,13 +324,21 @@ public class ChequePickUp extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if(requestCode == REQUEST_CODE){
             if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation();
             }
             else{
                 Toast.makeText(ChequePickUp.this,"Required Permission", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == PERMISSION_SEND_SMS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //sendSMS(cont, "Hello, this is a test message!");
+                sendSMS(cont, message1);
+                DisplayMap(addr.getText().toString());
+            } else {
+                Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
             }
         }
 

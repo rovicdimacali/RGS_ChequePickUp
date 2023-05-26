@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:enabled="false"
-            android:hint="Enter reason here" />
+            android:hint="" />
 
     </RadioGroup>
 
@@ -133,8 +133,9 @@
         android:layout_marginEnd="18dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/submit_btn"
+        android:enabled="false"
         android:layout_marginBottom="20dp"
-        android:background="@color/rgs_green"
+        android:background="@color/rgs_gray1"
         android:fontFamily="@font/poppins_bold"
         android:text="SUBMIT" />
 

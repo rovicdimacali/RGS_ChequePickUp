@@ -60,6 +60,8 @@ public class CancelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancel);
 
+        LocationManagement lm = new LocationManagement(CancelActivity.this);
+
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
         //LAYOUT FOR DATEFIELD
@@ -72,6 +74,7 @@ public class CancelActivity extends AppCompatActivity {
         longRB = (RadioButton) findViewById(R.id.unattended);
         othersRB = (RadioButton) findViewById(R.id.others);
 
+        //absentRB.setText(lm.getAdd());
         //BUTTONS
         datepicker = (Button) findViewById(R.id.datePickerButton);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -88,20 +91,37 @@ public class CancelActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(reschedRB.isChecked()){
-                    datefield.setVisibility(View.VISIBLE);
-                }
-                else if(othersRB.isChecked()){
-                    cancelText.setEnabled(true);
-                }
-                else{
-                    datefield.setVisibility(View.GONE);
+                if(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() || othersRB.isChecked()){
+                    if(reschedRB.isChecked()){ // DISPLAY DATE PICKER WHEN SELECTED
+                        datefield.setVisibility(View.VISIBLE);
+                        cancelText.setEnabled(false);
+                        cancelText.setHint(" ");
+                        cancelText.setText(" ");
+                        //cancelText.setHint("Enter Reason Here");
+                    }
+                    else if(othersRB.isChecked()){
+                        datefield.setVisibility(View.GONE);
+                        cancelText.setEnabled(true);
+                        cancelText.setHint("Enter Reason Here");
+                    }
+                    else{ // HIDE DATE PICKER AND TEXT FIELD WHEN NOT SELECTED
+                        datefield.setVisibility(View.GONE);
+                        cancelText.setEnabled(false);
+                        cancelText.setHint(" ");
+                        cancelText.setText(" ");
+                        //cancelText.setHint("Enter Reason Here");
+                    }
+                    submit.setEnabled(true);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                 }
             }
         };
 
         reschedRB.setOnCheckedChangeListener(cbl);
         othersRB.setOnCheckedChangeListener(cbl);
+        absentRB.setOnCheckedChangeListener(cbl);
+        diffRB.setOnCheckedChangeListener(cbl);
+        longRB.setOnCheckedChangeListener(cbl);
 
         datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +133,7 @@ public class CancelActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lm.removeLocation();
                 Intent intent = new Intent(CancelActivity.this, ChequePickUp.class);
                 startActivity(intent);
             }
@@ -129,21 +150,33 @@ public class CancelActivity extends AppCompatActivity {
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString());
                     startActivity(i);
-                    lm.removeLocation();
                 }
                 else if(diffRB.isChecked()){
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", "Rider Mechanical Difficulties");
                     startActivity(i);
-                    lm.removeLocation();
                 }
                 else if(longRB.isChecked()){
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
-                    i.putExtra("cancel", "Unattended: Prolonged Transaction");
+                    i.putExtra("cancel", "Unattended - Prolonged Transaction");
                     startActivity(i);
-                    lm.removeLocation();
+                }
+                else if(othersRB.isChecked() && !(cancelText.getText().toString().isEmpty())){
+                    cancelStatus = cancelText.getText().toString();
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    i.putExtra("cancel", cancelStatus);
+                    startActivity(i);
+                }
+                else if(!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())){
+                    Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
+                }
+                else if(!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked() || othersRB.isChecked())){
+                    Toast.makeText(CancelActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
                 //else if()
                 //Intent intent = new Intent(CancelActivity.this, Failed.class);
@@ -259,9 +292,8 @@ public class CancelActivity extends AppCompatActivity {
                             if (distance < 99999) {
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(CancelActivity.this, Failed.class);
-                                i.putExtra("cancel", "Client/ Not Around");
+                                i.putExtra("cancel", "Client/Customer Not Around");
                                 startActivity(i);
-                                lm.removeLocation();
                             } else {
                                 //NotArrivedPopupWindow();
                                 Toast.makeText(CancelActivity.this, "Must be at the destination first", Toast.LENGTH_SHORT).show();

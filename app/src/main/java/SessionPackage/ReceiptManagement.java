@@ -10,6 +10,7 @@ public class ReceiptManagement {
     String SESSION_TIN = "session_tin";
     String SESSION_AMOUNT = "session_amount";
     String SESSION_NUMBER = "session_number";
+    String SESSION_PAYEE = "session_payee";
 
     public ReceiptManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -20,10 +21,12 @@ public class ReceiptManagement {
         String tin = rs.getTin();
         String amount = rs.getAmount();
         String number = rs.getNumber();
+        String payee = rs.getPayee();
 
         editor.putString(SESSION_TIN, tin).commit();
         editor.putString(SESSION_AMOUNT, amount).commit();
         editor.putString(SESSION_NUMBER, number).commit();
+        editor.putString(SESSION_PAYEE, payee).commit();
     }
 
     public String getTin(){ //return saved session
@@ -35,10 +38,14 @@ public class ReceiptManagement {
     public String getNumber(){ //return saved session
         return sp.getString(SESSION_NUMBER, "none");
     }
+    public String getPayee(){ //return saved session
+        return sp.getString(SESSION_PAYEE, "none");
+    }
 
     public void removeReceipt(){
         editor.putString(SESSION_TIN, "none").commit();
         editor.putString(SESSION_AMOUNT, "none").commit();
         editor.putString(SESSION_NUMBER, "none").commit();
+        editor.putString(SESSION_PAYEE, "none").commit();
     }
 }

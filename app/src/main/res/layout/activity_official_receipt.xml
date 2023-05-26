@@ -23,6 +23,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/Llayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -124,17 +125,26 @@
                 android:text="Cheque Number"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/inputchequenumber"
-                android:layout_width="350dp"
+
+            <LinearLayout
+                android:id="@+id/chknumText"
+                android:layout_width="381dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="5dp"
-                android:hint="Cheque Number"
-                android:padding="20dp"
-                android:background="#F2F2F2"
-                android:textSize="15dp"
-                android:inputType="text"/>
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/inputchequenumber"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#F2F2F2"
+                    android:hint="Cheque Number"
+                    android:inputType="number"
+                    android:padding="20dp"
+                    android:textSize="15dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/chequeamount"
@@ -146,6 +156,12 @@
                 android:text="Cheque Amount"
                 android:textColor="@color/black" />
 
+        <LinearLayout
+            android:id="@+id/chkamountText"
+            android:layout_width="381dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
             <EditText
                 android:id="@+id/inputchequeamount"
                 android:layout_width="350dp"
@@ -156,7 +172,8 @@
                 android:padding="20dp"
                 android:background="#F2F2F2"
                 android:textSize="15dp"
-                android:inputType="text"/>
+                android:inputType="number"/>
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

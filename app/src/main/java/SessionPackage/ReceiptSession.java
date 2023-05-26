@@ -1,12 +1,13 @@
 package SessionPackage;
 
 public class ReceiptSession {
-    String tin, amount, number;
+    String tin, amount, number, payee;
 
-    public ReceiptSession(String tin, String amount, String number) {
+    public ReceiptSession(String tin, String amount, String number, String payee) {
         this.tin = tin;
         this.amount = amount;
         this.number = number;
+        this.payee = payee;
     }
 
     public String getTin() {
@@ -31,5 +32,12 @@ public class ReceiptSession {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+    public String getPayee() {
+        return payee;
+    }
+
+    public void setPayee(String number) {
+        this.payee = payee;
     }
 }
