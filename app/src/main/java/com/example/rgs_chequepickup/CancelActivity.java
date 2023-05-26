@@ -1,35 +1,78 @@
 package com.example.rgs_chequepickup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import SessionPackage.LocationManagement;
 
 public class CancelActivity extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
     Button datepicker, submit;
     TextView back_button;
+    LinearLayout datefield;
+    RadioButton absentRB, reschedRB, diffRB, longRB, othersRB;
+    EditText cancelText;
+    String cancelStatus;
+
+    FusedLocationProviderClient fspc;
+
+    private final static int REQUEST_CODE = 100;
+
+    double cur_lat, cur_long, des_lat, des_long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancel);
 
+        fspc = LocationServices.getFusedLocationProviderClient(this);
+
+        //LAYOUT FOR DATEFIELD
+        datefield = (LinearLayout) findViewById(R.id.date_field);
+
+        //RADIO BUTTONS
+        absentRB = (RadioButton) findViewById(R.id.client_not_around);
+        reschedRB = (RadioButton) findViewById(R.id.reschedule);
+        diffRB = (RadioButton) findViewById(R.id.rider_problem);
+        longRB = (RadioButton) findViewById(R.id.unattended);
+        othersRB = (RadioButton) findViewById(R.id.others);
+
+        //BUTTONS
         datepicker = (Button) findViewById(R.id.datePickerButton);
         back_button = (TextView) findViewById(R.id.back_button);
         submit = (Button) findViewById(R.id.submit_btn);
@@ -38,8 +81,27 @@ public class CancelActivity extends AppCompatActivity {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         back_button.setTypeface(font);
         back_button.setText("\uf060");
-
+        cancelText = (EditText) findViewById(R.id.other_reason);
         initDatePicker();
+
+        //RADIO BUTTONS ONCLICKS
+        CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(reschedRB.isChecked()){
+                    datefield.setVisibility(View.VISIBLE);
+                }
+                else if(othersRB.isChecked()){
+                    cancelText.setEnabled(true);
+                }
+                else{
+                    datefield.setVisibility(View.GONE);
+                }
+            }
+        };
+
+        reschedRB.setOnCheckedChangeListener(cbl);
+        othersRB.setOnCheckedChangeListener(cbl);
 
         datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +121,33 @@ public class CancelActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CancelActivity.this, Failed.class);
-                startActivity(intent);
+                if(absentRB.isChecked()){
+                    getCurrentLocation();
+                }
+                else if(reschedRB.isChecked()){
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString());
+                    startActivity(i);
+                    lm.removeLocation();
+                }
+                else if(diffRB.isChecked()){
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    i.putExtra("cancel", "Rider Mechanical Difficulties");
+                    startActivity(i);
+                    lm.removeLocation();
+                }
+                else if(longRB.isChecked()){
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    i.putExtra("cancel", "Unattended: Prolonged Transaction");
+                    startActivity(i);
+                    lm.removeLocation();
+                }
+                //else if()
+                //Intent intent = new Intent(CancelActivity.this, Failed.class);
+                //startActivity(intent);
             }
         });
     }
@@ -103,39 +190,112 @@ public class CancelActivity extends AppCompatActivity {
         if (month == 1){
             return "JAN";
         }
-        if (month == 2){
+        else if (month == 2){
             return "FEB";
         }
-        if (month == 3){
+        else if (month == 3){
             return "MAR";
         }
-        if (month == 4){
+        else if (month == 4){
             return "APR";
         }
-        if (month == 5){
+        else if (month == 5){
             return "MAY";
         }
-        if (month == 6){
+        else if (month == 6){
             return "JuN";
         }
-        if (month == 7){
+        else if (month == 7){
             return "JUL";
         }
-        if (month == 8){
+        else if (month == 8){
             return "AUG";
         }
-        if (month == 9){
+        else if (month == 9){
             return "SEP";
         }
-        if (month == 10){
+        else if (month == 10){
             return "OCT";
         }
-        if (month == 11){
+        else if (month == 11){
             return "NOV";
         }
-        if (month == 12){
+        else if (month == 12){
             return "DEC";
         }
         return "JAN";
     }
+
+    private void getCurrentLocation(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED){
+            fspc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        Geocoder gc = new Geocoder(CancelActivity.this, Locale.getDefault());
+                        List<Address> sadd = null;
+                        List<Address> dadd = null;
+
+                        LocationManagement lm = new LocationManagement(CancelActivity.this);
+                        try {
+                            //CURRENT LOCATION
+                            sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            Location sp = new Location("currLoc");
+                            cur_lat = sadd.get(0).getLatitude();
+                            cur_long = sadd.get(0).getLongitude();
+                            sp.setLatitude(cur_lat);
+                            sp.setLongitude(cur_long);
+                            //DESTINATION
+                            dadd = gc.getFromLocationName(lm.getAdd(), 1);
+                            Location ep = new Location("destination");
+                            des_lat = dadd.get(0).getLatitude();
+                            des_long = dadd.get(0).getLongitude();
+                            ep.setLatitude(des_lat);
+                            ep.setLongitude(des_long);
+
+                            double distance = sp.distanceTo(ep);
+                            //address.setText(String.valueOf(distance));
+                            if (distance < 99999) {
+                                //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(CancelActivity.this, Failed.class);
+                                i.putExtra("cancel", "Client/ Not Around");
+                                startActivity(i);
+                                lm.removeLocation();
+                            } else {
+                                //NotArrivedPopupWindow();
+                                Toast.makeText(CancelActivity.this, "Must be at the destination first", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
+        }
+        else{
+            askPermission();
+        }
+    }
+    private void askPermission(){
+        ActivityCompat.requestPermissions(CancelActivity.this,new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode == REQUEST_CODE){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getCurrentLocation();
+            }
+            else{
+                Toast.makeText(CancelActivity.this,"Required Permission", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
 }

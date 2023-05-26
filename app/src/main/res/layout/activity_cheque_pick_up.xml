@@ -182,7 +182,8 @@
                     android:layout_toRightOf="@id/icon_number"
                     android:layout_centerVertical="true"
                     android:textColor="#9C005DFF"
-                    android:text="09274815025"/>
+                    android:text="09274815025"
+                    android:autoLink="phone"/>
             </RelativeLayout>
 
             <RelativeLayout

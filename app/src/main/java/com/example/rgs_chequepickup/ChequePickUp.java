@@ -82,14 +82,15 @@ public class ChequePickUp extends AppCompatActivity {
         addr.setText(add);
         contact.setText(cont);
         code.setText(company_code);
+
         //TEXTVIEWS
         icon_company = (TextView) findViewById(R.id.icon_company);
         icon_name = (TextView) findViewById(R.id.icon_name);
         icon_location = (TextView) findViewById(R.id.icon_location);
         icon_number = (TextView) findViewById(R.id.icon_number);
         icon_code = (TextView) findViewById(R.id.icon_code);
-        address = (TextView) findViewById(R.id.address);//Address
-        number = (TextView) findViewById(R.id.number);
+        //address = (TextView) findViewById(R.id.address);//Address
+        //number = (TextView) findViewById(R.id.number);
         back_button = (TextView) findViewById(R.id.back_button);
 
         //BUTTONS
@@ -115,6 +116,16 @@ public class ChequePickUp extends AppCompatActivity {
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + contact.getText().toString()));
+                if(intent.resolveActivity(getPackageManager()) != null){
+                    startActivity(intent);
+                }
+            }
+        });
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +204,7 @@ public class ChequePickUp extends AppCompatActivity {
                             sp.setLatitude(cur_lat);
                             sp.setLongitude(cur_long);
                             //DESTINATION
-                            dadd = gc.getFromLocationName(address.getText().toString(), 1);
+                            dadd = gc.getFromLocationName(addr.getText().toString(), 1);
                             Location ep = new Location("destination");
                             des_lat = dadd.get(0).getLatitude();
                             des_long = dadd.get(0).getLongitude();
