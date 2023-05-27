@@ -74,6 +74,7 @@ public class ESignature extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ESignature.this, RemarksActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -111,7 +112,7 @@ public class ESignature extends AppCompatActivity {
             public void onClick(View view) {
                 Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
                 if (addJpgSignatureToGallery(signatureBitmap) == true) {
-                    Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ESignature.this, OfficialReceipt.class);
                     startActivity(intent);
                     finish();

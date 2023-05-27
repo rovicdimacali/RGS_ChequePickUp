@@ -99,6 +99,7 @@ public class CheckList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CheckList.this, ChequePickUp.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -172,7 +173,7 @@ public class CheckList extends AppCompatActivity {
         oneAcc = (Button) popUpView.findViewById(R.id.oneConeA);
         multAcc = (Button) popUpView.findViewById(R.id.oneCmultA);
         multEnt = (Button) popUpView.findViewById(R.id.oneCmultE);
-        oneEnt = (Button) popUpView.findViewById(R.id.multConeA);
+        //oneEnt = (Button) popUpView.findViewById(R.id.multConeA);
         allMult = (Button) popUpView.findViewById(R.id.multCmultE);
 
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
@@ -207,7 +208,7 @@ public class CheckList extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        oneEnt.setOnClickListener(new View.OnClickListener() {
+       /*oneEnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
@@ -216,7 +217,7 @@ public class CheckList extends AppCompatActivity {
                 sm.saveScene(ss);
                 startActivity(i);
             }
-        });
+        });*/
        allMult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

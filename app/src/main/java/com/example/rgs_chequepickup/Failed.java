@@ -195,6 +195,7 @@ public class Failed extends AppCompatActivity {
                                 //sess_m.removeSession();
                                 loc_m.removeLocation();
                                 Intent intent = new Intent(Failed.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 //}
                                 //else{

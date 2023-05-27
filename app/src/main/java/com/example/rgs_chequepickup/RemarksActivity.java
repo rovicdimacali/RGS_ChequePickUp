@@ -45,6 +45,7 @@ public class RemarksActivity extends AppCompatActivity {
                 accountManagement am = new accountManagement(RemarksActivity.this);
                 am.removeAcc();
                 Intent intent = new Intent(RemarksActivity.this, CaptureCheque.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

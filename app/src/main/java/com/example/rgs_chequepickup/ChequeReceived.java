@@ -241,6 +241,7 @@ public class ChequeReceived extends AppCompatActivity {
                                         cs.removeCheck();
                                         rm.removeReceipt();
                                         Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     //}
                                     //else{

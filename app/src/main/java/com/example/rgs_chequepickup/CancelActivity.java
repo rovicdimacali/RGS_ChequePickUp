@@ -133,8 +133,9 @@ public class CancelActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lm.removeLocation();
+                //lm.removeLocation();
                 Intent intent = new Intent(CancelActivity.this, ChequePickUp.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

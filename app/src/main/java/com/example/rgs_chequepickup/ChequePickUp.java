@@ -184,6 +184,7 @@ public class ChequePickUp extends AppCompatActivity {
                 LocationManagement lm = new LocationManagement(ChequePickUp.this);
                 lm.removeLocation();
                 Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

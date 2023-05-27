@@ -99,6 +99,7 @@ public class CaptureCheque extends AppCompatActivity {
             public void onClick(View v) {
                 sm.removeScene();
                 Intent intent = new Intent(CaptureCheque.this, CheckList.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

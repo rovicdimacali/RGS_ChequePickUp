@@ -54,7 +54,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="One Cheque - Multiple Accounts" />
 
-        <Button
+        <!--<Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -64,7 +64,7 @@
             android:id="@+id/multConeA"
             android:background="@color/rgs_green"
             android:fontFamily="@font/poppins_bold"
-            android:text="One Cheque - Multiple Entities" />
+            android:text="One Cheque - Multiple Entities" />-->
 
         <Button
             android:layout_width="match_parent"
