@@ -62,6 +62,11 @@ public class CheckList extends AppCompatActivity {
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                     Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
                 }
+                else if((payable.isChecked() || date.isChecked() || figures.isChecked()
+                        || months.isChecked() || sign.isChecked()) && (erase.isChecked())) {
+                    submit.setClickable(false);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
                     submit.setClickable(true);

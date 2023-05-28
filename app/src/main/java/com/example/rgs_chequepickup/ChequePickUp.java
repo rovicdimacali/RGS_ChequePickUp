@@ -20,6 +20,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -61,6 +62,7 @@ public class ChequePickUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheque_pick_up);
+        Loading();
         Fragment fragment = new MapFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
 
@@ -373,7 +375,7 @@ public class ChequePickUp extends AppCompatActivity {
     }
 
     private void NotArrivedPopupWindow() {
-        layout = (RelativeLayout) findViewById(R.id.layout);
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
 
@@ -395,5 +397,34 @@ public class ChequePickUp extends AppCompatActivity {
                     popupWindow.dismiss();
             }
         });
+    }
+
+    private void Loading(){
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_loading, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        int duration = 5500;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Display the popup view
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                // Delayed post to hide the popup after the specified duration
+                layout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Hide the popup view
+                        popupWindow.dismiss();
+                    }
+                }, duration);
+            }
+        }, 0);
+
     }
 }
