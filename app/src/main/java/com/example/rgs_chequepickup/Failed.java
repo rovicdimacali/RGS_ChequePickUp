@@ -171,7 +171,7 @@ public class Failed extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(Failed.this, "ERROR", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Failed.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

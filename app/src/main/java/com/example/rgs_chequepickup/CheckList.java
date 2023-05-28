@@ -79,6 +79,11 @@ public class CheckList extends AppCompatActivity {
                     Toast.makeText(CheckList.this, "Invalid checklist.", Toast.LENGTH_SHORT).show();
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                 }
+                else if((payable.isChecked() || date.isChecked() || figures.isChecked()
+                        || months.isChecked() || sign.isChecked()) && (erase.isChecked())) {
+                    submit.setClickable(false);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                }
             }
         };
 

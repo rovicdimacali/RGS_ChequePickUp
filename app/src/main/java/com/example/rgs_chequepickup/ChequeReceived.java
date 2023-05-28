@@ -211,7 +211,7 @@ public class ChequeReceived extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(ChequeReceived.this, "ERROR", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChequeReceived.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
