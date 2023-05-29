@@ -32,7 +32,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-41dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Your Best Parter Courier Service At Your Fingertips"
+        android:text="Your Best Partner Courier Service At Your Fingertips"
         android:textAlignment="center"
         android:textColor="@color/rgs_gray"
         android:textSize="18dp" />
