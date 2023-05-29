@@ -129,6 +129,11 @@ public class OfficialReceipt extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
+        if(remark.equals("One Check, One Account")){
+            addBtn.setVisibility(View.GONE);
+            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+        }
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
