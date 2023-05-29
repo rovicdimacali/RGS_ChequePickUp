@@ -56,11 +56,16 @@ public class CheckList extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (payable.isChecked() && date.isChecked() && figures.isChecked()
-                        && months.isChecked() && sign.isChecked() && !(erase.isChecked())) {
+                if ((payable.isChecked() && date.isChecked() && figures.isChecked()
+                        && months.isChecked() && sign.isChecked()) && !(erase.isChecked())) {
                     submit.setClickable(true);
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                     Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
+                }
+                else if((payable.isChecked() || date.isChecked() || figures.isChecked()
+                        || months.isChecked() || sign.isChecked()) && (erase.isChecked())) {
+                    submit.setClickable(false);
+                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                 }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
@@ -77,11 +82,6 @@ public class CheckList extends AppCompatActivity {
                         && months.isChecked() && sign.isChecked() && erase.isChecked()){
                     submit.setClickable(false);
                     Toast.makeText(CheckList.this, "Invalid checklist.", Toast.LENGTH_SHORT).show();
-                    submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                }
-                else if((payable.isChecked() || date.isChecked() || figures.isChecked()
-                        || months.isChecked() || sign.isChecked()) && (erase.isChecked())) {
-                    submit.setClickable(false);
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                 }
             }
