@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 text_profile.setTextColor(Color.parseColor("#b0e32e"));
                 icon_profile.setTextColor(Color.parseColor("#b0e32e"));
+                //Toast.makeText(MainActivity.this, "Currently Under Development", Toast.LENGTH_SHORT).show();
 
             }
         });
