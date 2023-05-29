@@ -62,9 +62,10 @@ public class ChequePickUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheque_pick_up);
-        Loading();
+
         Fragment fragment = new MapFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        Loading();
 
         /*message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location."
         + "Please ensure that you are available at the designated pickup location to hand over the cheque(s). If there are any specific instructions, please let me know immediately."
@@ -406,7 +407,7 @@ public class ChequePickUp extends AppCompatActivity {
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        int duration = 5500;
+        int duration = 3000;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
         layout.postDelayed(new Runnable() {

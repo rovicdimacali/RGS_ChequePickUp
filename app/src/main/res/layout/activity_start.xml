@@ -32,10 +32,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-41dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Your #1 Cheque Pick Up Partner"
+        android:text="Your Best Parter Courier Service At Your Fingertips"
         android:textAlignment="center"
         android:textColor="@color/rgs_gray"
-        android:textSize="20dp" />
+        android:textSize="18dp" />
 
     <!--<Button
         android:id="@+id/start_button"
