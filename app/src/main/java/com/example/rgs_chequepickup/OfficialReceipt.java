@@ -155,6 +155,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 //Toast.makeText(OfficialReceipt.this, "Transaction Completed", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -361,5 +362,6 @@ public class OfficialReceipt extends AppCompatActivity {
         Intent intent = new Intent(this, ESignature.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 }

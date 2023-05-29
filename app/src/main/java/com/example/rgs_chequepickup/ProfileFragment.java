@@ -113,6 +113,7 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(cont,LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         /*changepass_btn.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +129,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), HistoryActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

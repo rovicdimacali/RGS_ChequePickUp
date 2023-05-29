@@ -148,6 +148,7 @@ public class ChequePickUp extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChequePickUp.this, CancelActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         arrived_button.setOnClickListener(new View.OnClickListener() {

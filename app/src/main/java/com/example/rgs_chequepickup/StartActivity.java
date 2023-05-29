@@ -53,6 +53,7 @@ public class StartActivity extends AppCompatActivity {
     public void openSignUp() {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
+        finish();
     }
 
     public void openMain(String email){
@@ -60,10 +61,12 @@ public class StartActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("email", email);
         startActivity(intent);
+        finish();
     }
 
     public void openLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 }

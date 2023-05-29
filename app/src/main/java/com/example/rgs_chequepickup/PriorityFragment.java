@@ -156,6 +156,7 @@ public class PriorityFragment extends Fragment {
                 intent.putExtra("address", ad1.getText().toString());
                 intent.putExtra("contact", cont1.getText().toString());*/
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -444,6 +445,7 @@ public class PriorityFragment extends Fragment {
                             intent.putExtra("address", ad1.getText().toString());
                             intent.putExtra("contact", cont1.getText().toString());*/
                                 startActivity(intent);
+                                getActivity().finish();
                             }
                         });
 
