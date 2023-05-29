@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,8 @@ public class ChequePickUp extends AppCompatActivity {
     String comp, per, add, cont, company_code;
     View v;
     HttpURLConnection conn;
+    LocationCallback lcb;
+    LocationRequest lr;
     FusedLocationProviderClient fspc;
     private static final int MAX_SMS_LENGTH = 160;
     private final static int REQUEST_CODE = 100;
@@ -77,12 +80,8 @@ public class ChequePickUp extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
         Loading();
 
-        LocationRequest lr = new LocationRequest();
-        lr.setInterval(10000);
-        lr.setFastestInterval(5000);
-        lr.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        lr.setExpirationDuration(30000);
         fspc = LocationServices.getFusedLocationProviderClient(this);
+
         //fspc.requestLocationUpdates(lr, locCallBack, Looper.getMainLooper());
 
         /*message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location."
@@ -327,7 +326,7 @@ public class ChequePickUp extends AppCompatActivity {
                             }
                          } catch (IOException e) {
                             NoSignalPopupWindow();
-                            throw new RuntimeException(e); //RUNTIME ERROR
+                            //throw new RuntimeException(e); //RUNTIME ERROR
                         }
 
                     }
@@ -457,6 +456,7 @@ public class ChequePickUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 recreate();
+                popupWindow.dismiss();
             }
         });
     }
@@ -487,6 +487,5 @@ public class ChequePickUp extends AppCompatActivity {
                 }, duration);
             }
         }, 0);
-
     }
 }
