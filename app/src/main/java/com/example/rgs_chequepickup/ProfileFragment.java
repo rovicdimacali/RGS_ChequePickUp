@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -113,6 +114,7 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(cont,LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         /*changepass_btn.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +128,10 @@ public class ProfileFragment extends Fragment {
        history_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HistoryActivity.class);
+                /*Intent intent = new Intent(getActivity(), HistoryActivity.class);
                 startActivity(intent);
+                getActivity().finish();*/
+                Toast.makeText(getContext(), "Currently Under Development", Toast.LENGTH_SHORT).show();
             }
         });
 

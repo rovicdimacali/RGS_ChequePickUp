@@ -106,6 +106,7 @@ public class CheckList extends AppCompatActivity {
                 Intent intent = new Intent(CheckList.this, ChequePickUp.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -129,6 +130,7 @@ public class CheckList extends AppCompatActivity {
                     sm.saveScene(ss);
                     //intent.putExtra("cheque", -1);
                     startActivity(intent);
+                    finish();
                 }
 
             }
@@ -191,6 +193,7 @@ public class CheckList extends AppCompatActivity {
                 scenarioSession ss = new scenarioSession("One Check, One Account", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
+                finish();
             }
         });
         multAcc.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +204,7 @@ public class CheckList extends AppCompatActivity {
                 scenarioSession ss = new scenarioSession("One Account, Multiple Cheques", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
+                finish();
             }
         });
        multEnt.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +215,7 @@ public class CheckList extends AppCompatActivity {
                 scenarioSession ss = new scenarioSession("One Cheque, Multiple Accounts", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
+                finish();
             }
         });
        /*oneEnt.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +236,7 @@ public class CheckList extends AppCompatActivity {
                 scenarioSession ss = new scenarioSession("Multiple Accounts, Multiple Cheques", "Not Defective");
                 sm.saveScene(ss);
                 startActivity(i);
+                finish();
             }
         });
         layout.post(new Runnable() {

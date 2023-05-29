@@ -47,6 +47,7 @@ public class RemarksActivity extends AppCompatActivity {
                 Intent intent = new Intent(RemarksActivity.this, CaptureCheque.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -57,6 +58,7 @@ public class RemarksActivity extends AppCompatActivity {
                 rm.saveRemark(rs);
                 Intent intent = new Intent(RemarksActivity.this, ESignature.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

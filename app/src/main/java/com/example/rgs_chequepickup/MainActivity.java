@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 text_profile.setTextColor(Color.parseColor("#b0e32e"));
                 icon_profile.setTextColor(Color.parseColor("#b0e32e"));
+                //Toast.makeText(MainActivity.this, "Currently Under Development", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChequePickUp.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -260,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     private void fetchDataWithSpecificValue(String riderID) {

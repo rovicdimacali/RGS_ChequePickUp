@@ -126,17 +126,20 @@ public class LoginActivity extends AppCompatActivity {
     public void openStartAct() {
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void openForgotPass(){
         Intent intent = new Intent(this, ForgotPassword.class);
         intent.putExtra("type", "forgot");
         startActivity(intent);
+        finish();
     }
 
     public void openSignup(){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
+        finish();
     }
 
     public void openMain(){
@@ -146,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("email", String.valueOf(inputemail.getText()));
         //intent.putExtra("pass", String.valueOf(inputpassword.getText()));
         startActivity(intent);
+        finish();
     }
 
     /*public void getData(){

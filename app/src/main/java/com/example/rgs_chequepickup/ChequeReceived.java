@@ -243,6 +243,7 @@ public class ChequeReceived extends AppCompatActivity {
                                         Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
+                                        finish();
                                     //}
                                     //else{
                                         //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();

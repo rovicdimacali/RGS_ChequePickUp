@@ -137,6 +137,7 @@ public class CancelActivity extends AppCompatActivity {
                 Intent intent = new Intent(CancelActivity.this, ChequePickUp.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -151,18 +152,21 @@ public class CancelActivity extends AppCompatActivity {
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString());
                     startActivity(i);
+                    finish();
                 }
                 else if(diffRB.isChecked()){
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", "Rider Mechanical Difficulties");
                     startActivity(i);
+                    finish();
                 }
                 else if(longRB.isChecked()){
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", "Unattended - Prolonged Transaction");
                     startActivity(i);
+                    finish();
                 }
                 else if(othersRB.isChecked() && !(cancelText.getText().toString().isEmpty())){
                     cancelStatus = cancelText.getText().toString();
@@ -170,6 +174,7 @@ public class CancelActivity extends AppCompatActivity {
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     i.putExtra("cancel", cancelStatus);
                     startActivity(i);
+                    finish();
                 }
                 else if(!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
                         longRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())){
@@ -295,6 +300,7 @@ public class CancelActivity extends AppCompatActivity {
                                 Intent i = new Intent(CancelActivity.this, Failed.class);
                                 i.putExtra("cancel", "Client/Customer Not Around");
                                 startActivity(i);
+                                finish();
                             } else {
                                 //NotArrivedPopupWindow();
                                 Toast.makeText(CancelActivity.this, "Must be at the destination first", Toast.LENGTH_SHORT).show();
