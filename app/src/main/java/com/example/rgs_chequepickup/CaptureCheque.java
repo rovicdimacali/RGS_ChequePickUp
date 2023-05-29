@@ -101,6 +101,7 @@ public class CaptureCheque extends AppCompatActivity {
                 Intent intent = new Intent(CaptureCheque.this, CheckList.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -110,6 +111,7 @@ public class CaptureCheque extends AppCompatActivity {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 101);
+                finish();
             }
         });
 
@@ -124,6 +126,7 @@ public class CaptureCheque extends AppCompatActivity {
 
                     Intent intent = new Intent(CaptureCheque.this, ChequeReceived.class);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     VerifyPopupWindow(remark);
@@ -246,6 +249,7 @@ public class CaptureCheque extends AppCompatActivity {
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
                                         startActivity(intent);
+                                        finish();
                                     }
                                     else{
                                         Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
@@ -274,6 +278,7 @@ public class CaptureCheque extends AppCompatActivity {
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
                                         startActivity(intent);
+                                        finish();
                                     }
                                     else{
                                         Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
@@ -302,6 +307,7 @@ public class CaptureCheque extends AppCompatActivity {
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
                                         startActivity(intent);
+                                        finish();
                                     }
                                     else{
                                         Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
@@ -328,6 +334,7 @@ public class CaptureCheque extends AppCompatActivity {
                                     accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                     am.saveAccount(as);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else{
                                     Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
@@ -344,6 +351,7 @@ public class CaptureCheque extends AppCompatActivity {
                             accountSession as = new accountSession(chequeNum.getText().toString(), service);
                             am.saveAccount(as);
                             startActivity(intent);
+                            finish();
                         }
                         else if(service.equals("Multiple Entities")){
                             Toast.makeText(CaptureCheque.this, "Multiple Entities", Toast.LENGTH_SHORT).show();
@@ -352,6 +360,7 @@ public class CaptureCheque extends AppCompatActivity {
                             accountSession as = new accountSession(chequeNum.getText().toString(), service);
                             am.saveAccount(as);
                             startActivity(intent);
+                            finish();
                         }
                         //Intent intent = new Intent(CaptureCheque.this, ESignature.class);
                         //startActivity(intent);
@@ -375,6 +384,7 @@ public class CaptureCheque extends AppCompatActivity {
                 accountSession as = new accountSession(chequeNum.getText().toString(), checked_services);
                 am.saveAccount(as);
                 startActivity(intent);
+                finish();
             }
         });
         /*verify.setOnClickListener(new View.OnClickListener() {

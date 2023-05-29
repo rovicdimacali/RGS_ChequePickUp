@@ -189,6 +189,7 @@ public class ChequePickUp extends AppCompatActivity {
                 Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -371,6 +372,7 @@ public class ChequePickUp extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChequePickUp.this, CheckList.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
