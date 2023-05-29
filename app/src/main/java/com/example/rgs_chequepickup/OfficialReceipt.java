@@ -147,15 +147,11 @@ public class OfficialReceipt extends AppCompatActivity {
             public void onClick(View v) {
                 if(remark.equals("Multiple Accounts, Multiple Cheques") || remark.equals("One Account, Multiple Cheques")){
                     //STRING FOR CHEQUE NUM RESULTS
-                    int i = 0;
-                    while(i < count){
-
-                    }
-                    cheqResNum = "chk1:" + cheq_num.getText().toString() + ",chk2:" + newCheqNum1.getText().toString() + ",chk3:" + newCheqNum2.getText().toString() +
-                            ",chk4:" + newCheqNum3.getText().toString() + ",chk5:" + newCheqNum4.getText().toString();
+                    cheqResNum = "chk1_num:" + cheq_num.getText().toString() + ",chk2_num:" + newCheqNum1.getText().toString() + ",chk3_num:" + newCheqNum2.getText().toString() +
+                            ",chk4_num:" + newCheqNum3.getText().toString() + ",chk5_num:" + newCheqNum4.getText().toString();
                     //STRING FOR CHEQUE AMOUNT RESULTS
-                    cheqResAm = "chk1:" + cheq_amount.getText().toString() + ",chk2:" + newCheqAm1.getText().toString() + ",chk3:" + newCheqAm2.getText().toString() +
-                            ",chk4:" + newCheqAm3.getText().toString() + ",chk5: " + newCheqAm4.getText().toString();
+                    cheqResAm = "chk1_amount:" + cheq_amount.getText().toString() + ",chk2_amount:" + newCheqAm1.getText().toString() + ",chk3_amount:" + newCheqAm2.getText().toString() +
+                            ",chk4_amount:" + newCheqAm3.getText().toString() + ",chk5_amount:" + newCheqAm4.getText().toString();
                 }
                 else{
                     cheqResNum = cheq_num.getText().toString();
