@@ -49,6 +49,8 @@ public class OfficialReceipt extends AppCompatActivity {
     int delete = 0;
     ArrayList<LinearLayout> chkNums = new ArrayList<>();
     ArrayList<LinearLayout> chkAmounts = new ArrayList<>();
+    ArrayList<EditText> chkNumList = new ArrayList<>();
+    ArrayList<EditText> chkAmList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +142,15 @@ public class OfficialReceipt extends AppCompatActivity {
             public void onClick(View v) {
                 if(remark.equals("Multiple Accounts, Multiple Cheques") || remark.equals("One Account, Multiple Cheques")){
                     //STRING FOR CHEQUE NUM RESULTS
-                    cheqResNum = "chk1: " + cheq_num.getText().toString() + " | chk2: " + newCheqNum1.getText().toString() + " | chk3: " + newCheqNum2.getText().toString() +
-                            " | chk4: " + newCheqNum3.getText().toString() + " | chk5: " + newCheqNum4.getText().toString();
+                    int i = 0;
+                    while(i < count){
+
+                    }
+                    cheqResNum = "chk1:" + cheq_num.getText().toString() + ",chk2:" + newCheqNum1.getText().toString() + ",chk3:" + newCheqNum2.getText().toString() +
+                            ",chk4:" + newCheqNum3.getText().toString() + ",chk5:" + newCheqNum4.getText().toString();
                     //STRING FOR CHEQUE AMOUNT RESULTS
-                    cheqResAm = "chk1: " + cheq_amount.getText().toString() + " | chk2: " + newCheqAm1.getText().toString() + " | chk3: " + newCheqAm2.getText().toString() +
-                            " | chk4: " + newCheqAm3.getText().toString() + " | chk5: " + newCheqAm4.getText().toString();
+                    cheqResAm = "chk1:" + cheq_amount.getText().toString() + ",chk2:" + newCheqAm1.getText().toString() + ",chk3:" + newCheqAm2.getText().toString() +
+                            ",chk4:" + newCheqAm3.getText().toString() + ",chk5: " + newCheqAm4.getText().toString();
                 }
                 else{
                     cheqResNum = cheq_num.getText().toString();
@@ -212,24 +218,32 @@ public class OfficialReceipt extends AppCompatActivity {
                     if(count == 1){
                         layNum1.setVisibility(View.VISIBLE);
                         layAm1.setVisibility(View.VISIBLE);
+                        chkNumList.add(newCheqNum1);
+                        chkAmList.add(newCheqAm1);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
                         count++;
                     }
                     else if(count == 2){
                         layNum2.setVisibility(View.VISIBLE);
                         layAm2.setVisibility(View.VISIBLE);
+                        chkNumList.add(newCheqNum2);
+                        chkAmList.add(newCheqAm2);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
                         count++;
                     }
                     else if(count == 3){
                         layNum3.setVisibility(View.VISIBLE);
                         layAm3.setVisibility(View.VISIBLE);
+                        chkNumList.add(newCheqNum3);
+                        chkAmList.add(newCheqAm3);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
                         count++;
                     }
                     else if(count == 4){
                         layNum4.setVisibility(View.VISIBLE);
                         layAm4.setVisibility(View.VISIBLE);
+                        chkNumList.add(newCheqNum4);
+                        chkAmList.add(newCheqAm4);
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         //count++;
                     }
@@ -267,6 +281,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm1.setVisibility(View.GONE);
                 chkNums.add(layNum1);
                 chkAmounts.add(layAm1);
+                chkNumList.remove(newCheqNum1);
+                chkAmList.remove(newCheqAm1);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -279,6 +295,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm1.setVisibility(View.GONE);
                 chkNums.add(layNum1);
                 chkAmounts.add(layAm1);
+                chkNumList.remove(newCheqNum1);
+                chkAmList.remove(newCheqAm1);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -291,6 +309,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm2.setVisibility(View.GONE);
                 chkNums.add(layNum2);
                 chkAmounts.add(layAm2);
+                chkNumList.remove(newCheqNum2);
+                chkAmList.remove(newCheqAm2);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -303,6 +323,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm2.setVisibility(View.GONE);
                 chkNums.add(layNum2);
                 chkAmounts.add(layAm2);
+                chkNumList.remove(newCheqNum2);
+                chkAmList.remove(newCheqAm2);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -315,6 +337,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm3.setVisibility(View.GONE);
                 chkNums.add(layNum3);
                 chkAmounts.add(layAm3);
+                chkNumList.remove(newCheqNum3);
+                chkAmList.remove(newCheqAm3);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -327,6 +351,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm3.setVisibility(View.GONE);
                 chkNums.add(layNum3);
                 chkAmounts.add(layAm3);
+                chkNumList.remove(newCheqNum3);
+                chkAmList.remove(newCheqAm3);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -339,6 +365,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm4.setVisibility(View.GONE);
                 chkNums.add(layNum4);
                 chkAmounts.add(layAm4);
+                chkNumList.remove(newCheqNum4);
+                chkAmList.remove(newCheqAm4);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -351,6 +379,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 layAm4.setVisibility(View.GONE);
                 chkNums.add(layNum4);
                 chkAmounts.add(layAm4);
+                chkNumList.remove(newCheqNum4);
+                chkAmList.remove(newCheqAm4);
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));

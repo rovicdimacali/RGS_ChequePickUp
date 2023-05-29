@@ -111,7 +111,7 @@ public class CaptureCheque extends AppCompatActivity {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 101);
-                finish();
+                //finish();
             }
         });
 
@@ -213,6 +213,19 @@ public class CaptureCheque extends AppCompatActivity {
         });
 
         Button verify = (Button) popUpView.findViewById(R.id.verify_button);
+        RelativeLayout overlay = (RelativeLayout) popUpView.findViewById(R.id.overlay);
+
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                overlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
 
         //String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Entities"};
 
@@ -373,7 +386,7 @@ public class CaptureCheque extends AppCompatActivity {
 
             }
         });
-        verify.setOnClickListener(new View.OnClickListener() {
+        verify.setOnClickListener(new View.OnClickListener() { // CHECBOX FOR MULTIPLE ENTITIES
             @Override
             public void onClick(View v) {
                 String checked_services = String.valueOf(bayan.getText()) + ", " + String.valueOf(innove.getText()) +
@@ -400,7 +413,7 @@ public class CaptureCheque extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 101) {
+        if(requestCode == 101 && resultCode == RESULT_OK) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 captured_image.setImageBitmap(bitmap);
                 saveImageToGallery(bitmap);
