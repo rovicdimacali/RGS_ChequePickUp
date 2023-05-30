@@ -151,6 +151,7 @@ public class Failed extends AppCompatActivity {
                     .addFormDataPart("chk_sign", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
                     .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
                     .addFormDataPart("chk_accno", "")
+                    .addFormDataPart("chk_payee","")
                     .addFormDataPart("chk_entity", "")
                     .addFormDataPart("chk_remark", "")
                     .addFormDataPart("chk_address", loc_m.getAdd())

@@ -9,6 +9,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -64,7 +66,10 @@ public class ChequeReceived extends AppCompatActivity {
     private final static int REQUEST_CODE = 100;
     OkHttpClient client;
     String responseData;
+    String imagePath;
     TextView comp;
+    Drawable defaultPic;
+    File imageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,10 +151,7 @@ public class ChequeReceived extends AppCompatActivity {
         SignatureManagement sign_m = new SignatureManagement(ChequeReceived.this);
         chequeManagement cs = new chequeManagement(ChequeReceived.this);
 
-        String imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
         String chequePath = cs.getCheck();
-
-        File imageFile = new File(imagePath);
         File chequeFile = new File(chequePath);
 
         if(!(chequeFile.exists())){
@@ -157,12 +159,15 @@ public class ChequeReceived extends AppCompatActivity {
         }
         else {
             RequestBody rbody;
-            if(!(imageFile.exists())){
+            if(scene_m.getStat().equals("Defective")){
+                Resources res = getResources();
+                defaultPic = res.getDrawable(R.drawable.cancel);
+
                 rbody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())
                         .addFormDataPart("chk_status", scene_m.getStat())
-                        .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),imageFile))
+                        .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
                         .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
                         .addFormDataPart("chk_accno", acc_m.getAccno())
                         .addFormDataPart("chk_payee", rm.getPayee())
@@ -183,6 +188,9 @@ public class ChequeReceived extends AppCompatActivity {
                         .addFormDataPart("chk_amount", rm.getAmount())
                         .addFormDataPart("chk_number", rm.getNumber())*/
             else{
+                imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
+                imageFile = new File(imagePath);
+
                 rbody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())

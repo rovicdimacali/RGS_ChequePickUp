@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -207,7 +208,7 @@ public class ChequePickUp extends AppCompatActivity {
                 Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }
@@ -224,8 +225,15 @@ public class ChequePickUp extends AppCompatActivity {
     }*/
 
     private void sendSMS(String phoneNumber, String message) {
+        char cpFirst = phoneNumber.charAt(0);
         if(phoneNumber.substring(0,4).contains("+63") || phoneNumber.substring(0,4).contains("63") ||
                 phoneNumber.substring(0,4).contains("09")){
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        }
+        else if(cpFirst == '9'){
+            phoneNumber = "0" + phoneNumber;
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNumber, null, message, null, null);
             Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
@@ -312,7 +320,7 @@ public class ChequePickUp extends AppCompatActivity {
 
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
-                            if(distance < 99999){
+                            if(distance < 6400){
                                 ArrivedPopupWindow();
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(true);
@@ -320,7 +328,7 @@ public class ChequePickUp extends AppCompatActivity {
                                 //openCapturecheque();
                             }
                             else{
-                                NotArrivedPopupWindow();
+                                NotArrivedPopupWindow(distance);
                                 arrived_button.setActivated(false);
                                 //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
                             }
@@ -374,7 +382,8 @@ public class ChequePickUp extends AppCompatActivity {
         layout = (RelativeLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_arrived, null);
-
+        //TextView text = (TextView) popUpView.findViewById(R.id.textPick);
+        //text.setText(String.valueOf(d));
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
@@ -410,10 +419,15 @@ public class ChequePickUp extends AppCompatActivity {
         });
     }
 
-    private void NotArrivedPopupWindow() {
+    private void NotArrivedPopupWindow(double d) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        String distance = df.format(d);
         layout = (RelativeLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
+
+        TextView text = (TextView) popUpView.findViewById(R.id.distanceTrack);
+        text.setText("Distance must be less than 20 meters\nCurrent Distance: " + distance + " meters");
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;

@@ -44,7 +44,8 @@
             android:textAlignment="center"
             android:text="Pick up the cheque to move forward to the next pick up point."
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:id="@+id/textPick"/>
 
         <Button
             android:layout_width="match_parent"

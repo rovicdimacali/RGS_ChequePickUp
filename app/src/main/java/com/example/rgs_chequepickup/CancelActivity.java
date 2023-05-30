@@ -60,7 +60,7 @@ public class CancelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancel);
 
-        LocationManagement lm = new LocationManagement(CancelActivity.this);
+        //LocationManagement lm = new LocationManagement(CancelActivity.this);
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
