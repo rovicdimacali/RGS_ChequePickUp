@@ -155,9 +155,10 @@ public class ChequePickUp extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + contact.getText().toString()));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+                startActivity(intent);
+                /*if (intent.resolveActivity(getPackageManager()) != null) {
+
+                }*/
             }
         });
         cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -320,7 +321,7 @@ public class ChequePickUp extends AppCompatActivity {
 
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
-                            if(distance < 6400){
+                            if(distance < 99999){
                                 ArrivedPopupWindow();
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 arrived_button.setActivated(true);

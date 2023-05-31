@@ -3,6 +3,8 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
@@ -29,6 +33,7 @@ import SessionPackage.scenarioManagement;
 
 public class OfficialReceipt extends AppCompatActivity {
 
+    DatePickerDialog datePickerDialog;
     TextView back_button;
     //FIRST INPUTS
     EditText cheq_num, cheq_amount, compname, compadd, tin, payee;
@@ -36,11 +41,11 @@ public class OfficialReceipt extends AppCompatActivity {
     EditText newCheqNum1, newCheqNum2, newCheqNum3, newCheqNum4;
     LinearLayout layNum1, layNum2, layNum3, layNum4;
     EditText newCheqAm1, newCheqAm2, newCheqAm3, newCheqAm4;
-    LinearLayout layAm1, layAm2, layAm3, layAm4;
+    LinearLayout layAm1, layAm2, layAm3, layAm4, datefield;
     //DELETE BUTTONS
     ImageView deleteNum1, deleteNum2, deleteNum3, deleteNum4;
     ImageView deleteAm1, deleteAm2, deleteAm3, deleteAm4;
-    Button submit_btn, addBtn;
+    Button submit_btn, addBtn, datepicker;
     String remark;
     LinearLayout Llayout_num, Llayout_am;
 
@@ -125,11 +130,15 @@ public class OfficialReceipt extends AppCompatActivity {
         submit_btn = (Button) findViewById(R.id.submit_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        datefield = (LinearLayout) findViewById(R.id.date_field);
+        datepicker = (Button) findViewById(R.id.datePickerButton);
+        datepicker.setText(getTodayDate());
+        initDatePicker();
 
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
-        if(remark.equals("One Check, One Account")){
+        if(remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")){
             addBtn.setVisibility(View.GONE);
             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
         }
@@ -394,5 +403,76 @@ public class OfficialReceipt extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private String getTodayDate() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return makeDateString(day, month, year);
+    }
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                month = month + 1;
+                String date = makeDateString(day, month, year);
+                datepicker.setText(date);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int style = AlertDialog.THEME_HOLO_LIGHT;
+
+        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month,day);
+    }
+    private String makeDateString(int day, int month, int year){
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+    private String getMonthFormat(int month) {
+        if (month == 1){
+            return "JAN";
+        }
+        else if (month == 2){
+            return "FEB";
+        }
+        else if (month == 3){
+            return "MAR";
+        }
+        else if (month == 4){
+            return "APR";
+        }
+        else if (month == 5){
+            return "MAY";
+        }
+        else if (month == 6){
+            return "JuN";
+        }
+        else if (month == 7){
+            return "JUL";
+        }
+        else if (month == 8){
+            return "AUG";
+        }
+        else if (month == 9){
+            return "SEP";
+        }
+        else if (month == 10){
+            return "OCT";
+        }
+        else if (month == 11){
+            return "NOV";
+        }
+        else if (month == 12){
+            return "DEC";
+        }
+        return "JAN";
     }
 }
