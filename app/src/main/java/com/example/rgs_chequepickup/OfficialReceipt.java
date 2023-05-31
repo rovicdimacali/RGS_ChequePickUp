@@ -231,6 +231,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         chkNumList.add(newCheqNum1);
                         chkAmList.add(newCheqAm1);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
                         count++;
                     }
                     else if(count == 2){
@@ -239,6 +240,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         chkNumList.add(newCheqNum2);
                         chkAmList.add(newCheqAm2);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
                         count++;
                     }
                     else if(count == 3){
@@ -247,6 +249,8 @@ public class OfficialReceipt extends AppCompatActivity {
                         chkNumList.add(newCheqNum3);
                         chkAmList.add(newCheqAm3);
                         addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
+                        //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         count++;
                     }
                     else if(count == 4){
@@ -255,27 +259,39 @@ public class OfficialReceipt extends AppCompatActivity {
                         chkNumList.add(newCheqNum4);
                         chkAmList.add(newCheqAm4);
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        Toast.makeText(OfficialReceipt.this, "Maximum of 5 cheques only", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
                         //count++;
                     }
                 }
-                else if(count < 5 && delete > 1){
+                else if(count < 5 && delete >= 1){ //DELETED MORE THAN 1
                     if(!(chkNums.isEmpty() && chkAmounts.isEmpty())){
                         chkNums.get(0).setVisibility(View.VISIBLE);
                         chkAmounts.get(0).setVisibility(View.VISIBLE);
                         chkNums.remove(0);
                         chkAmounts.remove(0);
-                        addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
                         delete--;
                         count++;
+                        //addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        if(count == 4 && delete == 0){
+                            //Toast.makeText(OfficialReceipt.this, "HI", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OfficialReceipt.this, "Maximum of 5 cheques only", Toast.LENGTH_SHORT).show();
+                            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        }
+                        else{
+                            //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
+                            addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        }
+
                     }
                 }
-                else if(count < 5 && delete == 1){
+                else if(count == 4 && delete == 1){ //ONE MORE COUNTER TO ADD BEFORE SUBMIT BUTTON IS DISABLED
                     if(!(chkNums.isEmpty() && chkAmounts.isEmpty())){
                         chkNums.get(0).setVisibility(View.VISIBLE);
                         chkAmounts.get(0).setVisibility(View.VISIBLE);
                         chkNums.remove(0);
                         chkAmounts.remove(0);
-                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         delete--;
                         count++;
                     }
@@ -295,6 +311,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm1);
                 delete++;
                 count--;
+                newCheqNum1.setText("");
+                newCheqAm1.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -309,6 +327,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm1);
                 delete++;
                 count--;
+                newCheqNum1.setText("");
+                newCheqAm1.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -321,6 +341,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmounts.add(layAm2);
                 chkNumList.remove(newCheqNum2);
                 chkAmList.remove(newCheqAm2);
+                newCheqNum2.setText("");
+                newCheqAm2.setText("");
                 delete++;
                 count--;
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
@@ -337,6 +359,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm2);
                 delete++;
                 count--;
+                newCheqNum2.setText("");
+                newCheqAm2.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -351,6 +375,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm3);
                 delete++;
                 count--;
+                newCheqNum3.setText("");
+                newCheqAm3.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -365,6 +391,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm3);
                 delete++;
                 count--;
+                newCheqNum3.setText("");
+                newCheqAm3.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -379,6 +407,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm4);
                 delete++;
                 count--;
+                newCheqNum4.setText("");
+                newCheqAm4.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });
@@ -393,6 +423,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 chkAmList.remove(newCheqAm4);
                 delete++;
                 count--;
+                newCheqNum4.setText("");
+                newCheqAm4.setText("");
                 addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
             }
         });

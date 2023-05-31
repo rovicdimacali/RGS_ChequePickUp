@@ -122,10 +122,6 @@ public class CaptureCheque extends AppCompatActivity {
             public void onClick(View v) {
                 scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
                 String res = sm.getStat();
-                /*if(TextUtils.isEmpty(image.toString())){
-                    Toast.makeText(CaptureCheque.this, "Please capture an image", Toast.LENGTH_SHORT).show();
-                }
-                else{*/
                 if(res.equals("Defective")){
                     accountSession as = new accountSession("N/A", "N/A");
                     remarkSession rs = new remarkSession("Defective Cheque");
@@ -137,9 +133,6 @@ public class CaptureCheque extends AppCompatActivity {
                 else{
                     VerifyPopupWindow(remark);
                 }
-                //}
-
-
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
                 builder.setCancelable(true);
