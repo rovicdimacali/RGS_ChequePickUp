@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,7 @@ public class CaptureCheque extends AppCompatActivity {
     CardView services_list;
     CheckBox bayan, innove, globe;
     TextView back_button;
+    Uri image;
     int pic = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,10 @@ public class CaptureCheque extends AppCompatActivity {
             public void onClick(View v) {
                 scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
                 String res = sm.getStat();
+                /*if(TextUtils.isEmpty(image.toString())){
+                    Toast.makeText(CaptureCheque.this, "Please capture an image", Toast.LENGTH_SHORT).show();
+                }
+                else{*/
                 if(res.equals("Defective")){
                     accountSession as = new accountSession("N/A", "N/A");
                     remarkSession rs = new remarkSession("Defective Cheque");
@@ -131,6 +137,8 @@ public class CaptureCheque extends AppCompatActivity {
                 else{
                     VerifyPopupWindow(remark);
                 }
+                //}
+
 
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
@@ -447,7 +455,7 @@ public class CaptureCheque extends AppCompatActivity {
 
             // SAVED IMAGED NOTIF
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri image = Uri.fromFile(imageFile);
+            image = Uri.fromFile(imageFile);
             intent.setData(image);
             sendBroadcast(intent);
 
