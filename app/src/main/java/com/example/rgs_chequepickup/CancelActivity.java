@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,7 +44,7 @@ import SessionPackage.LocationManagement;
 public class CancelActivity extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
-    Button datepicker, submit;
+    Button datepicker, submit, timepicker;
     TextView back_button;
     LinearLayout datefield;
     RadioButton absentRB, reschedRB, diffRB, longRB, othersRB;
@@ -50,6 +52,7 @@ public class CancelActivity extends AppCompatActivity {
     String cancelStatus;
 
     FusedLocationProviderClient fspc;
+    int hour, minute;
 
     private final static int REQUEST_CODE = 100;
 
@@ -77,6 +80,7 @@ public class CancelActivity extends AppCompatActivity {
         //absentRB.setText(lm.getAdd());
         //BUTTONS
         datepicker = (Button) findViewById(R.id.datePickerButton);
+        timepicker = (Button) findViewById(R.id.timePickerButton);
         back_button = (TextView) findViewById(R.id.back_button);
         submit = (Button) findViewById(R.id.submit_btn);
         datepicker.setText(getTodayDate());
@@ -127,6 +131,13 @@ public class CancelActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
+            }
+        });
+
+        timepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTime();
             }
         });
 
@@ -191,6 +202,23 @@ public class CancelActivity extends AppCompatActivity {
         });
     }
 
+    private void openTime(){
+       TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+           @Override
+           public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+                hour = selectedHour;
+                minute = selectedMinute;
+                timepicker.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+           }
+       };
+
+       int style = AlertDialog.THEME_HOLO_LIGHT;
+       TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, false);
+
+       timePickerDialog.setTitle("Select Time");
+       timePickerDialog.show();
+    }
+
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -242,7 +270,7 @@ public class CancelActivity extends AppCompatActivity {
             return "MAY";
         }
         else if (month == 6){
-            return "JuN";
+            return "JUN";
         }
         else if (month == 7){
             return "JUL";

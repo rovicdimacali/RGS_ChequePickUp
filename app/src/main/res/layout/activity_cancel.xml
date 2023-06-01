@@ -55,6 +55,32 @@
             android:text="Client/Customer not around"
             android:textSize="20dp" />
 
+        <LinearLayout
+            android:id="@+id/proof_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Proof: "
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            
+            <EditText
+                android:layout_weight="15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/proof"/>
+
+        </LinearLayout>
+
         <RadioButton
             android:id="@+id/reschedule"
             android:layout_width="wrap_content"
@@ -70,7 +96,7 @@
             android:layout_marginHorizontal="5dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,6 +113,36 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="90"
                 android:text="JAN 01 2023"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/time_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Time: "
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/timePickerButton"
+                style="?android:dropDownSpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="90"
+                android:text="SELECT TIME"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20dp" />

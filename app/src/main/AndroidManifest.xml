@@ -27,6 +27,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".OfficialReceipt5"
+            android:exported="false" />
+        <activity
+            android:name=".OfficialReceipt4"
+            android:exported="false" />
+        <activity
+            android:name=".OfficialReceipt3"
+            android:exported="false" />
+        <activity
+            android:name=".OfficialReceipt2"
+            android:exported="false" />
+        <activity
             android:name=".Failed"
             android:exported="false" />
         <activity
