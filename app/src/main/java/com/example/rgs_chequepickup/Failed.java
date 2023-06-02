@@ -1,5 +1,7 @@
 package com.example.rgs_chequepickup;
 
+import static com.example.rgs_chequepickup.ChequePickUp.PERMISSION_SEND_SMS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -17,6 +19,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.UserManager;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +44,7 @@ import SessionPackage.SessionManagement;
 import SessionPackage.SignatureManagement;
 import SessionPackage.UserSession;
 import SessionPackage.accountManagement;
+import SessionPackage.cancelManagement;
 import SessionPackage.chequeManagement;
 import SessionPackage.remarkManagement;
 import SessionPackage.scenarioManagement;
@@ -65,6 +69,7 @@ public class Failed extends AppCompatActivity {
     Button back_button;
     String responseData, riderID;
     String status;
+    String pointPerson;
     Intent i;
     SessionManagement sm;
     TextView comp;
@@ -76,9 +81,6 @@ public class Failed extends AppCompatActivity {
 
         sm  = new SessionManagement(Failed.this);
         riderID = sm.getSession();
-
-        i = getIntent();
-        status = i.getStringExtra("cancel");
 
         client = new OkHttpClient();
         back_button = (Button) findViewById(R.id.back_button);
@@ -133,21 +135,58 @@ public class Failed extends AppCompatActivity {
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
     public void postResults(String longitude, String latitude){
-        LocationManagement loc_m = new LocationManagement(Failed.this);
-
         RequestBody rbody;
 
+        LocationManagement loc_m = new LocationManagement(Failed.this);
         SignatureManagement sign_m = new SignatureManagement(Failed.this);
         chequeManagement cs = new chequeManagement(Failed.this);
-
+        cancelManagement can_m = new cancelManagement(Failed.this);
 
         Resources res = getResources();
-        Drawable defaultPic = res.getDrawable(R.drawable.rgs_logo);
+        Drawable defaultPic = res.getDrawable(R.drawable.cancel);
 
-        rbody = new MultipartBody.Builder()
+        String imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
+        File imageFile = new File(imagePath);
+
+        if(can_m.getCancel().equals("Client/Customer Not Around")){
+            if(!imageFile.exists()){
+                Toast.makeText(Failed.this, "Signature File does not exist", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                rbody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("chk_rider", sm.getSession())
+                        .addFormDataPart("chk_status", can_m.getCancel())
+                        .addFormDataPart("cancel_name", can_m.getPoint())
+                        .addFormDataPart("chk_sign", sign_m.getSign(),RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                        .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
+                        .addFormDataPart("chk_accno", "")
+                        .addFormDataPart("chk_payee","")
+                        .addFormDataPart("chk_entity", "")
+                        .addFormDataPart("chk_remark", "")
+                        .addFormDataPart("chk_address", loc_m.getAdd())
+                        .addFormDataPart("chk_company", loc_m.getComp())
+                        .addFormDataPart("chk_code", loc_m.getCode())
+                        .addFormDataPart("chk_tin", "")
+                        .addFormDataPart("chk_or", "")
+                        .addFormDataPart("chk_date", "")
+                        .addFormDataPart("chk_bcode", "")
+                        .addFormDataPart("transaction_num", "")
+                        .addFormDataPart("chk_amount", "")
+                        .addFormDataPart("chk_number", "")
+                        .addFormDataPart("latitude", latitude)
+                        .addFormDataPart("longitude", longitude)
+                        .build();
+
+                sendAPI(rbody);
+            }
+        }
+        else{
+            rbody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("chk_rider", sm.getSession())
-                    .addFormDataPart("chk_status", "Cancelled: " + status)
+                    .addFormDataPart("chk_status", can_m.getCancel())
+                    .addFormDataPart("cancel_name", can_m.getPoint())
                     .addFormDataPart("chk_sign", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
                     .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
                     .addFormDataPart("chk_accno", "")
@@ -158,11 +197,25 @@ public class Failed extends AppCompatActivity {
                     .addFormDataPart("chk_company", loc_m.getComp())
                     .addFormDataPart("chk_code", loc_m.getCode())
                     .addFormDataPart("chk_tin", "")
+                    .addFormDataPart("chk_or", "")
+                    .addFormDataPart("chk_date", "")
+                    .addFormDataPart("chk_bcode", "")
+                    .addFormDataPart("transaction_num", "")
                     .addFormDataPart("chk_amount", "")
                     .addFormDataPart("chk_number", "")
                     .addFormDataPart("latitude", latitude)
                     .addFormDataPart("longitude", longitude)
                     .build();
+
+            sendAPI(rbody);
+        }
+    }
+
+    private void sendAPI(RequestBody rbody){
+        LocationManagement loc_m = new LocationManagement(Failed.this);
+        SignatureManagement sign_m = new SignatureManagement(Failed.this);
+        chequeManagement cs = new chequeManagement(Failed.this);
+        cancelManagement can_m = new cancelManagement(Failed.this);
 
         Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/remarks").post(rbody).build();
         client.newCall(req).enqueue(new Callback() {
@@ -187,25 +240,27 @@ public class Failed extends AppCompatActivity {
                             String value = specificValue(responseData);
                             //value.replace("<br />", "");
                             if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                //sqlPickUp spu = new sqlPickUp(ChequeReceived.this);
-                                //int res = spu.addHistory(loc_m.getComp(), loc_m.getPer(), loc_m.getAdd(), loc_m.getCont(), loc_m.getCode());
-                                //if(res == 1){
                                 Toast.makeText(Failed.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                                //Toast.makeText(ChequeReceived.this, "Transaction added to Pick Up history", Toast.LENGTH_SHORT).show();
-                                //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
-                                //sess_m.removeSession();
+
+                                String messageFailed = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that the Pick-Up was cancelled due to a reason.";
+                                if (ContextCompat.checkSelfPermission(Failed.this, Manifest.permission.SEND_SMS)
+                                        != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
+                                    ActivityCompat.requestPermissions(Failed.this, new String[]{Manifest.permission.SEND_SMS},
+                                            PERMISSION_SEND_SMS);
+                                } else {// PERMISSION GRANTED
+                                    //sendSMS(cont, "Hello, this is a test message!");
+                                    sendSMS(loc_m.getCont(), messageFailed);
+                                }
                                 loc_m.removeLocation();
+                                can_m.removeCancel();
+
+
                                 Intent intent = new Intent(Failed.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
-                                //}
-                                //else{
-                                //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
-                                //}
+
                             } else {
-                                //loc_m.removeLocation();
-                                comp.setText(value);
                                 Toast.makeText(Failed.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
@@ -239,4 +294,33 @@ public class Failed extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+    public File getAlbumStorageDir(String albumName) {
+        // Get the directory for the user's public pictures directory.
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), albumName);
+        if (!file.mkdirs()) {
+            Log.e("SignaturePad", "Directory not created");
+        }
+        return file;
+    }
+
+    private void sendSMS(String phoneNumber, String message) {
+        char cpFirst = phoneNumber.charAt(0);
+        if(phoneNumber.substring(0,4).contains("+63") || phoneNumber.substring(0,4).contains("63") ||
+                phoneNumber.substring(0,4).contains("09")){
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        }
+        else if(cpFirst == '9'){
+            phoneNumber = "0" + phoneNumber;
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Invalid cellphone number", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

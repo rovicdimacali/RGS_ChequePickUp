@@ -1,6 +1,7 @@
 package com.example.rgs_chequepickup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
@@ -13,12 +14,15 @@ import android.text.InputType;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,22 +38,18 @@ import SessionPackage.scenarioManagement;
 public class OfficialReceipt extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
-    TextView back_button;
+    CardView card_spinner;
+    Spinner spinner;
+    TextView back_button, checkTitle;
     //FIRST INPUTS
-    EditText cheq_num, cheq_amount, compname, compadd, tin, payee;
+    EditText cheq_num, cheq_amount, compname, compadd, tin, payee, bcode, ornum;
     //ADDITIONAL INPUTS
-    EditText newCheqNum1, newCheqNum2, newCheqNum3, newCheqNum4;
-    LinearLayout layNum1, layNum2, layNum3, layNum4;
-    EditText newCheqAm1, newCheqAm2, newCheqAm3, newCheqAm4;
-    LinearLayout layAm1, layAm2, layAm3, layAm4, datefield;
-    //DELETE BUTTONS
-    ImageView deleteNum1, deleteNum2, deleteNum3, deleteNum4;
-    ImageView deleteAm1, deleteAm2, deleteAm3, deleteAm4;
-    Button submit_btn, addBtn, datepicker;
+    Button submit_btn, addBtn, datepicker, date;
     String remark;
     LinearLayout Llayout_num, Llayout_am;
-
+    LinearLayout datefield;
     String cheqResNum, cheqResAm;
+    String payeeList[];
     int count = 1;
     int delete = 0;
     ArrayList<LinearLayout> chkNums = new ArrayList<>();
@@ -68,48 +68,22 @@ public class OfficialReceipt extends AppCompatActivity {
 
         remark = sm.getScene();
 
-        //ADDITIONAL CHECK AMOUNT
-        layAm1 = (LinearLayout)  findViewById(R.id.layout_amount1);
-        layAm2 = (LinearLayout)  findViewById(R.id.layout_amount2);
-        layAm3 = (LinearLayout)  findViewById(R.id.layout_amount3);
-        layAm4 = (LinearLayout)  findViewById(R.id.layout_amount4);
-
-        newCheqAm1 = (EditText) findViewById(R.id.inputchequeamount1);
-        newCheqAm2 = (EditText) findViewById(R.id.inputchequeamount2);
-        newCheqAm3 = (EditText) findViewById(R.id.inputchequeamount3);
-        newCheqAm4 = (EditText) findViewById(R.id.inputchequeamount4);
-
-        deleteAm1 = (ImageView) findViewById(R.id.delete_amount1);
-        deleteAm2 = (ImageView) findViewById(R.id.delete_amount2);
-        deleteAm3 = (ImageView) findViewById(R.id.delete_amount3);
-        deleteAm4 = (ImageView) findViewById(R.id.delete_amount4);
-
-        //ADDITIONAL CHECK NUMBER
-        layNum1 = (LinearLayout)  findViewById(R.id.layout_number1);
-        layNum2 = (LinearLayout)  findViewById(R.id.layout_number2);
-        layNum3 = (LinearLayout)  findViewById(R.id.layout_number3);
-        layNum4 = (LinearLayout)  findViewById(R.id.layout_number4);
-
-        newCheqNum1 = (EditText) findViewById(R.id.inputchequenumber1);
-        newCheqNum2 = (EditText) findViewById(R.id.inputchequenumber2);
-        newCheqNum3 = (EditText) findViewById(R.id.inputchequenumber3);
-        newCheqNum4 = (EditText) findViewById(R.id.inputchequenumber4);
-
-        deleteNum1 = (ImageView) findViewById(R.id.delete_number1);
-        deleteNum2 = (ImageView) findViewById(R.id.delete_number2);
-        deleteNum3 = (ImageView) findViewById(R.id.delete_number3);
-        deleteNum4 = (ImageView) findViewById(R.id.delete_number4);
-
+        card_spinner = (CardView) findViewById(R.id.cardView_spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         addBtn = (Button) findViewById(R.id.addCheque_button);
         Llayout_num = (LinearLayout) findViewById(R.id.chknumText);
         Llayout_am = (LinearLayout) findViewById(R.id.chkamountText);
+        checkTitle = (TextView) findViewById(R.id.checkTitle);
 
         compname = (EditText) findViewById(R.id.inputcompany);
         compadd = (EditText) findViewById(R.id.inputaddress);
         tin = (EditText) findViewById(R.id.inputtin);
+        bcode = (EditText) findViewById(R.id.inputBC);
+        ornum = (EditText) findViewById(R.id.inputOR);
+        date = (Button) findViewById(R.id.datePickerButton);
         cheq_amount = (EditText) findViewById(R.id.inputchequeamount);
         cheq_num = (EditText) findViewById(R.id.inputchequenumber);
-        payee = (EditText) findViewById(R.id.inputpayee);
+        //payee = (EditText) findViewById(R.id.inputpayee);
 
         /*if(!(rm.getTin().isEmpty())){
             tin.setText(rm.getTin());
@@ -118,14 +92,18 @@ public class OfficialReceipt extends AppCompatActivity {
         compname.setText(lm.getComp());
         compadd.setText(lm.getAdd());
 
-        /*if(remark.equals("One Account, Multiple Cheques") || remark.equals("Multiple Accounts, Multiple Cheques"))
-        {
-            cheq_num.setActivated(false);
-            cheq_amount.setActivated(false);
+        payeeList = new String[]{"Globe Telecom Services", "Innove Services", "Bayan Services"}; //PAYEE LIST
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfficialReceipt.this, R.layout.simple_spinner_item, payeeList);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
 
-            cheq_num.setText("Multiple Cheques");
-            cheq_amount.setText("Multiple Cheques");
-        }*/
+        if(remark.equals("One Account, Multiple Cheques") || remark.equals("Multiple Accounts, Multiple Cheques"))
+        {
+           checkTitle.setText("Cheque 1");
+        }
+        else{
+            checkTitle.setText("Cheque");
+        }
         back_button = (TextView) findViewById(R.id.back_button);
         submit_btn = (Button) findViewById(R.id.submit_button);
 
@@ -138,7 +116,7 @@ public class OfficialReceipt extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
-        if(remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")){
+        if (remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")) {
             addBtn.setVisibility(View.GONE);
             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
         }
@@ -151,281 +129,63 @@ public class OfficialReceipt extends AppCompatActivity {
             }
         });
 
-        submit_btn.setOnClickListener(new View.OnClickListener() {
+        datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(remark.equals("Multiple Accounts, Multiple Cheques") || remark.equals("One Account, Multiple Cheques")){
-                    //STRING FOR CHEQUE NUM RESULTS
-                    cheqResNum = "chk1_num:" + cheq_num.getText().toString() + ",chk2_num:" + newCheqNum1.getText().toString() + ",chk3_num:" + newCheqNum2.getText().toString() +
-                            ",chk4_num:" + newCheqNum3.getText().toString() + ",chk5_num:" + newCheqNum4.getText().toString();
-                    //STRING FOR CHEQUE AMOUNT RESULTS
-                    cheqResAm = "chk1_amount:" + cheq_amount.getText().toString() + ",chk2_amount:" + newCheqAm1.getText().toString() + ",chk3_amount:" + newCheqAm2.getText().toString() +
-                            ",chk4_amount:" + newCheqAm3.getText().toString() + ",chk5_amount:" + newCheqAm4.getText().toString();
-                }
-                else{
-                    cheqResNum = cheq_num.getText().toString();
-                    cheqResAm = cheq_amount.getText().toString();
-                }
-                ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), cheqResAm, cheqResNum, String.valueOf(payee.getText()));
-                rm.saveReceipt(rs);
-                //Toast.makeText(OfficialReceipt.this, "Transaction Completed", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
-                startActivity(intent);
-                finish();
+                datePickerDialog.show();
             }
         });
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                /*if(count < 4){ // IF COUNT IS LESS THAN 5, ADD CHECK
-                    EditText etNum = new EditText(OfficialReceipt.this);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String service = parent.getItemAtPosition(position).toString();
+                //submit_btn = (Button) findViewById(R.id.submit_button);
 
-                    LinearLayout.LayoutParams ln = new LinearLayout.LayoutParams(1050,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    ln.setMargins(80, 30,0,0);
-                    etNum.setBackgroundColor(Integer.parseInt(String.valueOf(Color.parseColor("#F2F2F2"))));
-                    etNum.setLayoutParams(ln);
-                    etNum.setHint("Cheque Number");
-                    etNum.setTextSize(15);
-                    etNum.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    etNum.setPadding(54,60,20,60);
-
-                    Llayout_num.addView(etNum);
-
-                    EditText etAmount = new EditText(OfficialReceipt.this);
-
-                    LinearLayout.LayoutParams la = new LinearLayout.LayoutParams(1050,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    la.setMargins(80, 30,0,0);
-                    etAmount.setBackgroundColor(Integer.parseInt(String.valueOf(Color.parseColor("#F2F2F2"))));
-                    etAmount.setLayoutParams(la);
-                    etAmount.setHint("Cheque Amount");
-                    etAmount.setTextSize(15);
-                    etAmount.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    etAmount.setPadding(54,60,20,60);
-
-                    Llayout_am.addView(etAmount);
-
-                    chkNums.add(etNum);
-                    chkAmounts.add(etNum);
-
-                    count++;
-                    if(count >= 4)
-                    {
-                        addBtn.setText("Reset");
-                        addBtn.setActivated(false);
-                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                submit_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    /*if (remark.equals("Multiple Accounts, Multiple Cheques") || remark.equals("One Account, Multiple Cheques")) {
+                        //STRING FOR CHEQUE NUM RESULTS
+                        /cheqResNum = "chk1_num:" + cheq_num.getText().toString() + ",chk2_num:" + newCheqNum1.getText().toString() + ",chk3_num:" + newCheqNum2.getText().toString() +
+                                ",chk4_num:" + newCheqNum3.getText().toString() + ",chk5_num:" + newCheqNum4.getText().toString();
+                        //STRING FOR CHEQUE AMOUNT RESULTS
+                        cheqResAm = "chk1_amount:" + cheq_amount.getText().toString() + ",chk2_amount:" + newCheqAm1.getText().toString() + ",chk3_amount:" + newCheqAm2.getText().toString() +
+                                ",chk4_amount:" + newCheqAm3.getText().toString() + ",chk5_amount:" + newCheqAm4.getText().toString();
+                    } else {
+                        cheqResNum = cheq_num.getText().toString();
+                        cheqResAm = cheq_amount.getText().toString();
+                    }*/
+                       ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), cheq_amount.getText().toString().replace(",", ""), cheq_num.getText().toString().replace(",", ""), service, bcode.getText().toString(),
+                                ornum.getText().toString(), date.getText().toString());
+                       rm.saveReceipt(rs);
+                        //Toast.makeText(OfficialReceipt.this, "Transaction Completed", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
+                        startActivity(intent);
+                        finish();
                     }
-                }
-                else if(count >= 3){ // ELSE, DISABLE BUTTON
-                    //Toast.makeText(OfficialReceipt.this, "Maximum of 5 Cheques Only", Toast.LENGTH_SHORT).show();
-                    recreate();
-               }*/
-                if(count < 5 && delete == 0){
-                    if(count == 1){
-                        layNum1.setVisibility(View.VISIBLE);
-                        layAm1.setVisibility(View.VISIBLE);
-                        chkNumList.add(newCheqNum1);
-                        chkAmList.add(newCheqAm1);
-                        addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
-                        count++;
-                    }
-                    else if(count == 2){
-                        layNum2.setVisibility(View.VISIBLE);
-                        layAm2.setVisibility(View.VISIBLE);
-                        chkNumList.add(newCheqNum2);
-                        chkAmList.add(newCheqAm2);
-                        addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
-                        count++;
-                    }
-                    else if(count == 3){
-                        layNum3.setVisibility(View.VISIBLE);
-                        layAm3.setVisibility(View.VISIBLE);
-                        chkNumList.add(newCheqNum3);
-                        chkAmList.add(newCheqAm3);
-                        addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
-                        //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                        count++;
-                    }
-                    else if(count == 4){
-                        layNum4.setVisibility(View.VISIBLE);
-                        layAm4.setVisibility(View.VISIBLE);
-                        chkNumList.add(newCheqNum4);
-                        chkAmList.add(newCheqAm4);
-                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                        Toast.makeText(OfficialReceipt.this, "Maximum of 5 cheques only", Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
-                        //count++;
-                    }
-                }
-                else if(count < 5 && delete >= 1){ //DELETED MORE THAN 1
-                    if(!(chkNums.isEmpty() && chkAmounts.isEmpty())){
-                        chkNums.get(0).setVisibility(View.VISIBLE);
-                        chkAmounts.get(0).setVisibility(View.VISIBLE);
-                        chkNums.remove(0);
-                        chkAmounts.remove(0);
-                        delete--;
-                        count++;
-                        //addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-                        if(count == 4 && delete == 0){
-                            //Toast.makeText(OfficialReceipt.this, "HI", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(OfficialReceipt.this, "Maximum of 5 cheques only", Toast.LENGTH_SHORT).show();
-                            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                        }
-                        else{
-                            //Toast.makeText(OfficialReceipt.this, "C: " + count, Toast.LENGTH_SHORT).show();
-                            addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-                        }
+                });
 
-                    }
-                }
-                else if(count == 4 && delete == 1){ //ONE MORE COUNTER TO ADD BEFORE SUBMIT BUTTON IS DISABLED
-                    if(!(chkNums.isEmpty() && chkAmounts.isEmpty())){
-                        chkNums.get(0).setVisibility(View.VISIBLE);
-                        chkAmounts.get(0).setVisibility(View.VISIBLE);
-                        chkNums.remove(0);
-                        chkAmounts.remove(0);
-                        //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                        delete--;
-                        count++;
-                    }
-                }
-            }
-        });
+                addBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), cheq_amount.getText().toString().replace(",", ""), cheq_num.getText().toString().replace(",", ""), service, bcode.getText().toString(),
+                                ornum.getText().toString(), date.getText().toString());
+                        rm.saveReceipt(rs);
 
-        //DELETE BUTTONS
-        deleteNum1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum1.setVisibility(View.GONE);
-                layAm1.setVisibility(View.GONE);
-                chkNums.add(layNum1);
-                chkAmounts.add(layAm1);
-                chkNumList.remove(newCheqNum1);
-                chkAmList.remove(newCheqAm1);
-                delete++;
-                count--;
-                newCheqNum1.setText("");
-                newCheqAm1.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+                        Intent intent = new Intent(OfficialReceipt.this, OfficialReceipt2.class);
+
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
             }
-        });
-        deleteAm1.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                layNum1.setVisibility(View.GONE);
-                layAm1.setVisibility(View.GONE);
-                chkNums.add(layNum1);
-                chkAmounts.add(layAm1);
-                chkNumList.remove(newCheqNum1);
-                chkAmList.remove(newCheqAm1);
-                delete++;
-                count--;
-                newCheqNum1.setText("");
-                newCheqAm1.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteNum2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum2.setVisibility(View.GONE);
-                layAm2.setVisibility(View.GONE);
-                chkNums.add(layNum2);
-                chkAmounts.add(layAm2);
-                chkNumList.remove(newCheqNum2);
-                chkAmList.remove(newCheqAm2);
-                newCheqNum2.setText("");
-                newCheqAm2.setText("");
-                delete++;
-                count--;
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteAm2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum2.setVisibility(View.GONE);
-                layAm2.setVisibility(View.GONE);
-                chkNums.add(layNum2);
-                chkAmounts.add(layAm2);
-                chkNumList.remove(newCheqNum2);
-                chkAmList.remove(newCheqAm2);
-                delete++;
-                count--;
-                newCheqNum2.setText("");
-                newCheqAm2.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteNum3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum3.setVisibility(View.GONE);
-                layAm3.setVisibility(View.GONE);
-                chkNums.add(layNum3);
-                chkAmounts.add(layAm3);
-                chkNumList.remove(newCheqNum3);
-                chkAmList.remove(newCheqAm3);
-                delete++;
-                count--;
-                newCheqNum3.setText("");
-                newCheqAm3.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteAm3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum3.setVisibility(View.GONE);
-                layAm3.setVisibility(View.GONE);
-                chkNums.add(layNum3);
-                chkAmounts.add(layAm3);
-                chkNumList.remove(newCheqNum3);
-                chkAmList.remove(newCheqAm3);
-                delete++;
-                count--;
-                newCheqNum3.setText("");
-                newCheqAm3.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteNum4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum4.setVisibility(View.GONE);
-                layAm4.setVisibility(View.GONE);
-                chkNums.add(layNum4);
-                chkAmounts.add(layAm4);
-                chkNumList.remove(newCheqNum4);
-                chkAmList.remove(newCheqAm4);
-                delete++;
-                count--;
-                newCheqNum4.setText("");
-                newCheqAm4.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
-            }
-        });
-        deleteAm4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layNum4.setVisibility(View.GONE);
-                layAm4.setVisibility(View.GONE);
-                chkNums.add(layNum4);
-                chkAmounts.add(layAm4);
-                chkNumList.remove(newCheqNum4);
-                chkAmList.remove(newCheqAm4);
-                delete++;
-                count--;
-                newCheqNum4.setText("");
-                newCheqAm4.setText("");
-                addBtn.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_secondary));
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -485,7 +245,7 @@ public class OfficialReceipt extends AppCompatActivity {
             return "MAY";
         }
         else if (month == 6){
-            return "JuN";
+            return "JUN";
         }
         else if (month == 7){
             return "JUL";

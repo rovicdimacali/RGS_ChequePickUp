@@ -33,7 +33,7 @@
             android:textColor="@color/black"
             android:background="@drawable/header"
             android:paddingVertical="15dp"
-            />
+            android:id="@+id/checkTitle"/>
 
     </RelativeLayout>
 
@@ -101,7 +101,23 @@
                 android:text="Payee"
                 android:textColor="@color/black" />
 
-            <EditText
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/rgs_bg">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+            <!--<EditText
                 android:id="@+id/inputpayee"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
@@ -110,7 +126,7 @@
                 android:hint="Payee"
                 android:padding="20dp"
                 android:background="#F2F2F2"
-                android:textSize="15dp" />
+                android:textSize="15dp" />-->
 
             <TextView
                 android:id="@+id/bankCode"

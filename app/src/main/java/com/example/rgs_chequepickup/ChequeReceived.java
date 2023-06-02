@@ -32,8 +32,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.ReceiptManagement;
@@ -159,6 +162,16 @@ public class ChequeReceived extends AppCompatActivity {
         }
         else {
             RequestBody rbody;
+
+            Random ran = new Random();
+            int transNum = ran.nextInt(900000) + 100000;
+            Date currDate = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(currDate);
+
+            String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+
             if(scene_m.getStat().equals("Defective")){
                 Resources res = getResources();
                 defaultPic = res.getDrawable(R.drawable.cancel);
@@ -167,16 +180,21 @@ public class ChequeReceived extends AppCompatActivity {
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())
                         .addFormDataPart("chk_status", scene_m.getStat())
+                        .addFormDataPart("cancel_name", "")
                         .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
                         .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                        .addFormDataPart("chk_accno", acc_m.getAccno())
-                        .addFormDataPart("chk_payee", rm.getPayee())
-                        .addFormDataPart("chk_entity", acc_m.getEntity())
-                        .addFormDataPart("chk_remark", rem_m.getRemark())
+                        .addFormDataPart("chk_accno", "")
+                        .addFormDataPart("chk_payee", "")
+                        .addFormDataPart("chk_entity", "")
+                        .addFormDataPart("chk_remark", "")
                         .addFormDataPart("chk_address", loc_m.getAdd())
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
                         .addFormDataPart("chk_tin", "None")
+                        .addFormDataPart("chk_or", "")
+                        .addFormDataPart("chk_date", "")
+                        .addFormDataPart("chk_bcode", "")
+                        .addFormDataPart("transaction_num", "")
                         .addFormDataPart("chk_amount", "None")
                         .addFormDataPart("chk_number", "None")
                         .addFormDataPart("latitude", latitude)
@@ -195,6 +213,7 @@ public class ChequeReceived extends AppCompatActivity {
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())
                         .addFormDataPart("chk_status", scene_m.getStat())
+                        .addFormDataPart("cancel_name", "")
                         .addFormDataPart("chk_sign", sign_m.getSign(), RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                         .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
                         .addFormDataPart("chk_accno", acc_m.getAccno())
@@ -205,6 +224,10 @@ public class ChequeReceived extends AppCompatActivity {
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
                         .addFormDataPart("chk_tin", rm.getTin())
+                        .addFormDataPart("chk_or", rm.getOR())
+                        .addFormDataPart("chk_date", rm.getDate())
+                        .addFormDataPart("chk_bcode", rm.getBcode())
+                        .addFormDataPart("transaction_num", transaction)
                         .addFormDataPart("chk_amount", rm.getAmount())
                         .addFormDataPart("chk_number", rm.getNumber())
                         .addFormDataPart("latitude", latitude)

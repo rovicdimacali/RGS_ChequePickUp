@@ -16,14 +16,19 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,20 +40,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import SessionPackage.LocationManagement;
+import SessionPackage.cancelManagement;
+import SessionPackage.cancelSession;
 
 public class CancelActivity extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
     Button datepicker, submit, timepicker;
     TextView back_button;
-    LinearLayout datefield;
+    LinearLayout datefield, proof, timefield;
     RadioButton absentRB, reschedRB, diffRB, longRB, othersRB;
-    EditText cancelText;
+    EditText cancelText, point;
     String cancelStatus;
 
     FusedLocationProviderClient fspc;
@@ -69,6 +77,9 @@ public class CancelActivity extends AppCompatActivity {
 
         //LAYOUT FOR DATEFIELD
         datefield = (LinearLayout) findViewById(R.id.date_field);
+        timefield = (LinearLayout) findViewById(R.id.time_field);
+        proof = (LinearLayout) findViewById(R.id.proof_field);
+        point = (EditText) findViewById(R.id.point);
 
         //RADIO BUTTONS
         absentRB = (RadioButton) findViewById(R.id.client_not_around);
@@ -95,21 +106,35 @@ public class CancelActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() || othersRB.isChecked()){
-                    if(reschedRB.isChecked()){ // DISPLAY DATE PICKER WHEN SELECTED
+                if (absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() || othersRB.isChecked()) {
+                    if (absentRB.isChecked()) {
+                        datefield.setVisibility(View.GONE);
+                        timefield.setVisibility(View.GONE);
+                        proof.setVisibility(View.VISIBLE);
+                        cancelText.setEnabled(false);
+                        cancelText.setHint(" ");
+                        cancelText.setText(" ");
+                    } else if (reschedRB.isChecked()) { // DISPLAY DATE PICKER WHEN SELECTED
                         datefield.setVisibility(View.VISIBLE);
+                        timefield.setVisibility(View.VISIBLE);
+                        proof.setVisibility(View.GONE);
+                        point.setText(" ");
                         cancelText.setEnabled(false);
                         cancelText.setHint(" ");
                         cancelText.setText(" ");
                         //cancelText.setHint("Enter Reason Here");
-                    }
-                    else if(othersRB.isChecked()){
+                    } else if (othersRB.isChecked()) {
                         datefield.setVisibility(View.GONE);
+                        timefield.setVisibility(View.GONE);
+                        proof.setVisibility(View.GONE);
+                        point.setText(" ");
                         cancelText.setEnabled(true);
                         cancelText.setHint("Enter Reason Here");
-                    }
-                    else{ // HIDE DATE PICKER AND TEXT FIELD WHEN NOT SELECTED
+                    } else { // HIDE DATE PICKER AND TEXT FIELD WHEN NOT SELECTED
                         datefield.setVisibility(View.GONE);
+                        timefield.setVisibility(View.GONE);
+                        proof.setVisibility(View.GONE);
+                        point.setText(" ");
                         cancelText.setEnabled(false);
                         cancelText.setHint(" ");
                         cancelText.setText(" ");
@@ -155,44 +180,55 @@ public class CancelActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(absentRB.isChecked()){
+                if (absentRB.isChecked() && !point.getText().toString().isEmpty()) {
                     getCurrentLocation();
-                }
-                else if(reschedRB.isChecked()){
+                } else if (reschedRB.isChecked() && !timepicker.getText().toString().equals("SELECT TIME")) {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
-                    i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString());
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Rescheduled by client on " + datepicker.getText().toString() + ", " + timepicker.getText().toString(), "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString() + ", "  + timepicker.getText().toString());
                     startActivity(i);
                     finish();
-                }
-                else if(diffRB.isChecked()){
+                } else if (diffRB.isChecked()) {
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Mechanical Difficulties", "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Mechanical Difficulties at " + currLoc);
+                    startActivity(i);
+                    finish();
+                } else if (longRB.isChecked()) {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
-                    i.putExtra("cancel", "Rider Mechanical Difficulties");
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Unattended - Prolonged Transaction", "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Unattended - Prolonged Transaction");
                     startActivity(i);
                     finish();
-                }
-                else if(longRB.isChecked()){
-                    LocationManagement lm = new LocationManagement(CancelActivity.this);
-                    Intent i = new Intent(CancelActivity.this, Failed.class);
-                    i.putExtra("cancel", "Unattended - Prolonged Transaction");
-                    startActivity(i);
-                    finish();
-                }
-                else if(othersRB.isChecked() && !(cancelText.getText().toString().isEmpty())){
+                } else if (othersRB.isChecked() && !(cancelText.getText().toString().isEmpty())) {
                     cancelStatus = cancelText.getText().toString();
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
-                    i.putExtra("cancel", cancelStatus);
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession(cancelStatus, "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", cancelStatus);
                     startActivity(i);
                     finish();
-                }
-                else if(!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())){
+                } else if (!(othersRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked()) && (absentRB.isChecked() && point.getText().toString().isEmpty())) {
                     Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
-                }
-                else if(!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked() || othersRB.isChecked())){
+                } else if (!(othersRB.isChecked() || absentRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked()) && (reschedRB.isChecked() && timepicker.getText().toString().equals("SELECT TIME"))) {
+                    Toast.makeText(CancelActivity.this, "Please select a time", Toast.LENGTH_SHORT).show();
+                } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())) {
+                    Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
+                } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
+                        longRB.isChecked() || othersRB.isChecked())) {
                     Toast.makeText(CancelActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
                 //else if()
@@ -202,22 +238,33 @@ public class CancelActivity extends AppCompatActivity {
         });
     }
 
-    private void openTime(){
-       TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-           @Override
-           public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                hour = selectedHour;
-                minute = selectedMinute;
-                timepicker.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-           }
-       };
+    private void openTime() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
-       int style = AlertDialog.THEME_HOLO_LIGHT;
-       TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, false);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
 
-       timePickerDialog.setTitle("Select Time");
-       timePickerDialog.show();
+                        // Format the selected time
+                        String selectedTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
+
+                        timepicker.setText(selectedTime);
+                    }
+                },
+                hour,
+                minute,
+                false
+        );
+
+        timePickerDialog.show();
     }
+
 
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
@@ -324,9 +371,13 @@ public class CancelActivity extends AppCompatActivity {
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
                             if (distance < 99999) {
+                                cancelManagement cm = new cancelManagement(CancelActivity.this);
+                                cancelSession cs = new cancelSession("Client/Customer Not Around",point.getText().toString());
+                                cm.saveCancel(cs);
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(CancelActivity.this, Failed.class);
-                                i.putExtra("cancel", "Client/Customer Not Around");
+                                Intent i = new Intent(CancelActivity.this, ESignature.class);
+                                /*i.putExtra("cancel", "Client/Customer Not Around");
+                                i.putExtra("pointPerson", point.getText().toString());*/
                                 startActivity(i);
                                 finish();
                             } else {
@@ -334,7 +385,8 @@ public class CancelActivity extends AppCompatActivity {
                                 Toast.makeText(CancelActivity.this, "Must be at the destination first", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            NoSignalPopupWindow();
+                            //throw new RuntimeException(e);
                         }
                     }
                 }
@@ -364,5 +416,30 @@ public class CancelActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    private void NoSignalPopupWindow() {
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_unstable, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        Button retry = (Button) popUpView.findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+                popupWindow.dismiss();
+            }
+        });
+    }
 
 }

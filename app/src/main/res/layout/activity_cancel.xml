@@ -62,22 +62,22 @@
             android:layout_marginHorizontal="5dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/representative"
+                android:layout_width="136dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Proof: "
+                android:text="Point Person: "
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"/>
 
-            
             <EditText
                 android:layout_weight="15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/proof"/>
+                android:id="@+id/point"/>
 
         </LinearLayout>
 
@@ -96,7 +96,7 @@
             android:layout_marginHorizontal="5dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
             android:layout_marginHorizontal="5dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

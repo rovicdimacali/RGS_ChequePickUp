@@ -37,9 +37,13 @@ import java.util.Date;
 import SessionPackage.LocationManagement;
 import SessionPackage.SignatureManagement;
 import SessionPackage.SignatureSession;
+import SessionPackage.cancelManagement;
 
 public class ESignature extends AppCompatActivity {
+    Intent cancel;
+    int hasCancel = 0;
 
+    //String pointPerson, cancel;
     private Button clear_img, save_image, next_btn;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -49,12 +53,24 @@ public class ESignature extends AppCompatActivity {
     private ImageView imageView;
 
     private TextView back_button;
+    String cancelStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         verifyStoragePermissions(this);
         setContentView(R.layout.activity_esignature);
+
+        cancelManagement cm = new cancelManagement(ESignature.this);
+        cancelStatus = cm.getCancel();
+
+        if(!cancelStatus.equals("none")){
+            hasCancel = 1;
+            //Toast.makeText(ESignature.this, "" + cm.getCancel(), Toast.LENGTH_SHORT).show();
+        }
+        else if(cancelStatus.equals("none")){
+            hasCancel = 0;
+        }
 
         clear_img = (Button) findViewById(R.id.clear_img);
 
@@ -73,7 +89,15 @@ public class ESignature extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ESignature.this, RemarksActivity.class);
+                Intent intent;
+                if(hasCancel == 1){
+                    cancelManagement cm = new cancelManagement(ESignature.this);
+                    cm.removeCancel();
+                    intent = new Intent(ESignature.this, CancelActivity.class);
+                }
+                else{
+                    intent = new Intent(ESignature.this, RemarksActivity.class);
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
@@ -112,10 +136,19 @@ public class ESignature extends AppCompatActivity {
             public void onClick(View view) {
                 Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
                 if (addJpgSignatureToGallery(signatureBitmap) == true) {
-                    //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ESignature.this, OfficialReceipt.class);
+                    Intent intent;
+                    if(hasCancel == 1){
+                        intent = new Intent(ESignature.this, Failed.class);
+                        /*intent.putExtra("pointPerson", cancel.getStringExtra("pointPerson"));
+                        intent.putExtra("cancel", cancel.getStringExtra("cancel"));*/
+                    }
+                    else{
+                        intent = new Intent(ESignature.this, OfficialReceipt.class);
+                    }
                     startActivity(intent);
                     finish();
+                    //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(ESignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
                 }
@@ -148,7 +181,7 @@ public class ESignature extends AppCompatActivity {
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName);
         if (!file.mkdirs()) {
-            Log.e("SignaturePad", "Directory not created");
+            Log.e("RGS_Express Signs", "Directory not created");
         }
         return file;
     }
@@ -170,8 +203,16 @@ public class ESignature extends AppCompatActivity {
         String currentTime = timeForm.format(currentDate);
 
         LocationManagement lm = new LocationManagement(ESignature.this);
+        cancelManagement cm = new cancelManagement(ESignature.this);
         String comp = lm.getComp();
-        String fileName = comp+"_"+currentTime+".jpg";
+        String fileName;
+
+        if(hasCancel == 1){
+            fileName = comp+"_"+currentTime+".jpg";
+        }
+        else{
+            fileName = cm.getPoint()+"_"+currentTime+".jpg";
+        }
 
         SignatureManagement sm = new SignatureManagement(ESignature.this);
         SignatureSession ss = new SignatureSession(fileName);

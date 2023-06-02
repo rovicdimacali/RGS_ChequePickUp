@@ -320,6 +320,7 @@ public class ChequePickUp extends AppCompatActivity {
                             ep.setLongitude(des_long);
 
                             double distance = sp.distanceTo(ep);
+                            //double distance = 30.01;
                             //address.setText(String.valueOf(distance));
                             if(distance < 99999){
                                 ArrivedPopupWindow();
