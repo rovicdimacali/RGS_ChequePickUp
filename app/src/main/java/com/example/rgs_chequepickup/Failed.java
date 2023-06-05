@@ -149,7 +149,7 @@ public class Failed extends AppCompatActivity {
         File imageFile = new File(imagePath);
 
         if(can_m.getCancel().equals("Client/Customer Not Around")){
-            if(!imageFile.exists()){
+            if(!(imageFile.exists())){
                 Toast.makeText(Failed.this, "Signature File does not exist", Toast.LENGTH_SHORT).show();
             }
             else{

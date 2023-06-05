@@ -64,14 +64,6 @@ public class ESignature extends AppCompatActivity {
         cancelManagement cm = new cancelManagement(ESignature.this);
         cancelStatus = cm.getCancel();
 
-        if(!cancelStatus.equals("none")){
-            hasCancel = 1;
-            //Toast.makeText(ESignature.this, "" + cm.getCancel(), Toast.LENGTH_SHORT).show();
-        }
-        else if(cancelStatus.equals("none")){
-            hasCancel = 0;
-        }
-
         clear_img = (Button) findViewById(R.id.clear_img);
 
         save_image = (Button) findViewById(R.id.save_image);
@@ -82,6 +74,16 @@ public class ESignature extends AppCompatActivity {
 
         back_button.setTypeface(font);
         back_button.setText("\uf060");
+
+        if(!cancelStatus.equals("none")){
+            hasCancel = 1;
+            save_image.setEnabled(false);
+            clear_img.setEnabled(false);
+            //Toast.makeText(ESignature.this, "" + cm.getCancel(), Toast.LENGTH_SHORT).show();
+        }
+        else if(cancelStatus.equals("none")){
+            hasCancel = 0;
+        }
 
         //next_btn = (Button) findViewById(R.id.next_btn);
         //imageView = (ImageView) findViewById(R.id.imageView);

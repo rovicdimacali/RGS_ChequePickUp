@@ -100,6 +100,7 @@ public class CaptureCheque extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
+        next_button.setEnabled(false);
         if(ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
         }
@@ -124,6 +125,7 @@ public class CaptureCheque extends AppCompatActivity {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 101);
+                next_button.setEnabled(true);
                 //finish();
             }
         });
