@@ -370,7 +370,7 @@ public class CancelActivity extends AppCompatActivity {
 
                             double distance = sp.distanceTo(ep);
                             //address.setText(String.valueOf(distance));
-                            if (distance < 99999) {
+                            if (distance < 20) {
                                 cancelManagement cm = new cancelManagement(CancelActivity.this);
                                 cancelSession cs = new cancelSession("Client/Customer Not Around",point.getText().toString());
                                 cm.saveCancel(cs);

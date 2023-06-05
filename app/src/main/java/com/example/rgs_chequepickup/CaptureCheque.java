@@ -69,10 +69,21 @@ public class CaptureCheque extends AppCompatActivity {
     TextView back_button;
     Uri image;
     int pic = 0;
+    boolean hasRetake = false;
+    Intent retake;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_cheque);
+
+        retake = getIntent();
+
+        if(retake != null && retake.hasExtra("retake")){
+            hasRetake = true;
+        }
+        else{
+            hasRetake = false;
+        }
 
         //INTENT
         scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
@@ -251,14 +262,21 @@ public class CaptureCheque extends AppCompatActivity {
                         }
                         //BAYAN SERVICES
                         else if(service.equals("Bayan")){
+
                             if(chequeNum.getText().toString().length() == 9){ //Check if Account Number has 9 digits
                                 if(Long.parseLong(chequeNum.getText().toString()) >= 700000000 &&
                                         Long.parseLong(chequeNum.getText().toString()) <= 799999999){
                                     CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
                                     int result = cc.BayanChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
+                                        Intent intent = null;
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        if(hasRetake == true){
+                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                                        }
+                                        else{
+                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        }
                                         accountManagement am = new accountManagement(CaptureCheque.this);
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
@@ -286,8 +304,14 @@ public class CaptureCheque extends AppCompatActivity {
                                     CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
                                     int result = cc.InnoveChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
+                                        Intent intent;
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        if(hasRetake == true){
+                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                                        }
+                                        else{
+                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        }
                                         accountManagement am = new accountManagement(CaptureCheque.this);
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
@@ -315,8 +339,14 @@ public class CaptureCheque extends AppCompatActivity {
                                     CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
                                     int result = cc.GlobeHandyphoneChecker(Long.parseLong(chequeNum.getText().toString()));
                                     if(result == 1){
+                                        Intent intent;
                                         Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        if(hasRetake == true){
+                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                                        }
+                                        else{
+                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                        }
                                         accountManagement am = new accountManagement(CaptureCheque.this);
                                         accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                         am.saveAccount(as);
@@ -342,8 +372,14 @@ public class CaptureCheque extends AppCompatActivity {
                                 CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
                                 int result = cc.FA_ID(chequeNum.getText().toString());
                                 if(result == 1){
+                                    Intent intent;
                                     Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                    if(hasRetake == true){
+                                        intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                                    }
+                                    else{
+                                        intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                                    }
                                     accountManagement am = new accountManagement(CaptureCheque.this);
                                     accountSession as = new accountSession(chequeNum.getText().toString(), service);
                                     am.saveAccount(as);
@@ -359,8 +395,14 @@ public class CaptureCheque extends AppCompatActivity {
                             }
                         }
                         else if(service.equals("Multiple Accounts")){
-                            Toast.makeText(CaptureCheque.this, "Multiple Accounts", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            Intent intent;
+                            Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                            if(hasRetake == true){
+                                intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                            }
+                            else{
+                                intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            }
                             accountManagement am = new accountManagement(CaptureCheque.this);
                             accountSession as = new accountSession(chequeNum.getText().toString(), service);
                             am.saveAccount(as);
@@ -368,8 +410,14 @@ public class CaptureCheque extends AppCompatActivity {
                             finish();
                         }
                         else if(service.equals("Multiple Entities")){
-                            Toast.makeText(CaptureCheque.this, "Multiple Entities", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            Intent intent;
+                            Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
+                            if(hasRetake == true){
+                                intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                            }
+                            else{
+                                intent = new Intent(CaptureCheque.this, RemarksActivity.class);
+                            }
                             accountManagement am = new accountManagement(CaptureCheque.this);
                             accountSession as = new accountSession(chequeNum.getText().toString(), service);
                             am.saveAccount(as);

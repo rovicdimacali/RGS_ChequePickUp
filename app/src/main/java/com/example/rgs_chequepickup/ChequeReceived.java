@@ -159,6 +159,9 @@ public class ChequeReceived extends AppCompatActivity {
 
         if(!(chequeFile.exists())){
             Toast.makeText(ChequeReceived.this, "Cheque Image Missing", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(ChequeReceived.this, CaptureCheque.class);
+            i.putExtra("retake", 1);
+            startActivity(i);
         }
         else {
             RequestBody rbody;
