@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class HistoryActivity extends AppCompatActivity {
 
     TextView icon_name, icon_location, icon_number, icon_remarks, back_button;
+    JSONArray jsonArray = new JSONArray();
+    JSONObject jsonObject = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
