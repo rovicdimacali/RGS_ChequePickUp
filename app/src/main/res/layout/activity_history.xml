@@ -40,9 +40,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="#E3E3E3">
 
-        <androidx.cardview.widget.CardView
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -69,7 +74,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/icon_name"
+                        android:id="@+id/icon_company"
                         android:textSize="23dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/black"
@@ -79,12 +84,41 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/name"
+                        android:id="@+id/company"
                         android:textSize="20dp"
-                        android:layout_toRightOf="@id/icon_name"
+                        android:layout_toRightOf="@id/icon_company"
                         android:textColor="@color/black"
                         android:layout_centerVertical="true"
-                        android:text="Rovic Dimacali"/>
+                        android:text="RGS"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/persob_container"
+                    android:layout_below="@id/code_container"
+                    android:layout_marginVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/icon_code"
+                        android:textColor="@color/black"
+                        android:textSize="23dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:text="O"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/code"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@id/icon_code"
+                        android:layout_centerVertical="true"
+                        android:text="RGS"/>
 
                 </RelativeLayout>
 
@@ -149,6 +183,35 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/transact_container"
+                    android:layout_below="@id/address_container"
+                    android:layout_marginVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/icon_transact"
+                        android:textSize="23dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:text="O"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/transact"
+                        android:textSize="20dp"
+                        android:layout_toRightOf="@id/icon_transact"
+                        android:textColor="@color/black"
+                        android:layout_centerVertical="true"
+                        android:text="PU29389128492183"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/remarks_container"
                     android:layout_below="@id/address_container"
                     android:layout_marginVertical="5dp">
@@ -175,8 +238,19 @@
 
                 </RelativeLayout>
 
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:id="@+id/ecit_button"
+                    android:background="@color/rgs_green"
+                    />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        </ScrollView>
 
     </LinearLayout>
 
