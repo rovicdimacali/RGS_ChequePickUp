@@ -47,16 +47,18 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/scrollView">
+            android:id="@+id/scrollViewer">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="20dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 android:background="@color/white"
                 android:layout_marginBottom="3dp"
-                android:paddingHorizontal="30dp">
+                android:paddingHorizontal="01dp"
+                android:id="@+id/linearContents">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -69,6 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/icon_company"
+                        android:layout_marginStart="20dp"
                         android:textSize="23dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/black"
@@ -79,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/company"
+                        android:layout_marginStart="10dp"
                         android:textSize="20dp"
                         android:layout_toRightOf="@id/icon_company"
                         android:textColor="@color/black"
@@ -99,6 +103,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/icon_code"
                         android:textColor="@color/black"
+                        android:layout_marginStart="20dp"
                         android:textSize="23dp"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
@@ -111,6 +116,7 @@
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:layout_toRightOf="@id/icon_code"
+                        android:layout_marginStart="10dp"
                         android:layout_centerVertical="true"
                         android:text="RGS"/>
 
@@ -129,6 +135,7 @@
                         android:id="@+id/icon_location"
                         android:textColor="@color/black"
                         android:textSize="23dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:text="O"/>
@@ -139,6 +146,7 @@
                         android:id="@+id/address"
                         android:textSize="20dp"
                         android:textColor="@color/black"
+                        android:layout_marginStart="10dp"
                         android:layout_toRightOf="@id/icon_location"
                         android:layout_centerVertical="true"
                         android:text="4726 F Old Sta. Mesa St. Manila"/>
@@ -157,6 +165,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/icon_number"
                         android:textSize="23dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:textColor="@color/black"
@@ -167,6 +176,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/number"
                         android:textSize="20dp"
+                        android:layout_marginStart="10dp"
                         android:layout_toRightOf="@id/icon_number"
                         android:layout_centerVertical="true"
                         android:textColor="@color/black"
@@ -186,6 +196,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/icon_transact"
                         android:textSize="23dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:textColor="@color/black"
@@ -196,6 +207,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/transact"
                         android:textSize="20dp"
+                        android:layout_marginStart="10dp"
                         android:layout_toRightOf="@id/icon_transact"
                         android:textColor="@color/black"
                         android:layout_centerVertical="true"
@@ -215,6 +227,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/icon_remarks"
                         android:textSize="23dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:textColor="@color/black"
@@ -225,6 +238,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/remarks"
                         android:textSize="20dp"
+                        android:layout_marginStart="10dp"
                         android:layout_toRightOf="@id/icon_remarks"
                         android:layout_centerVertical="true"
                         android:textColor="#4CAF50"
@@ -233,16 +247,21 @@
                 </RelativeLayout>
 
                 <Button
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
                     android:id="@+id/ecit_button"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="49dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/rgs_green"
-                    />
+                    android:text="Edit" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:color/black" />
             </LinearLayout>
-
         </ScrollView>
 
     </LinearLayout>
