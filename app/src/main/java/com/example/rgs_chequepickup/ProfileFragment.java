@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HistoryActivity.class);
                 startActivity(intent);
                 getActivity().finish();
-                Toast.makeText(getContext(), "Currently Under Development", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Currently Under Development", Toast.LENGTH_SHORT).show();
             }
         });
 

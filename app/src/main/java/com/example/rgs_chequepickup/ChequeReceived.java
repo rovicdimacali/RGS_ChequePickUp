@@ -193,13 +193,13 @@ public class ChequeReceived extends AppCompatActivity {
                         .addFormDataPart("chk_address", loc_m.getAdd())
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
-                        .addFormDataPart("chk_tin", "None")
+                        .addFormDataPart("chk_tin", "none")
                         .addFormDataPart("chk_or", "")
                         .addFormDataPart("chk_date", "")
                         .addFormDataPart("chk_bcode", "")
                         .addFormDataPart("transaction_num", "")
-                        .addFormDataPart("chk_amount", "None")
-                        .addFormDataPart("chk_number", "None")
+                        .addFormDataPart("chk_amount", "none")
+                        .addFormDataPart("chk_number", "none")
                         .addFormDataPart("latitude", latitude)
                         .addFormDataPart("longitude", longitude)
                         .build();
@@ -294,7 +294,8 @@ public class ChequeReceived extends AppCompatActivity {
                                     Toast.makeText(ChequeReceived.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                comp.setText(e.getMessage());
+                                //throw new RuntimeException(e);
                             }
                         }
                     });

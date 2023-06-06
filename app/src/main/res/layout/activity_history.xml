@@ -41,11 +41,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#E3E3E3">
+        android:background="#E3E3E3"
+        android:id="@+id/linearlayout">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView">
 
             <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
