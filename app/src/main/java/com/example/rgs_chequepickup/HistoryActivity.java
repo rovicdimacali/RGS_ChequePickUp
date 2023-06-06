@@ -167,13 +167,21 @@ public class HistoryActivity extends AppCompatActivity {
                         String og3 = item2.getString("address");
                         //String og4 = item2.getString("contact_no");
                         String og5 = item2.getString("company_code");
+                        String status = item2.getString("status");
 
                         comp.setText(og1);
                         code.setText(og5);
                         address.setText(og3);
                         number.setText("09167065890");
                         //transact.setText("NO TASK");
-                        result.setText("SUCCESS!");
+                        if(!(status.equals("Not Defective") || status.equals("Defective"))){
+                            result.setText("CANCELLED - " + status);
+                            result.setTextColor(Color.RED);
+                        }
+                        else{
+                            result.setText("SUCCESS - " + status);
+                        }
+
                     }
 
                     // Iterate over the associative array
@@ -190,6 +198,7 @@ public class HistoryActivity extends AppCompatActivity {
                         String val3 = item.getString("address");
                         //String val4 = item.getString("contact_no");
                         String val5 = item.getString("company_code");
+                        String status = item.getString("status");
 
                         View line = new View(HistoryActivity.this);
                         line.setBackgroundColor(Color.BLACK);
@@ -232,8 +241,16 @@ public class HistoryActivity extends AppCompatActivity {
 
                         TextView res = new TextView(HistoryActivity.this);
                         res.setTextSize(20);
-                        res.setTextColor(Integer.parseInt(String.valueOf(Color.parseColor("#4CAF50"))));
-                        res.setText("SUCCESS!");
+
+                        if(!(status.equals("Not Defective") || status.equals("Defective"))){
+                            res.setText("CANCELLED - " + status);
+                            res.setTextColor(Color.RED);
+                        }
+                        else{
+                            res.setText("SUCCESS - " + status);
+                            res.setTextColor(Integer.parseInt(String.valueOf(Color.parseColor("#4CAF50"))));
+                        }
+
 
                         RelativeLayout.LayoutParams res_params = new RelativeLayout.LayoutParams(
                                 RelativeLayout.LayoutParams.WRAP_CONTENT,
