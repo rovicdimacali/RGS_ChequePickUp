@@ -166,38 +166,39 @@ public class ChequeReceived extends AppCompatActivity {
         else {
             RequestBody rbody;
 
-            Random ran = new Random();
-            int transNum = ran.nextInt(900000) + 100000;
-            Date currDate = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = sdf.format(currDate);
-
-            String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-
             if(scene_m.getStat().equals("Defective")){
                 Resources res = getResources();
                 defaultPic = res.getDrawable(R.drawable.cancel);
+
+                Random ran = new Random();
+                int transNum = ran.nextInt(900000) + 100000;
+                Date currDate = new Date();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = sdf.format(currDate);
+
+                //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+                String transaction = "PU" + String.valueOf(transNum);
 
                 rbody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())
                         .addFormDataPart("chk_status", scene_m.getStat())
-                        .addFormDataPart("cancel_name", "")
+                        .addFormDataPart("cancel_name", "none")
                         .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
                         .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                        .addFormDataPart("chk_accno", "")
-                        .addFormDataPart("chk_payee", "")
-                        .addFormDataPart("chk_entity", "")
-                        .addFormDataPart("chk_remark", "")
+                        .addFormDataPart("chk_accno", "none")
+                        .addFormDataPart("chk_payee", "none")
+                        .addFormDataPart("chk_entity", "none")
+                        .addFormDataPart("chk_remark", "none")
                         .addFormDataPart("chk_address", loc_m.getAdd())
                         .addFormDataPart("chk_company", loc_m.getComp())
                         .addFormDataPart("chk_code", loc_m.getCode())
                         .addFormDataPart("chk_tin", "none")
-                        .addFormDataPart("chk_or", "")
-                        .addFormDataPart("chk_date", "")
-                        .addFormDataPart("chk_bcode", "")
-                        .addFormDataPart("transaction_num", "")
+                        .addFormDataPart("chk_or", "none")
+                        .addFormDataPart("chk_date", "none")
+                        .addFormDataPart("chk_bcode", "none")
+                        .addFormDataPart("transaction_num", transaction)
                         .addFormDataPart("chk_amount", "none")
                         .addFormDataPart("chk_number", "none")
                         .addFormDataPart("latitude", latitude)
@@ -212,11 +213,21 @@ public class ChequeReceived extends AppCompatActivity {
                 imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
                 imageFile = new File(imagePath);
 
+                Random ran = new Random();
+                int transNum = ran.nextInt(900000) + 100000;
+                Date currDate = new Date();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = sdf.format(currDate);
+
+                //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+                String transaction = "PU" + String.valueOf(transNum);
+
                 rbody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("chk_rider", sess_m.getSession())
                         .addFormDataPart("chk_status", scene_m.getStat())
-                        .addFormDataPart("cancel_name", "")
+                        .addFormDataPart("cancel_name", "none")
                         .addFormDataPart("chk_sign", sign_m.getSign(), RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                         .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
                         .addFormDataPart("chk_accno", acc_m.getAccno())
@@ -256,7 +267,8 @@ public class ChequeReceived extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                responseData = response.body().string();
+                                responseData = response.body().
+                                        string();
                                 String value = specificValue(responseData);
                                 //value.replace("<br />", "");
                                 if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
