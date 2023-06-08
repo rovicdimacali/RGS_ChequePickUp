@@ -165,7 +165,7 @@ public class HistoryActivity extends AppCompatActivity {
                         String og1 = item2.getString("company");
                         //String og2 = item2.getString("fullname");
                         String og3 = item2.getString("address");
-                        //String og4 = item2.getString("contact_no");
+                        String og4 = item2.getString("transaction_num");
                         String og5 = item2.getString("company_code");
                         String status = item2.getString("status");
 
