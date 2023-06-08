@@ -90,8 +90,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 //gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 17));
                             }
                         });
-
-
                     }
 
                     @Override
