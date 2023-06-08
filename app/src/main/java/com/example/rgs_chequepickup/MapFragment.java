@@ -77,12 +77,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
-                                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                                return;
-                            }
+                                    == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                                 gMap.setMyLocationEnabled(true);
+                                //return;
                                 fusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
@@ -104,6 +102,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     }
                                 });
                             }
+                            else{
+                                Toast.makeText(getContext(), "Please turn on your location", Toast.LENGTH_SHORT).show();
+                                askPermission();
+                            }
+                        }
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
