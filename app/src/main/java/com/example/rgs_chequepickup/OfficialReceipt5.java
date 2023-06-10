@@ -88,7 +88,7 @@ public class OfficialReceipt5 extends AppCompatActivity {
         compname.setText(lm.getComp());
         compadd.setText(lm.getAdd());
 
-        payeeList = new String[]{"Globe Telecom Services", "Innove Services", "Bayan Services"}; //PAYEE LIST
+        payeeList = new String[]{"Globe Telecom Inc.", "Innove Communications Inc.", "Bayan Communications Inc."}; //PAYEE LIST
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfficialReceipt5.this, R.layout.simple_spinner_item, payeeList);
         adapter.setDropDownViewResource(R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);

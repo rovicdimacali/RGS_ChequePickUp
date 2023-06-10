@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,27 +36,86 @@
 
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/remarks_text"
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:background="@drawable/input"
-        android:hint="Enter your additional notes here."
-        android:padding="10dp"
-        android:inputType="text|textMultiLine"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="top"/>
-
-    <Button
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:id="@+id/submit_btn"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/rgs_green"/>
+        android:layout_below="@+id/header"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp">
 
-</LinearLayout>
+        <RadioButton
+            android:id="@+id/collected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Collected"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:id="@+id/collected_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/number_label"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="# of Cheques: "
+                android:textColor="@color/black"
+                android:textSize="20dp"/>
+
+            <EditText
+                android:layout_weight="200"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberofcheques"/>
+
+        </LinearLayout>
+
+        <RadioButton
+            android:id="@+id/other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Other Remarks"
+            android:textSize="20dp" />
+
+
+        <LinearLayout
+            android:id="@+id/other_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <EditText
+                android:layout_weight="200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/other_remark"/>
+
+        </LinearLayout>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:background="@color/rgs_gray1"
+        android:text="Submit" />
+
+</RelativeLayout>
