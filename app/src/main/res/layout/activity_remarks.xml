@@ -76,7 +76,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/numberofcheques"/>
+                android:id="@+id/numCheq"/>
 
         </LinearLayout>
 
@@ -116,6 +116,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:background="@color/rgs_gray1"
+        android:enabled="false"
         android:text="Submit" />
 
 </RelativeLayout>

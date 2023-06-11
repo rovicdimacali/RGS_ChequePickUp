@@ -92,18 +92,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         if(location != null){
                                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                             //LatLng latLng = new LatLng(14.67, 121.07);
-                                            Toast.makeText(getContext(), "Location Retreived", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Current Location Retreived", Toast.LENGTH_SHORT).show();
                                             gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                                             //gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 17));
                                         }
                                         else{
-                                            Toast.makeText(getContext(), "Location Unknown", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Current Location Unknown", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
                             }
                             else{
-                                Toast.makeText(getContext(), "Please turn on your location", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Please turn on your location Services", Toast.LENGTH_SHORT).show();
                                 askPermission();
                             }
                         }

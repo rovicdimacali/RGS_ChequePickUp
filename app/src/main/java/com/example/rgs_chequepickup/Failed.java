@@ -148,7 +148,7 @@ public class Failed extends AppCompatActivity {
         String imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
         File imageFile = new File(imagePath);
 
-        if(can_m.getCancel().equals("Client/Customer Not Around")){
+        if(can_m.getCancel().equals("Person in Charge not available")){
             if(!(imageFile.exists())){
                 Toast.makeText(Failed.this, "Signature File does not exist", Toast.LENGTH_SHORT).show();
             }

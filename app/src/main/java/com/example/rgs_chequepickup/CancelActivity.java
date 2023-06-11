@@ -54,9 +54,9 @@ public class CancelActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     Button datepicker, submit, timepicker;
     TextView back_button;
-    LinearLayout datefield, proof, timefield;
-    RadioButton absentRB, reschedRB, diffRB, longRB, othersRB;
-    EditText cancelText, point;
+    LinearLayout datefield, proof, timefieldFr, timefieldTo;
+    RadioButton absentRB, reschedRB, diffRB, longRB, othersRB, noChequeRB, cutoffRB, collRB;
+    EditText cancelText, point, timeFrom, timeTo;
     String cancelStatus;
 
     FusedLocationProviderClient fspc;
@@ -77,21 +77,27 @@ public class CancelActivity extends AppCompatActivity {
 
         //LAYOUT FOR DATEFIELD
         datefield = (LinearLayout) findViewById(R.id.date_field);
-        timefield = (LinearLayout) findViewById(R.id.time_field);
+        timefieldFr = (LinearLayout) findViewById(R.id.time_field);
+        timefieldTo = (LinearLayout) findViewById(R.id.time_field_to);
         proof = (LinearLayout) findViewById(R.id.proof_field);
         point = (EditText) findViewById(R.id.point);
+        timeFrom = (EditText) findViewById(R.id.time_from);
+        timeTo = (EditText) findViewById(R.id.time_to);
 
         //RADIO BUTTONS
         absentRB = (RadioButton) findViewById(R.id.client_not_around);
         reschedRB = (RadioButton) findViewById(R.id.reschedule);
-        diffRB = (RadioButton) findViewById(R.id.rider_problem);
-        longRB = (RadioButton) findViewById(R.id.unattended);
+        diffRB = (RadioButton) findViewById(R.id.wrong_add);
+        longRB = (RadioButton) findViewById(R.id.unvisited);
+        noChequeRB = (RadioButton) findViewById(R.id.no_cheque);
+        cutoffRB = (RadioButton) findViewById(R.id.cut_off);
+        collRB = (RadioButton) findViewById(R.id.collected);
         othersRB = (RadioButton) findViewById(R.id.others);
 
         //absentRB.setText(lm.getAdd());
         //BUTTONS
         datepicker = (Button) findViewById(R.id.datePickerButton);
-        timepicker = (Button) findViewById(R.id.timePickerButton);
+        //timepicker = (Button) findViewById(R.id.timePickerButton);
         back_button = (TextView) findViewById(R.id.back_button);
         submit = (Button) findViewById(R.id.submit_btn);
         datepicker.setText(getTodayDate());
@@ -106,17 +112,20 @@ public class CancelActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() || othersRB.isChecked()) {
+                if (absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() ||
+                        noChequeRB.isChecked() || cutoffRB.isChecked() || collRB.isChecked() || othersRB.isChecked()) {
                     if (absentRB.isChecked()) {
                         datefield.setVisibility(View.GONE);
-                        timefield.setVisibility(View.GONE);
+                        timefieldTo.setVisibility(View.GONE);
+                        timefieldFr.setVisibility(View.GONE);
                         proof.setVisibility(View.VISIBLE);
                         cancelText.setEnabled(false);
                         cancelText.setHint(" ");
                         cancelText.setText(" ");
                     } else if (reschedRB.isChecked()) { // DISPLAY DATE PICKER WHEN SELECTED
                         datefield.setVisibility(View.VISIBLE);
-                        timefield.setVisibility(View.VISIBLE);
+                        timefieldTo.setVisibility(View.VISIBLE);
+                        timefieldFr.setVisibility(View.VISIBLE);
                         proof.setVisibility(View.GONE);
                         point.setText(" ");
                         cancelText.setEnabled(false);
@@ -125,14 +134,16 @@ public class CancelActivity extends AppCompatActivity {
                         //cancelText.setHint("Enter Reason Here");
                     } else if (othersRB.isChecked()) {
                         datefield.setVisibility(View.GONE);
-                        timefield.setVisibility(View.GONE);
+                        timefieldTo.setVisibility(View.GONE);
+                        timefieldFr.setVisibility(View.GONE);
                         proof.setVisibility(View.GONE);
                         point.setText(" ");
                         cancelText.setEnabled(true);
                         cancelText.setHint("Enter Reason Here");
                     } else { // HIDE DATE PICKER AND TEXT FIELD WHEN NOT SELECTED
                         datefield.setVisibility(View.GONE);
-                        timefield.setVisibility(View.GONE);
+                        timefieldTo.setVisibility(View.GONE);
+                        timefieldFr.setVisibility(View.GONE);
                         proof.setVisibility(View.GONE);
                         point.setText(" ");
                         cancelText.setEnabled(false);
@@ -151,6 +162,9 @@ public class CancelActivity extends AppCompatActivity {
         absentRB.setOnCheckedChangeListener(cbl);
         diffRB.setOnCheckedChangeListener(cbl);
         longRB.setOnCheckedChangeListener(cbl);
+        noChequeRB.setOnCheckedChangeListener(cbl);
+        cutoffRB.setOnCheckedChangeListener(cbl);
+        collRB.setOnCheckedChangeListener(cbl);
 
         datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,12 +173,12 @@ public class CancelActivity extends AppCompatActivity {
             }
         });
 
-        timepicker.setOnClickListener(new View.OnClickListener() {
+        /*timepicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openTime();
             }
-        });
+        });*/
 
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,11 +196,13 @@ public class CancelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (absentRB.isChecked() && !point.getText().toString().isEmpty()) {
                     getCurrentLocation();
-                } else if (reschedRB.isChecked() && !timepicker.getText().toString().equals("SELECT TIME")) {
+                } else if (reschedRB.isChecked() && !(timeFrom.getText().toString().isEmpty() ||
+                        timeTo.getText().toString().isEmpty())) {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
-                    cancelSession cs = new cancelSession("Rescheduled by client on " + datepicker.getText().toString() + ", " + timepicker.getText().toString(), "none");
+                    cancelSession cs = new cancelSession("Rescheduled by client on " + datepicker.getText().toString() + ", " + timeFrom.getText().toString() + " - " +
+                            timeTo.getText().toString(), "none");
                     cm.saveCancel(cs);
                     //i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString() + ", "  + timepicker.getText().toString());
                     startActivity(i);
@@ -194,7 +210,7 @@ public class CancelActivity extends AppCompatActivity {
                 } else if (diffRB.isChecked()) {
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
-                    cancelSession cs = new cancelSession("Mechanical Difficulties", "none");
+                    cancelSession cs = new cancelSession("Wrong Collection Address", "none");
                     cm.saveCancel(cs);
                     //i.putExtra("cancel", "Mechanical Difficulties at " + currLoc);
                     startActivity(i);
@@ -203,7 +219,34 @@ public class CancelActivity extends AppCompatActivity {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
-                    cancelSession cs = new cancelSession("Unattended - Prolonged Transaction", "none");
+                    cancelSession cs = new cancelSession("Unvisited", "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Unattended - Prolonged Transaction");
+                    startActivity(i);
+                    finish();
+                } else if (noChequeRB.isChecked()) {
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Check not ready", "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Unattended - Prolonged Transaction");
+                    startActivity(i);
+                    finish();
+                } else if (cutoffRB.isChecked()) {
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Did not meet cutt-off time", "none");
+                    cm.saveCancel(cs);
+                    //i.putExtra("cancel", "Unattended - Prolonged Transaction");
+                    startActivity(i);
+                    finish();
+                } else if (collRB.isChecked()) {
+                    LocationManagement lm = new LocationManagement(CancelActivity.this);
+                    Intent i = new Intent(CancelActivity.this, Failed.class);
+                    cancelManagement cm = new cancelManagement(CancelActivity.this);
+                    cancelSession cs = new cancelSession("Check already collected", "none");
                     cm.saveCancel(cs);
                     //i.putExtra("cancel", "Unattended - Prolonged Transaction");
                     startActivity(i);
@@ -219,16 +262,20 @@ public class CancelActivity extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 } else if (!(othersRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked()) && (absentRB.isChecked() && point.getText().toString().isEmpty())) {
+                        longRB.isChecked() || noChequeRB.isChecked() || cutoffRB.isChecked()
+                        || collRB.isChecked()) && (absentRB.isChecked() && point.getText().toString().isEmpty())) {
                     Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
                 } else if (!(othersRB.isChecked() || absentRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked()) && (reschedRB.isChecked() && timepicker.getText().toString().equals("SELECT TIME"))) {
-                    Toast.makeText(CancelActivity.this, "Please select a time", Toast.LENGTH_SHORT).show();
+                        longRB.isChecked()  || noChequeRB.isChecked() || cutoffRB.isChecked()
+                        || collRB.isChecked()) && (reschedRB.isChecked() && timeFrom.getText().toString().isEmpty() || timeTo.getText().toString().isEmpty())) {
+                    Toast.makeText(CancelActivity.this, "Please fill up the time range", Toast.LENGTH_SHORT).show();
                 } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())) {
+                        longRB.isChecked() || noChequeRB.isChecked() || cutoffRB.isChecked()
+                        || collRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())) {
                     Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
                 } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                        longRB.isChecked() || othersRB.isChecked())) {
+                        longRB.isChecked() || othersRB.isChecked() || noChequeRB.isChecked() || cutoffRB.isChecked()
+                        || collRB.isChecked())) {
                     Toast.makeText(CancelActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
                 //else if()
@@ -237,34 +284,6 @@ public class CancelActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void openTime() {
-        final Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
-                this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-
-                        // Format the selected time
-                        String selectedTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
-
-                        timepicker.setText(selectedTime);
-                    }
-                },
-                hour,
-                minute,
-                false
-        );
-
-        timePickerDialog.show();
-    }
-
 
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
@@ -372,7 +391,7 @@ public class CancelActivity extends AppCompatActivity {
                             //address.setText(String.valueOf(distance));
                             if (distance < 99999) {
                                 cancelManagement cm = new cancelManagement(CancelActivity.this);
-                                cancelSession cs = new cancelSession("Client/Customer Not Around",point.getText().toString());
+                                cancelSession cs = new cancelSession("Person in Charge not available",point.getText().toString());
                                 cm.saveCancel(cs);
                                 //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(CancelActivity.this, ESignature.class);

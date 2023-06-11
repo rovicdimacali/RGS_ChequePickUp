@@ -212,7 +212,7 @@ public class CaptureCheque extends AppCompatActivity {
             services = new String[]{remarklist};
         }
         else{
-            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard"};
+            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid"};
         }
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
