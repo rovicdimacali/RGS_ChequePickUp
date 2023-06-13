@@ -106,11 +106,21 @@ public class RemarksActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if((collectRB.isChecked() && !(numCheq.getText().toString().isEmpty())) && !(otherRB.isChecked())){
                     //Toast.makeText(RemarksActivity.this, "op1", Toast.LENGTH_SHORT).show();
-                    remarkSession rs = new remarkSession("Collected " + numCheq.getText().toString() + " check/s");
-                    rm.saveRemark(rs);
-                    Intent intent = new Intent(RemarksActivity.this, ESignature.class);
-                    startActivity(intent);
-                    finish();
+                    int num = Integer.valueOf(numCheq.getText().toString());
+
+                    if(num > 5){
+                        Toast.makeText(RemarksActivity.this, "Maximum of 5 Cheques Only", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(num < 0){
+                        Toast.makeText(RemarksActivity.this, "Invalid number of cheques", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (num < 5 && num > 0){
+                        remarkSession rs = new remarkSession("Collected " + numCheq.getText().toString() + " check/s");
+                        rm.saveRemark(rs);
+                        Intent intent = new Intent(RemarksActivity.this, ESignature.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
                 else if(!(collectRB.isChecked()) && (otherRB.isChecked() && !(other_rem.getText().toString().isEmpty()))){
                     //Toast.makeText(RemarksActivity.this, "op2", Toast.LENGTH_SHORT).show();
