@@ -151,8 +151,8 @@ public class HomeFragment extends Fragment {
 
         Typeface font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
-        back_arrow.setTypeface(font);
-        next_arrow.setTypeface(font);
+        //back_arrow.setTypeface(font);
+        //next_arrow.setTypeface(font);
         /*company_icon.setTypeface(font);
         person_icon.setTypeface(font);
         address_icon.setTypeface(font);
@@ -164,13 +164,13 @@ public class HomeFragment extends Fragment {
         address_icon.setText("\uf015");
         number_icon.setText("\uf2a0");
         code_icon.setText("\uf25d");*/
-        back_arrow.setText("\uf060");
-        next_arrow.setText("\uf061");
+        //back_arrow.setText("\uf060");
+        //next_arrow.setText("\uf061");
 
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
-        next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
-        back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
+        //next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
+        //back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
 
         carousel = (ViewFlipper) view.findViewById(R.id.carousel);
         //ViewGroup.MarginLayoutParams carousel_margins = (ViewGroup.MarginLayoutParams) carousel.getLayoutParams();
@@ -210,18 +210,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        next_arr.setOnClickListener(new View.OnClickListener() {
+        /*next_arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 carousel.showNext();
             }
-        });
-        back_arr.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*back_arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 carousel.showPrevious();
             }
-        });
+        });*/
         //carousel.setAutoStart(true);
         //carousel.setFlipInterval(1000);
         //carousel.startFlipping();
