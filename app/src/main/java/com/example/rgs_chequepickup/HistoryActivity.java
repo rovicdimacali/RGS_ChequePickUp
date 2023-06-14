@@ -58,9 +58,9 @@ public class HistoryActivity extends AppCompatActivity {
 
         icon_transact = (TextView) findViewById(R.id.icon_transact);
         icon_company = (TextView) findViewById(R.id.icon_company);
-        icon_code = (TextView) findViewById(R.id.icon_code);
+        //icon_code = (TextView) findViewById(R.id.icon_code);
         icon_location = (TextView) findViewById(R.id.icon_location);
-        icon_number = (TextView) findViewById(R.id.icon_number);
+        //icon_number = (TextView) findViewById(R.id.icon_number);
         icon_remarks= (TextView) findViewById(R.id.icon_remarks);
         back_button = (TextView) findViewById(R.id.back_button);
 
@@ -68,24 +68,24 @@ public class HistoryActivity extends AppCompatActivity {
 
         icon_transact.setTypeface(font);
         icon_company.setTypeface(font);
-        icon_code.setTypeface(font);
+        //icon_code.setTypeface(font);
         icon_location.setTypeface(font);
-        icon_number.setTypeface(font);
+        //icon_number.setTypeface(font);
         icon_remarks.setTypeface(font);
         back_button.setTypeface(font);
 
         back_button.setText("\uf060");
         icon_transact.setText("\uf2c2");
         icon_company.setText("\uf1ad");
-        icon_code.setText("\uf25d");
+        //icon_code.setText("\uf25d");
         icon_location.setText("\uf015");
-        icon_number.setText("\uf2a0");
+        //icon_number.setText("\uf2a0");
         icon_remarks.setText("\uf075");
 
         comp = (TextView) findViewById(R.id.company);
-        code = (TextView) findViewById(R.id.code);
+        //code = (TextView) findViewById(R.id.code);
         address = (TextView) findViewById(R.id.address);
-        number = (TextView) findViewById(R.id.number);
+       // number = (TextView) findViewById(R.id.number);
         transact = (TextView) findViewById(R.id.transact);
         result = (TextView) findViewById(R.id.remarks);
 
@@ -153,9 +153,9 @@ public class HistoryActivity extends AppCompatActivity {
                 try {
                     if(associativeArray.length() == 0){
                         comp.setText("NO TASK");
-                        code.setText("NO TASK");
+                        //code.setText("NO TASK");
                         address.setText("NO TASK");
-                        number.setText("NO TASK");
+                        //number.setText("NO TASK");
                         transact.setText("NO TASK");
                         result.setText("NO TASK");
                     }
@@ -170,10 +170,10 @@ public class HistoryActivity extends AppCompatActivity {
                         String status = item2.getString("status");
 
                         comp.setText(og1);
-                        code.setText(og5);
+                        //code.setText(og5);
                         address.setText(og3);
-                        number.setText("09167065890");
-                        //transact.setText("NO TASK");
+                        //number.setText("09167065890");
+                        transact.setText(og4);
                         if(!(status.equals("Not Defective") || status.equals("Defective"))){
                             result.setText("CANCELLED - " + status);
                             result.setTextColor(Color.RED);
@@ -198,6 +198,7 @@ public class HistoryActivity extends AppCompatActivity {
                         String val3 = item.getString("address");
                         //String val4 = item.getString("contact_no");
                         String val5 = item.getString("company_code");
+                        String val6 = item.getString("transaction_num");
                         String status = item.getString("status");
 
                         View line = new View(HistoryActivity.this);
@@ -212,16 +213,16 @@ public class HistoryActivity extends AppCompatActivity {
                         line.setLayoutParams(line_params);
 
                         Button edit = new Button(HistoryActivity.this);
-                        edit.setText("Edit");
+                        edit.setText("View Transaction");
                         edit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                         RelativeLayout.LayoutParams edit_params = new RelativeLayout.LayoutParams(
-                                830,
+                                1075,
                                 RelativeLayout.LayoutParams.WRAP_CONTENT
                         );
 
                         edit_params.topMargin = 10;
                         edit_params.bottomMargin = 60;
-                        edit_params.setMarginStart(135);
+                        edit_params.setMarginStart(160);
                         edit.setLayoutParams(edit_params);
 
                         //TEXTVIEWS
@@ -295,7 +296,7 @@ public class HistoryActivity extends AppCompatActivity {
                         TextView tran = new TextView(HistoryActivity.this);
                         tran.setTextSize(20);
                         tran.setTextColor(Color.BLACK);
-                        tran.setText("PU29389128492183");
+                        tran.setText(val6);
 
                         RelativeLayout.LayoutParams tran_params = new RelativeLayout.LayoutParams(
                                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -323,7 +324,7 @@ public class HistoryActivity extends AppCompatActivity {
                         rl_5.setLayoutParams(rl5Params);
 
                         //TEXTVIEWS
-                        TextView icon4 = new TextView(HistoryActivity.this);
+                        /*TextView icon4 = new TextView(HistoryActivity.this);
                         icon4.setId(R.id.icon_number);
                         icon4.setTextSize(23);
                         icon4.setTextColor(Color.BLACK);
@@ -366,7 +367,7 @@ public class HistoryActivity extends AppCompatActivity {
                         rl4Params.topMargin = 10;
                         rl4Params.addRule(RelativeLayout.BELOW, R.id.address_header);
                         rl_4.setLayoutParams(rl4Params);
-
+                        */
                         //TEXTVIEWS
                         TextView icon3 = new TextView(HistoryActivity.this);
                         icon3.setId(R.id.icon_location);
@@ -413,6 +414,7 @@ public class HistoryActivity extends AppCompatActivity {
                         rl_3.setLayoutParams(rl3Params);
 
                         //TEXTVIEWS
+                        /*
                         TextView icon2 = new TextView(HistoryActivity.this);
                         icon2.setId(R.id.icon_code);
                         icon2.setTextSize(23);
@@ -457,7 +459,7 @@ public class HistoryActivity extends AppCompatActivity {
                         rl2Params.addRule(RelativeLayout.BELOW, R.id.address_header);
                         rl_2.setLayoutParams(rl2Params);
 
-
+                        */
                         //TEXTVIEWS
                         TextView icon1 = new TextView(HistoryActivity.this);
                         icon1.setId(R.id.icon_company);
@@ -542,21 +544,15 @@ public class HistoryActivity extends AppCompatActivity {
                         //ADDVIEWS
                         rl_6.addView(res);
                         rl_6.addView(icon6);
-                        rl_5.addView(tran);
-                        rl_5.addView(icon5);
-                        rl_4.addView(num);
-                        rl_4.addView(icon4);
                         rl_3.addView(add);
                         rl_3.addView(icon3);
-                        rl_2.addView(code);
-                        rl_2.addView(icon2);
                         rl_1.addView(comp);
                         rl_1.addView(icon1);
-                        linearContents.addView(rl_1);
-                        linearContents.addView(rl_2);
-                        linearContents.addView(rl_3);
-                        linearContents.addView(rl_4);
+                        rl_5.addView(tran);
+                        rl_5.addView(icon5);
                         linearContents.addView(rl_5);
+                        linearContents.addView(rl_1);
+                        linearContents.addView(rl_3);
                         linearContents.addView(rl_6);
                         linearContents.addView(edit);
                         linearContents.addView(line);

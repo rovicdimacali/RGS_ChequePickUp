@@ -119,14 +119,20 @@ public class CheckList extends AppCompatActivity {
                     //Intent intent = new Intent(CheckList.this, CaptureCheque.class);
                     //intent.putExtra("cheque", 1);
                     //startActivity(intent);
-                    PopUpScenarios();
+                    Intent intent = new Intent(CheckList.this, OfficialReceipt.class);
+                    scenarioManagement sm = new scenarioManagement(CheckList.this);
+                    scenarioSession ss = new scenarioSession("Valid Cheque", "Not Defective");
+                    sm.saveScene(ss);
+                    //intent.putExtra("cheque", -1);
+                    startActivity(intent);
+                    finish();
                 }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
                     //Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CheckList.this, OfficialReceipt.class);
+                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
                     scenarioManagement sm = new scenarioManagement(CheckList.this);
-                    scenarioSession ss = new scenarioSession("Defective Cheque", "Defective");
+                    scenarioSession ss = new scenarioSession("Invalid Cheque", "Defective");
                     sm.saveScene(ss);
                     //intent.putExtra("cheque", -1);
                     startActivity(intent);
@@ -168,7 +174,7 @@ public class CheckList extends AppCompatActivity {
         });
     }
 
-    private void PopUpScenarios(){
+    /*private void PopUpScenarios(){
         layout = (LinearLayout) findViewById(R.id.linear);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_scenarios, null);
@@ -218,7 +224,7 @@ public class CheckList extends AppCompatActivity {
                 finish();
             }
         });
-       /*oneEnt.setOnClickListener(new View.OnClickListener() {
+       oneEnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 i = new Intent(CheckList.this, CaptureCheque.class);
@@ -227,7 +233,7 @@ public class CheckList extends AppCompatActivity {
                 sm.saveScene(ss);
                 startActivity(i);
             }
-        });*/
+        });
        allMult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,5 +265,5 @@ public class CheckList extends AppCompatActivity {
                 });
             }
         });
-    }
+    }*/
 }

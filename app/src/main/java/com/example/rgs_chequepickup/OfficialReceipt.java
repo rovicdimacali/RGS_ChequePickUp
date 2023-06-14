@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,25 +42,33 @@ import SessionPackage.scenarioManagement;
 
 public class OfficialReceipt extends AppCompatActivity {
 
+    //INPUTS
+    EditText comp1, comp2, comp3, comp4, comp5, comp6;
+    EditText tin1, tin2, tin3, tin4, tin5, tin6;
+    EditText acc1, acc2, acc3, acc4, acc5, acc6;
+    Spinner pay1, pay2, pay3, pay4, pay5, pay6;
+    EditText or1, or2, or3, or4, or5, or6;
+    EditText am1, am2, am3, am4, am5, am6;
+    Button capt1, capt2, capt3, capt4, capt5, capt6;
+    Button del2, del3, del4, del5, del6;
+    LinearLayout l1, l2, l3, l4, l5, l6;
+    CardView card1, card2, card3, card4, card5, card6;
+    ImageView chk1, chk2, chk3, chk4, chk5, chk6;
+    TextView accT1, accT2, accT3, accT4, accT5, accT6;
+    TextView chktitle2, chktitle3, chktitle4, chktitle5, chktitle6;
+    CheckBox multAcc;
+    //--
     DatePickerDialog datePickerDialog;
-    CardView card_spinner;
-    Spinner spinner;
+
     TextView back_button, checkTitle;
-    //FIRST INPUTS
-    EditText cheq_num, cheq_amount, compname, compadd, tin, payee, bcode, ornum;
-    //ADDITIONAL INPUTS
-    Button submit_btn, addBtn, datepicker, date, confirm_btn;
+    Button addBtn, datepicker, date, confirm_btn;
     String remark;
-    LinearLayout Llayout_num, Llayout_am, layout;
-    LinearLayout datefield;
-    String cheqResNum, cheqResAm;
     String payeeList[];
     int count = 1;
     int delete = 0;
-    ArrayList<LinearLayout> chkNums = new ArrayList<>();
-    ArrayList<LinearLayout> chkAmounts = new ArrayList<>();
-    ArrayList<EditText> chkNumList = new ArrayList<>();
-    ArrayList<EditText> chkAmList = new ArrayList<>();
+    ArrayList<LinearLayout> deleted = new ArrayList<>();
+    ArrayList<ImageView> iv = new ArrayList<>();
+    ArrayList<TextView> tv = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,50 +81,113 @@ public class OfficialReceipt extends AppCompatActivity {
 
         remark = sm.getScene();
 
-        card_spinner = (CardView) findViewById(R.id.cardView_spinner);
-        spinner = (Spinner) findViewById(R.id.spinner);
         addBtn = (Button) findViewById(R.id.addCheque_button);
-        //Llayout_num = (LinearLayout) findViewById(R.id.chknumText);
-        //Llayout_am = (LinearLayout) findViewById(R.id.chkamountText);
-        checkTitle = (TextView) findViewById(R.id.checkTitle);
+        multAcc = (CheckBox) findViewById(R.id.checkbox_accnum);
 
-        compname = (EditText) findViewById(R.id.inputcompany);
-        //compadd = (EditText) findViewById(R.id.inputaddress);
-        tin = (EditText) findViewById(R.id.inputtin);
-        //bcode = (EditText) findViewById(R.id.inputBC);
-        ornum = (EditText) findViewById(R.id.inputOR);
-        //date = (Button) findViewById(R.id.datePickerButton);
-        cheq_amount = (EditText) findViewById(R.id.inputChequeAmount);
-        //cheq_num = (EditText) findViewById(R.id.inputchequenumber);
-        //payee = (EditText) findViewById(R.id.inputpayee);
+        //INPUT 1
+        l1 = (LinearLayout) findViewById(R.id.form1);
+        card1 = (CardView) findViewById(R.id.cardView_spinner);
+        capt1 = (Button) findViewById(R.id.capture_button1);
+        chk1 = (ImageView) findViewById(R.id.cheqepic1);
+        comp1 = (EditText) findViewById(R.id.inputcompany);
+        tin1 = (EditText) findViewById(R.id.inputtin);
+        or1 = (EditText) findViewById(R.id.inputOR);
+        acc1 = (EditText) findViewById(R.id.inputacc);
+        am1 = (EditText) findViewById(R.id.inputChequeAmount);
+        pay1 = (Spinner) findViewById(R.id.spinner);
+        accT1 = (TextView) findViewById(R.id.accNumber);
 
-        /*if(!(rm.getTin().isEmpty())){
-            tin.setText(rm.getTin());
-        }*/
+        //INPUT 2
+        l2 = (LinearLayout) findViewById(R.id.form2);
+        card2 = (CardView) findViewById(R.id.cardView_spinner2);
+        capt2 = (Button) findViewById(R.id.capture_button2);
+        chk2 = (ImageView) findViewById(R.id.cheqepic2);
+        comp2 = (EditText) findViewById(R.id.inputcompany2);
+        tin2 = (EditText) findViewById(R.id.inputtin2);
+        or2 = (EditText) findViewById(R.id.inputOR2);
+        acc2 = (EditText) findViewById(R.id.inputacc2);
+        am2 = (EditText) findViewById(R.id.inputChequeAmount2);
+        pay2 = (Spinner) findViewById(R.id.spinner2);
+        accT2 = (TextView) findViewById(R.id.accNumber2);
+        del2 = (Button) findViewById(R.id.delete_button2);
 
-        compname.setText(lm.getComp());
-        compadd.setText(lm.getAdd());
+        //INPUT 3
+        l3 = (LinearLayout) findViewById(R.id.form3);
+        card3 = (CardView) findViewById(R.id.cardView_spinner3);
+        capt3 = (Button) findViewById(R.id.capture_button3);
+        chk3 = (ImageView) findViewById(R.id.cheqepic3);
+        comp3 = (EditText) findViewById(R.id.inputcompany3);
+        tin3 = (EditText) findViewById(R.id.inputtin3);
+        or3 = (EditText) findViewById(R.id.inputOR3);
+        acc3 = (EditText) findViewById(R.id.inputacc3);
+        am3 = (EditText) findViewById(R.id.inputChequeAmount3);
+        pay3 = (Spinner) findViewById(R.id.spinner3);
+        accT3 = (TextView) findViewById(R.id.accNumber3);
+        del3 = (Button) findViewById(R.id.delete_button3) ;
+
+        //INPUT 4
+        l4 = (LinearLayout) findViewById(R.id.form4);
+        card4 = (CardView) findViewById(R.id.cardView_spinner4);
+        capt4= (Button) findViewById(R.id.capture_button4);
+        chk4 = (ImageView) findViewById(R.id.cheqepic4);
+        comp4 = (EditText) findViewById(R.id.inputcompany4);
+        tin4 = (EditText) findViewById(R.id.inputtin4);
+        or4 = (EditText) findViewById(R.id.inputOR4);
+        acc4 = (EditText) findViewById(R.id.inputacc4);
+        am4 = (EditText) findViewById(R.id.inputChequeAmount4);
+        pay4 = (Spinner) findViewById(R.id.spinner4);
+        accT4 = (TextView) findViewById(R.id.accNumber4);
+        del4 = (Button) findViewById(R.id.delete_button4) ;
+
+        //INPUT 5
+        l5 = (LinearLayout) findViewById(R.id.form5);
+        card5 = (CardView) findViewById(R.id.cardView_spinner5);
+        capt5= (Button) findViewById(R.id.capture_button5);
+        chk5 = (ImageView) findViewById(R.id.cheqepic5);
+        comp5 = (EditText) findViewById(R.id.inputcompany5);
+        tin5 = (EditText) findViewById(R.id.inputtin5);
+        or5 = (EditText) findViewById(R.id.inputOR5);
+        acc5 = (EditText) findViewById(R.id.inputacc5);
+        am5 = (EditText) findViewById(R.id.inputChequeAmount5);
+        pay5 = (Spinner) findViewById(R.id.spinner5);
+        accT5 = (TextView) findViewById(R.id.accNumber5);
+        del5 = (Button) findViewById(R.id.delete_button5) ;
+
+        //INPUT 6
+        l6 = (LinearLayout) findViewById(R.id.form6);
+        card6 = (CardView) findViewById(R.id.cardView_spinner6);
+        capt6= (Button) findViewById(R.id.capture_button6);
+        chk6 = (ImageView) findViewById(R.id.cheqepic6);
+        comp6 = (EditText) findViewById(R.id.inputcompany6);
+        tin6 = (EditText) findViewById(R.id.inputtin6);
+        or6 = (EditText) findViewById(R.id.inputOR6);
+        acc6 = (EditText) findViewById(R.id.inputacc6);
+        am6 = (EditText) findViewById(R.id.inputChequeAmount6);
+        pay6 = (Spinner) findViewById(R.id.spinner6);
+        accT6 = (TextView) findViewById(R.id.accNumber6);
+        del6 = (Button) findViewById(R.id.delete_button6) ;
+
+        comp1.setText(lm.getComp());
+        comp2.setText(lm.getComp());
+        comp3.setText(lm.getComp());
+        comp4.setText(lm.getComp());
+        comp5.setText(lm.getComp());
+        comp6.setText(lm.getComp());
 
         payeeList = new String[]{"---PAYEE---","Globe Telecom Inc.", "Innove Communications Inc.", "Bayan Communications Inc."}; //PAYEE LIST
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfficialReceipt.this, R.layout.simple_spinner_item, payeeList);
         adapter.setDropDownViewResource(R.layout.simple_spinner_item);
-        spinner.setAdapter(adapter);
+        pay1.setAdapter(adapter);
+        pay2.setAdapter(adapter);
+        pay3.setAdapter(adapter);
+        pay4.setAdapter(adapter);
+        pay5.setAdapter(adapter);
+        pay6.setAdapter(adapter);
 
-        if(remark.equals("One Account, Multiple Cheques") || remark.equals("Multiple Accounts, Multiple Cheques"))
-        {
-           checkTitle.setText("Cheque 1");
-        }
-        else{
-            checkTitle.setText("Cheque");
-        }
         back_button = (TextView) findViewById(R.id.back_button);
         confirm_btn = (Button) findViewById(R.id.confirm_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-        datefield = (LinearLayout) findViewById(R.id.date_field);
-        datepicker = (Button) findViewById(R.id.datePickerButton);
-        datepicker.setText(getTodayDate());
-        initDatePicker();
 
         back_button.setTypeface(font);
         back_button.setText("\uf060");
@@ -125,83 +197,223 @@ public class OfficialReceipt extends AppCompatActivity {
             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
         }
 
+        CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(multAcc.isChecked()){
+                    acc1.setVisibility(View.GONE);
+                    acc2.setVisibility(View.GONE);
+                    acc3.setVisibility(View.GONE);
+                    acc4.setVisibility(View.GONE);
+                    acc5.setVisibility(View.GONE);
+                    acc6.setVisibility(View.GONE);
+
+                    acc1.setText("");
+                    acc2.setText("");
+                    acc3.setText("");
+                    acc4.setText("");
+                    acc5.setText("");;
+                    acc6.setText("");
+
+                    accT1.setVisibility(View.GONE);
+                    accT2.setVisibility(View.GONE);
+                    accT3.setVisibility(View.GONE);
+                    accT4.setVisibility(View.GONE);
+                    accT5.setVisibility(View.GONE);
+                    accT6.setVisibility(View.GONE);
+                }
+                else if(!(multAcc.isChecked())){
+                    acc1.setVisibility(View.VISIBLE);
+                    acc2.setVisibility(View.VISIBLE);
+                    acc3.setVisibility(View.VISIBLE);
+                    acc4.setVisibility(View.VISIBLE);
+                    acc5.setVisibility(View.VISIBLE);
+                    acc6.setVisibility(View.VISIBLE);
+
+                    accT1.setVisibility(View.VISIBLE);
+                    accT2.setVisibility(View.VISIBLE);
+                    accT3.setVisibility(View.VISIBLE);
+                    accT4.setVisibility(View.VISIBLE);
+                    accT5.setVisibility(View.VISIBLE);
+                    accT6.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+
+        multAcc.setOnCheckedChangeListener(cbl);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rm.removeReceipt();
-                openEsignature();
+                openChecklist();
             }
         });
 
-        datepicker.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog.show();
+                if(deleted.size() == 0){
+                    if(count == 1){
+                        l2.setVisibility(View.VISIBLE);
+                        tin2.setText(tin1.getText().toString());
+                        //del2.setVisibility(View.VISIBLE);
+                        count++;
+                    }
+                    else if(count == 2){
+                        l3.setVisibility(View.VISIBLE);
+                        tin3.setText(tin1.getText().toString());
+                        //del3.setVisibility(View.VISIBLE);
+                        count++;
+                    }
+                    else if(count == 3){
+                        l4.setVisibility(View.VISIBLE);
+                        tin4.setText(tin1.getText().toString());
+                        //del4.setVisibility(View.VISIBLE);
+                        count++;
+                    }
+                    else if(count == 4){
+                        l5.setVisibility(View.VISIBLE);
+                        tin5.setText(tin1.getText().toString());
+                        //del5.setVisibility(View.VISIBLE);
+                        count++;
+                    }
+                    else if(count == 5){
+                        l6.setVisibility(View.VISIBLE);
+                        tin6.setText(tin1.getText().toString());
+                        //del6.setVisibility(View.VISIBLE);
+                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        addBtn.setActivated(false);
+                        //count++;
+                    }
+                }
+                else if(deleted.size() > 0){
+                    deleted.get(0).setVisibility(View.VISIBLE);
+                    tv.get(0).setText(tin1.getText().toString());
+                    deleted.remove(0);
+                    tv.remove(0);
+                    count++;
+                    if(count == 5){
+                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        addBtn.setEnabled(false);
+                    }
+                }
+            }
+        });
+
+        del2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                l2.setVisibility(View.GONE);
+                pay2.setSelection(0);
+                tin2.setText("");
+                acc2.setText("");
+                or2.setText("");
+                am2.setText("");
+                deleted.add(l2);
+                tv.add(tin2);
+                if(count == 5){
+                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setEnabled(true);
+                }
+                count--;
+            }
+        });
+        del3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                l3.setVisibility(View.GONE);
+                pay3.setSelection(0);
+                tin3.setText("");
+                acc3.setText("");
+                or3.setText("");
+                am3.setText("");
+                deleted.add(l3);
+                tv.add(tin3);
+                if(count == 5){
+                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setEnabled(true);
+                }
+                count--;
+            }
+        });
+        del4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                l4.setVisibility(View.GONE);
+                pay4.setSelection(0);
+                tin4.setText("");
+                acc4.setText("");
+                or4.setText("");
+                am4.setText("");
+                deleted.add(l4);
+                tv.add(tin4);
+                if(count == 5){
+                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setEnabled(true);
+                }
+                count--;
+            }
+        });
+        del5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                l5.setVisibility(View.GONE);
+                pay5.setSelection(0);
+                tin5.setText("");
+                or5.setText("");
+                acc5.setText("");
+                am5.setText("");
+                deleted.add(l5);
+                tv.add(tin5);
+                if(count == 5){
+                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setEnabled(true);
+                }
+                count--;
+            }
+        });
+        del6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                l6.setVisibility(View.GONE);
+                pay6.setSelection(0);
+                tin6.setText("");
+                acc6.setText("");
+                or6.setText("");
+                am6.setText("");
+                deleted.add(l6);
+                tv.add(tin6);
+                if(count == 5){
+                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setEnabled(true);
+                }
+                count--;
             }
         });
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String service = parent.getItemAtPosition(position).toString();
-                //submit_btn = (Button) findViewById(R.id.submit_button);
-
-                submit_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    /*if (remark.equals("Multiple Accounts, Multiple Cheques") || remark.equals("One Account, Multiple Cheques")) {
-                        //STRING FOR CHEQUE NUM RESULTS
-                        /cheqResNum = "chk1_num:" + cheq_num.getText().toString() + ",chk2_num:" + newCheqNum1.getText().toString() + ",chk3_num:" + newCheqNum2.getText().toString() +
-                                ",chk4_num:" + newCheqNum3.getText().toString() + ",chk5_num:" + newCheqNum4.getText().toString();
-                        //STRING FOR CHEQUE AMOUNT RESULTS
-                        cheqResAm = "chk1_amount:" + cheq_amount.getText().toString() + ",chk2_amount:" + newCheqAm1.getText().toString() + ",chk3_amount:" + newCheqAm2.getText().toString() +
-                                ",chk4_amount:" + newCheqAm3.getText().toString() + ",chk5_amount:" + newCheqAm4.getText().toString();
-                    } else {
-                        cheqResNum = cheq_num.getText().toString();
-                        cheqResAm = cheq_amount.getText().toString();
-                    }*/
-                       ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), cheq_amount.getText().toString().replace(",", ""), cheq_num.getText().toString().replace(",", ""), service, bcode.getText().toString(),
-                                ornum.getText().toString(), date.getText().toString());
-                       rm.saveReceipt(rs);
-                        //Toast.makeText(OfficialReceipt.this, "Transaction Completed", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
-                addBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ReceiptSession rs = new ReceiptSession(String.valueOf(tin.getText()), cheq_amount.getText().toString().replace(",", ""), cheq_num.getText().toString().replace(",", ""), service, bcode.getText().toString(),
-                                ornum.getText().toString(), date.getText().toString());
-                        rm.saveReceipt(rs);
-
-                        Intent intent = new Intent(OfficialReceipt.this, OfficialReceipt2.class);
-
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                String[] accno = {acc1.getText().toString(), acc2.getText().toString(),acc3.getText().toString(),
+                        acc4.getText().toString(),acc5.getText().toString(),acc6.getText().toString()};
+                String[] pay = {pay1.getSelectedItem().toString(), pay2.getSelectedItem().toString(),
+                        pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
+                        pay5.getSelectedItem().toString(),pay6.getSelectedItem().toString()};
+                String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
+                        or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
+                String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
+                        am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
             }
         });
     }
 
-    public void openEsignature() {
-        Intent intent = new Intent(this, ESignature.class);
+    public void openChecklist() {
+        Intent intent = new Intent(this, CheckList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
-
-
 
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();

@@ -69,7 +69,8 @@ public class ChequePickUp extends AppCompatActivity {
     FusedLocationProviderClient fspc;
     private static final int MAX_SMS_LENGTH = 160;
     private final static int REQUEST_CODE = 100;
-    static final int PERMISSION_SEND_SMS = 101;
+    static final int PERMISSION_SEND_SMS_GO = 101;
+    static final int PERMISSION_SEND_SMS_ARRIVED = 102;
     double cur_lat, cur_long, des_lat, des_long;
 
     @Override
@@ -90,7 +91,8 @@ public class ChequePickUp extends AppCompatActivity {
         +"For any further assistance or queries, please reach out or reply to me at this number."
         +"Thank you for choosing RGS!";*/
         ;
-        message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location.";
+        message1 = "Good Day! This is your Rider from RGS, I\'m on my way to collect the cheque(s) from your location. Thank you!";
+        message2 = "Good Day! This is your Rider from RGS, I\'ve arrived and already at your location. Thank you!";
 
         Intent details = getIntent();
 
@@ -190,7 +192,7 @@ public class ChequePickUp extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
                             != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
                         ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
-                                PERMISSION_SEND_SMS);
+                                PERMISSION_SEND_SMS_GO);
                     } else {// PERMISSION GRANTED
                         //sendSMS(cont, "Hello, this is a test message!");
                         sendSMS(cont, message1);
@@ -367,11 +369,21 @@ public class ChequePickUp extends AppCompatActivity {
                 Toast.makeText(ChequePickUp.this,"Required Permission", Toast.LENGTH_SHORT).show();
             }
         }
-        else if (requestCode == PERMISSION_SEND_SMS) {
+        else if (requestCode == PERMISSION_SEND_SMS_GO) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //sendSMS(cont, "Hello, this is a test message!");
                 sendSMS(cont, message1);
                 DisplayMap(addr.getText().toString());
+            } else {
+                Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == PERMISSION_SEND_SMS_ARRIVED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //sendSMS(cont, "Hello, this is a test message!");
+                sendSMS(cont, message2);
+                Intent intent = new Intent(ChequePickUp.this, CheckList.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
             }
@@ -402,9 +414,18 @@ public class ChequePickUp extends AppCompatActivity {
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChequePickUp.this, CheckList.class);
-                startActivity(intent);
-                finish();
+                if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
+                        != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
+                    ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
+                            PERMISSION_SEND_SMS_ARRIVED);
+                } else {// PERMISSION GRANTED
+                    //sendSMS(cont, "Hello, this is a test message!");
+                    Toast.makeText(ChequePickUp.this, "SMS Sent", Toast.LENGTH_SHORT).show();
+                    sendSMS(cont, message2);
+                    Intent intent = new Intent(ChequePickUp.this, CheckList.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

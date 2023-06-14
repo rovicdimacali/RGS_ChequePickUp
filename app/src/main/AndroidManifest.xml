@@ -65,6 +65,7 @@
             android:exported="false" />
         <activity
             android:name=".OfficialReceipt"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".ChequeReceived"

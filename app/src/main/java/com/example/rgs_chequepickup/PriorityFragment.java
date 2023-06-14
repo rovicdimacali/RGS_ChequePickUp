@@ -124,8 +124,8 @@ public class PriorityFragment extends Fragment {
         customer_btn = (CardView) view.findViewById(R.id.customer_btn);
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
-        title = (TextView) view.findViewById(R.id.textView);
-        title.setText("Priority Pick Ups");
+        //title = (TextView) view.findViewById(R.id.textView);
+        //title.setText("Priority Pick Ups");
         //next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
         //back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
 

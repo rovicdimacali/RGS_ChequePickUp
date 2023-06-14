@@ -1,6 +1,6 @@
 package com.example.rgs_chequepickup;
 
-import static com.example.rgs_chequepickup.ChequePickUp.PERMISSION_SEND_SMS;
+import static com.example.rgs_chequepickup.ChequePickUp.PERMISSION_SEND_SMS_GO;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -246,7 +246,7 @@ public class Failed extends AppCompatActivity {
                                 if (ContextCompat.checkSelfPermission(Failed.this, Manifest.permission.SEND_SMS)
                                         != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
                                     ActivityCompat.requestPermissions(Failed.this, new String[]{Manifest.permission.SEND_SMS},
-                                            PERMISSION_SEND_SMS);
+                                            PERMISSION_SEND_SMS_GO);
                                 } else {// PERMISSION GRANTED
                                     //sendSMS(cont, "Hello, this is a test message!");
                                     sendSMS(loc_m.getCont(), messageFailed);
