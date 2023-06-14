@@ -141,9 +141,6 @@ public class HomeFragment extends Fragment {
         customer_btn = (CardView) view.findViewById(R.id.customer_btn);
 
         TextView back_arrow, next_arrow, company_icon, person_icon, address_icon, number_icon, code_icon;
-
-        back_arrow = (TextView) view.findViewById(R.id.back_arrow);
-        next_arrow = (TextView) view.findViewById(R.id.next_arrow);
         /*company_icon = (TextView) view.findViewById(R.id.companyicon);
         person_icon = (TextView) view.findViewById(R.id.personicon);
         address_icon = (TextView) view.findViewById(R.id.addressicon);
@@ -167,9 +164,6 @@ public class HomeFragment extends Fragment {
         code_icon.setText("\uf25d");*/
 
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
-
-        next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
-        back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
 
         //carousel = (ViewFlipper) view.findViewById(R.id.carousel);
         parentL = (LinearLayout) view.findViewById(R.id.parentLayout);

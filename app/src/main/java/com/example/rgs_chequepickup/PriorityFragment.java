@@ -136,7 +136,7 @@ public class PriorityFragment extends Fragment {
         p1 = (TextView) customer_btn.findViewById(R.id.companyperson);
         ad1 = (TextView) customer_btn.findViewById(R.id.companyadd);
         cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
-        code1 = (TextView) customer_btn.findViewById(R.id.company_code);
+        code1 = (TextView) customer_btn.findViewById(R.id.companycode);
 
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
