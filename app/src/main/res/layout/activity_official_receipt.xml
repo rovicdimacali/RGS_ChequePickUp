@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/layout"
     tools:context=".OfficialReceipt">
 
     <RelativeLayout
@@ -26,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cheque"
+            android:text="Official Receipt"
             android:textAlignment="center"
             android:textSize="20dp"
             android:fontFamily="@font/poppins_bold"
@@ -96,7 +97,29 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/inputacc"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/accNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -203,6 +226,15 @@
                     android:id="@+id/form2"
                     >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque 2"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
                     <EditText
                         android:id="@+id/inputcompany2"
                         android:layout_width="350dp"
@@ -243,10 +275,30 @@
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
                         android:textStyle="bold"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
                         android:textColor="@color/black"/>
 
+                    <EditText
+                        android:id="@+id/inputacc2"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
+                    <TextView
+                        android:id="@+id/accNumber2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner2"
@@ -350,6 +402,15 @@
                     android:id="@+id/form3"
                     >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque 3"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
                     <EditText
                         android:id="@+id/inputcompany3"
                         android:layout_width="350dp"
@@ -390,10 +451,30 @@
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
                         android:textStyle="bold"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
                         android:textColor="@color/black"/>
 
+                    <EditText
+                        android:id="@+id/inputacc3"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
+                    <TextView
+                        android:id="@+id/accNumber3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner3"
@@ -497,6 +578,15 @@
                     android:id="@+id/form4"
                     >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque 4"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
                     <EditText
                         android:id="@+id/inputcompany4"
                         android:layout_width="350dp"
@@ -537,10 +627,30 @@
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
                         android:textStyle="bold"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
                         android:textColor="@color/black"/>
 
+                    <EditText
+                        android:id="@+id/inputacc4"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
+                    <TextView
+                        android:id="@+id/accNumber4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner4"
@@ -644,6 +754,15 @@
                     android:id="@+id/form5"
                     >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque 5"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
                     <EditText
                         android:id="@+id/inputcompany5"
                         android:layout_width="350dp"
@@ -684,10 +803,30 @@
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
                         android:textStyle="bold"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
                         android:textColor="@color/black"/>
 
+                    <EditText
+                        android:id="@+id/inputacc5"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
+                    <TextView
+                        android:id="@+id/accNumber5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner5"
@@ -791,6 +930,15 @@
                     android:id="@+id/form6"
                     >
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque 6"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
                     <EditText
                         android:id="@+id/inputcompany6"
                         android:layout_width="350dp"
@@ -831,10 +979,30 @@
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
                         android:textStyle="bold"
-                        android:text="Tin Number"
+                        android:text="TIN Number"
                         android:textColor="@color/black"/>
 
+                    <EditText
+                        android:id="@+id/inputacc6"
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="50dp"
+                        android:background="#F2F2F2"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
+                    <TextView
+                        android:id="@+id/accNumber6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="-50dp"
+                        android:text="Account Number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner6"
@@ -936,37 +1104,56 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white"
+            android:orientation="vertical"
             android:layout_alignParentBottom="true">
 
-            <Button
-                android:id="@+id/addCheque_button"
-                android:layout_width="match_parent"
+            <CheckBox android:id="@+id/checkbox_accnum"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_secondary"
-                android:layout_weight=".5"
-                android:layout_marginVertical="20dp"
-                android:text="Add Cheque"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/black" />
+                android:textSize="19dp"
+                android:text="Multiple Account Numbers" />
 
-            <Button
-                android:id="@+id/submit_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:layout_marginVertical="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/rounded_button"
-                android:text="Submit"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/black" />
+                android:orientation="horizontal"
+                android:background="@color/white"
+               >
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/addCheque_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_secondary"
+                    android:layout_weight=".5"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Add Cheque"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/confirm_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Confirm"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black" />
+
+                </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -124,7 +124,7 @@ public class CheckList extends AppCompatActivity {
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
                     //Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CheckList.this, CaptureCheque.class);
+                    Intent intent = new Intent(CheckList.this, OfficialReceipt.class);
                     scenarioManagement sm = new scenarioManagement(CheckList.this);
                     scenarioSession ss = new scenarioSession("Defective Cheque", "Defective");
                     sm.saveScene(ss);

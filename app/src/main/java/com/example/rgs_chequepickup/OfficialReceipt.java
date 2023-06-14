@@ -12,6 +12,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.Layout;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +24,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,9 +48,9 @@ public class OfficialReceipt extends AppCompatActivity {
     //FIRST INPUTS
     EditText cheq_num, cheq_amount, compname, compadd, tin, payee, bcode, ornum;
     //ADDITIONAL INPUTS
-    Button submit_btn, addBtn, datepicker, date;
+    Button submit_btn, addBtn, datepicker, date, confirm_btn;
     String remark;
-    LinearLayout Llayout_num, Llayout_am;
+    LinearLayout Llayout_num, Llayout_am, layout;
     LinearLayout datefield;
     String cheqResNum, cheqResAm;
     String payeeList[];
@@ -71,18 +75,18 @@ public class OfficialReceipt extends AppCompatActivity {
         card_spinner = (CardView) findViewById(R.id.cardView_spinner);
         spinner = (Spinner) findViewById(R.id.spinner);
         addBtn = (Button) findViewById(R.id.addCheque_button);
-        Llayout_num = (LinearLayout) findViewById(R.id.chknumText);
-        Llayout_am = (LinearLayout) findViewById(R.id.chkamountText);
+        //Llayout_num = (LinearLayout) findViewById(R.id.chknumText);
+        //Llayout_am = (LinearLayout) findViewById(R.id.chkamountText);
         checkTitle = (TextView) findViewById(R.id.checkTitle);
 
         compname = (EditText) findViewById(R.id.inputcompany);
-        compadd = (EditText) findViewById(R.id.inputaddress);
+        //compadd = (EditText) findViewById(R.id.inputaddress);
         tin = (EditText) findViewById(R.id.inputtin);
-        bcode = (EditText) findViewById(R.id.inputBC);
+        //bcode = (EditText) findViewById(R.id.inputBC);
         ornum = (EditText) findViewById(R.id.inputOR);
-        date = (Button) findViewById(R.id.datePickerButton);
-        cheq_amount = (EditText) findViewById(R.id.inputchequeamount);
-        cheq_num = (EditText) findViewById(R.id.inputchequenumber);
+        //date = (Button) findViewById(R.id.datePickerButton);
+        cheq_amount = (EditText) findViewById(R.id.inputChequeAmount);
+        //cheq_num = (EditText) findViewById(R.id.inputchequenumber);
         //payee = (EditText) findViewById(R.id.inputpayee);
 
         /*if(!(rm.getTin().isEmpty())){
@@ -92,7 +96,7 @@ public class OfficialReceipt extends AppCompatActivity {
         compname.setText(lm.getComp());
         compadd.setText(lm.getAdd());
 
-        payeeList = new String[]{"Globe Telecom Inc.", "Innove Communications Inc.", "Bayan Communications Inc."}; //PAYEE LIST
+        payeeList = new String[]{"---PAYEE---","Globe Telecom Inc.", "Innove Communications Inc.", "Bayan Communications Inc."}; //PAYEE LIST
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfficialReceipt.this, R.layout.simple_spinner_item, payeeList);
         adapter.setDropDownViewResource(R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
@@ -105,7 +109,7 @@ public class OfficialReceipt extends AppCompatActivity {
             checkTitle.setText("Cheque");
         }
         back_button = (TextView) findViewById(R.id.back_button);
-        submit_btn = (Button) findViewById(R.id.submit_button);
+        confirm_btn = (Button) findViewById(R.id.confirm_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         datefield = (LinearLayout) findViewById(R.id.date_field);
@@ -196,6 +200,8 @@ public class OfficialReceipt extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();

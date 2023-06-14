@@ -1,27 +1,21 @@
 package com.example.rgs_chequepickup;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.content.PackageManagerCompat;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -145,7 +138,7 @@ public class CaptureCheque extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    VerifyPopupWindow(remark);
+                    //VerifyPopupWindow(remark);
                 }
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
@@ -175,10 +168,10 @@ public class CaptureCheque extends AppCompatActivity {
 
     }
 
-    private void VerifyPopupWindow(String remark) {
+    /*private void VerifyPopupWindow(String remark) {
         layout = (RelativeLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popUpView = inflater.inflate(R.layout.popup_verify_cheque, null);
+        View popUpView = inflater.inflate(R.layout.popup_invalid_cheque, null);
         services_list = popUpView.findViewById(R.id.cardView_spinner);
 
         Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
@@ -461,7 +454,6 @@ public class CaptureCheque extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
