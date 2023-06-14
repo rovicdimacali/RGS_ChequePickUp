@@ -381,35 +381,52 @@
 
                     </ImageView>
 
-                    <Button
-                        android:id="@+id/capture_button2"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/rgs_green"
-                        android:text="Capture Cheque"/>
+                        android:paddingHorizontal="25dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/capture_button2"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/rgs_green"
+                            android:text="Capture Cheque"/>
+
+                        <Button
+                            android:id="@+id/delete_button2"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/red"
+                            android:text="Delete Cheque"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/form3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
                     android:layout_marginTop="-180dp"
-                    android:id="@+id/form3"
-                    >
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cheque 3"
                         android:layout_marginTop="10dp"
+                        android:text="Cheque 3"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/inputcompany3"
@@ -417,9 +434,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="28dp"
                         android:layout_marginTop="20dp"
-                        android:paddingVertical="10dp"
-                        android:paddingHorizontal="20dp"
                         android:background="#F2F2F2"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
                         android:textSize="15dp" />
 
                     <TextView
@@ -428,9 +445,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
-                        android:textStyle="bold"
                         android:text="Company Name"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/inputtin3"
@@ -438,11 +455,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="28dp"
                         android:layout_marginTop="50dp"
-                        android:paddingVertical="10dp"
-                        android:paddingHorizontal="20dp"
                         android:background="#F2F2F2"
-                        android:textSize="15dp"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/tinNumber3"
@@ -450,9 +467,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
-                        android:textStyle="bold"
                         android:text="TIN Number"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/inputacc3"
@@ -480,16 +497,16 @@
                         android:id="@+id/cardView_spinner3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
                         android:layout_marginLeft="28dp"
+                        android:layout_marginTop="60dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
 
                         <Spinner
                             android:id="@+id/spinner3"
-                            android:padding="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:padding="10dp" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -499,9 +516,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-70dp"
-                        android:textStyle="bold"
                         android:text="Payee"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/inputOR3"
@@ -511,8 +528,8 @@
                         android:layout_marginTop="70dp"
                         android:background="#F2F2F2"
                         android:inputType="text"
-                        android:paddingVertical="10dp"
                         android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
                         android:textSize="15dp" />
 
                     <TextView
@@ -521,9 +538,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="-50dp"
-                        android:textStyle="bold"
                         android:text="OR Number"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/inputChequeAmount3"
@@ -533,8 +550,8 @@
                         android:layout_marginTop="50dp"
                         android:background="#F2F2F2"
                         android:inputType="text"
-                        android:paddingVertical="10dp"
                         android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
                         android:textSize="15dp" />
 
                     <TextView
@@ -551,21 +568,39 @@
                         android:id="@+id/cheqepic3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="45dp"
                         android:layout_marginLeft="28dp"
+                        android:layout_marginTop="45dp"
                         android:layout_marginRight="33dp">
 
                     </ImageView>
 
-                    <Button
-                        android:id="@+id/capture_button3"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/rgs_green"
-                        android:text="Capture Cheque"/>
+                        android:paddingHorizontal="25dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/capture_button3"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/rgs_green"
+                            android:text="Capture Cheque"/>
+
+                        <Button
+                            android:id="@+id/delete_button3"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/red"
+                            android:text="Delete Cheque"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -733,15 +768,33 @@
 
                     </ImageView>
 
-                    <Button
-                        android:id="@+id/capture_button4"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/rgs_green"
-                        android:text="Capture Cheque"/>
+                        android:paddingHorizontal="25dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/capture_button4"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/rgs_green"
+                            android:text="Capture Cheque"/>
+
+                        <Button
+                            android:id="@+id/delete_button4"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/red"
+                            android:text="Delete Cheque"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -909,16 +962,33 @@
 
                     </ImageView>
 
-                    <Button
-                        android:id="@+id/capture_button5"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/rgs_green"
-                        android:text="Capture Cheque"/>
+                        android:paddingHorizontal="25dp"
+                        android:orientation="horizontal">
 
+                        <Button
+                            android:id="@+id/capture_button5"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/rgs_green"
+                            android:text="Capture Cheque"/>
+
+                        <Button
+                            android:id="@+id/delete_button5"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/red"
+                            android:text="Delete Cheque"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -1085,15 +1155,33 @@
 
                     </ImageView>
 
-                    <Button
-                        android:id="@+id/capture_button6"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/rgs_green"
-                        android:text="Capture Cheque"/>
+                        android:paddingHorizontal="25dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/capture_button6"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/rgs_green"
+                            android:text="Capture Cheque"/>
+
+                        <Button
+                            android:id="@+id/delete_button6"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/red"
+                            android:text="Delete Cheque"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -1105,6 +1193,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             android:layout_alignParentBottom="true">
 
             <CheckBox android:id="@+id/checkbox_accnum"
