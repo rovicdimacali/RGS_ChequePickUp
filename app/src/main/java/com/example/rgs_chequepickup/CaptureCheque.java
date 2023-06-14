@@ -2,6 +2,7 @@ package com.example.rgs_chequepickup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Preview;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,13 +34,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Database.CheckerCheque;
 import SessionPackage.LocationManagement;
 import SessionPackage.accountManagement;
 import SessionPackage.accountSession;
@@ -66,12 +67,14 @@ public class CaptureCheque extends AppCompatActivity {
     int pic = 0;
     boolean hasRetake = false;
     Intent retake;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_cheque);
 
         retake = getIntent();
+
 
         if(retake != null && retake.hasExtra("retake")){
             hasRetake = true;
@@ -167,6 +170,7 @@ public class CaptureCheque extends AppCompatActivity {
         });
 
     }
+
 
     /*private void VerifyPopupWindow(String remark) {
         layout = (RelativeLayout) findViewById(R.id.layout);
@@ -459,20 +463,18 @@ public class CaptureCheque extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == RESULT_OK) {
                 captured_image = (ImageView) findViewById(R.id.captured_image);
-                captured_image.setDrawingCacheEnabled(true);
-                captured_image.buildDrawingCache();
-
                 Bitmap bitmapDisplay = (Bitmap) data.getExtras().get("data");
                 captured_image.setImageBitmap(bitmapDisplay);
 
-                Bitmap bitmap = Bitmap.createBitmap(captured_image.getDrawingCache());
-
-                captured_image.setDrawingCacheEnabled(false);
-                saveImageToGallery(bitmap);
+                Bitmap bitmap = Bitmap.createScaledBitmap(bitmapDisplay, 1024, 768, true);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);
+                byte[] compImage = os.toByteArray();
+                saveImageToGallery(compImage);
         }
     }
 
-    private void saveImageToGallery(Bitmap bitmap) {
+    private void saveImageToGallery(byte[] bitmap) {
         LocationManagement lm = new LocationManagement(CaptureCheque.this);
         String comp = lm.getComp();
 
@@ -494,13 +496,11 @@ public class CaptureCheque extends AppCompatActivity {
             }
             // IMAGE SAVE
             FileOutputStream outputStream = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            outputStream.flush();
+            outputStream.write(bitmap);
             outputStream.close();
 
-
             // SAVED IMAGED NOTIF
-            MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
+            //MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
             /*Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             image = Uri.fromFile(imageFile);
             intent.setData(image);
