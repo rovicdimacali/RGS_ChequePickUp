@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.content.PackageManagerCompat;
 
 import android.Manifest;
@@ -15,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -90,7 +92,6 @@ public class CaptureCheque extends AppCompatActivity {
         remark = sm.getScene();
         cheq_stat = sm.getStat();
 
-        captured_image = (ImageView) findViewById(R.id.captured_image);
         camera_button = (Button) findViewById(R.id.camera_button);
         next_button = (Button) findViewById(R.id.next_button);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -125,7 +126,7 @@ public class CaptureCheque extends AppCompatActivity {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 101);
-                next_button.setEnabled(true);
+
                 //finish();
             }
         });
@@ -465,8 +466,16 @@ public class CaptureCheque extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == RESULT_OK) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                captured_image.setImageBitmap(bitmap);
+                captured_image = (ImageView) findViewById(R.id.captured_image);
+                captured_image.setDrawingCacheEnabled(true);
+                captured_image.buildDrawingCache();
+
+                Bitmap bitmapDisplay = (Bitmap) data.getExtras().get("data");
+                captured_image.setImageBitmap(bitmapDisplay);
+
+                Bitmap bitmap = Bitmap.createBitmap(captured_image.getDrawingCache());
+
+                captured_image.setDrawingCacheEnabled(false);
                 saveImageToGallery(bitmap);
         }
     }
@@ -493,19 +502,24 @@ public class CaptureCheque extends AppCompatActivity {
             }
             // IMAGE SAVE
             FileOutputStream outputStream = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.flush();
             outputStream.close();
 
+
             // SAVED IMAGED NOTIF
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
+            /*Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             image = Uri.fromFile(imageFile);
             intent.setData(image);
-            sendBroadcast(intent);
+            sendBroadcast(intent);*/
 
             //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 }
