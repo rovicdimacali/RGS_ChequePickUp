@@ -73,19 +73,33 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:layout_marginHorizontal="30dp">
-
-
+        android:layout_alignParentBottom="true"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="30dp"
+>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            >
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:textAlignment="center"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+
 
             <Button
                 android:id="@+id/clear_img"
@@ -94,7 +108,7 @@
                 android:text="Clear Signature"
                 android:layout_weight=".5"
                 android:layout_marginRight="10dp"
-                android:background="@color/rgs_green"
+                android:background="@drawable/btn_secondary"
                 android:textAllCaps="false"/>
 
             <Button
@@ -104,7 +118,7 @@
                 android:text="Save"
                 android:layout_weight=".5"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/btn_secondary"
+                android:background="@color/rgs_green"
                 android:textAllCaps="false"/>
 
             <!--<Button
@@ -116,6 +130,8 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_secondary"
                 android:textAllCaps="false"/>-->
+
+        </LinearLayout>
 
         </LinearLayout>
 

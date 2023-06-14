@@ -41,6 +41,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -52,7 +53,7 @@ import SessionPackage.cancelSession;
 public class CancelActivity extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
-    Button datepicker, submit, timepicker;
+    Button datepicker, submit, timepicker1, timepicker2;
     TextView back_button;
     LinearLayout datefield, proof, timefieldFr, timefieldTo;
     RadioButton absentRB, reschedRB, diffRB, longRB, othersRB, noChequeRB, cutoffRB, collRB;
@@ -81,8 +82,8 @@ public class CancelActivity extends AppCompatActivity {
         timefieldTo = (LinearLayout) findViewById(R.id.time_field_to);
         proof = (LinearLayout) findViewById(R.id.proof_field);
         point = (EditText) findViewById(R.id.point);
-        timeFrom = (EditText) findViewById(R.id.time_from);
-        timeTo = (EditText) findViewById(R.id.time_to);
+        //timeFrom = (EditText) findViewById(R.id.time_from);
+        //timeTo = (EditText) findViewById(R.id.time_to);
 
         //RADIO BUTTONS
         absentRB = (RadioButton) findViewById(R.id.client_not_around);
@@ -90,14 +91,15 @@ public class CancelActivity extends AppCompatActivity {
         diffRB = (RadioButton) findViewById(R.id.wrong_add);
         longRB = (RadioButton) findViewById(R.id.unvisited);
         noChequeRB = (RadioButton) findViewById(R.id.no_cheque);
-        cutoffRB = (RadioButton) findViewById(R.id.cut_off);
+        //cutoffRB = (RadioButton) findViewById(R.id.cut_off);
         collRB = (RadioButton) findViewById(R.id.collected);
         othersRB = (RadioButton) findViewById(R.id.others);
 
         //absentRB.setText(lm.getAdd());
         //BUTTONS
         datepicker = (Button) findViewById(R.id.datePickerButton);
-        //timepicker = (Button) findViewById(R.id.timePickerButton);
+        timepicker1 = (Button) findViewById(R.id.timePickerButton1);
+        timepicker2 = (Button) findViewById(R.id.timePickerButton2);
         back_button = (TextView) findViewById(R.id.back_button);
         submit = (Button) findViewById(R.id.submit_btn);
         datepicker.setText(getTodayDate());
@@ -173,12 +175,19 @@ public class CancelActivity extends AppCompatActivity {
             }
         });
 
-        /*timepicker.setOnClickListener(new View.OnClickListener() {
+        timepicker1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openTime();
+                openTime1();
             }
-        });*/
+        });
+
+        timepicker2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTime2();
+            }
+        });
 
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,6 +366,50 @@ public class CancelActivity extends AppCompatActivity {
             return "DEC";
         }
         return "JAN";
+    }
+
+    public void openTime1() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                AlertDialog.THEME_HOLO_LIGHT,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                        String selectedTime = sdf.format(calendar.getTime());
+                        timepicker1.setText(selectedTime);
+                    }
+                }, hour, minute, false);
+
+        timePickerDialog.show();
+    }
+
+    public void openTime2() {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                AlertDialog.THEME_HOLO_LIGHT,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                        String selectedTime = sdf.format(calendar.getTime());
+                        timepicker2.setText(selectedTime);
+                    }
+                }, hour, minute, false);
+
+        timePickerDialog.show();
     }
 
     private void getCurrentLocation(){

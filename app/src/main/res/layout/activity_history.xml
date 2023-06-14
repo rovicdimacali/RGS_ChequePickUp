@@ -63,6 +63,37 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/transact_container"
+                    android:layout_below="@id/address_container"
+                    android:layout_marginVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/icon_transact"
+                        android:textSize="23dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:text="O"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/transact"
+                        android:textSize="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@id/icon_transact"
+                        android:textColor="@color/black"
+                        android:layout_centerVertical="true"
+                        android:text="PU29389128492183"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/name_container"
                     android:layout_below="@id/address_header"
                     android:layout_marginVertical="5dp">
@@ -91,36 +122,6 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/persob_container"
-                    android:layout_below="@id/code_container"
-                    android:layout_marginVertical="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/icon_code"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="20dp"
-                        android:textSize="23dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:text="O"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/code"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:layout_toRightOf="@id/icon_code"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:text="RGS"/>
-
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -150,68 +151,6 @@
                         android:layout_toRightOf="@id/icon_location"
                         android:layout_centerVertical="true"
                         android:text="4726 F Old Sta. Mesa St. Manila"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/phone_container"
-                    android:layout_below="@id/address_container"
-                    android:layout_marginVertical="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/icon_number"
-                        android:textSize="23dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/black"
-                        android:text="O"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/number"
-                        android:textSize="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toRightOf="@id/icon_number"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/black"
-                        android:text="09274815025"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/transact_container"
-                    android:layout_below="@id/address_container"
-                    android:layout_marginVertical="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/icon_transact"
-                        android:textSize="23dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/black"
-                        android:text="O"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/transact"
-                        android:textSize="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toRightOf="@id/icon_transact"
-                        android:textColor="@color/black"
-                        android:layout_centerVertical="true"
-                        android:text="PU29389128492183"/>
 
                 </RelativeLayout>
 
@@ -254,7 +193,7 @@
                     android:layout_marginStart="49dp"
                     android:layout_marginBottom="20dp"
                     android:background="@color/rgs_green"
-                    android:text="Edit" />
+                    android:text="View Transaction" />
 
                 <View
                     android:layout_width="match_parent"
