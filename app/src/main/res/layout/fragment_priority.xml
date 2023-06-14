@@ -93,6 +93,33 @@
                                 android:text="Company ONE"
                                 android:textColor="@color/black"
                                 android:textSize="18dp" />
+                            <TextView
+                                android:id="@+id/companyperson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Company Person"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:visibility="gone"/>
+                            <TextView
+                                android:id="@+id/companycontact"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Company Person"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:visibility="gone"/>
+                            <TextView
+                                android:id="@+id/companycode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="Company Person"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"

@@ -53,6 +53,7 @@ public class PriorityFragment extends Fragment {
     View view;
     Context cont;
     ViewFlipper carousel;
+    LinearLayout parentL;
     LinearLayout layout;
     OkHttpClient client;
     ScrollView scrollpick;
@@ -116,32 +117,26 @@ public class PriorityFragment extends Fragment {
 
         TextView back_arrow, next_arrow;
 
-        back_arrow = (TextView) view.findViewById(R.id.back_arrow);
-
-        next_arrow = (TextView) view.findViewById(R.id.next_arrow);
 
         Typeface font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
-        back_arrow.setTypeface(font);
-        next_arrow.setTypeface(font);
-        back_arrow.setText("\uf060");
-        next_arrow.setText("\uf061");
 
         customer_btn = (CardView) view.findViewById(R.id.customer_btn);
         go_button = (Button) customer_btn.findViewById(R.id.go_button);
 
         title = (TextView) view.findViewById(R.id.textView);
         title.setText("Priority Pick Ups");
-        next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
-        back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
+        //next_arr = (TextView) customer_btn.findViewById(R.id.next_arrow);
+        //back_arr = (TextView) customer_btn.findViewById(R.id.back_arrow);
 
-        carousel = (ViewFlipper) view.findViewById(R.id.carousel);
+        //carousel = (ViewFlipper) view.findViewById(R.id.carousel);
+        parentL = (LinearLayout) view.findViewById(R.id.parentLayout);
 
         comp1 = (TextView) customer_btn.findViewById(R.id.companyname);
         p1 = (TextView) customer_btn.findViewById(R.id.companyperson);
         ad1 = (TextView) customer_btn.findViewById(R.id.companyadd);
         cont1 = (TextView) customer_btn.findViewById(R.id.companycontact);
-        code1 = (TextView) customer_btn.findViewById(R.id.company_code);
+        code1 = (TextView) customer_btn.findViewById(R.id.companycode);
 
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,20 +154,6 @@ public class PriorityFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-        next_arr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showNext();
-            }
-        });
-        back_arr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carousel.showPrevious();
-            }
-        });
-
         return view;
     }
 
@@ -274,46 +255,6 @@ public class PriorityFragment extends Fragment {
                         cont1.setText(value4);*/
 
                         //BUTTONS
-                        Typeface font = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
-                        TextView back = new TextView(cont);
-                        LinearLayout.LayoutParams backbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                        ViewGroup.MarginLayoutParams back_margins = (ViewGroup.MarginLayoutParams) back_arr.getLayoutParams();
-
-                        back_margins.topMargin = 20;
-                        float back_weight = 1f;
-                        //backbtn.setMarginStart(20);
-                        backbtn.weight = back_weight;
-                        back.setLayoutParams(back_margins);
-                        back.setLayoutParams(backbtn);
-                        back.setId(R.id.back_arrow);
-                        back.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
-                        back.setText("BACK");
-                        back.setTextSize(20);
-                        //back.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
-                        back.setTypeface(font);
-                        back.setText("\uf060");
-
-                        TextView skip = new TextView(cont);
-                        LinearLayout.LayoutParams skipbtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                        ViewGroup.MarginLayoutParams skip_margins = (ViewGroup.MarginLayoutParams) next_arr.getLayoutParams();
-
-                        skip_margins.topMargin = 20;
-                        float skip_weight = 1f;
-                        skipbtn.setMarginStart(20);
-                        skipbtn.weight = skip_weight;
-                        skip.setLayoutParams(skip_margins);
-                        skip.setLayoutParams(skipbtn);
-                        skip.setId(R.id.next_arrow);
-                        skip.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins_bold));
-                        skip.setText("NEXT");
-                        skip.setTextSize(20);
-                        skip.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
-                        skip.setTypeface(font);
-                        skip.setText("\uf061");
-                        //skip.setTypeface(null, Typeface.BOLD);
-
                         Button go = new Button(cont);
                         LinearLayout.LayoutParams gobtn = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -345,6 +286,7 @@ public class PriorityFragment extends Fragment {
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         code.setLayoutParams(codetext);
                         code.setText(value5);
+                        code.setVisibility(View.GONE);
                         code.setTextColor(Color.BLACK);
                         code.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
                         code.setTextSize(15);
@@ -354,6 +296,7 @@ public class PriorityFragment extends Fragment {
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         contact.setLayoutParams(conttext);
                         contact.setText(value4);
+                        contact.setVisibility(View.GONE);
                         contact.setTextColor(Color.BLACK);
                         contact.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
                         contact.setTextSize(15);
@@ -372,6 +315,7 @@ public class PriorityFragment extends Fragment {
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         per.setLayoutParams(pertext);
                         per.setText(value2);
+                        per.setVisibility(View.GONE);
                         per.setTextColor(Color.BLACK);
                         per.setTypeface(ResourcesCompat.getFont(cont,R.font.poppins));
                         per.setTextSize(18);
@@ -425,12 +369,10 @@ public class PriorityFragment extends Fragment {
                         new_ll.addView(contact);
                         new_ll.addView(code);
                         new_ll.addView(new_2ll);
-                        new_2ll.addView(back);
                         new_2ll.addView(go);
-                        new_2ll.addView(skip);
                         new_rl.addView(new_ll);
                         new_card.addView(new_rl);
-                        carousel.addView(new_card);
+                        parentL.addView(new_card);
 
                         go.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -440,25 +382,8 @@ public class PriorityFragment extends Fragment {
                                 LocationSession ls = new LocationSession(String.valueOf(comp.getText()), String.valueOf(per.getText()),
                                         String.valueOf(add.getText()),String.valueOf(contact.getText()), String.valueOf(code.getText()));
                                 lm.saveLocation(ls);
-                            /*intent.putExtra("company", comp1.getText().toString());
-                            intent.putExtra("person", p1.getText().toString());
-                            intent.putExtra("address", ad1.getText().toString());
-                            intent.putExtra("contact", cont1.getText().toString());*/
                                 startActivity(intent);
-                                getActivity().finish();
-                            }
-                        });
-
-                        skip.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                carousel.showNext();
-                            }
-                        });
-                        back.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                carousel.showPrevious();
+                                //getActivity().finish();
                             }
                         });
                     }
