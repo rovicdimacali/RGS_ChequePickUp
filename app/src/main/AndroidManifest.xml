@@ -37,6 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".VerifyOfficialReceipt"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".OfficialReceipt5"
