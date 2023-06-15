@@ -31,6 +31,7 @@
             android:textSize="20dp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/black"
+            android:maxLength="1000"
             android:background="@drawable/header"
             android:paddingVertical="15dp"
             android:id="@+id/checkTitle"/>
@@ -179,8 +180,14 @@
                 <ImageView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"/>
-
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/cheque_img"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/black" />
 
             </LinearLayout>
 

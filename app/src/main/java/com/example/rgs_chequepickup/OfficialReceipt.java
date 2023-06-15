@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -58,6 +59,9 @@ import SessionPackage.chequeSession;
 import SessionPackage.scenarioManagement;
 
 public class OfficialReceipt extends AppCompatActivity {
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String currentPhotoPath;
     int cameraTurn;
     int cameraDel;
@@ -76,6 +80,7 @@ public class OfficialReceipt extends AppCompatActivity {
     TextView accT1, accT2, accT3, accT4, accT5, accT6;
     TextView chktitle2, chktitle3, chktitle4, chktitle5, chktitle6;
     CheckBox multAcc;
+    ArrayList<String> pics = new ArrayList<>();
     //--
     DatePickerDialog datePickerDialog;
 
@@ -83,8 +88,8 @@ public class OfficialReceipt extends AppCompatActivity {
     Button addBtn, datepicker, date, confirm_btn;
     String remark;
     String payeeList[];
-    String imageArr;
-    String payeeArr = "", orArr = "", amArr = "", accnoArr = "";
+    String imageArr = "";
+    String payeeArr = "", orArr = "", amArr = "", accnoArr = "", images = "";
     int count = 1;
     int delete = 0;
     ArrayList<LinearLayout> deleted = new ArrayList<>();
@@ -106,6 +111,7 @@ public class OfficialReceipt extends AppCompatActivity {
         addBtn = (Button) findViewById(R.id.addCheque_button);
         multAcc = (CheckBox) findViewById(R.id.checkbox_accnum);
 
+        checkTitle = (TextView) findViewById(R.id.checkTitle);
         //INPUT 1
         l1 = (LinearLayout) findViewById(R.id.form1);
         card1 = (CardView) findViewById(R.id.cardView_spinner);
@@ -355,18 +361,20 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                String name = "IMG-Cheque"+cameraDel;
-                String[] explode = imageArr.split(",");
-                Arrays.sort(explode);
-                for(int i = 0; i < explode.length; i++){
-                    if(!(explode[i].contains(name))){
-                        imageArr += explode[i] + ",";
+                if(imageArr != null){
+                    String name = "IMG-Cheque"+cameraDel;
+                    String[] explode = imageArr.split(",");
+                    Arrays.sort(explode);
+                    for(int i = 0; i < explode.length; i++){
+                        if(!(explode[i].contains(name))){
+                            imageArr += explode[i] + ",";
+                        }
                     }
+                    imageArr = imageArr.substring(0, imageArr.length() - 1);
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(imageArr);
+                    cm.saveCheck(cs);
                 }
-                imageArr = imageArr.substring(0, imageArr.length() - 1);
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(imageArr);
-                cm.saveCheck(cs);
                 count--;
             }
         });
@@ -388,18 +396,20 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                String name = "IMG-Cheque"+cameraDel;
-                String[] explode = imageArr.split(",");
-                Arrays.sort(explode);
-                for(int i = 0; i < explode.length; i++){
-                    if(!(explode[i].contains(name))){
-                        imageArr += explode[i] + ",";
+                if(imageArr != null) {
+                    String name = "IMG-Cheque" + cameraDel;
+                    String[] explode = imageArr.split(",");
+                    Arrays.sort(explode);
+                    for (int i = 0; i < explode.length; i++) {
+                        if (!(explode[i].contains(name))) {
+                            imageArr += explode[i] + ",";
+                        }
                     }
+                    imageArr = imageArr.substring(0, imageArr.length() - 1);
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(imageArr);
+                    cm.saveCheck(cs);
                 }
-                imageArr = imageArr.substring(0, imageArr.length() - 1);
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(imageArr);
-                cm.saveCheck(cs);
                 count--;
             }
         });
@@ -421,18 +431,20 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                String name = "IMG-Cheque"+cameraDel;
-                String[] explode = imageArr.split(",");
-                Arrays.sort(explode);
-                for(int i = 0; i < explode.length; i++){
-                    if(!(explode[i].contains(name))){
-                        imageArr += explode[i] + ",";
+                if(imageArr != null) {
+                    String name = "IMG-Cheque" + cameraDel;
+                    String[] explode = imageArr.split(",");
+                    Arrays.sort(explode);
+                    for (int i = 0; i < explode.length; i++) {
+                        if (!(explode[i].contains(name))) {
+                            imageArr += explode[i] + ",";
+                        }
                     }
+                    imageArr = imageArr.substring(0, imageArr.length() - 1);
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(imageArr);
+                    cm.saveCheck(cs);
                 }
-                imageArr = imageArr.substring(0, imageArr.length() - 1);
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(imageArr);
-                cm.saveCheck(cs);
                 count--;
             }
         });
@@ -454,18 +466,20 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                String name = "IMG-Cheque"+cameraDel;
-                String[] explode = imageArr.split(",");
-                Arrays.sort(explode);
-                for(int i = 0; i < explode.length; i++){
-                    if(!(explode[i].contains(name))){
-                        imageArr += explode[i] + ",";
+                if(imageArr != null) {
+                    String name = "IMG-Cheque" + cameraDel;
+                    String[] explode = imageArr.split(",");
+                    Arrays.sort(explode);
+                    for (int i = 0; i < explode.length; i++) {
+                        if (!(explode[i].contains(name))) {
+                            imageArr += explode[i] + ",";
+                        }
                     }
+                    imageArr = imageArr.substring(0, imageArr.length() - 1);
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(imageArr);
+                    cm.saveCheck(cs);
                 }
-                imageArr = imageArr.substring(0, imageArr.length() - 1);
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(imageArr);
-                cm.saveCheck(cs);
                 count--;
             }
         });
@@ -487,18 +501,20 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                String name = "IMG-Cheque"+cameraDel;
-                String[] explode = imageArr.split(",");
-                Arrays.sort(explode);
-                for(int i = 0; i < explode.length; i++){
-                    if(!(explode[i].contains(name))){
-                        imageArr += explode[i] + ",";
+                if(imageArr != null) {
+                    String name = "IMG-Cheque" + cameraDel;
+                    String[] explode = imageArr.split(",");
+                    Arrays.sort(explode);
+                    for (int i = 0; i < explode.length; i++) {
+                        if (!(explode[i].contains(name))) {
+                            imageArr += explode[i] + ",";
+                        }
                     }
+                    imageArr = imageArr.substring(0, imageArr.length() - 1);
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(imageArr);
+                    cm.saveCheck(cs);
                 }
-                imageArr = imageArr.substring(0, imageArr.length() - 1);
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(imageArr);
-                cm.saveCheck(cs);
                 count--;
             }
         });
@@ -506,46 +522,46 @@ public class OfficialReceipt extends AppCompatActivity {
         capt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 1;
+                openCamera();
             }
         });
 
         capt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 2;
+                openCamera();
             }
         });
         capt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 3;
+                openCamera();
             }
         });
 
         capt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 4;
+                openCamera();
             }
         });
         capt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 5;
+                openCamera();
             }
         });
 
         capt6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
                 cameraTurn = 6;
+                openCamera();
             }
         });
         confirm_btn.setOnClickListener(new View.OnClickListener() {
@@ -590,17 +606,29 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
 
+                //Toast.makeText(OfficialReceipt.this, "Size " + pics.size(), Toast.LENGTH_SHORT).show();
+                for(int i = 0; i < pics.size(); i++){
+                    images += pics.get(i) + ",";
+                    //pics.remove(0);
+                }
+
                 payeeArr = payeeArr.substring(0, payeeArr.length() - 1);
                 orArr = orArr.substring(0, orArr.length() - 1);
                 amArr = amArr.substring(0, amArr.length() - 1);
+                images = images.substring(0, images.length() - 1);
 
-                ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()).toString(), amArr, "", payeeArr, "",
+                ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()), amArr, "", payeeArr, "",
                         orArr, "");
                 rm.saveReceipt(rs);
                 accountSession as = new accountSession(accnoArr, "");
                 am.saveAccount(as);
 
-                Intent intent = new Intent(OfficialReceipt.this, ChequeReceived.class);
+                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                chequeSession cs = new chequeSession(images);
+                cm.saveCheck(cs);
+
+
+                Intent intent = new Intent(OfficialReceipt.this, VerifyOfficialReceipt.class);
                 startActivity(intent);
             }
         });
@@ -637,22 +665,21 @@ public class OfficialReceipt extends AppCompatActivity {
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
+        //String imageName = "IMG-Cheque_"+ comp + "_" + time;
         String imageName = "IMG-Cheque" + cameraTurn + "_"+ comp + "_" + time;
 
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         //File imageFile = new File(storageDir, imageName);
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
-        imageArr += String.valueOf(imageFile) + ",";
-        String[] explode = imageArr.split(",");
+        imageArr = String.valueOf(imageFile);
+        pics.add(imageArr);
+        /*String[] explode = imageArr.split(",");
         Arrays.sort(explode);
         for(int i = 0; i<explode.length; i++){
             imageArr += explode[i] + ",";
         }
-        imageArr = imageArr.substring(0, imageArr.length() - 1);
-        chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-        chequeSession cs = new chequeSession(imageArr);
-        cm.saveCheck(cs);
+        imageArr = imageArr.substring(0, imageArr.length() - 1);*/
 
         currentPhotoPath = imageFile.getAbsolutePath();
         return imageFile;
@@ -667,40 +694,47 @@ public class OfficialReceipt extends AppCompatActivity {
 
                 saveImageToGallery(bitmapDisplay);*/
             if(cameraTurn == 1){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
+
                 chk1.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
             }
 
             else if(cameraTurn == 2){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
                 chk2.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
             }
             else if(cameraTurn == 3){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
                 chk3.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
             }
 
             else if(cameraTurn == 4){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
                 chk4.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
             }
             else if(cameraTurn == 5){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
                 chk5.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
             }
 
             else if(cameraTurn == 6){
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
                 chk6.setImageBitmap(bitmap);
 
                 saveImageToGallery(bitmap);
@@ -741,7 +775,7 @@ public class OfficialReceipt extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 60, fos);
             fos.flush();
             fos.close();
-            Toast.makeText(this, "Saved to gallery", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved to gallery" , Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "Error Saving", Toast.LENGTH_SHORT).show();
             //throw new RuntimeException(e);

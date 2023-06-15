@@ -420,7 +420,7 @@ public class ChequePickUp extends AppCompatActivity {
                             PERMISSION_SEND_SMS_ARRIVED);
                 } else {// PERMISSION GRANTED
                     //sendSMS(cont, "Hello, this is a test message!");
-                    Toast.makeText(ChequePickUp.this, "SMS Sent", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ChequePickUp.this, "SMS Sent", Toast.LENGTH_SHORT).show();
                     sendSMS(cont, message2);
                     Intent intent = new Intent(ChequePickUp.this, CheckList.class);
                     startActivity(intent);
