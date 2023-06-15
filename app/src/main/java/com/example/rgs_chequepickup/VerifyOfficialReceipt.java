@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,8 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
     String[] accArr, payArr, orArr, amArr, imgArr;
     TextView back_button;
     int size;
-    Button submit, editBtn;
+    Button submit;
+    ImageView editBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +73,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
 
         size = payArr.length;
         parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
-        editBtn = (Button) findViewById(R.id.edit_button);
+        //editBtn = (ImageView) findViewById(R.id.edit_button);
         chequeImg = (ImageView) findViewById(R.id.cheque_img);
         submit = (Button) findViewById(R.id.submit_button);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -127,7 +130,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
                     6
             );
 
-            line_params.bottomMargin = 40;
+            line_params.bottomMargin = 80;
             line.setLayoutParams(line_params);
             //IMAGE VIEW
             File img1 = new File(imgArr[i]);
@@ -166,6 +169,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             TextView amIn = new TextView(VerifyOfficialReceipt.this);
             amIn.setText(amArr[i]);
             amIn.setTextSize(15);
+            amIn.setInputType(InputType.TYPE_CLASS_NUMBER);
             amIn.setTextColor(Color.BLACK);
             RelativeLayout.LayoutParams amIn_params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -189,6 +193,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             TextView orIn = new TextView(VerifyOfficialReceipt.this);
             orIn.setText(orArr[i]);
             orIn.setTextSize(15);
+            orIn.setInputType(InputType.TYPE_CLASS_NUMBER);
             orIn.setTextColor(Color.BLACK);
             RelativeLayout.LayoutParams orIn_params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -240,6 +245,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
                 accIn.setText(accArr[i]);
             }
             accIn.setTextSize(15);
+            accIn.setInputType(InputType.TYPE_CLASS_NUMBER);
             accIn.setTextColor(Color.BLACK);
             RelativeLayout.LayoutParams accIn_params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -293,9 +299,11 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             );
             compIn_params.setMargins(15, 0,0,0);
             compIn.setLayoutParams(compIn_params);
+
             //TITLE
             TextView title = new TextView(VerifyOfficialReceipt.this);
             title.setText("Cheque " + (i + 1));
+            title.setId(View.generateViewId());
             title.setTypeface(null, Typeface.BOLD);
             title.setTextSize(15);
             title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -306,7 +314,25 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             );
             title.setLayoutParams(title_params);
 
+            //EDIT
+            /*ImageView editBtn = new ImageView(VerifyOfficialReceipt.this);
+            editBtn.setImageDrawable(getResources().getDrawable(R.drawable.edit));
+
+            RelativeLayout.LayoutParams edit_params = new RelativeLayout.LayoutParams(
+                    28,
+                    44
+            );
+            edit_params.addRule(RelativeLayout.END_OF, title.getId());
+            edit_params.addRule(RelativeLayout.ALIGN_TOP, title.getId());
+            edit_params.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
+            edit_params.setMargins(dpToPx(8),0,0,0);
+            /*edit_params.topMargin = -60;
+            edit_params.rightMargin = -120;
+
+            editBtn.setLayoutParams(edit_params);*/
+
             parentLayout.addView(title);
+            //parentLayout.addView(editBtn);
             parentLayout.addView(tv_comp);
             parentLayout.addView(compIn);
             parentLayout.addView(tv_tin);
@@ -345,6 +371,10 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
                 InvalidChequePopupWindow();
             }
         });
+    }
+    private int dpToPx(int dp) {
+        float scale = getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 
     private void InvalidChequePopupWindow() {

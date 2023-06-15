@@ -34,9 +34,6 @@
             android:name=".TransactionHistory"
             android:exported="false" />
         <activity
-            android:name=".ChecklistInvalidCheque"
-            android:exported="false" />
-        <activity
             android:name=".VerifyOfficialReceipt"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
@@ -60,6 +57,9 @@
             android:exported="false" />
         <activity
             android:name=".RemarksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChecklistInvalidCheque"
             android:exported="false" />
         <activity
             android:name=".CheckList"

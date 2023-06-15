@@ -79,7 +79,9 @@ public class OfficialReceipt extends AppCompatActivity {
     CardView card1, card2, card3, card4, card5, card6;
     ImageView chk1, chk2, chk3, chk4, chk5, chk6;
     TextView accT1, accT2, accT3, accT4, accT5, accT6;
-    TextView chktitle2, chktitle3, chktitle4, chktitle5, chktitle6;
+
+    String company, tin, accno, payee, or, amount, img;
+    String[] accArr, payArr, ornumArr, amoArr, imgArr;
     CheckBox multAcc;
     ArrayList<String> pics = new ArrayList<>();
     //--
@@ -106,6 +108,7 @@ public class OfficialReceipt extends AppCompatActivity {
         LocationManagement lm = new LocationManagement(OfficialReceipt.this);
         scenarioManagement sm = new scenarioManagement(OfficialReceipt.this);
         accountManagement am = new accountManagement(OfficialReceipt.this);
+        chequeManagement cm = new chequeManagement(OfficialReceipt.this);
 
         remark = sm.getScene();
 
@@ -113,6 +116,7 @@ public class OfficialReceipt extends AppCompatActivity {
         multAcc = (CheckBox) findViewById(R.id.checkbox_accnum);
 
         checkTitle = (TextView) findViewById(R.id.checkTitle);
+
         //INPUT 1
         l1 = (LinearLayout) findViewById(R.id.form1);
         card1 = (CardView) findViewById(R.id.cardView_spinner);
@@ -134,8 +138,11 @@ public class OfficialReceipt extends AppCompatActivity {
         comp2 = (EditText) findViewById(R.id.inputcompany2);
         tin2 = (EditText) findViewById(R.id.inputtin2);
         or2 = (EditText) findViewById(R.id.inputOR2);
+        or2.setInputType(InputType.TYPE_CLASS_NUMBER);
         acc2 = (EditText) findViewById(R.id.inputacc2);
+        acc2.setInputType(InputType.TYPE_CLASS_NUMBER);
         am2 = (EditText) findViewById(R.id.inputChequeAmount2);
+        am2.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay2 = (Spinner) findViewById(R.id.spinner2);
         accT2 = (TextView) findViewById(R.id.accNumber2);
         del2 = (Button) findViewById(R.id.delete_button2);
@@ -148,8 +155,11 @@ public class OfficialReceipt extends AppCompatActivity {
         comp3 = (EditText) findViewById(R.id.inputcompany3);
         tin3 = (EditText) findViewById(R.id.inputtin3);
         or3 = (EditText) findViewById(R.id.inputOR3);
+        or3.setInputType(InputType.TYPE_CLASS_NUMBER);
         acc3 = (EditText) findViewById(R.id.inputacc3);
+        acc3.setInputType(InputType.TYPE_CLASS_NUMBER);
         am3 = (EditText) findViewById(R.id.inputChequeAmount3);
+        am3.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay3 = (Spinner) findViewById(R.id.spinner3);
         accT3 = (TextView) findViewById(R.id.accNumber3);
         del3 = (Button) findViewById(R.id.delete_button3) ;
@@ -162,8 +172,11 @@ public class OfficialReceipt extends AppCompatActivity {
         comp4 = (EditText) findViewById(R.id.inputcompany4);
         tin4 = (EditText) findViewById(R.id.inputtin4);
         or4 = (EditText) findViewById(R.id.inputOR4);
+        or4.setInputType(InputType.TYPE_CLASS_NUMBER);
         acc4 = (EditText) findViewById(R.id.inputacc4);
+        acc4.setInputType(InputType.TYPE_CLASS_NUMBER);
         am4 = (EditText) findViewById(R.id.inputChequeAmount4);
+        am4.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay4 = (Spinner) findViewById(R.id.spinner4);
         accT4 = (TextView) findViewById(R.id.accNumber4);
         del4 = (Button) findViewById(R.id.delete_button4) ;
@@ -176,8 +189,11 @@ public class OfficialReceipt extends AppCompatActivity {
         comp5 = (EditText) findViewById(R.id.inputcompany5);
         tin5 = (EditText) findViewById(R.id.inputtin5);
         or5 = (EditText) findViewById(R.id.inputOR5);
+        or5.setInputType(InputType.TYPE_CLASS_NUMBER);
         acc5 = (EditText) findViewById(R.id.inputacc5);
+        acc5.setInputType(InputType.TYPE_CLASS_NUMBER);
         am5 = (EditText) findViewById(R.id.inputChequeAmount5);
+        am5.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay5 = (Spinner) findViewById(R.id.spinner5);
         accT5 = (TextView) findViewById(R.id.accNumber5);
         del5 = (Button) findViewById(R.id.delete_button5) ;
@@ -190,11 +206,14 @@ public class OfficialReceipt extends AppCompatActivity {
         comp6 = (EditText) findViewById(R.id.inputcompany6);
         tin6 = (EditText) findViewById(R.id.inputtin6);
         or6 = (EditText) findViewById(R.id.inputOR6);
+        or6.setInputType(InputType.TYPE_CLASS_NUMBER);
         acc6 = (EditText) findViewById(R.id.inputacc6);
+        acc6.setInputType(InputType.TYPE_CLASS_NUMBER);
         am6 = (EditText) findViewById(R.id.inputChequeAmount6);
+        am6.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay6 = (Spinner) findViewById(R.id.spinner6);
         accT6 = (TextView) findViewById(R.id.accNumber6);
-        del6 = (Button) findViewById(R.id.delete_button6) ;
+        del6 = (Button) findViewById(R.id.delete_button6);
 
         comp1.setText(lm.getComp());
         comp2.setText(lm.getComp());
@@ -224,6 +243,65 @@ public class OfficialReceipt extends AppCompatActivity {
         if (remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")) {
             addBtn.setVisibility(View.GONE);
             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+        }
+
+        if(!(rm.getPayee().isEmpty() || rm.getPayee().equals(""))){
+            company = lm.getComp();
+            tin = rm.getTin();
+            accno = am.getAccno();
+            payee = rm.getPayee();
+            or = rm.getOR();
+            amount = rm.getAmount();
+            img = cm.getCheck();
+
+            accArr = accno.split(",");
+            payArr = payee.split(",");
+            ornumArr = or.split(",");
+            amoArr = amount.split(",");
+            imgArr = img.split(",");
+
+            for(int i = 0; i < payArr.length; i++){
+                if(i == 0){
+                    int pos = adapter.getPosition(payArr[i]);
+                    comp1.setText(lm.getComp());
+                    tin1.setText(rm.getTin());
+                    if(accArr.length == 1){
+                        acc1.setText("Multiple Accounts");
+                    }
+                    else{
+                        acc1.setText(accArr[i]);
+                    }
+                    pay1.setSelection(pos);
+                    or1.setText(ornumArr[i]);
+                    am1.setText(amoArr[i]);
+                    File img = new File(imgArr[i]);
+                    if(img.exists()){
+                        Uri imageUri = Uri.fromFile(img);
+
+                        chk1.setImageURI(imageUri);
+                    }
+                }
+                else if(i == 1){
+                    int pos = adapter.getPosition(payArr[i]);
+                    comp2.setText(lm.getComp());
+                    tin2.setText(rm.getTin());
+                    if(accArr.length == 1){
+                        acc2.setText("Multiple Accounts");
+                    }
+                    else{
+                        acc2.setText(accArr[i]);
+                    }
+                    pay2.setSelection(pos);
+                    or2.setText(ornumArr[i]);
+                    am2.setText(amoArr[i]);
+                    File img = new File(imgArr[i]);
+                    if(img.exists()){
+                        Uri imageUri = Uri.fromFile(img);
+
+                        chk2.setImageURI(imageUri);
+                    }
+                }
+            }
         }
 
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {

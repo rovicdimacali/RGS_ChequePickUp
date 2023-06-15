@@ -63,14 +63,14 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/edit_button"
-                    android:layout_width="22dp"
+                    android:layout_width="10dp"
                     android:layout_height="22dp"
-                    app:srcCompat="@drawable/edit"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="-60px"
-                    android:layout_marginRight="-120px"/>
+                    android:layout_marginRight="-120px"
+                    app:srcCompat="@drawable/edit" />-->
 
                 <TextView
                     android:id="@+id/label_companyName"

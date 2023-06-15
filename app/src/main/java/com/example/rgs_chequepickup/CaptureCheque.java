@@ -58,6 +58,7 @@ public class CaptureCheque extends AppCompatActivity {
     RelativeLayout layout;
     CardView services_list;
     CheckBox bayan, innove, globe;
+    String cheques = "";
     TextView back_button;
     Uri image;
     int pic = 0;
@@ -487,7 +488,12 @@ public class CaptureCheque extends AppCompatActivity {
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
         chequeManagement cm = new chequeManagement(CaptureCheque.this);
-        String cheques = cm.getCheck() + "," + String.valueOf(imageFile);
+        if(cm.getCheck().isEmpty() || cm.getCheck().equals("")){
+            cheques = String.valueOf(imageFile);
+        }
+        else if(!(cm.getCheck().isEmpty() || cm.getCheck().equals(""))){
+            cheques = cm.getCheck() + "," + String.valueOf(imageFile);
+        }
 
         chequeSession cs = new chequeSession(cheques);
         cm.saveCheck(cs);
