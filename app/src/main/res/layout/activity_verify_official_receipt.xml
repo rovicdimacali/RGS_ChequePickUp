@@ -63,15 +63,6 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <!--<ImageView
-                    android:id="@+id/edit_button"
-                    android:layout_width="10dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="-60px"
-                    android:layout_marginRight="-120px"
-                    app:srcCompat="@drawable/edit" />-->
-
                 <TextView
                     android:id="@+id/label_companyName"
                     android:layout_width="match_parent"
@@ -212,6 +203,15 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:text="Edit"
+                android:background="@drawable/btn_secondary"/>
 
             <Button
                 android:id="@+id/submit_button"
