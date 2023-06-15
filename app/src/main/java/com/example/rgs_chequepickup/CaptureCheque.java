@@ -1,48 +1,44 @@
 package com.example.rgs_chequepickup;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Preview;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import SessionPackage.LocationManagement;
-import SessionPackage.accountManagement;
 import SessionPackage.accountSession;
 import SessionPackage.chequeManagement;
 import SessionPackage.chequeSession;
@@ -50,10 +46,10 @@ import SessionPackage.remarkSession;
 import SessionPackage.scenarioManagement;
 
 public class CaptureCheque extends AppCompatActivity {
-
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String currentPhotoPath;
     ImageView captured_image;
     Button camera_button, next_button;
     LinearLayout checklist;
@@ -67,6 +63,7 @@ public class CaptureCheque extends AppCompatActivity {
     int pic = 0;
     boolean hasRetake = false;
     Intent retake;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +94,7 @@ public class CaptureCheque extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
+
         next_button.setEnabled(false);
         if(ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
@@ -120,10 +118,7 @@ public class CaptureCheque extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 101);
-
-                //finish();
+                openCamera();
             }
         });
 
@@ -459,23 +454,65 @@ public class CaptureCheque extends AppCompatActivity {
             }
         });*/
 
+
+    private void openCamera(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create the File where the photo should go
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(CaptureCheque.this,
+                    "com.example.rgs_chequepickup.fileprovider",
+                    photoFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, 101);
+        }
+    }
+    private File createImageFile() throws IOException{
+        LocationManagement lm = new LocationManagement(CaptureCheque.this);
+        String comp = lm.getComp();
+
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
+        String imageName = "IMG-Cheque_"+ comp + "_" + time;
+
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        //File imageFile = new File(storageDir, imageName);
+        File imageFile = File.createTempFile(imageName,".jpg",storageDir);
+
+        chequeManagement cm = new chequeManagement(CaptureCheque.this);
+        chequeSession cs = new chequeSession(String.valueOf(imageFile));
+        cm.saveCheck(cs);
+
+        currentPhotoPath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == RESULT_OK) {
-                captured_image = (ImageView) findViewById(R.id.captured_image);
+                /*captured_image = (ImageView) findViewById(R.id.captured_image);
                 Bitmap bitmapDisplay = (Bitmap) data.getExtras().get("data");
                 captured_image.setImageBitmap(bitmapDisplay);
 
-                Bitmap bitmap = Bitmap.createScaledBitmap(bitmapDisplay, 1024, 768, true);
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);
-                byte[] compImage = os.toByteArray();
-                saveImageToGallery(compImage);
+                saveImageToGallery(bitmapDisplay);*/
+            captured_image = (ImageView) findViewById(R.id.captured_image);
+            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            captured_image.setImageBitmap(bitmap);
+
+            saveImageToGallery(bitmap);
+        }
+        else{
+            Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void saveImageToGallery(byte[] bitmap) {
-        LocationManagement lm = new LocationManagement(CaptureCheque.this);
+    private void saveImageToGallery(Bitmap bitmap) {
+        /*LocationManagement lm = new LocationManagement(CaptureCheque.this);
         String comp = lm.getComp();
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -489,27 +526,28 @@ public class CaptureCheque extends AppCompatActivity {
         chequeSession cs = new chequeSession(String.valueOf(imageFile));
         cm.saveCheck(cs);
 
-        try {
-            // CREATE DIRECTORY IF NONE
-            if (!storageDir.exists()) {
-                storageDir.mkdirs();
-            }
-            // IMAGE SAVE
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            outputStream.write(bitmap);
-            outputStream.close();
-
-            // SAVED IMAGED NOTIF
-            //MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
-            /*Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            image = Uri.fromFile(imageFile);
-            intent.setData(image);
-            sendBroadcast(intent);*/
-
-            //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // CREATE DIRECTORY IF NONE
+        if (!storageDir.exists()) {
+            storageDir.mkdirs();
         }
+        // IMAGE SAVE
+        // SAVED IMAGED NOTIF
+        MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        image = Uri.fromFile(imageFile);
+        intent.setData(image);
+        sendBroadcast(intent);*/
+        try{
+            FileOutputStream fos = new FileOutputStream(currentPhotoPath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, fos);
+            fos.flush();
+            fos.close();
+            Toast.makeText(this, "Saved to gallery", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_SHORT).show();
+            //throw new RuntimeException(e);
+        }
+        //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
     }
 
 
