@@ -59,14 +59,14 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:layout_marginBottom="20dp"
-            android:text="Cheque have ERASURES."/>
+            android:text="Cheque have ERASURES"/>
 
         <CheckBox android:id="@+id/checkbox_noSignature"
             android:layout_width="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="Cheque has NO SIGNATURE "/>
+            android:text="Cheque has NO SIGNATURE"/>
 
         <CheckBox android:id="@+id/checkbox_discrepancy"
             android:layout_width="wrap_content"

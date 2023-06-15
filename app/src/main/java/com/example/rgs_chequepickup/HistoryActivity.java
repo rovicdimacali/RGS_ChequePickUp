@@ -27,6 +27,8 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 
+import SessionPackage.HistoryManagement;
+import SessionPackage.HistorySession;
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
 import SessionPackage.SessionManagement;
@@ -44,6 +46,7 @@ public class HistoryActivity extends AppCompatActivity {
     TextView comp, code, address, number, transact, result;
     LinearLayout parent_rl, linearContents;
     ScrollView parent_sv;
+    Button viewBtn;
 
     JSONArray jsonArray = new JSONArray();
     JSONObject jsonObject = new JSONObject();
@@ -55,6 +58,7 @@ public class HistoryActivity extends AppCompatActivity {
         SessionManagement sm = new SessionManagement(HistoryActivity.this);
         fetchDataWithSpecificValue(sm.getSession());
 
+        viewBtn = (Button) findViewById(R.id.view_button);
 
         icon_transact = (TextView) findViewById(R.id.icon_transact);
         icon_company = (TextView) findViewById(R.id.icon_company);
@@ -89,6 +93,17 @@ public class HistoryActivity extends AppCompatActivity {
         transact = (TextView) findViewById(R.id.transact);
         result = (TextView) findViewById(R.id.remarks);
 
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HistoryActivity.this, TransactionHistory.class);
+                HistoryManagement hm = new HistoryManagement(HistoryActivity.this);
+                HistorySession hs = new HistorySession(transact.getText().toString(), comp.getText().toString()
+                ,address.getText().toString(),result.getText().toString());
+                hm.saveHistory(hs);
+                startActivity(i);
+            }
+        });
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,8 +262,12 @@ public class HistoryActivity extends AppCompatActivity {
                             res.setText("CANCELLED - " + status);
                             res.setTextColor(Color.RED);
                         }
-                        else{
-                            res.setText("SUCCESS - " + status);
+                        else if(status.equals("Defective")){
+                            res.setText("UNSUCCESSFUL - Invalid Cheque/s");
+                            res.setTextColor(Color.RED);
+                        }
+                        else if(status.equals("Not Defective")){
+                            res.setText("SUCCESS - Valid Cheque/s");
                             res.setTextColor(Integer.parseInt(String.valueOf(Color.parseColor("#4CAF50"))));
                         }
 
@@ -566,6 +585,17 @@ public class HistoryActivity extends AppCompatActivity {
                         //cv.addView(layout1);
                         //linearContents.addView(layout1);
                         //parent_rl.addView(parent_sv);
+                        edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(HistoryActivity.this, TransactionHistory.class);
+                                HistoryManagement hm = new HistoryManagement(HistoryActivity.this);
+                                HistorySession hs = new HistorySession(tran.getText().toString(), comp.getText().toString()
+                                        ,add.getText().toString(),res.getText().toString());
+                                hm.saveHistory(hs);
+                                startActivity(i);
+                            }
+                        });
                     }
 
                 } catch (JSONException e) {

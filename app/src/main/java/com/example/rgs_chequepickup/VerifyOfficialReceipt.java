@@ -3,6 +3,7 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.ReceiptManagement;
@@ -44,12 +49,12 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
     String[] accArr, payArr, orArr, amArr, imgArr;
     TextView back_button;
     int size;
-    Button submit;
-    ImageView editBtn;
+    Button submit, editBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_official_receipt);
+
 
         ReceiptManagement rm = new ReceiptManagement(VerifyOfficialReceipt.this);
         LocationManagement lm = new LocationManagement(VerifyOfficialReceipt.this);
@@ -71,9 +76,19 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         amArr = amount.split(",");
         imgArr = img.split(",");
 
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(payArr));
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String element = iterator.next();
+            if (element.isEmpty()) {
+                iterator.remove();
+            }
+        }
+        payArr = list.toArray(new String[0]);
         size = payArr.length;
+
         parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
-        //editBtn = (ImageView) findViewById(R.id.edit_button);
+        editBtn = (Button) findViewById(R.id.edit_button);
         chequeImg = (ImageView) findViewById(R.id.cheque_img);
         submit = (Button) findViewById(R.id.submit_button);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -122,6 +137,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
 
         for(int i = 1; i < size; i++){
             //LINE
+            try{
             View line = new View(VerifyOfficialReceipt.this);
             line.setBackgroundColor(Color.BLACK);
 
@@ -143,6 +159,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             );
             //img_params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             img_params.gravity = Gravity.CENTER_HORIZONTAL;
+            img_params.bottomMargin = 90;
             imgView.setLayoutParams(img_params);
 
             if(img1.exists()){
@@ -347,6 +364,13 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             parentLayout.addView(amIn);
             parentLayout.addView(imgView);
             parentLayout.addView(line);
+            }
+            catch (IndexOutOfBoundsException e){
+                //Toast.makeText(VerifyOfficialReceipt.this, "i - " + i + " s - " + size, Toast.LENGTH_SHORT).show();
+                for(int x = 0; i < size; i++){
+                    Log.d("Result", "Verify" + x + ": " + payArr[x]);
+                }
+            }
         }
 
         back_button.setOnClickListener(new View.OnClickListener() {
@@ -361,7 +385,8 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(VerifyOfficialReceipt.this, OfficialReceipt.class);
+                startActivity(intent);
             }
         });
 

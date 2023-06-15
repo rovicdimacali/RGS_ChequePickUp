@@ -118,28 +118,40 @@ public class CaptureCheque extends AppCompatActivity {
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    openCamera();
+                    next_button.setEnabled(true);
+                } else {
+                    // Request CAMERA permission
+                    ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
-                openCamera();
-                next_button.setEnabled(true);
             }
         });
 
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
+                Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
+                startActivity(intent);
+                finish();
+                /*scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
                 String res = sm.getStat();
                 if(res.equals("Defective")){
                     accountSession as = new accountSession("N/A", "N/A");
                     remarkSession rs = new remarkSession("Defective Cheque");
 
-                    Intent intent = new Intent(CaptureCheque.this, ChequeReceived.class);
+                    Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
                     startActivity(intent);
                     finish();
                 }
                 else{
+                    Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
+                    startActivity(intent);
+                    finish();
                     //VerifyPopupWindow(remark);
-                }
+                }*/
+
                /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
 
                 builder.setCancelable(true);
@@ -456,6 +468,19 @@ public class CaptureCheque extends AppCompatActivity {
             }
         });*/
 
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Camera permission granted
+                openCamera();
+                next_button.setEnabled(true);
+            } else {
+                // Camera permission denied
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void openCamera(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

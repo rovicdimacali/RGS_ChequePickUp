@@ -278,7 +278,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_or", rm.getOR());
             builder.addFormDataPart("chk_date", "none");
             builder.addFormDataPart("chk_bcode", "none");
-            builder.addFormDataPart("transaction_num", "none");
+            builder.addFormDataPart("transaction_num", transaction);
             builder.addFormDataPart("chk_amount", rm.getAmount());
             builder.addFormDataPart("chk_number", "none");
             builder.addFormDataPart("latitude", latitude);

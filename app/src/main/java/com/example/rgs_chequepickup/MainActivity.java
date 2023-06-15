@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         layout = (RelativeLayout) findViewById(R.id.relative);
         tv = (TextView) findViewById(R.id.text_home);

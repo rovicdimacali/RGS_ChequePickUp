@@ -410,6 +410,7 @@ public class HomeFragment extends Fragment {
                         ViewGroup.MarginLayoutParams new_card_margins = (ViewGroup.MarginLayoutParams) customer_btn.getLayoutParams();
 
                         new_card_margins.topMargin = -40;
+                        new_card_params.bottomMargin = 35;
                         new_card.setLayoutParams(new_card_margins);
                         new_card.setLayoutParams(new_card_params);
                         new_card.setId(R.id.customer_btn+i);

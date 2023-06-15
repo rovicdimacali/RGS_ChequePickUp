@@ -35,8 +35,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.ReceiptManagement;
@@ -148,40 +151,56 @@ public class Failed extends AppCompatActivity {
         String imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
         File imageFile = new File(imagePath);
 
-        if(can_m.getCancel().equals("Person in Charge not available")){
-            if(!(imageFile.exists())){
-                Toast.makeText(Failed.this, "Signature File does not exist", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                rbody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("chk_rider", sm.getSession())
-                        .addFormDataPart("chk_status", can_m.getCancel())
-                        .addFormDataPart("cancel_name", can_m.getPoint())
-                        .addFormDataPart("chk_sign", sign_m.getSign(),RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
-                        .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
-                        .addFormDataPart("chk_accno", "none")
-                        .addFormDataPart("chk_payee","none")
-                        .addFormDataPart("chk_entity", "none")
-                        .addFormDataPart("chk_remark", "none")
-                        .addFormDataPart("chk_address", loc_m.getAdd())
-                        .addFormDataPart("chk_company", loc_m.getComp())
-                        .addFormDataPart("chk_code", loc_m.getCode())
-                        .addFormDataPart("chk_tin", "none")
-                        .addFormDataPart("chk_or", "none")
-                        .addFormDataPart("chk_date", "none")
-                        .addFormDataPart("chk_bcode", "none")
-                        .addFormDataPart("transaction_num", "none")
-                        .addFormDataPart("chk_amount", "none")
-                        .addFormDataPart("chk_number", "none")
-                        .addFormDataPart("latitude", latitude)
-                        .addFormDataPart("longitude", longitude)
-                        .build();
+        if(can_m.getCancel().equals("Person in Charge Not Available") || can_m.getCancel().equals("Cheque Not Available") ||
+                can_m.getCancel().equals("Cheque Already Collected")){
+            Random ran = new Random();
+            int transNum = ran.nextInt(900000) + 100000;
+            Date currDate = new Date();
 
-                sendAPI(rbody);
-            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(currDate);
+
+            //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+            String transaction = "CPU" + String.valueOf(transNum);
+
+            rbody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("chk_rider", sm.getSession())
+                    .addFormDataPart("chk_status", can_m.getCancel())
+                    .addFormDataPart("cancel_name", can_m.getPoint())
+                    .addFormDataPart("chk_sign", sign_m.getSign(),RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                    .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
+                    .addFormDataPart("chk_accno", "none")
+                    .addFormDataPart("chk_payee","none")
+                    .addFormDataPart("chk_entity", "none")
+                    .addFormDataPart("chk_remark", "none")
+                    .addFormDataPart("chk_address", loc_m.getAdd())
+                    .addFormDataPart("chk_company", loc_m.getComp())
+                    .addFormDataPart("chk_code", loc_m.getCode())
+                    .addFormDataPart("chk_tin", "none")
+                    .addFormDataPart("chk_or", "none")
+                    .addFormDataPart("chk_date", "none")
+                    .addFormDataPart("chk_bcode", "none")
+                    .addFormDataPart("transaction_num", transaction)
+                    .addFormDataPart("chk_amount", "none")
+                    .addFormDataPart("chk_number", "none")
+                    .addFormDataPart("latitude", latitude)
+                    .addFormDataPart("longitude", longitude)
+                    .build();
+
+            sendAPI(rbody);
         }
         else{
+            Random ran = new Random();
+            int transNum = ran.nextInt(900000) + 100000;
+            Date currDate = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(currDate);
+
+            //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+            String transaction = "CPU" + String.valueOf(transNum);
+
             rbody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("chk_rider", sm.getSession())
@@ -200,7 +219,7 @@ public class Failed extends AppCompatActivity {
                     .addFormDataPart("chk_or", "none")
                     .addFormDataPart("chk_date", "none")
                     .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", "none")
+                    .addFormDataPart("transaction_num", transaction)
                     .addFormDataPart("chk_amount", "none")
                     .addFormDataPart("chk_number", "none")
                     .addFormDataPart("latitude", latitude)
@@ -253,7 +272,6 @@ public class Failed extends AppCompatActivity {
                                 }
                                 loc_m.removeLocation();
                                 can_m.removeCancel();
-
 
                                 Intent intent = new Intent(Failed.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

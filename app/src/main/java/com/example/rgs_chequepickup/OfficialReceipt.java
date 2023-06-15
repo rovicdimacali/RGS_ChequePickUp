@@ -1,8 +1,10 @@
 package com.example.rgs_chequepickup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -10,6 +12,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,6 +24,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -232,6 +237,11 @@ public class OfficialReceipt extends AppCompatActivity {
         pay5.setAdapter(adapter);
         pay6.setAdapter(adapter);
 
+        if (remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")) {
+            addBtn.setVisibility(View.GONE);
+            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+        }
+
         back_button = (TextView) findViewById(R.id.back_button);
         confirm_btn = (Button) findViewById(R.id.confirm_button);
 
@@ -240,12 +250,7 @@ public class OfficialReceipt extends AppCompatActivity {
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
-        if (remark.equals("One Check, One Account") || remark.equals("One Cheque, Multiple Accounts")) {
-            addBtn.setVisibility(View.GONE);
-            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-        }
-
-        if(!(rm.getPayee().isEmpty() || rm.getPayee().equals(""))){
+        if(!(rm.getOR().isEmpty() || rm.getOR().equals("") || rm.getOR().equals("none"))) {
             company = lm.getComp();
             tin = rm.getTin();
             accno = am.getAccno();
@@ -260,49 +265,212 @@ public class OfficialReceipt extends AppCompatActivity {
             amoArr = amount.split(",");
             imgArr = img.split(",");
 
-            for(int i = 0; i < payArr.length; i++){
-                if(i == 0){
-                    int pos = adapter.getPosition(payArr[i]);
-                    comp1.setText(lm.getComp());
-                    tin1.setText(rm.getTin());
-                    if(accArr.length == 1){
-                        acc1.setText("Multiple Accounts");
-                    }
-                    else{
-                        acc1.setText(accArr[i]);
-                    }
-                    pay1.setSelection(pos);
-                    or1.setText(ornumArr[i]);
-                    am1.setText(amoArr[i]);
-                    File img = new File(imgArr[i]);
-                    if(img.exists()){
-                        Uri imageUri = Uri.fromFile(img);
+            if (accArr.length == 1) {
+                multAcc.setChecked(true);
+                acc1.setVisibility(View.GONE);
+                acc2.setVisibility(View.GONE);
+                acc3.setVisibility(View.GONE);
+                acc4.setVisibility(View.GONE);
+                acc5.setVisibility(View.GONE);
+                acc6.setVisibility(View.GONE);
 
-                        chk1.setImageURI(imageUri);
-                    }
-                }
-                else if(i == 1){
-                    int pos = adapter.getPosition(payArr[i]);
-                    comp2.setText(lm.getComp());
-                    tin2.setText(rm.getTin());
-                    if(accArr.length == 1){
-                        acc2.setText("Multiple Accounts");
-                    }
-                    else{
-                        acc2.setText(accArr[i]);
-                    }
-                    pay2.setSelection(pos);
-                    or2.setText(ornumArr[i]);
-                    am2.setText(amoArr[i]);
-                    File img = new File(imgArr[i]);
-                    if(img.exists()){
-                        Uri imageUri = Uri.fromFile(img);
+                acc1.setText("");
+                acc2.setText("");
+                acc3.setText("");
+                acc4.setText("");
+                acc5.setText("");
+                ;
+                acc6.setText("");
 
-                        chk2.setImageURI(imageUri);
-                    }
-                }
+                accT1.setVisibility(View.GONE);
+                accT2.setVisibility(View.GONE);
+                accT3.setVisibility(View.GONE);
+                accT4.setVisibility(View.GONE);
+                accT5.setVisibility(View.GONE);
+                accT6.setVisibility(View.GONE);
+            } else {
+                multAcc.setChecked(false);
+                acc1.setVisibility(View.VISIBLE);
+                acc2.setVisibility(View.VISIBLE);
+                acc3.setVisibility(View.VISIBLE);
+                acc4.setVisibility(View.VISIBLE);
+                acc5.setVisibility(View.VISIBLE);
+                acc6.setVisibility(View.VISIBLE);
+
+                accT1.setVisibility(View.VISIBLE);
+                accT2.setVisibility(View.VISIBLE);
+                accT3.setVisibility(View.VISIBLE);
+                accT4.setVisibility(View.VISIBLE);
+                accT5.setVisibility(View.VISIBLE);
+                accT6.setVisibility(View.VISIBLE);
             }
+                for (int i = 0; i < payArr.length; i++) {
+                    try {
+                        if (i == 0) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            comp1.setText(lm.getComp());
+                            tin1.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc1.setText("Multiple Accounts");
+                            } else {
+                                acc1.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay1.setSelection(0);
+                            } else {
+                                pay1.setSelection(pos);
+                            }
+                            or1.setText(ornumArr[i]);
+                            am1.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk1.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            //count = count + 1;
+                        } else if (i == 1) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            l2.setVisibility(View.VISIBLE);
+                            comp2.setText(lm.getComp());
+                            tin2.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc2.setText("Multiple Accounts");
+                            } else {
+                                acc2.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay2.setSelection(0);
+                            } else {
+                                pay2.setSelection(pos);
+                            }
+                            or2.setText(ornumArr[i]);
+                            am2.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk2.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            count = count + 1;
+                        } else if (i == 2) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            l3.setVisibility(View.VISIBLE);
+                            comp3.setText(lm.getComp());
+                            tin3.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc3.setText("Multiple Accounts");
+                            } else {
+                                acc3.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay3.setSelection(0);
+                            } else {
+                                pay3.setSelection(pos);
+                            }
+                            or3.setText(ornumArr[i]);
+                            am3.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk3.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            count = count + 1;
+                        } else if (i == 3) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            l4.setVisibility(View.VISIBLE);
+                            comp4.setText(lm.getComp());
+                            tin4.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc4.setText("Multiple Accounts");
+                            } else {
+                                acc4.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay4.setSelection(0);
+                            } else {
+                                pay4.setSelection(pos);
+                            }
+                            or4.setText(ornumArr[i]);
+                            am4.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk4.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            count = count + 1;
+                        } else if (i == 4) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            l5.setVisibility(View.VISIBLE);
+                            comp5.setText(lm.getComp());
+                            tin5.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc5.setText("Multiple Accounts");
+                            } else {
+                                acc5.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay5.setSelection(0);
+                            } else {
+                                pay5.setSelection(pos);
+                            }
+                            or5.setText(ornumArr[i]);
+                            am5.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk5.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            count = count + 1;
+                            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                            addBtn.setActivated(false);
+                        } else if (i == 5) {
+                            int pos = adapter.getPosition(payArr[i]);
+                            l6.setVisibility(View.VISIBLE);
+                            comp6.setText(lm.getComp());
+                            tin6.setText(rm.getTin());
+                            if (accArr.length == 1) {
+                                acc6.setText("Multiple Accounts");
+                            } else {
+                                acc6.setText(accArr[i]);
+                            }
+                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
+                                pay6.setSelection(0);
+                            } else {
+                                pay6.setSelection(pos);
+                            }
+                            or6.setText(ornumArr[i]);
+                            am6.setText(amoArr[i]);
+                            File img = new File(imgArr[i]);
+                            if (img.exists()) {
+                                Uri imageUri = Uri.fromFile(img);
+
+                                chk6.setImageURI(imageUri);
+                                pics.add(imgArr[i]);
+                            }
+                            //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                            //addBtn.setActivated(false);
+                        }
+                        //count++;
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        //Toast.makeText(OfficialReceipt.this, "i - " + i + " s - " + payArr.length, Toast.LENGTH_SHORT).show();
+                        for(int x = 0; i < payArr.length; i++){
+                            Log.d("Result", "Result" + x + ": " + payArr[x]);
+                        }
+                    }
+                }
+
         }
+
 
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -409,10 +577,18 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
                 else if(deleted.size() > 0){
-                    deleted.get(0).setVisibility(View.VISIBLE);
-                    tv.get(0).setText(tin1.getText().toString());
-                    deleted.remove(0);
-                    tv.remove(0);
+                    if(deleted.size() == 1){
+                        deleted.get(0).setVisibility(View.VISIBLE);
+                        tv.get(0).setText(tin1.getText().toString());
+                        deleted.remove(0);
+                        tv.remove(0);
+                    }
+                    else{
+                        deleted.get(deleted.size() - 1).setVisibility(View.VISIBLE);
+                        tv.get(deleted.size() - 1).setText(tin1.getText().toString());
+                        deleted.remove(deleted.size() - 1);
+                        tv.remove(deleted.size() - 1);
+                    }
                     count++;
                     if(count == 5){
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
@@ -436,7 +612,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 chk2.setImageDrawable(null);
                 cameraDel = 2;
                 if(count == 5){
-                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
                 String name = "IMG-Cheque"+cameraDel;
@@ -465,7 +641,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 chk3.setImageDrawable(null);
                 cameraDel = 3;
                 if(count == 5){
-                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
 
@@ -495,7 +671,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 chk4.setImageDrawable(null);
                 cameraDel = 4;
                 if(count == 5){
-                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
 
@@ -525,7 +701,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 chk5.setImageDrawable(null);
                 cameraDel = 5;
                 if(count == 5){
-                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
 
@@ -555,7 +731,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 chk6.setImageDrawable(null);
                 cameraDel = 6;
                 if(count == 5){
-                    addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
+                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
 
@@ -575,46 +751,82 @@ public class OfficialReceipt extends AppCompatActivity {
         capt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 1;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 1;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    cameraTurn = 1;
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
+
             }
         });
 
         capt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 2;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 2;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    cameraTurn = 2;
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
             }
         });
         capt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 3;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 3;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    cameraTurn = 3;
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
             }
         });
 
         capt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 4;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 4;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    cameraTurn = 4;
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
             }
         });
         capt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 5;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 5;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    cameraTurn = 5;
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
             }
         });
 
         capt6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraTurn = 6;
-                openCamera();
+                if (ContextCompat.checkSelfPermission(OfficialReceipt.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraTurn = 6;
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    ActivityCompat.requestPermissions(OfficialReceipt.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
             }
         });
         confirm_btn.setOnClickListener(new View.OnClickListener() {
@@ -627,7 +839,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     String[] accArr = {acc1.getText().toString(), acc2.getText().toString(),acc3.getText().toString(),
                             acc4.getText().toString(),acc5.getText().toString(),acc6.getText().toString()};
                     for(int i = 0; i < 6; i++){
-                        if(!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].isEmpty())){
+                        if(!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].equals("none") || accArr[i].isEmpty())){
                             accnoArr += accArr[i] + ",";
                         }
                     }
@@ -638,7 +850,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
                         pay5.getSelectedItem().toString(),pay6.getSelectedItem().toString()};
                 for(int i = 0; i < 6; i++){
-                    if(!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---")|| pay[i].isEmpty())){
+                    if(!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())){
                         payeeArr += pay[i] + ",";
                     }
                 }
@@ -646,7 +858,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
                         or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
                 for(int i = 0; i < 6; i++){
-                    if(!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].isEmpty())){
+                    if(!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].equals("none") || ornum[i].isEmpty())){
                         orArr += ornum[i] + ",";
                     }
                 }
@@ -654,7 +866,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
                         am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
                 for(int i = 0; i < 6; i++){
-                    if(!(amount[i].equals("") || amount[i].equals(" ") || amount[i].isEmpty())){
+                    if(!(amount[i].equals("") || amount[i].equals(" ") || amount[i].equals("none") || amount[i].isEmpty())){
                         amArr += amount[i] + ",";
                     }
                 }
@@ -687,6 +899,17 @@ public class OfficialReceipt extends AppCompatActivity {
         });
     }
 
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            } else {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void openChecklist() {
         Intent intent = new Intent(this, CheckList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -698,18 +921,23 @@ public class OfficialReceipt extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create the File where the photo should go
         File photoFile = null;
-        try {
-            photoFile = createImageFile();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if(intent.resolveActivity(getPackageManager()) != null){
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(OfficialReceipt.this,
+                        "com.example.rgs_chequepickup.fileprovider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(intent, 101);
+            }
         }
-        // Continue only if the File was successfully created
-        if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(OfficialReceipt.this,
-                    "com.example.rgs_chequepickup.fileprovider",
-                    photoFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(intent, 101);
+        else{
+
         }
     }
     private File createImageFile() throws IOException{

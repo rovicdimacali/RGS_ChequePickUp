@@ -39,36 +39,46 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="607dp">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/parentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
+                android:orientation="vertical"
                 android:paddingHorizontal="20dp"
-                android:orientation="vertical">
+                android:paddingVertical="10dp">
 
                 <TextView
-                    android:id="@+id/chequeTitle"
+                    android:id="@+id/label_tnum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cheque 1"
-                    android:textAlignment="center"
+                    android:text="Transaction Number"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/TNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/label_companyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Company Name"
-                    android:textSize="15dp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/companyname"
@@ -76,121 +86,66 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Company ONE"
-                    android:textSize="15dp"
                     android:textColor="@color/black"
-                    />
+                    android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/label_tinNumber"
+                    android:id="@+id/label_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TIN Number"
-                    android:textSize="15dp"
+                    android:text="Address"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tinNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="421315423"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    />
-
-                <TextView
-                    android:id="@+id/label_accountNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Account Number"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/accountNumber"
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="3511235"
-                    android:textSize="15dp"
+                    android:text=""
                     android:textColor="@color/black"
-                    />
+                    android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/label_payee"
+                    android:id="@+id/label_Status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Payee"
-                    android:textSize="15dp"
+                    android:text="Status"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/payee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Innove Telecommunications Inc."
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    />
-
-                <TextView
-                    android:id="@+id/label_orNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="OR Number"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/orNumber"
+                    android:id="@+id/stat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="8874263"
-                    android:textSize="15dp"
+                    android:text=""
                     android:textColor="@color/black"
-                    />
-
-                <TextView
-                    android:id="@+id/label_chequeAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cheque Amount"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/chequeAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="10000"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    />
+                    android:textSize="15dp" />
 
                 <ImageView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"/>
-
-
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
         </ScrollView>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
+            android:paddingVertical="5dp"
             android:paddingHorizontal="10dp"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <Button
@@ -202,14 +157,14 @@
                 android:text="Signature"
                 android:background="@drawable/btn_secondary"/>
 
-            <Button
+            <!--<Button
                 android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
                 android:text="Submit"
-                android:background="@color/rgs_green"/>
+                android:background="@color/rgs_green"/>-->
 
         </LinearLayout>
 

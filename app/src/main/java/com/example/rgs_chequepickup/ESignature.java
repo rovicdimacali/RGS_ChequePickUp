@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class ESignature extends AppCompatActivity {
 
     private TextView back_button;
     String cancelStatus;
-
+    EditText name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,8 @@ public class ESignature extends AppCompatActivity {
 
         cancelManagement cm = new cancelManagement(ESignature.this);
         cancelStatus = cm.getCancel();
+
+        name = (EditText) findViewById(R.id.name);
 
         clear_img = (Button) findViewById(R.id.clear_img);
 
@@ -77,8 +80,9 @@ public class ESignature extends AppCompatActivity {
 
         if(!cancelStatus.equals("none")){
             hasCancel = 1;
-            save_image.setEnabled(false);
-            clear_img.setEnabled(false);
+            name.setText(cm.getPoint());
+            //save_image.setEnabled(false);
+            //clear_img.setEnabled(false);
             //Toast.makeText(ESignature.this, "" + cm.getCancel(), Toast.LENGTH_SHORT).show();
         }
         else if(cancelStatus.equals("none")){
