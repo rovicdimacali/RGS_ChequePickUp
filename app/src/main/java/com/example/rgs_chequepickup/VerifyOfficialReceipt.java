@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
     String[] accArr, payArr, orArr, amArr, imgArr;
     TextView back_button;
     int size;
-    Button submit;
+    Button submit, editBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +70,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
 
         size = payArr.length;
         parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
+        editBtn = (Button) findViewById(R.id.edit_button);
         chequeImg = (ImageView) findViewById(R.id.cheque_img);
         submit = (Button) findViewById(R.id.submit_button);
         back_button = (TextView) findViewById(R.id.back_button);
@@ -291,7 +293,20 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             );
             compIn_params.setMargins(15, 0,0,0);
             compIn.setLayoutParams(compIn_params);
+            //TITLE
+            TextView title = new TextView(VerifyOfficialReceipt.this);
+            title.setText("Cheque " + (i + 1));
+            title.setTypeface(null, Typeface.BOLD);
+            title.setTextSize(15);
+            title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            title.setTextColor(Color.BLACK);
+            RelativeLayout.LayoutParams title_params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            title.setLayoutParams(title_params);
 
+            parentLayout.addView(title);
             parentLayout.addView(tv_comp);
             parentLayout.addView(compIn);
             parentLayout.addView(tv_tin);
@@ -316,12 +331,29 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
                 finish();
             }
         });
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InvalidChequePopupWindow();
+            }
+        });
     }
 
     private void InvalidChequePopupWindow() {
         layout = (LinearLayout) findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_invalid_cheque, null);
+
+        Button yesbtn = (Button) popUpView.findViewById(R.id.yes_button);
+        Button nobtn = (Button) popUpView.findViewById(R.id.no_button);
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -345,6 +377,22 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
                         popupWindow.dismiss();
                     }
                 });
+            }
+        });
+
+        yesbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(VerifyOfficialReceipt.this, CaptureCheque.class);
+                startActivity(i);
+            }
+        });
+
+        nobtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(VerifyOfficialReceipt.this, ChequeReceived.class);
+                startActivity(i);
             }
         });
     }

@@ -60,7 +60,7 @@ public class CheckList extends AppCompatActivity {
                         && months.isChecked() && sign.isChecked()) && !(erase.isChecked())) {
                     submit.setClickable(true);
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
-                    Toast.makeText(CheckList.this, "Cheque is not defective", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CheckList.this, "Cheque is valid", Toast.LENGTH_SHORT).show();
                 }
                 else if((payable.isChecked() || date.isChecked() || figures.isChecked()
                         || months.isChecked() || sign.isChecked()) && (erase.isChecked())) {
@@ -71,7 +71,7 @@ public class CheckList extends AppCompatActivity {
                         && months.isChecked() && sign.isChecked()) && erase.isChecked()){
                     submit.setClickable(true);
                     submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
-                    Toast.makeText(CheckList.this, "Cheque is defective", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CheckList.this, "Cheque is invalid", Toast.LENGTH_SHORT).show();
                 }
                 else if(!(payable.isChecked() && date.isChecked() && figures.isChecked()
                         && months.isChecked() && sign.isChecked() && erase.isChecked())){

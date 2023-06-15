@@ -216,13 +216,13 @@ public class HistoryActivity extends AppCompatActivity {
                         edit.setText("View Transaction");
                         edit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                         RelativeLayout.LayoutParams edit_params = new RelativeLayout.LayoutParams(
-                                1075,
+                                RelativeLayout.LayoutParams.MATCH_PARENT,
                                 RelativeLayout.LayoutParams.WRAP_CONTENT
                         );
 
                         edit_params.topMargin = 10;
                         edit_params.bottomMargin = 60;
-                        edit_params.setMarginStart(160);
+                        //edit_params.setMarginStart(160);
                         edit.setLayoutParams(edit_params);
 
                         //TEXTVIEWS

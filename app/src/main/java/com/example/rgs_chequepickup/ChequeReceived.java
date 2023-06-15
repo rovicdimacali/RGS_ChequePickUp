@@ -189,7 +189,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("cancel_name", "none");
             builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
             for(int i = 0; i < explodePaths.length; i++){
-                if(!(explodePaths[i].contains("IMG-Cheque0"))){
+                if(explodePaths[i].contains("INVALID-Cheque")){
                     File file = new File(explodePaths[i]);
                     builder.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(mediaType, file));
                 }
@@ -197,10 +197,10 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_accno", "none");
             builder.addFormDataPart("chk_payee", "none");
             builder.addFormDataPart("chk_entity", "none");
-            builder.addFormDataPart("chk_remark", "none");
             builder.addFormDataPart("chk_address", loc_m.getAdd());
             builder.addFormDataPart("chk_company", loc_m.getComp());
             builder.addFormDataPart("chk_code", loc_m.getCode());
+            builder.addFormDataPart("chk_remark", "All Invalid: " + rem_m.getRemark());
             builder.addFormDataPart("chk_tin", "none");
             builder.addFormDataPart("chk_or", "none");
             builder.addFormDataPart("chk_date", "none");
@@ -270,7 +270,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_accno", acc_m.getAccno());
             builder.addFormDataPart("chk_payee", rm.getPayee());
             builder.addFormDataPart("chk_entity", "none");
-            builder.addFormDataPart("chk_remark", rem_m.getRemark());
+            builder.addFormDataPart("chk_remark", "Invalid Cheques: " + rem_m.getRemark());
             builder.addFormDataPart("chk_address", loc_m.getAdd());
             builder.addFormDataPart("chk_company", loc_m.getComp());
             builder.addFormDataPart("chk_code", loc_m.getCode());

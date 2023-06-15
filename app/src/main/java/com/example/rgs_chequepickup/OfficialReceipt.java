@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.LocationSession;
@@ -360,20 +361,14 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
                     addBtn.setEnabled(true);
                 }
+                String name = "IMG-Cheque"+cameraDel;
 
-                if(imageArr != null){
-                    String name = "IMG-Cheque"+cameraDel;
-                    String[] explode = imageArr.split(",");
-                    Arrays.sort(explode);
-                    for(int i = 0; i < explode.length; i++){
-                        if(!(explode[i].contains(name))){
-                            imageArr += explode[i] + ",";
-                        }
+                Iterator<String> iterator = pics.iterator();
+                while(iterator.hasNext()){
+                    String elem = iterator.next();
+                    if(elem.contains(name)){
+                        iterator.remove();
                     }
-                    imageArr = imageArr.substring(0, imageArr.length() - 1);
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(imageArr);
-                    cm.saveCheck(cs);
                 }
                 count--;
             }
@@ -396,19 +391,14 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                if(imageArr != null) {
-                    String name = "IMG-Cheque" + cameraDel;
-                    String[] explode = imageArr.split(",");
-                    Arrays.sort(explode);
-                    for (int i = 0; i < explode.length; i++) {
-                        if (!(explode[i].contains(name))) {
-                            imageArr += explode[i] + ",";
-                        }
+                String name = "IMG-Cheque"+cameraDel;
+
+                Iterator<String> iterator = pics.iterator();
+                while(iterator.hasNext()){
+                    String elem = iterator.next();
+                    if(elem.contains(name)){
+                        iterator.remove();
                     }
-                    imageArr = imageArr.substring(0, imageArr.length() - 1);
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(imageArr);
-                    cm.saveCheck(cs);
                 }
                 count--;
             }
@@ -431,19 +421,14 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                if(imageArr != null) {
-                    String name = "IMG-Cheque" + cameraDel;
-                    String[] explode = imageArr.split(",");
-                    Arrays.sort(explode);
-                    for (int i = 0; i < explode.length; i++) {
-                        if (!(explode[i].contains(name))) {
-                            imageArr += explode[i] + ",";
-                        }
+                String name = "IMG-Cheque"+cameraDel;
+
+                Iterator<String> iterator = pics.iterator();
+                while(iterator.hasNext()){
+                    String elem = iterator.next();
+                    if(elem.contains(name)){
+                        iterator.remove();
                     }
-                    imageArr = imageArr.substring(0, imageArr.length() - 1);
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(imageArr);
-                    cm.saveCheck(cs);
                 }
                 count--;
             }
@@ -466,19 +451,14 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                if(imageArr != null) {
-                    String name = "IMG-Cheque" + cameraDel;
-                    String[] explode = imageArr.split(",");
-                    Arrays.sort(explode);
-                    for (int i = 0; i < explode.length; i++) {
-                        if (!(explode[i].contains(name))) {
-                            imageArr += explode[i] + ",";
-                        }
+                String name = "IMG-Cheque"+cameraDel;
+
+                Iterator<String> iterator = pics.iterator();
+                while(iterator.hasNext()){
+                    String elem = iterator.next();
+                    if(elem.contains(name)){
+                        iterator.remove();
                     }
-                    imageArr = imageArr.substring(0, imageArr.length() - 1);
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(imageArr);
-                    cm.saveCheck(cs);
                 }
                 count--;
             }
@@ -501,19 +481,14 @@ public class OfficialReceipt extends AppCompatActivity {
                     addBtn.setEnabled(true);
                 }
 
-                if(imageArr != null) {
-                    String name = "IMG-Cheque" + cameraDel;
-                    String[] explode = imageArr.split(",");
-                    Arrays.sort(explode);
-                    for (int i = 0; i < explode.length; i++) {
-                        if (!(explode[i].contains(name))) {
-                            imageArr += explode[i] + ",";
-                        }
+                String name = "IMG-Cheque"+cameraDel;
+
+                Iterator<String> iterator = pics.iterator();
+                while(iterator.hasNext()){
+                    String elem = iterator.next();
+                    if(elem.contains(name)){
+                        iterator.remove();
                     }
-                    imageArr = imageArr.substring(0, imageArr.length() - 1);
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(imageArr);
-                    cm.saveCheck(cs);
                 }
                 count--;
             }

@@ -480,14 +480,16 @@ public class CaptureCheque extends AppCompatActivity {
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
-        String imageName = "IMG-Cheque_"+ comp + "_" + time;
+        String imageName = "INVALID-Cheque_"+ comp + "_" + time;
 
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         //File imageFile = new File(storageDir, imageName);
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
         chequeManagement cm = new chequeManagement(CaptureCheque.this);
-        chequeSession cs = new chequeSession(String.valueOf(imageFile));
+        String cheques = cm.getCheck() + "," + String.valueOf(imageFile);
+
+        chequeSession cs = new chequeSession(cheques);
         cm.saveCheck(cs);
 
         currentPhotoPath = imageFile.getAbsolutePath();
