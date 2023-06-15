@@ -57,17 +57,17 @@
                 android:id="@+id/parentLayout">
 
                 <androidx.cardview.widget.CardView
-                        android:id="@+id/customer_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-20dp"
-                        android:layout_marginEnd="-5dp"
-                        android:layout_marginStart="-5dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="10dp"
-                        app:cardPreventCornerOverlap="true"
-                        app:cardUseCompatPadding="true">
+                    android:id="@+id/customer_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginEnd="-5dp"
+                    android:layout_marginStart="-5dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
