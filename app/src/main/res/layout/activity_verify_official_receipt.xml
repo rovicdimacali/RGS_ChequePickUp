@@ -50,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="10dp"
                 android:paddingHorizontal="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/parentLayout">
 
                 <TextView
                     android:id="@+id/chequeTitle"

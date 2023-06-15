@@ -422,7 +422,7 @@ public class ChequePickUp extends AppCompatActivity {
                     //sendSMS(cont, "Hello, this is a test message!");
                     Toast.makeText(ChequePickUp.this, "SMS Sent", Toast.LENGTH_SHORT).show();
                     sendSMS(cont, message2);
-                    Intent intent = new Intent(ChequePickUp.this, CaptureCheque.class);
+                    Intent intent = new Intent(ChequePickUp.this, CheckList.class);
                     startActivity(intent);
                     finish();
                 }

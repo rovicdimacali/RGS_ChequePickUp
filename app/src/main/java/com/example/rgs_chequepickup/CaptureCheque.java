@@ -119,6 +119,7 @@ public class CaptureCheque extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
                 openCamera();
+                next_button.setEnabled(true);
             }
         });
 

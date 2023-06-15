@@ -11,16 +11,35 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import SessionPackage.LocationManagement;
+import SessionPackage.ReceiptManagement;
+import SessionPackage.accountManagement;
+import SessionPackage.chequeManagement;
+import SessionPackage.scenarioManagement;
 
 public class VerifyOfficialReceipt extends AppCompatActivity {
-
+    LinearLayout parentLayout;
+    TextView compname, tinname, accname, payeename, orname, amname;
+    TextView compin, tinin, accin, payeein, orin, amin;
     LinearLayout layout;
-
+    String company, tin, accno, payee, or, amount;
     Button submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_official_receipt);
+
+        ReceiptManagement rm = new ReceiptManagement(VerifyOfficialReceipt.this);
+        LocationManagement lm = new LocationManagement(VerifyOfficialReceipt.this);
+        scenarioManagement sm = new scenarioManagement(VerifyOfficialReceipt.this);
+        accountManagement am = new accountManagement(VerifyOfficialReceipt.this);
+        chequeManagement cm = new chequeManagement(VerifyOfficialReceipt.this);
+
 
         submit = (Button) findViewById(R.id.submit_button);
 

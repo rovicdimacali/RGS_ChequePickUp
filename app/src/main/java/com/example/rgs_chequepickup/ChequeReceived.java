@@ -155,146 +155,193 @@ public class ChequeReceived extends AppCompatActivity {
         chequeManagement cs = new chequeManagement(ChequeReceived.this);
 
         String chequePath = cs.getCheck();
+        String[] explodePaths = chequePath.split(",");
         File chequeFile = new File(chequePath);
 
-        if(!(chequeFile.exists())){
+        /*if(!(chequeFile.exists())){
             Toast.makeText(ChequeReceived.this, "Cheque Image Missing", Toast.LENGTH_LONG).show();
             Intent i = new Intent(ChequeReceived.this, CaptureCheque.class);
             i.putExtra("retake", 1);
             startActivity(i);
-        }
-        else {
-            RequestBody rbody;
+        }*/
 
-            if(scene_m.getStat().equals("Defective")){
-                Resources res = getResources();
-                defaultPic = res.getDrawable(R.drawable.cancel);
+        RequestBody rbody;
+        MediaType mediaType = MediaType.parse("image/jpeg");
 
-                Random ran = new Random();
-                int transNum = ran.nextInt(900000) + 100000;
-                Date currDate = new Date();
+        if(scene_m.getStat().equals("Defective")){
+            Resources res = getResources();
+            defaultPic = res.getDrawable(R.drawable.cancel);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(currDate);
+            Random ran = new Random();
+            int transNum = ran.nextInt(900000) + 100000;
+            Date currDate = new Date();
 
-                //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-                String transaction = "PU" + String.valueOf(transNum);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(currDate);
 
-                rbody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("chk_rider", sess_m.getSession())
-                        .addFormDataPart("chk_status", scene_m.getStat())
-                        .addFormDataPart("cancel_name", "none")
-                        .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
-                        .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                        .addFormDataPart("chk_accno", "none")
-                        .addFormDataPart("chk_payee", "none")
-                        .addFormDataPart("chk_entity", "none")
-                        .addFormDataPart("chk_remark", "none")
-                        .addFormDataPart("chk_address", loc_m.getAdd())
-                        .addFormDataPart("chk_company", loc_m.getComp())
-                        .addFormDataPart("chk_code", loc_m.getCode())
-                        .addFormDataPart("chk_tin", "none")
-                        .addFormDataPart("chk_or", "none")
-                        .addFormDataPart("chk_date", "none")
-                        .addFormDataPart("chk_bcode", "none")
-                        .addFormDataPart("transaction_num", transaction)
-                        .addFormDataPart("chk_amount", "none")
-                        .addFormDataPart("chk_number", "none")
-                        .addFormDataPart("latitude", latitude)
-                        .addFormDataPart("longitude", longitude)
-                        .build();
-            }
-            //sign_m.getSign(), RequestBody.create(MEDIA_TYPE_JPEG, new File(imagePath))
-            /*.addFormDataPart("chk_tin", rm.getTin())
-                        .addFormDataPart("chk_amount", rm.getAmount())
-                        .addFormDataPart("chk_number", rm.getNumber())*/
-            else{
-                imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
-                imageFile = new File(imagePath);
+            //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+            String transaction = "PU" + String.valueOf(transNum);
 
-                Random ran = new Random();
-                int transNum = ran.nextInt(900000) + 100000;
-                Date currDate = new Date();
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(currDate);
-
-                //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-                String transaction = "PU" + String.valueOf(transNum);
-
-                rbody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("chk_rider", sess_m.getSession())
-                        .addFormDataPart("chk_status", scene_m.getStat())
-                        .addFormDataPart("cancel_name", "none")
-                        .addFormDataPart("chk_sign", sign_m.getSign(), RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
-                        .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                        .addFormDataPart("chk_accno", acc_m.getAccno())
-                        .addFormDataPart("chk_payee", rm.getPayee())
-                        .addFormDataPart("chk_entity", acc_m.getEntity())
-                        .addFormDataPart("chk_remark", rem_m.getRemark())
-                        .addFormDataPart("chk_address", loc_m.getAdd())
-                        .addFormDataPart("chk_company", loc_m.getComp())
-                        .addFormDataPart("chk_code", loc_m.getCode())
-                        .addFormDataPart("chk_tin", rm.getTin())
-                        .addFormDataPart("chk_or", rm.getOR())
-                        .addFormDataPart("chk_date", rm.getDate())
-                        .addFormDataPart("chk_bcode", rm.getBcode())
-                        .addFormDataPart("transaction_num", transaction)
-                        .addFormDataPart("chk_amount", rm.getAmount())
-                        .addFormDataPart("chk_number", rm.getNumber())
-                        .addFormDataPart("latitude", latitude)
-                        .addFormDataPart("longitude", longitude)
-                        .build();
-            }
-            Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/remarks").post(rbody).build();
-            client.newCall(req).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(ChequeReceived.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+            builder.addFormDataPart("chk_rider", sess_m.getSession());
+            builder.addFormDataPart("chk_status", scene_m.getStat());
+            builder.addFormDataPart("cancel_name", "none");
+            builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
+            for(int i = 0; i < explodePaths.length; i++){
+                if(!(explodePaths[i].contains("IMG-Cheque0"))){
+                    File file = new File(explodePaths[i]);
+                    builder.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(mediaType, file));
                 }
+            }
+            builder.addFormDataPart("chk_accno", "none");
+            builder.addFormDataPart("chk_payee", "none");
+            builder.addFormDataPart("chk_entity", "none");
+            builder.addFormDataPart("chk_remark", "none");
+            builder.addFormDataPart("chk_address", loc_m.getAdd());
+            builder.addFormDataPart("chk_company", loc_m.getComp());
+            builder.addFormDataPart("chk_code", loc_m.getCode());
+            builder.addFormDataPart("chk_tin", "none");
+            builder.addFormDataPart("chk_or", "none");
+            builder.addFormDataPart("chk_date", "none");
+            builder.addFormDataPart("chk_bcode", "none");
+            builder.addFormDataPart("transaction_num", transaction);
+            builder.addFormDataPart("chk_amount", "none");
+            builder.addFormDataPart("chk_number", "none");
+            builder.addFormDataPart("latitude", latitude);
+            builder.addFormDataPart("longitude", longitude);
 
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                responseData = response.body().
-                                        string();
-                                String value = specificValue(responseData);
-                                //value.replace("<br />", "");
-                                if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                    //sqlPickUp spu = new sqlPickUp(ChequeReceived.this);
-                                    //int res = spu.addHistory(loc_m.getComp(), loc_m.getPer(), loc_m.getAdd(), loc_m.getCont(), loc_m.getCode());
-                                    //if(res == 1){
-                                        Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
-                                        //Toast.makeText(ChequeReceived.this, "Transaction added to Pick Up history", Toast.LENGTH_SHORT).show();
-                                        //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
-                                        //sess_m.removeSession();
-                                        scene_m.removeScene();
-                                        acc_m.removeAcc();
-                                        rem_m.removeRemark();
-                                        loc_m.removeLocation();
-                                        sign_m.removeSign();
-                                        cs.removeCheck();
-                                        rm.removeReceipt();
-                                        Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    //}
-                                    //else{
-                                        //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
-                                    //}
-                                } else {
+            rbody = builder.build();
+            /*rbody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("chk_rider", sess_m.getSession())
+                    .addFormDataPart("chk_status", scene_m.getStat())
+                    .addFormDataPart("cancel_name", "none")
+                    .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
+                    //.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
+                    .addFormDataPart("chk_accno", "none")
+                    .addFormDataPart("chk_payee", "none")
+                    .addFormDataPart("chk_entity", "none")
+                    .addFormDataPart("chk_remark", "none")
+                    .addFormDataPart("chk_address", loc_m.getAdd())
+                    .addFormDataPart("chk_company", loc_m.getComp())
+                    .addFormDataPart("chk_code", loc_m.getCode())
+                    .addFormDataPart("chk_tin", "none")
+                    .addFormDataPart("chk_or", "none")
+                    .addFormDataPart("chk_date", "none")
+                    .addFormDataPart("chk_bcode", "none")
+                    .addFormDataPart("transaction_num", transaction)
+                    .addFormDataPart("chk_amount", "none")
+                    .addFormDataPart("chk_number", "none")
+                    .addFormDataPart("latitude", latitude)
+                    .addFormDataPart("longitude", longitude)
+                    .build();*/
+        }
+        //sign_m.getSign(), RequestBody.create(MEDIA_TYPE_JPEG, new File(imagePath))
+        /*.addFormDataPart("chk_tin", rm.getTin())
+                    .addFormDataPart("chk_amount", rm.getAmount())
+                    .addFormDataPart("chk_number", rm.getNumber())*/
+        else{
+            Resources res = getResources();
+            defaultPic = res.getDrawable(R.drawable.cancel);
+
+            Random ran = new Random();
+            int transNum = ran.nextInt(900000) + 100000;
+            Date currDate = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(currDate);
+
+            //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
+            String transaction = "PU" + String.valueOf(transNum);
+
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+            builder.addFormDataPart("chk_rider", sess_m.getSession());
+            builder.addFormDataPart("chk_status", scene_m.getStat());
+            builder.addFormDataPart("cancel_name", "none");
+            builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
+            for(int i = 0; i < explodePaths.length; i++){
+                if(!(explodePaths[i].contains("IMG-Cheque0"))){
+                    File file = new File(explodePaths[i]);
+                    builder.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(mediaType, file));
+                }
+            }
+            builder.addFormDataPart("chk_accno", acc_m.getAccno());
+            builder.addFormDataPart("chk_payee", rm.getPayee());
+            builder.addFormDataPart("chk_entity", "none");
+            builder.addFormDataPart("chk_remark", rem_m.getRemark());
+            builder.addFormDataPart("chk_address", loc_m.getAdd());
+            builder.addFormDataPart("chk_company", loc_m.getComp());
+            builder.addFormDataPart("chk_code", loc_m.getCode());
+            builder.addFormDataPart("chk_tin", rm.getTin());
+            builder.addFormDataPart("chk_or", rm.getOR());
+            builder.addFormDataPart("chk_date", "none");
+            builder.addFormDataPart("chk_bcode", "none");
+            builder.addFormDataPart("transaction_num", "none");
+            builder.addFormDataPart("chk_amount", rm.getAmount());
+            builder.addFormDataPart("chk_number", "none");
+            builder.addFormDataPart("latitude", latitude);
+            builder.addFormDataPart("longitude", longitude);
+
+            rbody = builder.build();
+
+            /*rbody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("chk_rider", sess_m.getSession())
+                    .addFormDataPart("chk_status", scene_m.getStat())
+                    .addFormDataPart("cancel_name", "none")
+                    .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
+                    .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
+                    .addFormDataPart("chk_accno", acc_m.getAccno())
+                    .addFormDataPart("chk_payee", rm.getPayee())
+                    .addFormDataPart("chk_entity", "none")
+                    .addFormDataPart("chk_remark", rem_m.getRemark())
+                    .addFormDataPart("chk_address", loc_m.getAdd())
+                    .addFormDataPart("chk_company", loc_m.getComp())
+                    .addFormDataPart("chk_code", loc_m.getCode())
+                    .addFormDataPart("chk_tin", rm.getTin())
+                    .addFormDataPart("chk_or", rm.getOR())
+                    .addFormDataPart("chk_date", "none")
+                    .addFormDataPart("chk_bcode", "none")
+                    .addFormDataPart("transaction_num", "none")
+                    .addFormDataPart("chk_amount", rm.getAmount())
+                    .addFormDataPart("chk_number", "none")
+                    .addFormDataPart("latitude", latitude)
+                    .addFormDataPart("longitude", longitude)
+                    .build();*/
+        }
+        Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/remarks").post(rbody).build();
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ChequeReceived.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            responseData = response.body().
+                                    string();
+                            String value = specificValue(responseData);
+                            //value.replace("<br />", "");
+                            if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
+                                //sqlPickUp spu = new sqlPickUp(ChequeReceived.this);
+                                //int res = spu.addHistory(loc_m.getComp(), loc_m.getPer(), loc_m.getAdd(), loc_m.getCont(), loc_m.getCode());
+                                //if(res == 1){
+                                    Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ChequeReceived.this, "Transaction added to Pick Up history", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
+                                    //sess_m.removeSession();
                                     scene_m.removeScene();
                                     acc_m.removeAcc();
                                     rem_m.removeRemark();
@@ -302,18 +349,33 @@ public class ChequeReceived extends AppCompatActivity {
                                     sign_m.removeSign();
                                     cs.removeCheck();
                                     rm.removeReceipt();
-                                    //comp.setText(value);
-                                    Toast.makeText(ChequeReceived.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (IOException e) {
-                                comp.setText(e.getMessage());
-                                //throw new RuntimeException(e);
+                                    Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                //}
+                                //else{
+                                    //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
+                                //}
+                            } else {
+                                scene_m.removeScene();
+                                acc_m.removeAcc();
+                                rem_m.removeRemark();
+                                loc_m.removeLocation();
+                                sign_m.removeSign();
+                                cs.removeCheck();
+                                rm.removeReceipt();
+                                comp.setText(value);
+                                Toast.makeText(ChequeReceived.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                             }
+                        } catch (IOException e) {
+                            comp.setText(e.getMessage());
+                            //throw new RuntimeException(e);
                         }
-                    });
-                }
-            });
-        }
+                    }
+                });
+            }
+        });
     }
     private String specificValue(String responseData){
         try{
