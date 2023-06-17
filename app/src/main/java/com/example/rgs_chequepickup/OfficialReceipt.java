@@ -9,37 +9,26 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,13 +38,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
 import SessionPackage.LocationManagement;
-import SessionPackage.LocationSession;
 import SessionPackage.ReceiptManagement;
 import SessionPackage.ReceiptSession;
 import SessionPackage.accountManagement;
@@ -71,6 +57,10 @@ public class OfficialReceipt extends AppCompatActivity {
     private String currentPhotoPath;
     int cameraTurn;
     int cameraDel;
+    int imageIndex = 0;
+    boolean isUpdate = false;
+    boolean isEdit = false;
+    boolean isSubmit = false;
     //INPUTS
     EditText comp1, comp2, comp3, comp4, comp5, comp6;
     EditText tin1, tin2, tin3, tin4, tin5, tin6;
@@ -251,6 +241,8 @@ public class OfficialReceipt extends AppCompatActivity {
         back_button.setText("\uf060");
 
         if(!(rm.getOR().isEmpty() || rm.getOR().equals("") || rm.getOR().equals("none"))) {
+            isEdit = true;
+            isSubmit = false;
             company = lm.getComp();
             tin = rm.getTin();
             accno = am.getAccno();
@@ -832,69 +824,77 @@ public class OfficialReceipt extends AppCompatActivity {
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(multAcc.isChecked()){
-                    accnoArr = "Multiple Accounts";
+                if(pics.size() == 0 || pics.size() != count){
+                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    String[] accArr = {acc1.getText().toString(), acc2.getText().toString(),acc3.getText().toString(),
-                            acc4.getText().toString(),acc5.getText().toString(),acc6.getText().toString()};
+                else if (pics.size() == count){
+                    if(multAcc.isChecked()){
+                        accnoArr = "Multiple Accounts";
+                    }
+                    else{
+                        String[] accArr = {acc1.getText().toString(), acc2.getText().toString(),acc3.getText().toString(),
+                                acc4.getText().toString(),acc5.getText().toString(),acc6.getText().toString()};
+                        for(int i = 0; i < 6; i++){
+                            if(!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].equals("none") || accArr[i].isEmpty())){
+                                accnoArr += accArr[i] + ",";
+                            }
+                        }
+                        accnoArr = accnoArr.substring(0, accnoArr.length() - 1);
+                    }
+
+                    String[] pay = {pay1.getSelectedItem().toString(), pay2.getSelectedItem().toString(),
+                            pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
+                            pay5.getSelectedItem().toString(),pay6.getSelectedItem().toString()};
                     for(int i = 0; i < 6; i++){
-                        if(!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].equals("none") || accArr[i].isEmpty())){
-                            accnoArr += accArr[i] + ",";
+                        if(!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())){
+                            payeeArr += pay[i] + ",";
                         }
                     }
-                    accnoArr = accnoArr.substring(0, accnoArr.length() - 1);
-                }
 
-                String[] pay = {pay1.getSelectedItem().toString(), pay2.getSelectedItem().toString(),
-                        pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
-                        pay5.getSelectedItem().toString(),pay6.getSelectedItem().toString()};
-                for(int i = 0; i < 6; i++){
-                    if(!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())){
-                        payeeArr += pay[i] + ",";
+                    String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
+                            or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
+                    for(int i = 0; i < 6; i++){
+                        if(!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].equals("none") || ornum[i].isEmpty())){
+                            orArr += ornum[i] + ",";
+                        }
                     }
-                }
 
-                String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
-                        or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
-                for(int i = 0; i < 6; i++){
-                    if(!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].equals("none") || ornum[i].isEmpty())){
-                        orArr += ornum[i] + ",";
+                    String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
+                            am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
+                    for(int i = 0; i < 6; i++){
+                        if(!(amount[i].equals("") || amount[i].equals(" ") || amount[i].equals("none") || amount[i].isEmpty())){
+                            amArr += amount[i] + ",";
+                        }
                     }
-                }
 
-                String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
-                        am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
-                for(int i = 0; i < 6; i++){
-                    if(!(amount[i].equals("") || amount[i].equals(" ") || amount[i].equals("none") || amount[i].isEmpty())){
-                        amArr += amount[i] + ",";
+                    //Toast.makeText(OfficialReceipt.this, "Size " + pics.size(), Toast.LENGTH_SHORT).show();
+                    for(int i = 0; i < pics.size(); i++){
+                        images += pics.get(i) + ",";
+                        //pics.remove(0);
                     }
+
+                    payeeArr = payeeArr.substring(0, payeeArr.length() - 1);
+                    orArr = orArr.substring(0, orArr.length() - 1);
+                    amArr = amArr.substring(0, amArr.length() - 1);
+                    images = images.substring(0, images.length() - 1);
+
+                    ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()), amArr, "", payeeArr, "",
+                            orArr, "");
+                    rm.saveReceipt(rs);
+                    accountSession as = new accountSession(accnoArr, "");
+                    am.saveAccount(as);
+
+                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                    chequeSession cs = new chequeSession(images);
+                    cm.saveCheck(cs);
+
+
+                    isEdit = false;
+                    isSubmit = true;
+                    isUpdate = false;
+                    Intent intent = new Intent(OfficialReceipt.this, VerifyOfficialReceipt.class);
+                    startActivity(intent);
                 }
-
-                //Toast.makeText(OfficialReceipt.this, "Size " + pics.size(), Toast.LENGTH_SHORT).show();
-                for(int i = 0; i < pics.size(); i++){
-                    images += pics.get(i) + ",";
-                    //pics.remove(0);
-                }
-
-                payeeArr = payeeArr.substring(0, payeeArr.length() - 1);
-                orArr = orArr.substring(0, orArr.length() - 1);
-                amArr = amArr.substring(0, amArr.length() - 1);
-                images = images.substring(0, images.length() - 1);
-
-                ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()), amArr, "", payeeArr, "",
-                        orArr, "");
-                rm.saveReceipt(rs);
-                accountSession as = new accountSession(accnoArr, "");
-                am.saveAccount(as);
-
-                chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                chequeSession cs = new chequeSession(images);
-                cm.saveCheck(cs);
-
-
-                Intent intent = new Intent(OfficialReceipt.this, VerifyOfficialReceipt.class);
-                startActivity(intent);
             }
         });
     }
@@ -947,6 +947,7 @@ public class OfficialReceipt extends AppCompatActivity {
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
         //String imageName = "IMG-Cheque_"+ comp + "_" + time;
+        String imageCheck = "IMG-Cheque" + cameraTurn;
         String imageName = "IMG-Cheque" + cameraTurn + "_"+ comp + "_" + time;
 
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -954,7 +955,35 @@ public class OfficialReceipt extends AppCompatActivity {
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
         imageArr = String.valueOf(imageFile);
-        pics.add(imageArr);
+        if(pics.size() > 0 && isEdit == true){
+            Iterator<String> iterator = pics.iterator();
+            while(iterator.hasNext()){
+                String elem = iterator.next();
+                if(elem.contains(imageCheck)){
+                    imageIndex = pics.indexOf(elem);
+                    if(imageIndex != -1){
+                        pics.set(imageIndex, imageArr);
+                        isUpdate = true;
+                        break;
+                    }
+                    else{
+                        Toast.makeText(OfficialReceipt.this, "Error Updating Image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    //Do Nothing
+                }
+            }
+            if(isUpdate == true){
+                isUpdate = false;
+            }
+            else if(isUpdate == false){
+                pics.add(imageArr);
+            }
+        }
+        else{
+            pics.add(imageArr);
+        }
         /*String[] explode = imageArr.split(",");
         Arrays.sort(explode);
         for(int i = 0; i<explode.length; i++){
@@ -1062,5 +1091,17 @@ public class OfficialReceipt extends AppCompatActivity {
             //throw new RuntimeException(e);
         }
         //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(isSubmit == false){
+            isEdit = false;
+            isUpdate = false;
+            ReceiptManagement rm = new ReceiptManagement(OfficialReceipt.this);
+            //LocationManagement lm = new LocationManagement(OfficialReceipt.this);
+            //lm.removeLocation();
+            rm.removeReceipt();
+        }
     }
 }

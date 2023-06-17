@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class SessionManagement {
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
+    String SHARED_PREF_NAME = "session_login";
     String SESSION_KEY = "session_user";
     String email;
     public SessionManagement(Context context){
