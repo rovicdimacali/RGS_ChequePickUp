@@ -511,6 +511,13 @@ public class OfficialReceipt extends AppCompatActivity {
                     acc5.setVisibility(View.VISIBLE);
                     acc6.setVisibility(View.VISIBLE);
 
+                    acc1.setText("");
+                    acc2.setText("");
+                    acc3.setText("");
+                    acc4.setText("");
+                    acc5.setText("");;
+                    acc6.setText("");
+
                     accT1.setVisibility(View.VISIBLE);
                     accT2.setVisibility(View.VISIBLE);
                     accT3.setVisibility(View.VISIBLE);
