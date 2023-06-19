@@ -93,7 +93,8 @@ public class OfficialReceipt extends AppCompatActivity {
     int delete = 0;
     ArrayList<LinearLayout> deleted = new ArrayList<>();
     ArrayList<ImageView> iv = new ArrayList<>();
-    ArrayList<TextView> tv = new ArrayList<>();
+    ArrayList<EditText> tv = new ArrayList<>();
+    ArrayList<EditText> acc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -590,17 +591,21 @@ public class OfficialReceipt extends AppCompatActivity {
                     if(deleted.size() == 1){
                         deleted.get(0).setVisibility(View.VISIBLE);
                         tv.get(0).setText(tin1.getText().toString());
+                        acc.get(0).setText(acc1.getText().toString());
                         //chktitle.get(0).setText("Cheque " + String.valueOf(count));
                         deleted.remove(0);
                         tv.remove(0);
+                        acc.remove(0);
                         //chktitle.remove(0);
                     }
                     else{
                         deleted.get(deleted.size() - 1).setVisibility(View.VISIBLE);
-                        tv.get(deleted.size() - 1).setText(tin1.getText().toString());
+                        tv.get(tv.size() - 1).setText(tin1.getText().toString());
+                        acc.get(acc.size() - 1).setText(acc1.getText().toString());
                         //chktitle.get(chktitle.size() - 1).setText("Cheque " + String.valueOf(count));
                         deleted.remove(deleted.size() - 1);
-                        tv.remove(deleted.size() - 1);
+                        tv.remove(tv.size() - 1);
+                        acc.remove(acc.size() - 1);
                         //chktitle.remove(chktitle.size() - 1);
 
                     }
@@ -648,6 +653,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     am2.setText("");
                     deleted.add(l2);
                     tv.add(tin2);
+                    acc.add(acc2);
                     //chktitle.add(chktitle2);
                     chk2.setImageDrawable(null);
                     cameraDel = 2;
@@ -691,6 +697,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     am3.setText("");
                     deleted.add(l3);
                     tv.add(tin3);
+                    acc.add(acc3);
                     //chktitle.add(chktitle3);
                     chk3.setImageDrawable(null);
                     cameraDel = 3;
@@ -734,6 +741,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     am4.setText("");
                     deleted.add(l4);
                     tv.add(tin4);
+                    acc.add(acc4);
                     //chktitle.add(chktitle4);
                     chk4.setImageDrawable(null);
                     cameraDel = 4;
@@ -777,6 +785,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     am5.setText("");
                     deleted.add(l5);
                     tv.add(tin5);
+                    acc.add(acc5);
                     //chktitle.add(chktitle5);
                     chk5.setImageDrawable(null);
                     cameraDel = 5;
@@ -819,6 +828,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     am6.setText("");
                     deleted.add(l6);
                     tv.add(tin6);
+                    acc.add(acc6);
                     chktitle.add(chktitle6);
                     //chk6.setImageDrawable(null);
                     cameraDel = 6;
@@ -1087,7 +1097,7 @@ public class OfficialReceipt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(pics.size() == 0 || pics.size() != count){
-                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing " + pics.size() + " " + count, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
                 }
                 else if (pics.size() == count){
                     if(multAcc.isChecked()){
