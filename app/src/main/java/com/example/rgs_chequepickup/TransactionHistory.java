@@ -49,6 +49,7 @@ public class TransactionHistory extends AppCompatActivity {
     TextView tnum, company, address, status;
     LinearLayout parentLayout;
     String trans, stat;
+    int cheques = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +87,7 @@ public class TransactionHistory extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TransactionHistory.this, DepositSignature.class);
+                intent.putExtra("cheques", String.valueOf(cheques));
                 startActivity(intent);
                 finish();
             }
@@ -197,6 +199,7 @@ public class TransactionHistory extends AppCompatActivity {
                             int size = payArr.length;
 
                             for (int i = 0; i < size; i++) {
+                                cheques = cheques + 1;
                                 View line = new View(TransactionHistory.this);
                                 line.setBackgroundColor(Color.BLACK);
 

@@ -52,18 +52,30 @@ public class DepositSignature extends AppCompatActivity {
     private ImageView imageView;
 
     private TextView back_button;
+    EditText numberCheq;
+    String numCheq;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         verifyStoragePermissions(this);
         setContentView(R.layout.activity_depositsign);
 
+        Intent i = getIntent();
+
+        numCheq = i.getStringExtra("cheques");
+
         clear_img = (Button) findViewById(R.id.clear_img);
 
         save_image = (Button) findViewById(R.id.save_image);
 
         back_button = (TextView) findViewById(R.id.back_button);
+        numberCheq = (EditText) findViewById(R.id.inputnumberofcheques);
 
+        clear_img.setEnabled(false);
+        save_image.setEnabled(false);
+
+        numberCheq.setText(numCheq);
+        numberCheq.setEnabled(false);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         back_button.setTypeface(font);

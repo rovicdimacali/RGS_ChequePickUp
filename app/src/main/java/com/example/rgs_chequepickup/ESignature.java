@@ -125,8 +125,8 @@ public class ESignature extends AppCompatActivity {
 
             @Override
             public void onClear() {
-                save_image.setEnabled(false);
-                clear_img.setEnabled(false);
+                //save_image.setEnabled(false);
+                //clear_img.setEnabled(false);
             }
         });
 

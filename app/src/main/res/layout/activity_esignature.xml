@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:layout_marginTop="15dp"
-        android:text="Signature is needed below."
+        android:text="Signature is optional"
         android:textAlignment="center"
         android:layout_centerHorizontal="true"
         android:textSize="15dp"
@@ -55,13 +55,11 @@
         android:orientation="vertical"
         android:layout_marginTop="20dp">
 
-       <com.github.gcacace.signaturepad.views.SignaturePad
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <com.github.gcacace.signaturepad.views.SignaturePad
             android:id="@+id/signature_pad"
-            app:penColor="@color/black"/>
+            android:layout_width="match_parent"
+            android:layout_height="471dp"
+            app:penColor="@color/black" />
 
         <!--</com.github.gcacace.signaturepad.views.SignaturePad>-->
 
