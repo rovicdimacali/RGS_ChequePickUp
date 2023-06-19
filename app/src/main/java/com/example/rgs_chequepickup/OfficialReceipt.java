@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -61,6 +62,7 @@ public class OfficialReceipt extends AppCompatActivity {
     boolean isUpdate = false;
     boolean isEdit = false;
     boolean isSubmit = false;
+    boolean isFilled = true;
     //INPUTS
     EditText comp1, comp2, comp3, comp4, comp5, comp6;
     EditText tin1, tin2, tin3, tin4, tin5, tin6;
@@ -77,7 +79,7 @@ public class OfficialReceipt extends AppCompatActivity {
     TextView chktitle2, chktitle3, chktitle4, chktitle5, chktitle6;
     String company, tin, accno, payee, or, amount, img;
     String[] accArr, payArr, ornumArr, amoArr, imgArr;
-    CheckBox multAcc;
+    CheckBox cbox1, cbox2, cbox3, cbox4, cbox5, cbox6;
     ArrayList<String> pics = new ArrayList<>();
     ArrayList<TextView> chktitle = new ArrayList<>();
     //--
@@ -96,6 +98,13 @@ public class OfficialReceipt extends AppCompatActivity {
     ArrayList<EditText> tv = new ArrayList<>();
     ArrayList<EditText> acc = new ArrayList<>();
 
+    //EDITTEXTS
+    ArrayList<EditText> companyInput = new ArrayList<>();
+    ArrayList<EditText> tinInput = new ArrayList<>();
+    ArrayList<EditText> accInput = new ArrayList<>();
+    ArrayList<Spinner> payeeInput = new ArrayList<>();
+    ArrayList<EditText> orInput = new ArrayList<>();
+    ArrayList<EditText> amInput = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +119,6 @@ public class OfficialReceipt extends AppCompatActivity {
         remark = sm.getScene();
 
         addBtn = (Button) findViewById(R.id.addCheque_button);
-        multAcc = (CheckBox) findViewById(R.id.checkbox_accnum);
 
         parentL = (LinearLayout) findViewById(R.id.Llayout);
         checkTitle = (TextView) findViewById(R.id.checkTitle);
@@ -127,6 +135,7 @@ public class OfficialReceipt extends AppCompatActivity {
         am1 = (EditText) findViewById(R.id.inputChequeAmount);
         pay1 = (Spinner) findViewById(R.id.spinner);
         accT1 = (TextView) findViewById(R.id.accNumber);
+        cbox1 = (CheckBox) findViewById(R.id.checkboxAcc1);
 
         //INPUT 2
         chktitle2 = (TextView) findViewById(R.id.chktitle2);
@@ -145,6 +154,7 @@ public class OfficialReceipt extends AppCompatActivity {
         pay2 = (Spinner) findViewById(R.id.spinner2);
         accT2 = (TextView) findViewById(R.id.accNumber2);
         del2 = (Button) findViewById(R.id.delete_button2);
+        cbox2 = (CheckBox) findViewById(R.id.checkboxAcc2);
 
         //INPUT 3
         chktitle3 = (TextView) findViewById(R.id.chktitle3);
@@ -162,7 +172,8 @@ public class OfficialReceipt extends AppCompatActivity {
         am3.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay3 = (Spinner) findViewById(R.id.spinner3);
         accT3 = (TextView) findViewById(R.id.accNumber3);
-        del3 = (Button) findViewById(R.id.delete_button3) ;
+        del3 = (Button) findViewById(R.id.delete_button3);
+        cbox3 = (CheckBox) findViewById(R.id.checkboxAcc3);
 
         //INPUT 4
         chktitle4 = (TextView) findViewById(R.id.chktitle4);
@@ -180,7 +191,8 @@ public class OfficialReceipt extends AppCompatActivity {
         am4.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay4 = (Spinner) findViewById(R.id.spinner4);
         accT4 = (TextView) findViewById(R.id.accNumber4);
-        del4 = (Button) findViewById(R.id.delete_button4) ;
+        del4 = (Button) findViewById(R.id.delete_button4);
+        cbox4 = (CheckBox) findViewById(R.id.checkboxAcc4);
 
         //INPUT 5
         chktitle5 = (TextView) findViewById(R.id.chktitle5);
@@ -198,7 +210,8 @@ public class OfficialReceipt extends AppCompatActivity {
         am5.setInputType(InputType.TYPE_CLASS_NUMBER);
         pay5 = (Spinner) findViewById(R.id.spinner5);
         accT5 = (TextView) findViewById(R.id.accNumber5);
-        del5 = (Button) findViewById(R.id.delete_button5) ;
+        del5 = (Button) findViewById(R.id.delete_button5);
+        cbox5 = (CheckBox) findViewById(R.id.checkboxAcc5);
 
         //INPUT 6
         chktitle6 = (TextView) findViewById(R.id.chktitle6);
@@ -217,6 +230,7 @@ public class OfficialReceipt extends AppCompatActivity {
         pay6 = (Spinner) findViewById(R.id.spinner6);
         accT6 = (TextView) findViewById(R.id.accNumber6);
         del6 = (Button) findViewById(R.id.delete_button6);
+        cbox6 = (CheckBox) findViewById(R.id.checkboxAcc6);
 
         comp1.setText(lm.getComp());
         comp2.setText(lm.getComp());
@@ -239,6 +253,8 @@ public class OfficialReceipt extends AppCompatActivity {
             addBtn.setVisibility(View.GONE);
             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
         }
+
+        addLists();
 
         back_button = (TextView) findViewById(R.id.back_button);
         confirm_btn = (Button) findViewById(R.id.confirm_button);
@@ -265,8 +281,7 @@ public class OfficialReceipt extends AppCompatActivity {
             amoArr = amount.split(",");
             imgArr = img.split(",");
 
-            if (accArr.length == 1) {
-                multAcc.setChecked(true);
+            /*if (accArr.length == 1) {
                 acc1.setVisibility(View.GONE);
                 acc2.setVisibility(View.GONE);
                 acc3.setVisibility(View.GONE);
@@ -289,7 +304,6 @@ public class OfficialReceipt extends AppCompatActivity {
                 accT5.setVisibility(View.GONE);
                 accT6.setVisibility(View.GONE);
             } else {
-                multAcc.setChecked(false);
                 acc1.setVisibility(View.VISIBLE);
                 acc2.setVisibility(View.VISIBLE);
                 acc3.setVisibility(View.VISIBLE);
@@ -303,17 +317,21 @@ public class OfficialReceipt extends AppCompatActivity {
                 accT4.setVisibility(View.VISIBLE);
                 accT5.setVisibility(View.VISIBLE);
                 accT6.setVisibility(View.VISIBLE);
-            }
+            }*/
                 for (int i = 0; i < payArr.length; i++) {
                     try {
                         if (i == 0) {
                             int pos = adapter.getPosition(payArr[i]);
                             comp1.setText(lm.getComp());
                             tin1.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc1.setText("Multiple Accounts");
+                                cbox1.setChecked(true);
+                                acc1.setEnabled(false);
                             } else {
                                 acc1.setText(accArr[i]);
+                                cbox1.setChecked(false);
+                                acc1.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay1.setSelection(0);
@@ -335,10 +353,14 @@ public class OfficialReceipt extends AppCompatActivity {
                             l2.setVisibility(View.VISIBLE);
                             comp2.setText(lm.getComp());
                             tin2.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc2.setText("Multiple Accounts");
+                                cbox2.setChecked(true);
+                                acc2.setEnabled(false);
                             } else {
                                 acc2.setText(accArr[i]);
+                                cbox2.setChecked(false);
+                                acc2.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay2.setSelection(0);
@@ -361,10 +383,14 @@ public class OfficialReceipt extends AppCompatActivity {
                             l3.setVisibility(View.VISIBLE);
                             comp3.setText(lm.getComp());
                             tin3.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc3.setText("Multiple Accounts");
+                                cbox3.setChecked(true);
+                                acc3.setEnabled(false);
                             } else {
                                 acc3.setText(accArr[i]);
+                                cbox3.setChecked(false);
+                                acc3.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay3.setSelection(0);
@@ -387,10 +413,14 @@ public class OfficialReceipt extends AppCompatActivity {
                             l4.setVisibility(View.VISIBLE);
                             comp4.setText(lm.getComp());
                             tin4.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc4.setText("Multiple Accounts");
+                                cbox4.setChecked(true);
+                                acc4.setEnabled(false);
                             } else {
                                 acc4.setText(accArr[i]);
+                                cbox4.setChecked(false);
+                                acc4.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay4.setSelection(0);
@@ -413,10 +443,14 @@ public class OfficialReceipt extends AppCompatActivity {
                             l5.setVisibility(View.VISIBLE);
                             comp5.setText(lm.getComp());
                             tin5.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc5.setText("Multiple Accounts");
+                                cbox5.setChecked(true);
+                                acc5.setEnabled(false);
                             } else {
                                 acc5.setText(accArr[i]);
+                                cbox5.setChecked(false);
+                                acc5.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay5.setSelection(0);
@@ -441,10 +475,14 @@ public class OfficialReceipt extends AppCompatActivity {
                             l6.setVisibility(View.VISIBLE);
                             comp6.setText(lm.getComp());
                             tin6.setText(rm.getTin());
-                            if (accArr.length == 1) {
+                            if (accArr[i].equals("Multiple Accounts")){
                                 acc6.setText("Multiple Accounts");
+                                cbox6.setChecked(true);
+                                acc6.setEnabled(false);
                             } else {
                                 acc6.setText(accArr[i]);
+                                cbox6.setChecked(false);
+                                acc6.setEnabled(true);
                             }
                             if (payArr[i].isEmpty() || payArr[i].equals("")) {
                                 pay6.setSelection(0);
@@ -481,7 +519,7 @@ public class OfficialReceipt extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(multAcc.isChecked()){
+                /*if(multAcc.isChecked()){
                     acc1.setVisibility(View.GONE);
                     acc2.setVisibility(View.GONE);
                     acc3.setVisibility(View.GONE);
@@ -524,11 +562,11 @@ public class OfficialReceipt extends AppCompatActivity {
                     accT4.setVisibility(View.VISIBLE);
                     accT5.setVisibility(View.VISIBLE);
                     accT6.setVisibility(View.VISIBLE);
-                }
+                }*/
             }
         };
 
-        multAcc.setOnCheckedChangeListener(cbl);
+        //multAcc.setOnCheckedChangeListener(cbl);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -544,9 +582,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     if(count == 1){
                         l2.setVisibility(View.VISIBLE);
                         tin2.setText(tin1.getText().toString());
-                        if(!(multAcc.isChecked())){
-                            acc2.setText(acc1.getText().toString());
-                        }
                         //del2.setVisibility(View.VISIBLE);
                         count++;
                         //chktitle2.setText("Cheque " + count);
@@ -554,9 +589,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     else if(count == 2){
                         l3.setVisibility(View.VISIBLE);
                         tin3.setText(tin1.getText().toString());
-                        if(!(multAcc.isChecked())){
-                            acc3.setText(acc1.getText().toString());
-                        }
                         //del3.setVisibility(View.VISIBLE);
                         count++;
                         //chktitle3.setText("Cheque " + count);
@@ -564,9 +596,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     else if(count == 3){
                         l4.setVisibility(View.VISIBLE);
                         tin4.setText(tin1.getText().toString());
-                        if(!(multAcc.isChecked())){
-                            acc4.setText(acc1.getText().toString());
-                        }
                         //del4.setVisibility(View.VISIBLE);
                         count++;
                         //chktitle4.setText("Cheque " + count);
@@ -574,9 +603,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     else if(count == 4){
                         l5.setVisibility(View.VISIBLE);
                         tin5.setText(tin1.getText().toString());
-                        if(!(multAcc.isChecked())){
-                            acc5.setText(acc1.getText().toString());
-                        }
                         //del5.setVisibility(View.VISIBLE);
                         count++;
                         //chktitle5.setText("Cheque " + count);
@@ -584,9 +610,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     else if(count == 5){
                         l6.setVisibility(View.VISIBLE);
                         tin6.setText(tin1.getText().toString());
-                        if(!(multAcc.isChecked())){
-                            acc6.setText(acc1.getText().toString());
-                        }
                         //del6.setVisibility(View.VISIBLE);
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         addBtn.setActivated(false);
@@ -598,7 +621,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     if(deleted.size() == 1){
                         deleted.get(0).setVisibility(View.VISIBLE);
                         tv.get(0).setText(tin1.getText().toString());
-                        acc.get(0).setText(acc1.getText().toString());
+                        //acc.get(0).setText(acc1.getText().toString());
                         //chktitle.get(0).setText("Cheque " + String.valueOf(count));
                         deleted.remove(0);
                         tv.remove(0);
@@ -608,7 +631,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     else{
                         deleted.get(deleted.size() - 1).setVisibility(View.VISIBLE);
                         tv.get(tv.size() - 1).setText(tin1.getText().toString());
-                        acc.get(acc.size() - 1).setText(acc1.getText().toString());
+                        //acc.get(acc.size() - 1).setText(acc1.getText().toString());
                         //chktitle.get(chktitle.size() - 1).setText("Cheque " + String.valueOf(count));
                         deleted.remove(deleted.size() - 1);
                         tv.remove(tv.size() - 1);
@@ -646,6 +669,96 @@ public class OfficialReceipt extends AppCompatActivity {
             }
         });
 
+        CompoundButton.OnCheckedChangeListener check1 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX1
+                if(cbox1.isChecked()){
+                    acc1.setText("Multiple Accounts");
+                    acc1.setEnabled(false);
+                }
+                else if(!(cbox1.isChecked())){
+                    acc1.setText("");
+                    acc1.setEnabled(true);
+                }
+            }
+        };
+        CompoundButton.OnCheckedChangeListener check2 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX2
+                if(cbox2.isChecked()){
+                    acc2.setText("Multiple Accounts");
+                    acc2.setEnabled(false);
+                }
+                else if(!(cbox2.isChecked())){
+                    acc2.setText("");
+                    acc2.setEnabled(true);
+                }
+            }
+        };
+        CompoundButton.OnCheckedChangeListener check3 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX3
+                if(cbox3.isChecked()){
+                    acc3.setText("Multiple Accounts");
+                    acc3.setEnabled(false);
+                }
+                else if(!(cbox3.isChecked())){
+                    acc3.setText("");
+                    acc3.setEnabled(true);
+                }
+            }
+        };
+        CompoundButton.OnCheckedChangeListener check4 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX4
+                if(cbox4.isChecked()){
+                    acc4.setText("Multiple Accounts");
+                    acc4.setEnabled(false);
+                }
+                else if(!(cbox4.isChecked())){
+                    acc4.setText("");
+                    acc4.setEnabled(true);
+                }
+            }
+        };
+        CompoundButton.OnCheckedChangeListener check5 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX5
+                if(cbox5.isChecked()){
+                    acc5.setText("Multiple Accounts");
+                    acc5.setEnabled(false);
+                }
+                else if(!(cbox5.isChecked())){
+                    acc5.setText("");
+                    acc5.setEnabled(true);
+                }
+            }
+        };
+        CompoundButton.OnCheckedChangeListener check6 = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //CBOX6
+                if(cbox6.isChecked()){
+                    acc6.setText("Multiple Accounts");
+                    acc6.setEnabled(false);
+                }
+                else if(!(cbox6.isChecked())){
+                    acc6.setText("");
+                    acc6.setEnabled(true);
+                }
+            }
+        };
+        cbox1.setOnCheckedChangeListener(check1);
+        cbox2.setOnCheckedChangeListener(check2);
+        cbox3.setOnCheckedChangeListener(check3);
+        cbox4.setOnCheckedChangeListener(check4);
+        cbox5.setOnCheckedChangeListener(check5);
+        cbox6.setOnCheckedChangeListener(check6);
         View.OnClickListener bcl = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1103,76 +1216,92 @@ public class OfficialReceipt extends AppCompatActivity {
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pics.size() == 0 || pics.size() != count){
-                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
+                if (pics.size() == 0 || pics.size() != count) {
+                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing: " + pics.size() + ", " + count, Toast.LENGTH_SHORT).show();
                 }
-                else if (pics.size() == count){
-                    if(multAcc.isChecked()){
-                        accnoArr = "Multiple Accounts";
-                    }
-                    else{
-                        String[] accArr = {acc1.getText().toString(), acc2.getText().toString(),acc3.getText().toString(),
-                                acc4.getText().toString(),acc5.getText().toString(),acc6.getText().toString()};
-                        for(int i = 0; i < 6; i++){
-                            if(!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].equals("none") || accArr[i].isEmpty())){
-                                accnoArr += accArr[i] + ",";
+                else if (pics.size() == count) {
+                    try {
+                        for (int i = 0; i < count; i++) {
+                            if(companyInput.get(i).getText().toString().isEmpty() || tinInput.get(i).getText().toString().isEmpty()
+                                    || accInput.get(i).getText().toString().isEmpty() || payeeInput.get(i).getSelectedItem().toString().equals("---PAYEE---")
+                                    || orInput.get(i).getText().toString().isEmpty() || amInput.get(i).getText().toString().isEmpty()) {
+
+                                Toast.makeText(OfficialReceipt.this, "Please fill up all the fields", Toast.LENGTH_SHORT).show();
+                                isFilled = false;
+                                break;
                             }
                         }
-                        accnoArr = accnoArr.substring(0, accnoArr.length() - 1);
-                    }
+                        if (isFilled == false) {
+                            isFilled = true;
+                            //Toast.makeText(OfficialReceipt.this, "Please fill up all the fields", Toast.LENGTH_SHORT).show();
+                        } else if (isFilled == true) {
+                            String[] accArr = {acc1.getText().toString(), acc2.getText().toString(), acc3.getText().toString(),
+                                    acc4.getText().toString(), acc5.getText().toString(), acc6.getText().toString()};
+                            for (int i = 0; i < 6; i++) {
+                                if (!(accArr[i].equals("") || accArr[i].equals(" ") || accArr[i].equals("none") || accArr[i].isEmpty())) {
+                                    accnoArr += accArr[i] + ",";
+                                }
+                            }
+                            accnoArr = accnoArr.substring(0, accnoArr.length() - 1);
 
-                    String[] pay = {pay1.getSelectedItem().toString(), pay2.getSelectedItem().toString(),
-                            pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
-                            pay5.getSelectedItem().toString(),pay6.getSelectedItem().toString()};
-                    for(int i = 0; i < 6; i++){
-                        if(!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())){
-                            payeeArr += pay[i] + ",";
+                            String[] pay = {pay1.getSelectedItem().toString(), pay2.getSelectedItem().toString(),
+                                    pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
+                                    pay5.getSelectedItem().toString(), pay6.getSelectedItem().toString()};
+
+                            for (int i = 0; i < pay.length; i++) {
+                                if (!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())) {
+                                    payeeArr += pay[i] + ",";
+                                }
+                            }
+
+                            String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
+                                    or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
+                            for (int i = 0; i < 6; i++) {
+                                if (!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].equals("none") || ornum[i].isEmpty())) {
+                                    orArr += ornum[i] + ",";
+                                }
+                            }
+
+                            String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
+                                    am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
+                            for (int i = 0; i < 6; i++) {
+                                if (!(amount[i].equals("") || amount[i].equals(" ") || amount[i].equals("none") || amount[i].isEmpty())) {
+                                    amArr += amount[i] + ",";
+                                }
+                            }
+
+                            //Toast.makeText(OfficialReceipt.this, "Size " + pics.size(), Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < pics.size(); i++) {
+                                images += pics.get(i) + ",";
+                                //pics.remove(0);
+                            }
+
+                            payeeArr = payeeArr.substring(0, payeeArr.length() - 1);
+                            orArr = orArr.substring(0, orArr.length() - 1);
+                            amArr = amArr.substring(0, amArr.length() - 1);
+                            images = images.substring(0, images.length() - 1);
+
+                            ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()), amArr, "", payeeArr, "",
+                                    orArr, "");
+                            rm.saveReceipt(rs);
+                            accountSession as = new accountSession(accnoArr, "");
+                            am.saveAccount(as);
+
+                            chequeManagement cm = new chequeManagement(OfficialReceipt.this);
+                            chequeSession cs = new chequeSession(images);
+                            cm.saveCheck(cs);
+
+
+                            isEdit = false;
+                            isSubmit = true;
+                            isUpdate = false;
+                            //Toast.makeText(OfficialReceipt.this, "Payee " + pay.length, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(OfficialReceipt.this, VerifyOfficialReceipt.class);
+                            startActivity(intent);
                         }
+                    }catch(NullPointerException e){
+                        Log.d("Result", "Error: " + e.getMessage());
                     }
-
-                    String[] ornum = {or1.getText().toString(), or2.getText().toString(), or3.getText().toString(),
-                            or4.getText().toString(), or5.getText().toString(), or6.getText().toString()};
-                    for(int i = 0; i < 6; i++){
-                        if(!(ornum[i].equals("") || ornum[i].equals(" ") || ornum[i].equals("none") || ornum[i].isEmpty())){
-                            orArr += ornum[i] + ",";
-                        }
-                    }
-
-                    String[] amount = {am1.getText().toString(), am2.getText().toString(), am3.getText().toString(),
-                            am4.getText().toString(), am5.getText().toString(), am6.getText().toString()};
-                    for(int i = 0; i < 6; i++){
-                        if(!(amount[i].equals("") || amount[i].equals(" ") || amount[i].equals("none") || amount[i].isEmpty())){
-                            amArr += amount[i] + ",";
-                        }
-                    }
-
-                    //Toast.makeText(OfficialReceipt.this, "Size " + pics.size(), Toast.LENGTH_SHORT).show();
-                    for(int i = 0; i < pics.size(); i++){
-                        images += pics.get(i) + ",";
-                        //pics.remove(0);
-                    }
-
-                    payeeArr = payeeArr.substring(0, payeeArr.length() - 1);
-                    orArr = orArr.substring(0, orArr.length() - 1);
-                    amArr = amArr.substring(0, amArr.length() - 1);
-                    images = images.substring(0, images.length() - 1);
-
-                    ReceiptSession rs = new ReceiptSession(String.valueOf(tin1.getText()), amArr, "", payeeArr, "",
-                            orArr, "");
-                    rm.saveReceipt(rs);
-                    accountSession as = new accountSession(accnoArr, "");
-                    am.saveAccount(as);
-
-                    chequeManagement cm = new chequeManagement(OfficialReceipt.this);
-                    chequeSession cs = new chequeSession(images);
-                    cm.saveCheck(cs);
-
-
-                    isEdit = false;
-                    isSubmit = true;
-                    isUpdate = false;
-                    Intent intent = new Intent(OfficialReceipt.this, VerifyOfficialReceipt.class);
-                    startActivity(intent);
                 }
             }
         });
@@ -1335,37 +1464,12 @@ public class OfficialReceipt extends AppCompatActivity {
         }
     }
     private void saveImageToGallery(Bitmap bitmap) {
-        /*LocationManagement lm = new LocationManagement(CaptureCheque.this);
-        String comp = lm.getComp();
-
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
-
-        // GET DIR
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = new File(storageDir, imageName);
-
-        chequeManagement cm = new chequeManagement(CaptureCheque.this);
-        chequeSession cs = new chequeSession(String.valueOf(imageFile));
-        cm.saveCheck(cs);
-
-        // CREATE DIRECTORY IF NONE
-        if (!storageDir.exists()) {
-            storageDir.mkdirs();
-        }
-        // IMAGE SAVE
-        // SAVED IMAGED NOTIF
-        MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        image = Uri.fromFile(imageFile);
-        intent.setData(image);
-        sendBroadcast(intent);*/
         try{
             FileOutputStream fos = new FileOutputStream(currentPhotoPath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
             fos.flush();
             fos.close();
-            Toast.makeText(this, "Saved to gallery" , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Saved to gallery" , Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "Error Saving", Toast.LENGTH_SHORT).show();
             //throw new RuntimeException(e);
@@ -1383,5 +1487,50 @@ public class OfficialReceipt extends AppCompatActivity {
             //lm.removeLocation();
             rm.removeReceipt();
         }
+    }
+
+    public void addLists(){
+        //Company
+        companyInput.add(comp1);
+        companyInput.add(comp2);
+        companyInput.add(comp3);
+        companyInput.add(comp4);
+        companyInput.add(comp5);
+        companyInput.add(comp6);
+        //TIN
+        tinInput.add(tin1);
+        tinInput.add(tin2);
+        tinInput.add(tin3);
+        tinInput.add(tin4);
+        tinInput.add(tin5);
+        tinInput.add(tin6);
+        //Account Number
+        accInput.add(acc1);
+        accInput.add(acc2);
+        accInput.add(acc3);
+        accInput.add(acc4);
+        accInput.add(acc5);
+        accInput.add(acc6);
+        //Payee
+        payeeInput.add(pay1);
+        payeeInput.add(pay2);
+        payeeInput.add(pay3);
+        payeeInput.add(pay4);
+        payeeInput.add(pay5);
+        payeeInput.add(pay6);
+        //OR Number
+        orInput.add(or1);
+        orInput.add(or2);
+        orInput.add(or3);
+        orInput.add(or4);
+        orInput.add(or5);
+        orInput.add(or6);
+        //Amount
+        amInput.add(am1);
+        amInput.add(am2);
+        amInput.add(am3);
+        amInput.add(am4);
+        amInput.add(am5);
+        amInput.add(am6);
     }
 }

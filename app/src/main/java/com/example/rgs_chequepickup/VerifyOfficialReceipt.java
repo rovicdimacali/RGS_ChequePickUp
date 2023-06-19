@@ -80,7 +80,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         Iterator<String> iterator = list.iterator();
         while (iterator.hasNext()) {
             String element = iterator.next();
-            if (element.isEmpty()) {
+            if (element.isEmpty() || element.equals("") || element.equals(" ") || element.equals("---PAYEE---")) {
                 iterator.remove();
             }
         }
@@ -255,12 +255,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             tv_acc.setLayoutParams(acc_params);
 
             TextView accIn = new TextView(VerifyOfficialReceipt.this);
-            if(accArr.length == 1){
-                accIn.setText("Multiple Accounts");
-            }
-            else if(accArr.length > 1){
-                accIn.setText(accArr[i]);
-            }
+            accIn.setText(accArr[i]);
             accIn.setTextSize(15);
             accIn.setInputType(InputType.TYPE_CLASS_NUMBER);
             accIn.setTextColor(Color.BLACK);
@@ -367,9 +362,9 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             }
             catch (IndexOutOfBoundsException e){
                 //Toast.makeText(VerifyOfficialReceipt.this, "i - " + i + " s - " + size, Toast.LENGTH_SHORT).show();
-                for(int x = 0; i < size; i++){
-                    Log.d("Result", "Verify" + x + ": " + payArr[x]);
-                }
+                Log.d("Result", "Error: " + e.getMessage());
+                Log.d("Result", "Index | Size: " + i + ", " + size);
+
             }
         }
 
