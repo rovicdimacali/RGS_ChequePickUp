@@ -309,11 +309,20 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
+                    <CheckBox android:id="@+id/checkbox_accnum2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="13dp"
+                        android:text="Multiple Account Numbers" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginLeft="28dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
@@ -503,12 +512,21 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
+                    <CheckBox android:id="@+id/checkbox_accnu3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="13dp"
+                        android:text="Multiple Account Numbers" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="28dp"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
 
@@ -698,11 +716,20 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
+                    <CheckBox android:id="@+id/checkbox_accnum4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="13dp"
+                        android:text="Multiple Account Numbers" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginLeft="28dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
@@ -893,11 +920,20 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
+                    <CheckBox android:id="@+id/checkbox_accnum5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="13dp"
+                        android:text="Multiple Account Numbers" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginLeft="28dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
@@ -1087,11 +1123,20 @@
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
+                    <CheckBox android:id="@+id/checkbox_accnum6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="13dp"
+                        android:text="Multiple Account Numbers" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView_spinner6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginLeft="28dp"
                         android:layout_marginRight="33dp"
                         android:backgroundTint="@color/rgs_bg">
@@ -1201,10 +1246,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
