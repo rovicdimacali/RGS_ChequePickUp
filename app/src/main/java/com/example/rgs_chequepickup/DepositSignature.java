@@ -74,7 +74,7 @@ public class DepositSignature extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent;
 
-                intent = new Intent(DepositSignature.this, RemarksActivity.class);
+                intent = new Intent(DepositSignature.this, TransactionHistory.class);
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="Collected"
+            android:text="Cheque Collected Previously"
             android:textSize="20dp" />
 
         <RadioButton
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="Reschedule"
+            android:text="Reschedule By Client"
             android:textSize="20dp" />
 
         <LinearLayout
@@ -201,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="Unattended"
+            android:text="Unattended By Rider"
             android:textSize="20dp" />
 
 

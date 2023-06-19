@@ -208,7 +208,7 @@ public class CancelActivity extends AppCompatActivity {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
-                    cancelSession cs = new cancelSession("Rescheduled: " + datepicker.getText().toString() + ", " + timepicker1.getText().toString() + " - " +
+                    cancelSession cs = new cancelSession("Rescheduled By Client: " + datepicker.getText().toString() + ", " + timepicker1.getText().toString() + " - " +
                             timepicker2.getText().toString(), "none");
                     cm.saveCancel(cs);
                     //i.putExtra("cancel", "Rescheduled by client on " + datepicker.getText().toString() + ", "  + timepicker.getText().toString());
@@ -218,7 +218,7 @@ public class CancelActivity extends AppCompatActivity {
                     LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
-                    cancelSession cs = new cancelSession("Unvisited", "none");
+                    cancelSession cs = new cancelSession("Unattended By Rider", "none");
                     cm.saveCancel(cs);
                     //i.putExtra("cancel", "Unattended - Prolonged Transaction");
                     startActivity(i);
