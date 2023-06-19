@@ -1217,7 +1217,7 @@ public class OfficialReceipt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (pics.size() == 0 || pics.size() != count) {
-                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing: " + pics.size() + ", " + count, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
                 }
                 else if (pics.size() == count) {
                     try {
