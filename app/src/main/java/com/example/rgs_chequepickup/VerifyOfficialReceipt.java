@@ -273,7 +273,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
 
             //TIN
             TextView tv_tin = new TextView(VerifyOfficialReceipt.this);
-            tv_tin.setText("TIN Number");
+            tv_tin.setText("TIN");
             tv_tin.setTypeface(null, Typeface.BOLD);
             tv_tin.setTextSize(15);
             tv_tin.setTextColor(Color.BLACK);
