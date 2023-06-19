@@ -74,7 +74,7 @@ public class OfficialReceipt extends AppCompatActivity {
     CardView card1, card2, card3, card4, card5, card6;
     ImageView chk1, chk2, chk3, chk4, chk5, chk6;
     TextView accT1, accT2, accT3, accT4, accT5, accT6;
-
+    TextView chktitle2, chktitle3, chktitle4, chktitle5, chktitle6;
     String company, tin, accno, payee, or, amount, img;
     String[] accArr, payArr, ornumArr, amoArr, imgArr;
     CheckBox multAcc;
@@ -126,6 +126,7 @@ public class OfficialReceipt extends AppCompatActivity {
         accT1 = (TextView) findViewById(R.id.accNumber);
 
         //INPUT 2
+        chktitle2 = (TextView) findViewById(R.id.chktitle2);
         l2 = (LinearLayout) findViewById(R.id.form2);
         card2 = (CardView) findViewById(R.id.cardView_spinner2);
         capt2 = (Button) findViewById(R.id.capture_button2);
@@ -143,6 +144,7 @@ public class OfficialReceipt extends AppCompatActivity {
         del2 = (Button) findViewById(R.id.delete_button2);
 
         //INPUT 3
+        chktitle3 = (TextView) findViewById(R.id.chktitle3);
         l3 = (LinearLayout) findViewById(R.id.form3);
         card3 = (CardView) findViewById(R.id.cardView_spinner3);
         capt3 = (Button) findViewById(R.id.capture_button3);
@@ -160,6 +162,7 @@ public class OfficialReceipt extends AppCompatActivity {
         del3 = (Button) findViewById(R.id.delete_button3) ;
 
         //INPUT 4
+        chktitle4 = (TextView) findViewById(R.id.chktitle4);
         l4 = (LinearLayout) findViewById(R.id.form4);
         card4 = (CardView) findViewById(R.id.cardView_spinner4);
         capt4= (Button) findViewById(R.id.capture_button4);
@@ -177,6 +180,7 @@ public class OfficialReceipt extends AppCompatActivity {
         del4 = (Button) findViewById(R.id.delete_button4) ;
 
         //INPUT 5
+        chktitle5 = (TextView) findViewById(R.id.chktitle5);
         l5 = (LinearLayout) findViewById(R.id.form5);
         card5 = (CardView) findViewById(R.id.cardView_spinner5);
         capt5= (Button) findViewById(R.id.capture_button5);
@@ -194,6 +198,7 @@ public class OfficialReceipt extends AppCompatActivity {
         del5 = (Button) findViewById(R.id.delete_button5) ;
 
         //INPUT 6
+        chktitle6 = (TextView) findViewById(R.id.chktitle6);
         l6 = (LinearLayout) findViewById(R.id.form6);
         card6 = (CardView) findViewById(R.id.cardView_spinner6);
         capt6= (Button) findViewById(R.id.capture_button6);
@@ -347,6 +352,7 @@ public class OfficialReceipt extends AppCompatActivity {
                                 pics.add(imgArr[i]);
                             }
                             count = count + 1;
+                            chktitle2.setText("Cheque " + count);
                         } else if (i == 2) {
                             int pos = adapter.getPosition(payArr[i]);
                             l3.setVisibility(View.VISIBLE);
@@ -372,6 +378,7 @@ public class OfficialReceipt extends AppCompatActivity {
                                 pics.add(imgArr[i]);
                             }
                             count = count + 1;
+                            chktitle3.setText("Cheque " + count);
                         } else if (i == 3) {
                             int pos = adapter.getPosition(payArr[i]);
                             l4.setVisibility(View.VISIBLE);
@@ -397,6 +404,7 @@ public class OfficialReceipt extends AppCompatActivity {
                                 pics.add(imgArr[i]);
                             }
                             count = count + 1;
+                            chktitle4.setText("Cheque " + count);
                         } else if (i == 4) {
                             int pos = adapter.getPosition(payArr[i]);
                             l5.setVisibility(View.VISIBLE);
@@ -422,6 +430,7 @@ public class OfficialReceipt extends AppCompatActivity {
                                 pics.add(imgArr[i]);
                             }
                             count = count + 1;
+                            chktitle5.setText("Cheque " + count);
                             addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                             addBtn.setActivated(false);
                         } else if (i == 5) {
@@ -448,6 +457,8 @@ public class OfficialReceipt extends AppCompatActivity {
                                 chk6.setImageURI(imageUri);
                                 pics.add(imgArr[i]);
                             }
+                            count = count + 1;
+                            chktitle6.setText("Cheque " + count);
                             //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                             //addBtn.setActivated(false);
                         }
@@ -528,6 +539,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         }
                         //del2.setVisibility(View.VISIBLE);
                         count++;
+                        chktitle2.setText("Cheque " + count);
                     }
                     else if(count == 2){
                         l3.setVisibility(View.VISIBLE);
@@ -537,6 +549,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         }
                         //del3.setVisibility(View.VISIBLE);
                         count++;
+                        chktitle3.setText("Cheque " + count);
                     }
                     else if(count == 3){
                         l4.setVisibility(View.VISIBLE);
@@ -546,6 +559,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         }
                         //del4.setVisibility(View.VISIBLE);
                         count++;
+                        chktitle4.setText("Cheque " + count);
                     }
                     else if(count == 4){
                         l5.setVisibility(View.VISIBLE);
@@ -555,6 +569,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         }
                         //del5.setVisibility(View.VISIBLE);
                         count++;
+                        chktitle5.setText("Cheque " + count);
                     }
                     else if(count == 5){
                         l6.setVisibility(View.VISIBLE);
@@ -565,7 +580,8 @@ public class OfficialReceipt extends AppCompatActivity {
                         //del6.setVisibility(View.VISIBLE);
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         addBtn.setActivated(false);
-                        //count++;
+                        count++;
+                        chktitle6.setText("Cheque " + count);
                     }
                 }
                 else if(deleted.size() > 0){
@@ -582,7 +598,7 @@ public class OfficialReceipt extends AppCompatActivity {
                         tv.remove(deleted.size() - 1);
                     }
                     count++;
-                    if(count == 5){
+                    if(count == 6){
                         addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         addBtn.setEnabled(false);
                     }
@@ -603,7 +619,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 tv.add(tin2);
                 chk2.setImageDrawable(null);
                 cameraDel = 2;
-                if(count == 5){
+                if(count >= 5){
                     addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
@@ -632,7 +648,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 tv.add(tin3);
                 chk3.setImageDrawable(null);
                 cameraDel = 3;
-                if(count == 5){
+                if(count >= 5){
                     addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
@@ -647,6 +663,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
                 count--;
+                //chktitle2.setText("Cheque " + count);
             }
         });
         del4.setOnClickListener(new View.OnClickListener() {
@@ -662,7 +679,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 tv.add(tin4);
                 chk4.setImageDrawable(null);
                 cameraDel = 4;
-                if(count == 5){
+                if(count >= 5){
                     addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
@@ -677,6 +694,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
                 count--;
+                //chktitle3.setText("Cheque " + count);
             }
         });
         del5.setOnClickListener(new View.OnClickListener() {
@@ -692,7 +710,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 tv.add(tin5);
                 chk5.setImageDrawable(null);
                 cameraDel = 5;
-                if(count == 5){
+                if(count >= 5){
                     addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
@@ -707,6 +725,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
                 count--;
+                //chktitle4.setText("Cheque " + count);
             }
         });
         del6.setOnClickListener(new View.OnClickListener() {
@@ -722,7 +741,7 @@ public class OfficialReceipt extends AppCompatActivity {
                 tv.add(tin6);
                 chk6.setImageDrawable(null);
                 cameraDel = 6;
-                if(count == 5){
+                if(count >= 5){
                     addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
                     addBtn.setEnabled(true);
                 }
@@ -737,6 +756,7 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                 }
                 count--;
+                //chktitle5.setText("Cheque " + count);
             }
         });
 
@@ -825,7 +845,7 @@ public class OfficialReceipt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(pics.size() == 0 || pics.size() != count){
-                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing " + pics.size() + " " + count, Toast.LENGTH_SHORT).show();
                 }
                 else if (pics.size() == count){
                     if(multAcc.isChecked()){
@@ -955,7 +975,8 @@ public class OfficialReceipt extends AppCompatActivity {
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
         imageArr = String.valueOf(imageFile);
-        if(pics.size() > 0 && isEdit == true){
+        // && isEdit == true
+        if(pics.size() > 0){
             Iterator<String> iterator = pics.iterator();
             while(iterator.hasNext()){
                 String elem = iterator.next();
