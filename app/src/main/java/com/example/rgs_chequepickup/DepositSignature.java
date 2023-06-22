@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +25,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,28 +39,46 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
+import SessionPackage.HistoryManagement;
 import SessionPackage.LocationManagement;
+import SessionPackage.ReceiptManagement;
+import SessionPackage.SessionManagement;
 import SessionPackage.SignatureManagement;
 import SessionPackage.SignatureSession;
+import SessionPackage.accountManagement;
 import SessionPackage.cancelManagement;
+import SessionPackage.chequeManagement;
+import SessionPackage.chequeSession;
+import SessionPackage.remarkManagement;
+import SessionPackage.scenarioManagement;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class DepositSignature extends AppCompatActivity {
     Intent cancel;
     int hasCancel = 0;
 
     //String pointPerson, cancel;
-    private Button clear_img, save_image;
+    private Button clear_img, save_image, capture;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private SignaturePad signature_pad;
 
     private ImageView imageView;
-
+    OkHttpClient client;
+    String currentPhotoPath, photoName, signaturePath, signatureName;
     private TextView back_button;
-    EditText numberCheq;
-    String numCheq;
+    EditText numberCheq, inputName;
+    String numCheq, responseData;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +86,16 @@ public class DepositSignature extends AppCompatActivity {
         setContentView(R.layout.activity_depositsign);
 
         Intent i = getIntent();
+        client = new OkHttpClient();
 
         numCheq = i.getStringExtra("cheques");
 
         clear_img = (Button) findViewById(R.id.clear_img);
-
+        capture = (Button) findViewById(R.id.capture_button1);
         save_image = (Button) findViewById(R.id.save_image);
 
         back_button = (TextView) findViewById(R.id.back_button);
+        inputName = (EditText) findViewById(R.id.inputname);
         numberCheq = (EditText) findViewById(R.id.inputnumberofcheques);
 
         clear_img.setEnabled(false);
@@ -121,27 +148,63 @@ public class DepositSignature extends AppCompatActivity {
             }
         });
 
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(DepositSignature.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    openCamera();
+                } else {
+                    // Request CAMERA permission
+                    ActivityCompat.requestPermissions(DepositSignature.this, new String[]{Manifest.permission.CAMERA}, 1);
+                }
+            }
+        });
         save_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
                 if (addJpgSignatureToGallery(signatureBitmap) == true) {
-                    Intent intent;
-                    intent = new Intent(DepositSignature.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
                     //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(DepositSignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
                 }
-                /*if (addSvgSignatureToGallery(signature_pad.getSignatureSvg())) {
-                    Toast.makeText(ESignature.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ESignature.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
+    }
+
+    private void openCamera(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create the File where the photo should go
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(DepositSignature.this,
+                    "com.example.rgs_chequepickup.fileprovider",
+                    photoFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, 101);
+        }
+    }
+    private File createImageFile() throws IOException{
+        LocationManagement lm = new LocationManagement(DepositSignature.this);
+        String comp = lm.getComp();
+
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
+        photoName = "Deposit_"+ inputName.getText().toString() + "_" + time;
+
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        //File imageFile = new File(storageDir, imageName);
+        File imageFile = File.createTempFile(photoName,".jpg",storageDir);
+
+        currentPhotoPath = imageFile.getAbsolutePath();
+        return imageFile;
     }
 
     @Override
@@ -164,7 +227,7 @@ public class DepositSignature extends AppCompatActivity {
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName);
         if (!file.mkdirs()) {
-            Log.e("RGS_Express Signs", "Directory not created");
+            Log.e("Gallery", "Directory not created");
         }
         return file;
     }
@@ -185,25 +248,17 @@ public class DepositSignature extends AppCompatActivity {
         SimpleDateFormat timeForm = new SimpleDateFormat("EEE, MMM d, ''yy");
         String currentTime = timeForm.format(currentDate);
 
-        LocationManagement lm = new LocationManagement(DepositSignature.this);
-        cancelManagement cm = new cancelManagement(DepositSignature.this);
-        String comp = lm.getComp();
-        String fileName;
-
-        fileName = cm.getPoint()+"_"+currentTime+".jpg";
-
-        SignatureManagement sm = new SignatureManagement(DepositSignature.this);
-        SignatureSession ss = new SignatureSession(fileName);
-        sm.saveSign(ss);
+        signatureName = "DepisitSign_"+inputName.getText().toString()+"_"+currentTime+".jpg";
 
         try {
             if(signature == null){
                 result = false;
             }
             else{
-                File photo = new File(getAlbumStorageDir("RGS_Express Signs"), String.format(fileName, System.currentTimeMillis()));
+                File photo = new File(getAlbumStorageDir("Deposits"), String.format(signatureName, System.currentTimeMillis()));
                 saveBitmapToJPG(signature, photo);
                 scanMediaFile(photo);
+                signaturePath = String.valueOf(photo);
                 result = true;
             }
         } catch (IOException e) {
@@ -219,24 +274,6 @@ public class DepositSignature extends AppCompatActivity {
         DepositSignature.this.sendBroadcast(mediaScanIntent);
     }
 
-    /*public boolean addSvgSignatureToGallery(String signatureSvg) {
-        boolean result = false;
-        try {
-            File svgFile = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.svg", System.currentTimeMillis()));
-            OutputStream stream = new FileOutputStream(svgFile);
-            OutputStreamWriter writer = new OutputStreamWriter(stream);
-            writer.write(signatureSvg);
-            writer.close();
-            stream.flush();
-            stream.close();
-            scanMediaFile(svgFile);
-            result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }*/
-
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -250,4 +287,80 @@ public class DepositSignature extends AppCompatActivity {
             );
         }
     }
+
+    public void postResults(String longitude, String latitude){
+        MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
+
+        SessionManagement sess_m = new SessionManagement(DepositSignature.this);
+        HistoryManagement his_m = new HistoryManagement(DepositSignature.this);
+
+        RequestBody rbody;
+        MediaType mediaType = MediaType.parse("image/jpeg");
+
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        builder.addFormDataPart("chk_rider", sess_m.getSession());
+        builder.addFormDataPart("transaction_num", his_m.getTrans());
+        builder.addFormDataPart("depo_sign", "DepositSign_"+signatureName, RequestBody.create(MediaType.parse("image/jpeg"),signaturePath));
+        builder.addFormDataPart("depo_pic", photoName, RequestBody.create(mediaType, currentPhotoPath));
+        builder.addFormDataPart("depo_name", inputName.getText().toString());
+        builder.addFormDataPart("depo_cheques", numberCheq.getText().toString());
+
+        rbody = builder.build();
+
+        Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/history").post(rbody).build();
+        client.newCall(req).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(DepositSignature.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            responseData = response.body().
+                                    string();
+                            String value = specificValue(responseData);
+                            if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
+                                Toast.makeText(DepositSignature.this, "Deposit Sign Success", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(DepositSignature.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                                //}
+                                //else{
+                                //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
+                                //}
+                            } else {
+                                Toast.makeText(DepositSignature.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException e) {
+                            //comp.setText(e.getMessage());
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    private String specificValue(String responseData){
+        try{
+            JSONObject json = new JSONObject(responseData);
+            String value = json.getString("success");
+            return value;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseData;
+    }
+
 }

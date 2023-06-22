@@ -212,35 +212,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("longitude", longitude);
 
             rbody = builder.build();
-            /*rbody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("chk_rider", sess_m.getSession())
-                    .addFormDataPart("chk_status", scene_m.getStat())
-                    .addFormDataPart("cancel_name", "none")
-                    .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()))
-                    //.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                    .addFormDataPart("chk_accno", "none")
-                    .addFormDataPart("chk_payee", "none")
-                    .addFormDataPart("chk_entity", "none")
-                    .addFormDataPart("chk_remark", "none")
-                    .addFormDataPart("chk_address", loc_m.getAdd())
-                    .addFormDataPart("chk_company", loc_m.getComp())
-                    .addFormDataPart("chk_code", loc_m.getCode())
-                    .addFormDataPart("chk_tin", "none")
-                    .addFormDataPart("chk_or", "none")
-                    .addFormDataPart("chk_date", "none")
-                    .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", transaction)
-                    .addFormDataPart("chk_amount", "none")
-                    .addFormDataPart("chk_number", "none")
-                    .addFormDataPart("latitude", latitude)
-                    .addFormDataPart("longitude", longitude)
-                    .build();*/
         }
-        //sign_m.getSign(), RequestBody.create(MEDIA_TYPE_JPEG, new File(imagePath))
-        /*.addFormDataPart("chk_tin", rm.getTin())
-                    .addFormDataPart("chk_amount", rm.getAmount())
-                    .addFormDataPart("chk_number", rm.getNumber())*/
         else{
             Resources res = getResources();
             defaultPic = res.getDrawable(R.drawable.cancel);
@@ -286,30 +258,6 @@ public class ChequeReceived extends AppCompatActivity {
 
             rbody = builder.build();
 
-            /*rbody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("chk_rider", sess_m.getSession())
-                    .addFormDataPart("chk_status", scene_m.getStat())
-                    .addFormDataPart("cancel_name", "none")
-                    .addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
-                    .addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(MediaType.parse("image/jpeg"), chequeFile))
-                    .addFormDataPart("chk_accno", acc_m.getAccno())
-                    .addFormDataPart("chk_payee", rm.getPayee())
-                    .addFormDataPart("chk_entity", "none")
-                    .addFormDataPart("chk_remark", rem_m.getRemark())
-                    .addFormDataPart("chk_address", loc_m.getAdd())
-                    .addFormDataPart("chk_company", loc_m.getComp())
-                    .addFormDataPart("chk_code", loc_m.getCode())
-                    .addFormDataPart("chk_tin", rm.getTin())
-                    .addFormDataPart("chk_or", rm.getOR())
-                    .addFormDataPart("chk_date", "none")
-                    .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", "none")
-                    .addFormDataPart("chk_amount", rm.getAmount())
-                    .addFormDataPart("chk_number", "none")
-                    .addFormDataPart("latitude", latitude)
-                    .addFormDataPart("longitude", longitude)
-                    .build();*/
         }
         Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/remarks").post(rbody).build();
         client.newCall(req).enqueue(new Callback() {
