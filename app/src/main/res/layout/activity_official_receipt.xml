@@ -67,6 +67,7 @@
                         android:background="#F2F2F2"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
+                        android:maxLines="1"
                         android:textSize="15dp" />
 
                     <TextView

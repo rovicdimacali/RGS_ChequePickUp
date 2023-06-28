@@ -198,7 +198,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@android:color/black" />
+                    android:background="@android:color/black"
+                    android:id="@+id/lineHistory"/>
             </LinearLayout>
         </ScrollView>
 

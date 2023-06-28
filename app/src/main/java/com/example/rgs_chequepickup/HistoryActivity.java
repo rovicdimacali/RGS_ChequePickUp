@@ -43,10 +43,12 @@ import okhttp3.Response;
 public class HistoryActivity extends AppCompatActivity {
 
     TextView icon_company, icon_code, icon_location, icon_number, icon_remarks, icon_transact, back_button;
-    TextView comp, code, address, number, transact, result;
+    TextView comp, code, address, number, transact, result, notask;
     LinearLayout parent_rl, linearContents;
+    RelativeLayout container;
     ScrollView parent_sv;
     Button viewBtn;
+    View line;
 
     JSONArray jsonArray = new JSONArray();
     JSONObject jsonObject = new JSONObject();
@@ -58,8 +60,9 @@ public class HistoryActivity extends AppCompatActivity {
         SessionManagement sm = new SessionManagement(HistoryActivity.this);
         fetchDataWithSpecificValue(sm.getSession());
 
+        container = (RelativeLayout) findViewById(R.id.transact_container);
         viewBtn = (Button) findViewById(R.id.view_button);
-
+        line = (View) findViewById(R.id.lineHistory);
         icon_transact = (TextView) findViewById(R.id.icon_transact);
         icon_company = (TextView) findViewById(R.id.icon_company);
         //icon_code = (TextView) findViewById(R.id.icon_code);
@@ -173,6 +176,8 @@ public class HistoryActivity extends AppCompatActivity {
                         //number.setText("NO TASK");
                         transact.setText("NO TASK");
                         result.setText("NO TASK");
+                        viewBtn.setVisibility(View.GONE);
+                        line.setVisibility(View.GONE);
                     }
                     else{
                         JSONObject item2 = associativeArray.getJSONObject(0);
@@ -193,8 +198,12 @@ public class HistoryActivity extends AppCompatActivity {
                             result.setText("CANCELLED - " + status);
                             result.setTextColor(Color.RED);
                         }
-                        else{
-                            result.setText("SUCCESS - " + status);
+                        else if(status.equals("Defective")){
+                            result.setText("UNSUCCESSFUL - Invalid Cheque/s");
+                            result.setTextColor(Color.RED);
+                        }
+                        else if(status.equals("Not Defective")){
+                            result.setText("SUCCESS - Valid Cheque/s");
                         }
 
                     }

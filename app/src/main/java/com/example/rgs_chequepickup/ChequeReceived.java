@@ -188,6 +188,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_status", scene_m.getStat());
             builder.addFormDataPart("cancel_name", "none");
             builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
+            //builder.addFormDataPart("chk_pic", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
             for(int i = 0; i < explodePaths.length; i++){
                 if(explodePaths[i].contains("INVALID-Cheque")){
                     File file = new File(explodePaths[i]);
@@ -233,6 +234,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_status", scene_m.getStat());
             builder.addFormDataPart("cancel_name", "none");
             builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
+            //builder.addFormDataPart("chk_pic", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
             for(int i = 0; i < explodePaths.length; i++){
                 if(!(explodePaths[i].contains("IMG-Cheque0"))){
                     File file = new File(explodePaths[i]);

@@ -219,7 +219,7 @@ public class Failed extends AppCompatActivity {
                     .addFormDataPart("chk_or", "none")
                     .addFormDataPart("chk_date", "none")
                     .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", transaction)
+                    .addFormDataPart("transaction_num", "none")
                     .addFormDataPart("chk_amount", "none")
                     .addFormDataPart("chk_number", "none")
                     .addFormDataPart("latitude", latitude)
