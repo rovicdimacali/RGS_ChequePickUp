@@ -63,6 +63,8 @@ public class OfficialReceipt extends AppCompatActivity {
     boolean isEdit = false;
     boolean isSubmit = false;
     boolean isFilled = true;
+    boolean isSet1 = false;
+    boolean isSet2 = false;
     //INPUTS
     EditText comp1, comp2, comp3, comp4, comp5, comp6;
     EditText tin1, tin2, tin3, tin4, tin5, tin6;
@@ -1387,11 +1389,41 @@ public class OfficialReceipt extends AppCompatActivity {
                 isUpdate = false;
             }
             else if(isUpdate == false){
-                pics.add(imageArr);
+                for(int i = 0; i < pics.size(); i++){
+                    String item = pics.get(i);
+                    if(item.equals(imageArr)){
+                       int indexUpdate = pics.indexOf(item);
+                       pics.set(indexUpdate, imageArr);
+                       isSet1 = true;
+                       break;
+                    }
+                }
+
+                if(isSet1 == false){
+                    pics.add(imageArr);
+                }
+                else{
+                    isSet1 = false;
+                }
             }
         }
         else{
-            pics.add(imageArr);
+            for(int i = 0; i < pics.size(); i++){
+                String item = pics.get(i);
+                if(item.equals(imageArr)){
+                    int indexUpdate = pics.indexOf(item);
+                    pics.set(indexUpdate, imageArr);
+                    isSet2 = true;
+                    break;
+                }
+            }
+
+            if(isSet2 == false){
+                pics.add(imageArr);
+            }
+            else{
+                isSet2 = false;
+            }
         }
         /*String[] explode = imageArr.split(",");
         Arrays.sort(explode);

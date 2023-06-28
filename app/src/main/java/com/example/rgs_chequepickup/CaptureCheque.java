@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import SessionPackage.LocationManagement;
+import SessionPackage.ReceiptManagement;
 import SessionPackage.accountSession;
 import SessionPackage.chequeManagement;
 import SessionPackage.chequeSession;
@@ -63,6 +64,7 @@ public class CaptureCheque extends AppCompatActivity {
     Uri image;
     int pic = 0;
     boolean hasRetake = false;
+    boolean isSubmit = false;
     Intent retake;
 
 
@@ -133,6 +135,7 @@ public class CaptureCheque extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
+                isSubmit = true;
                 startActivity(intent);
                 finish();
                 /*scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
@@ -513,11 +516,13 @@ public class CaptureCheque extends AppCompatActivity {
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);
 
         chequeManagement cm = new chequeManagement(CaptureCheque.this);
-        if(cm.getCheck().isEmpty() || cm.getCheck().equals("")){
-            cheques = String.valueOf(imageFile);
-        }
-        else if(!(cm.getCheck().isEmpty() || cm.getCheck().equals(""))){
+        if(!(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none"))){
+            //Toast.makeText(CaptureCheque.this,"1,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
             cheques = cm.getCheck() + "," + String.valueOf(imageFile);
+        }
+        else{
+            //Toast.makeText(CaptureCheque.this,"2,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
+            cheques = String.valueOf(imageFile);
         }
 
         chequeSession cs = new chequeSession(cheques);
@@ -585,5 +590,12 @@ public class CaptureCheque extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(isSubmit == false){
+            chequeManagement cm = new chequeManagement(CaptureCheque.this);
+            cm.removeCheck();
+        }
+    }
 }

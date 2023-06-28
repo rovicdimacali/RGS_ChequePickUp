@@ -68,6 +68,7 @@ public class ChequeReceived extends AppCompatActivity {
     double cur_lat, cur_long;
     private final static int REQUEST_CODE = 100;
     OkHttpClient client;
+    boolean isAdded = false;
     String responseData;
     String imagePath;
     TextView comp;
@@ -189,10 +190,17 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("cancel_name", "none");
             builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
             //builder.addFormDataPart("chk_pic", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
-            for(int i = 0; i < explodePaths.length; i++){
+            /*for(int i = 0; i < explodePaths.length; i++){
                 if(explodePaths[i].contains("INVALID-Cheque")){
                     File file = new File(explodePaths[i]);
-                    builder.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(mediaType, file));
+                    builder.addFormDataPart("chk_pic"+i, cs.getCheck(), RequestBody.create(mediaType, file));
+                }
+            }*/
+            for(int i = 0; i < explodePaths.length; i++){
+                if(!(explodePaths[i].contains("IMG-Cheque0"))){
+                    File file = new File(explodePaths[i]);
+                    builder.addFormDataPart("chk_pic"+i, cs.getCheck(), RequestBody.create(mediaType, file));
+                    //Toast.makeText(ChequeReceived.this, "" + cs.getCheck(), Toast.LENGTH_SHORT).show();
                 }
             }
             builder.addFormDataPart("chk_accno", "none");
@@ -238,22 +246,36 @@ public class ChequeReceived extends AppCompatActivity {
             for(int i = 0; i < explodePaths.length; i++){
                 if(!(explodePaths[i].contains("IMG-Cheque0"))){
                     File file = new File(explodePaths[i]);
-                    builder.addFormDataPart("chk_pic", cs.getCheck(), RequestBody.create(mediaType, file));
+                    builder.addFormDataPart("chk_pic"+i, cs.getCheck(), RequestBody.create(mediaType, file));
+                    if(explodePaths[i].contains("INVALID-Cheque")){
+                        builder.addFormDataPart("chk_accno", acc_m.getAccno()+",none");
+                        builder.addFormDataPart("chk_or", rm.getOR()+",none");
+                        builder.addFormDataPart("chk_payee", rm.getPayee()+",none");
+                        builder.addFormDataPart("chk_amount", rm.getAmount()+",none");
+                        isAdded = true;
+                    }
+                    else{
+                        isAdded = false;
+                    }
                 }
             }
-            builder.addFormDataPart("chk_accno", acc_m.getAccno());
-            builder.addFormDataPart("chk_payee", rm.getPayee());
+
+            if(isAdded != true){
+                builder.addFormDataPart("chk_accno", acc_m.getAccno());
+                builder.addFormDataPart("chk_or", rm.getOR());
+                builder.addFormDataPart("chk_payee", rm.getPayee());
+                builder.addFormDataPart("chk_amount", rm.getAmount());
+                isAdded = false;
+            }
             builder.addFormDataPart("chk_entity", "none");
             builder.addFormDataPart("chk_remark", "Invalid Cheques: " + rem_m.getRemark());
             builder.addFormDataPart("chk_address", loc_m.getAdd());
             builder.addFormDataPart("chk_company", loc_m.getComp());
             builder.addFormDataPart("chk_code", loc_m.getCode());
             builder.addFormDataPart("chk_tin", rm.getTin());
-            builder.addFormDataPart("chk_or", rm.getOR());
             builder.addFormDataPart("chk_date", "none");
             builder.addFormDataPart("chk_bcode", "none");
             builder.addFormDataPart("transaction_num", transaction);
-            builder.addFormDataPart("chk_amount", rm.getAmount());
             builder.addFormDataPart("chk_number", "none");
             builder.addFormDataPart("latitude", latitude);
             builder.addFormDataPart("longitude", longitude);
