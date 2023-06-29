@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import SessionPackage.chequeManagement;
 import SessionPackage.remarkManagement;
 import SessionPackage.remarkSession;
 
@@ -79,6 +80,15 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
         dateDisBox.setOnCheckedChangeListener(cbl);
         othersBox.setOnCheckedChangeListener(cbl);
 
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chequeManagement cm = new chequeManagement(ChecklistInvalidCheque.this);
+                cm.removeCheck();
+                Intent i = new Intent(ChecklistInvalidCheque.this, CaptureCheque.class);
+                startActivity(i);
+            }
+        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

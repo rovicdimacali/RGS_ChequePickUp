@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -34,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -147,6 +150,17 @@ public class Failed extends AppCompatActivity {
 
         Resources res = getResources();
         Drawable defaultPic = res.getDrawable(R.drawable.cancel);
+        Bitmap bitmap = ((BitmapDrawable) defaultPic).getBitmap();
+        File cancelPic = new File(getCacheDir(), "cancel.png");
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(cancelPic);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         String imagePath = getAlbumStorageDir("RGS_Express Signs") + "/" + sign_m.getSign();
         File imageFile = new File(imagePath);
@@ -163,31 +177,33 @@ public class Failed extends AppCompatActivity {
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
             String transaction = "CPU" + String.valueOf(transNum);
 
-            rbody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("chk_rider", sm.getSession())
-                    .addFormDataPart("chk_status", can_m.getCancel())
-                    .addFormDataPart("cancel_name", can_m.getPoint())
-                    .addFormDataPart("chk_sign", sign_m.getSign(),RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
-                    .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
-                    .addFormDataPart("chk_accno", "none")
-                    .addFormDataPart("chk_payee","none")
-                    .addFormDataPart("chk_entity", "none")
-                    .addFormDataPart("chk_remark", "none")
-                    .addFormDataPart("chk_address", loc_m.getAdd())
-                    .addFormDataPart("chk_company", loc_m.getComp())
-                    .addFormDataPart("chk_code", loc_m.getCode())
-                    .addFormDataPart("chk_tin", "none")
-                    .addFormDataPart("chk_or", "none")
-                    .addFormDataPart("chk_date", "none")
-                    .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", transaction)
-                    .addFormDataPart("chk_amount", "none")
-                    .addFormDataPart("chk_number", "none")
-                    .addFormDataPart("latitude", latitude)
-                    .addFormDataPart("longitude", longitude)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+            builder.addFormDataPart("chk_rider", sm.getSession());
+            builder.addFormDataPart("chk_status", can_m.getCancel());
+            builder.addFormDataPart("cancel_name", can_m.getPoint());
+            builder.addFormDataPart("chk_sign", sign_m.getSign(),RequestBody.create(MediaType.parse("image/jpeg"), imageFile));
+            for(int i = 0; i < 6; i++){
+                builder.addFormDataPart("chk_pic"+i, cancelPic.getName(),RequestBody.create(MediaType.parse("image/png"), cancelPic));
+            }
+            builder.addFormDataPart("chk_accno", "none");
+            builder.addFormDataPart("chk_payee","none");
+            builder.addFormDataPart("chk_entity", "none");
+            builder.addFormDataPart("chk_remark", "none");
+            builder.addFormDataPart("chk_address", loc_m.getAdd());
+            builder.addFormDataPart("chk_company", loc_m.getComp());
+            builder.addFormDataPart("chk_code", loc_m.getCode());
+            builder.addFormDataPart("chk_tin", "none");
+            builder.addFormDataPart("chk_or", "none");
+            builder.addFormDataPart("chk_date", "none");
+            builder.addFormDataPart("chk_bcode", "none");
+            builder.addFormDataPart("transaction_num",transaction);
+            builder.addFormDataPart("chk_amount", "none");
+            builder.addFormDataPart("chk_number", "none");
+            builder.addFormDataPart("latitude", latitude);
+            builder.addFormDataPart("longitude", longitude);
 
+            rbody = builder.build();
             sendAPI(rbody);
         }
         else{
@@ -201,31 +217,33 @@ public class Failed extends AppCompatActivity {
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
             String transaction = "CPU" + String.valueOf(transNum);
 
-            rbody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("chk_rider", sm.getSession())
-                    .addFormDataPart("chk_status", can_m.getCancel())
-                    .addFormDataPart("cancel_name", can_m.getPoint())
-                    .addFormDataPart("chk_sign", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
-                    .addFormDataPart("chk_pic", "",RequestBody.create(MediaType.parse("image/jpeg"), defaultPic.toString()))
-                    .addFormDataPart("chk_accno", "none")
-                    .addFormDataPart("chk_payee","none")
-                    .addFormDataPart("chk_entity", "none")
-                    .addFormDataPart("chk_remark", "none")
-                    .addFormDataPart("chk_address", loc_m.getAdd())
-                    .addFormDataPart("chk_company", loc_m.getComp())
-                    .addFormDataPart("chk_code", loc_m.getCode())
-                    .addFormDataPart("chk_tin", "none")
-                    .addFormDataPart("chk_or", "none")
-                    .addFormDataPart("chk_date", "none")
-                    .addFormDataPart("chk_bcode", "none")
-                    .addFormDataPart("transaction_num", "none")
-                    .addFormDataPart("chk_amount", "none")
-                    .addFormDataPart("chk_number", "none")
-                    .addFormDataPart("latitude", latitude)
-                    .addFormDataPart("longitude", longitude)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+            builder.addFormDataPart("chk_rider", sm.getSession());
+            builder.addFormDataPart("chk_status", can_m.getCancel());
+            builder.addFormDataPart("cancel_name", can_m.getPoint());
+            builder.addFormDataPart("chk_sign", "no_sign.png",RequestBody.create(MediaType.parse("image/jpeg"), cancelPic));
+            for(int i = 0; i < 6; i++){
+                builder.addFormDataPart("chk_pic"+i, cancelPic.getName(),RequestBody.create(MediaType.parse("image/png"), cancelPic));
+            }
+            builder.addFormDataPart("chk_accno", "none");
+            builder.addFormDataPart("chk_payee","none");
+            builder.addFormDataPart("chk_entity", "none");
+            builder.addFormDataPart("chk_remark", "none");
+            builder.addFormDataPart("chk_address", loc_m.getAdd());
+            builder.addFormDataPart("chk_company", loc_m.getComp());
+            builder.addFormDataPart("chk_code", loc_m.getCode());
+            builder.addFormDataPart("chk_tin", "none");
+            builder.addFormDataPart("chk_or", "none");
+            builder.addFormDataPart("chk_date", "none");
+            builder.addFormDataPart("chk_bcode", "none");
+            builder.addFormDataPart("transaction_num", transaction);
+            builder.addFormDataPart("chk_amount", "none");
+            builder.addFormDataPart("chk_number", "none");
+            builder.addFormDataPart("latitude", latitude);
+            builder.addFormDataPart("longitude", longitude);
 
+            rbody = builder.build();
             sendAPI(rbody);
         }
     }
@@ -279,6 +297,7 @@ public class Failed extends AppCompatActivity {
                                 finish();
 
                             } else {
+                                comp.setText(value);
                                 Toast.makeText(Failed.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {

@@ -246,7 +246,7 @@ public class ChequeReceived extends AppCompatActivity {
             for(int i = 0; i < explodePaths.length; i++){
                 if(!(explodePaths[i].contains("IMG-Cheque0"))){
                     File file = new File(explodePaths[i]);
-                    builder.addFormDataPart("chk_pic"+i, cs.getCheck(), RequestBody.create(mediaType, file));
+                    builder.addFormDataPart("chk_pic"+i, file.getName(), RequestBody.create(mediaType, file));
                     if(explodePaths[i].contains("INVALID-Cheque")){
                         builder.addFormDataPart("chk_accno", acc_m.getAccno()+",none");
                         builder.addFormDataPart("chk_or", rm.getOR()+",none");

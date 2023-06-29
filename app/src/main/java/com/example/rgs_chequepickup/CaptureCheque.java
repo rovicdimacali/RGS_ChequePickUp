@@ -100,7 +100,7 @@ public class CaptureCheque extends AppCompatActivity {
 
         next_button.setEnabled(false);
         if(ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
+            ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 1);
         }
         else{
             //Toast.makeText(getApplicationContext(),"Camera Disabled/Not Found!", Toast.LENGTH_SHORT).show();
@@ -125,7 +125,7 @@ public class CaptureCheque extends AppCompatActivity {
                     next_button.setEnabled(true);
                 } else {
                     // Request CAMERA permission
-                    ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 1);
+                    ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
                 }
                 //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
             }
@@ -138,338 +138,10 @@ public class CaptureCheque extends AppCompatActivity {
                 isSubmit = true;
                 startActivity(intent);
                 finish();
-                /*scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
-                String res = sm.getStat();
-                if(res.equals("Defective")){
-                    accountSession as = new accountSession("N/A", "N/A");
-                    remarkSession rs = new remarkSession("Defective Cheque");
-
-                    Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else{
-                    Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
-                    startActivity(intent);
-                    finish();
-                    //VerifyPopupWindow(remark);
-                }*/
-
-               /*AlertDialog.Builder builder = new AlertDialog.Builder(CaptureCheque.this);
-
-                builder.setCancelable(true);
-                builder.setTitle("Defective Cheque");
-                builder.setMessage("Is the Cheque Defective?");
-
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                        startActivity(intent);
-                    }
-                });
-
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        VerifyPopupWindow();
-                    }
-                });
-
-                builder.show();*/
             }
         });
 
     }
-
-
-    /*private void VerifyPopupWindow(String remark) {
-        layout = (RelativeLayout) findViewById(R.id.layout);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popUpView = inflater.inflate(R.layout.popup_invalid_cheque, null);
-        services_list = popUpView.findViewById(R.id.cardView_spinner);
-
-        Spinner spinner = (Spinner) popUpView.findViewById(R.id.spinner);
-        checklist = (LinearLayout) popUpView.findViewById(R.id.services_checklist);
-
-        services_list.setVisibility(View.VISIBLE);
-        checklist.setVisibility(View.GONE);
-
-        bayan = (CheckBox) checklist.findViewById(R.id.checkbox_bayan);
-        innove = (CheckBox) checklist.findViewById(R.id.checkbox_innove);
-        globe = (CheckBox) checklist.findViewById(R.id.checkbox_globe);
-
-        EditText chequeNum = popUpView.findViewById(R.id.cheque_number);
-        String[] services;
-        if(remark.equals("One Cheque, Multiple Accounts")  || remark.equals("One Cheque, Multiple Entities") ||
-                remark.equals("Multiple Accounts, Multiple Cheques")){
-            chequeNum.setText(remark);
-            chequeNum.setEnabled(false);
-
-            String remarklist;
-
-            if(remark.equals("One Cheque, Multiple Entities")){
-                services_list.setVisibility(View.GONE);
-                checklist.setVisibility(View.VISIBLE);
-                remarklist = "Multiple Entities";
-            }
-            else{
-                services_list.setVisibility(View.VISIBLE);
-                checklist.setVisibility(View.GONE);
-                remarklist = "Multiple Accounts";
-            }
-            services = new String[]{remarklist};
-        }
-        else{
-            services = new String[]{"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid"};
-        }
-
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        boolean focusable = true;
-        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-            }
-        });
-
-        Button verify = (Button) popUpView.findViewById(R.id.verify_button);
-        RelativeLayout overlay = (RelativeLayout) popUpView.findViewById(R.id.overlay);
-
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                overlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-            }
-        });
-
-        //String[] services = {"--SERVICES--", "Bayan", "Innove", "Globe Handyphone", "FA ID: Postpaid", "Standard", "Multiple Accounts" , "Multiple Entities"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CaptureCheque.this, R.layout.simple_spinner_item, services);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String service = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(CaptureCheque.this, service, Toast.LENGTH_SHORT).show();
-
-                verify.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Enter code here for cheque verification
-
-                        //NO SERVICE SELECTED
-                        if(service.equals("--SERVICES--")){
-                            Toast.makeText(CaptureCheque.this,"Please select a service", Toast.LENGTH_SHORT).show();
-                        }
-                        //BAYAN SERVICES
-                        else if(service.equals("Bayan")){
-
-                            if(chequeNum.getText().toString().length() == 9){ //Check if Account Number has 9 digits
-                                if(Long.parseLong(chequeNum.getText().toString()) >= 700000000 &&
-                                        Long.parseLong(chequeNum.getText().toString()) <= 799999999){
-                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
-                                    int result = cc.BayanChecker(Long.parseLong(chequeNum.getText().toString()));
-                                    if(result == 1){
-                                        Intent intent = null;
-                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        if(hasRetake == true){
-                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                                        }
-                                        else{
-                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                                        }
-                                        accountManagement am = new accountManagement(CaptureCheque.this);
-                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                                        am.saveAccount(as);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else{
-                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else{
-                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to BAYAN service", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                            else{
-                                Toast.makeText(CaptureCheque.this, "Account Number for BAYAN service must be 9 digits", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        //INNOVE SERVICES
-                        else if(service.equals("Innove")){
-                            if(chequeNum.getText().toString().length() == 9){ //Check if Account Number has 9 digits
-                                if(Long.parseLong(chequeNum.getText().toString()) >= 100000000 &&
-                                        Long.parseLong(chequeNum.getText().toString()) <= 999999999){
-                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
-                                    int result = cc.InnoveChecker(Long.parseLong(chequeNum.getText().toString()));
-                                    if(result == 1){
-                                        Intent intent;
-                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        if(hasRetake == true){
-                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                                        }
-                                        else{
-                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                                        }
-                                        accountManagement am = new accountManagement(CaptureCheque.this);
-                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                                        am.saveAccount(as);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else{
-                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else{
-                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to INNOVE service", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                            else{
-                                Toast.makeText(CaptureCheque.this, "Account Number for INNOVE service must be 9 digits", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        //GLOBE HANDYPHONE SERVICES
-                        else if(service.equals("Globe Handyphone")){
-                            if(chequeNum.getText().toString().length() == 8){ //Check if Account Number has 9 digits
-                                if(Long.parseLong(chequeNum.getText().toString()) >= 10000000 &&
-                                        Long.parseLong(chequeNum.getText().toString()) <= 99999999){
-                                    CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
-                                    int result = cc.GlobeHandyphoneChecker(Long.parseLong(chequeNum.getText().toString()));
-                                    if(result == 1){
-                                        Intent intent;
-                                        Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                        if(hasRetake == true){
-                                            intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                                        }
-                                        else{
-                                            intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                                        }
-                                        accountManagement am = new accountManagement(CaptureCheque.this);
-                                        accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                                        am.saveAccount(as);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else{
-                                        Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else{
-                                    Toast.makeText(CaptureCheque.this,"Account range is not applicable to GLOBE HP service", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                            else{
-                                Toast.makeText(CaptureCheque.this, "Account Number for GLOBE HP service must be 8 digits", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        //FA ID FOR POSTPAID
-                        else if(service.equals("FA ID: Postpaid")){
-                            if(chequeNum.getText().toString().length() == 9){
-                                CheckerCheque cc = new CheckerCheque(); //CHECKER CLASS
-                                int result = cc.FA_ID(chequeNum.getText().toString());
-                                if(result == 1){
-                                    Intent intent;
-                                    Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                                    if(hasRetake == true){
-                                        intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                                    }
-                                    else{
-                                        intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                                    }
-                                    accountManagement am = new accountManagement(CaptureCheque.this);
-                                    accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                                    am.saveAccount(as);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(CaptureCheque.this, "Account Number is not valid", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            else{
-                                Toast.makeText(CaptureCheque.this, "Account Number must be 9 digits", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else if(service.equals("Multiple Accounts")){
-                            Intent intent;
-                            Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                            if(hasRetake == true){
-                                intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                            }
-                            else{
-                                intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                            }
-                            accountManagement am = new accountManagement(CaptureCheque.this);
-                            accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                            am.saveAccount(as);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else if(service.equals("Multiple Entities")){
-                            Intent intent;
-                            Toast.makeText(CaptureCheque.this, "Account Number is valid", Toast.LENGTH_SHORT).show();
-                            if(hasRetake == true){
-                                intent = new Intent(CaptureCheque.this, ChequeReceived.class);
-                            }
-                            else{
-                                intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                            }
-                            accountManagement am = new accountManagement(CaptureCheque.this);
-                            accountSession as = new accountSession(chequeNum.getText().toString(), service);
-                            am.saveAccount(as);
-                            startActivity(intent);
-                            finish();
-                        }
-                        //Intent intent = new Intent(CaptureCheque.this, ESignature.class);
-                        //startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        verify.setOnClickListener(new View.OnClickListener() { // CHECBOX FOR MULTIPLE ENTITIES
-            @Override
-            public void onClick(View v) {
-                String checked_services = String.valueOf(bayan.getText()) + ", " + String.valueOf(innove.getText()) +
-                        ", " + String.valueOf(globe.getText());
-                Toast.makeText(CaptureCheque.this, "Multiple Entities", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CaptureCheque.this, RemarksActivity.class);
-                accountManagement am = new accountManagement(CaptureCheque.this);
-                accountSession as = new accountSession(chequeNum.getText().toString(), checked_services);
-                am.saveAccount(as);
-                startActivity(intent);
-                finish();
-            }
-        });
-        /*verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Enter code here for cheque verification
-
-                Intent intent = new Intent(CaptureCheque.this, ESignature.class);
-                startActivity(intent);
-            }
-        });*/
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -520,14 +192,13 @@ public class CaptureCheque extends AppCompatActivity {
             //Toast.makeText(CaptureCheque.this,"1,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
             cheques = cm.getCheck() + "," + String.valueOf(imageFile);
         }
-        else{
-            //Toast.makeText(CaptureCheque.this,"2,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
+        else if(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none")){
             cheques = String.valueOf(imageFile);
+            //Toast.makeText(CaptureCheque.this,"2,"+cheques,Toast.LENGTH_SHORT).show();
         }
-
         chequeSession cs = new chequeSession(cheques);
         cm.saveCheck(cs);
-
+        //Toast.makeText(CaptureCheque.this,"2,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
         currentPhotoPath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -551,45 +222,21 @@ public class CaptureCheque extends AppCompatActivity {
         }
     }
     private void saveImageToGallery(Bitmap bitmap) {
-        /*LocationManagement lm = new LocationManagement(CaptureCheque.this);
-        String comp = lm.getComp();
-
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
-
-        // GET DIR
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = new File(storageDir, imageName);
-
-        chequeManagement cm = new chequeManagement(CaptureCheque.this);
-        chequeSession cs = new chequeSession(String.valueOf(imageFile));
-        cm.saveCheck(cs);
-
-        // CREATE DIRECTORY IF NONE
-        if (!storageDir.exists()) {
-            storageDir.mkdirs();
-        }
-        // IMAGE SAVE
-        // SAVED IMAGED NOTIF
-        MediaScannerConnection.scanFile(this, new String[]{imageFile.getAbsolutePath()}, null, null);
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        image = Uri.fromFile(imageFile);
-        intent.setData(image);
-        sendBroadcast(intent);*/
         try{
             FileOutputStream fos = new FileOutputStream(currentPhotoPath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
             fos.flush();
             fos.close();
-            Toast.makeText(this, "Saved to gallery", Toast.LENGTH_SHORT).show();
+            chequeManagement cm = new chequeManagement(CaptureCheque.this);
+            //Toast.makeText(this, "Saved to gallery", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CaptureCheque.this,"2,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_SHORT).show();
             //throw new RuntimeException(e);
         }
         //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
     }
-
-
+/*
     @Override
     public void onStop() {
         super.onStop();
@@ -598,4 +245,5 @@ public class CaptureCheque extends AppCompatActivity {
             cm.removeCheck();
         }
     }
+  */
 }
