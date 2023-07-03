@@ -301,10 +301,10 @@ public class DepositSignature extends AppCompatActivity {
                 .setType(MultipartBody.FORM);
         builder.addFormDataPart("chk_rider", sess_m.getSession());
         builder.addFormDataPart("transaction_num", his_m.getTrans());
-        builder.addFormDataPart("depo_sign", "DepositSign_"+signatureName, RequestBody.create(MediaType.parse("image/jpeg"),signaturePath));
-        builder.addFormDataPart("depo_pic", photoName, RequestBody.create(mediaType, currentPhotoPath));
-        builder.addFormDataPart("depo_name", inputName.getText().toString());
-        builder.addFormDataPart("depo_cheques", numberCheq.getText().toString());
+        builder.addFormDataPart("chk_deposit_sign", "DepositSign_"+signatureName, RequestBody.create(MediaType.parse("image/jpeg"),signaturePath));
+        builder.addFormDataPart("chk_deposit_img", photoName, RequestBody.create(mediaType, currentPhotoPath));
+        builder.addFormDataPart("chk_deposited_by", inputName.getText().toString());
+        builder.addFormDataPart("chk_cheques", numberCheq.getText().toString());
 
         rbody = builder.build();
 
