@@ -195,7 +195,7 @@ public class DSignature extends AppCompatActivity {
                                 finish();
 
                             } else {
-                                caption.setText(signPath);
+                                caption.setText(value);
                                 Toast.makeText(DSignature.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                             }
                         } catch (IOException e) {
