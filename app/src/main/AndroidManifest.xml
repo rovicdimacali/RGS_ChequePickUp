@@ -39,7 +39,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".DepositSignature"
+            android:name=".DSignature"
+            android:exported="false" />
+        <activity
+            android:name=".DepositSign"
             android:exported="false" />
         <activity
             android:name=".TransactionHistory"

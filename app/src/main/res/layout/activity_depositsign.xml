@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DepositSignature">
+    tools:context=".DepositSign">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,14 +41,14 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="574dp">
 
             <LinearLayout
                 android:id="@+id/inputfields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@id/header">
+                android:layout_below="@id/header"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/inputname"
@@ -97,35 +97,36 @@
                     android:id="@+id/capture_button1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:layout_marginLeft="25dp"
+                    android:layout_marginTop="50dp"
                     android:layout_marginRight="30dp"
                     android:background="@color/rgs_green"
                     android:text="Open Camera " />
 
                 <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:id="@+id/cheque_img"
+                    android:layout_width="300dp"
+                    android:layout_height="370dp"
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/cheque_img"/>
+                    android:layout_marginTop="10dp" />
 
                 <TextView
+                    android:id="@+id/caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Signature is needed below."
+                    android:text=""
                     android:textAlignment="center"
-                    android:textSize="15dp"
-                    android:id="@+id/caption"/>
+                    android:textSize="15dp" />
 
-                <com.github.gcacace.signaturepad.views.SignaturePad
+
+                <!--<com.github.gcacace.signaturepad.views.SignaturePad
                     android:id="@+id/signature_pad"
                     android:layout_width="match_parent"
-                    android:layout_height="285dp"
+                    android:layout_height="108dp"
                     android:layout_marginTop="10dp"
-                    app:penColor="@color/black" />
+                    app:penColor="@color/black" />-->
 
             </LinearLayout>
 
@@ -146,15 +147,15 @@
                 android:orientation="horizontal"
                 >
 
-                <Button
+                <!--<Button
                     android:id="@+id/clear_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clear Signature"
-                    android:layout_weight=".5"
                     android:layout_marginRight="10dp"
+                    android:layout_weight=".5"
                     android:background="@drawable/btn_secondary"
-                    android:textAllCaps="false"/>
+                    android:text="Clear Signature"
+                    android:textAllCaps="false" />-->
 
                 <Button
                     android:id="@+id/save_image"

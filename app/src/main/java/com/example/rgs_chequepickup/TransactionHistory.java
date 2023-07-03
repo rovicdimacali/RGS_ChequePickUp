@@ -86,7 +86,7 @@ public class TransactionHistory extends AppCompatActivity {
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TransactionHistory.this, DepositSignature.class);
+                Intent intent = new Intent(TransactionHistory.this, DepositSign.class);
                 intent.putExtra("cheques", String.valueOf(cheques));
                 startActivity(intent);
                 finish();
@@ -335,7 +335,13 @@ public class TransactionHistory extends AppCompatActivity {
                                 tinIn.setLayoutParams(tinIn_params);
                                 //TITLE
                                 TextView title = new TextView(TransactionHistory.this);
-                                title.setText("Cheque " + (i + 1));
+                                if(orArr[i].equals("none")){
+                                    title.setText("Cheque " + (i + 1) + " (INVALID)");
+                                    cheques--;
+                                }
+                                else{
+                                    title.setText("Cheque " + (i + 1));
+                                }
                                 title.setId(View.generateViewId());
                                 title.setTypeface(null, Typeface.BOLD);
                                 title.setTextSize(15);
