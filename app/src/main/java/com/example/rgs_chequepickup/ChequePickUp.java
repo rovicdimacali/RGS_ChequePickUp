@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,14 +16,9 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,38 +30,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import SessionPackage.LocationManagement;
-import SessionPackage.LocationSession;
-import okhttp3.OkHttpClient;
+
 
 public class ChequePickUp extends AppCompatActivity {
     String message1, message2;
-    TextView icon_company, icon_name, icon_location, icon_number, icon_code, address, back_button, number;
+    TextView icon_company, icon_name, icon_location, icon_number, icon_code, back_button;
     TextView company, person, addr, contact, code;
     Button go_button, arrived_button, cancel_button;
     RelativeLayout layout;
     String comp, per, add, cont, company_code;
-    View v;
-    HttpURLConnection conn;
-    LocationCallback lcb;
-    LocationRequest lr;
     FusedLocationProviderClient fspc;
-    private static final int MAX_SMS_LENGTH = 160;
     private final static int REQUEST_CODE = 100;
     static final int PERMISSION_SEND_SMS_GO = 101;
     static final int PERMISSION_SEND_SMS_ARRIVED = 102;
@@ -84,13 +66,6 @@ public class ChequePickUp extends AppCompatActivity {
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
-        //fspc.requestLocationUpdates(lr, locCallBack, Looper.getMainLooper());
-
-        /*message1 = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that I'm on my way to collect the cheque(s) from your location."
-        + "Please ensure that you are available at the designated pickup location to hand over the cheque(s). If there are any specific instructions, please let me know immediately."
-        +"For any further assistance or queries, please reach out or reply to me at this number."
-        +"Thank you for choosing RGS!";*/
-        ;
         message1 = "Good Day! This is your Rider from RGS, I\'m on my way to collect the cheque(s) from your location. Thank you!";
         message2 = "Good Day! This is your Rider from RGS, I\'ve arrived and already at your location. Thank you!";
 
@@ -98,21 +73,17 @@ public class ChequePickUp extends AppCompatActivity {
 
         LocationManagement lm = new LocationManagement(ChequePickUp.this);
 
-        /*String comp = details.getStringExtra("company");
-        String per = details.getStringExtra("person");
-        String add = details.getStringExtra("address");
-        String cont = details.getStringExtra("contact");*/
         comp = lm.getComp();
         per = lm.getPer();
         add = lm.getAdd();
         cont = lm.getCont();
         company_code = lm.getCode();
 
-        company = (TextView) findViewById(R.id.company);
-        person = (TextView) findViewById(R.id.name);
-        addr = (TextView) findViewById(R.id.address);
-        contact = (TextView) findViewById(R.id.number);
-        code = (TextView) findViewById(R.id.compcode);
+        company = findViewById(R.id.company);
+        person = findViewById(R.id.name);
+        addr = findViewById(R.id.address);
+        contact = findViewById(R.id.number);
+        code = findViewById(R.id.compcode);
 
         company.setText(comp);
         person.setText(per);
@@ -121,19 +92,17 @@ public class ChequePickUp extends AppCompatActivity {
         code.setText(company_code);
 
         //TEXTVIEWS
-        icon_company = (TextView) findViewById(R.id.icon_company);
-        icon_name = (TextView) findViewById(R.id.icon_name);
-        icon_location = (TextView) findViewById(R.id.icon_location);
-        icon_number = (TextView) findViewById(R.id.icon_number);
-        icon_code = (TextView) findViewById(R.id.icon_code);
-        //address = (TextView) findViewById(R.id.address);//Address
-        //number = (TextView) findViewById(R.id.number);
-        back_button = (TextView) findViewById(R.id.back_button);
+        icon_company = findViewById(R.id.icon_company);
+        icon_name = findViewById(R.id.icon_name);
+        icon_location = findViewById(R.id.icon_location);
+        icon_number = findViewById(R.id.icon_number);
+        icon_code = findViewById(R.id.icon_code);
+        back_button = findViewById(R.id.back_button);
 
         //BUTTONS
-        go_button = (Button) findViewById(R.id.go_button);
-        arrived_button = (Button) findViewById(R.id.arrived_button);
-        cancel_button = (Button) findViewById(R.id.cancel_button);
+        go_button = findViewById(R.id.go_button);
+        arrived_button = findViewById(R.id.arrived_button);
+        cancel_button = findViewById(R.id.cancel_button);
         arrived_button.setActivated(false);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -158,9 +127,6 @@ public class ChequePickUp extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + contact.getText().toString()));
                 startActivity(intent);
-                /*if (intent.resolveActivity(getPackageManager()) != null) {
-
-                }*/
             }
         });
         cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +141,6 @@ public class ChequePickUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
-
-                //openCapturecheque();
             }
         });
 
@@ -194,12 +158,10 @@ public class ChequePickUp extends AppCompatActivity {
                         ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
                                 PERMISSION_SEND_SMS_GO);
                     } else {// PERMISSION GRANTED
-                        //sendSMS(cont, "Hello, this is a test message!");
                         sendSMS(cont, message1);
                         DisplayMap(add);
                     }
                 }
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="));
             }
         });
 
@@ -216,16 +178,6 @@ public class ChequePickUp extends AppCompatActivity {
         });
     }
 
-    /*public void onRequestPermissionsResultSMS(int requestCode, @NonNull String[] asd, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, asd, grantResults);
-        if (requestCode == PERMISSION_SEND_SMS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                sendSMS("Recipient's phone number", "Hello, this is a test message!");
-            } else {
-                Toast.makeText(this, "SMS permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 
     private void sendSMS(String phoneNumber, String message) {
         char cpFirst = phoneNumber.charAt(0);
@@ -245,37 +197,6 @@ public class ChequePickUp extends AppCompatActivity {
             Toast.makeText(this, "Invalid cellphone number", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*private void sendSMS(String phoneNumber, String message) {
-        ArrayList<String> parts = new ArrayList<>();
-
-        if(phoneNumber.substring(0,4).contains("+63") || phoneNumber.substring(0,4).contains("63") ||
-                phoneNumber.substring(0,4).contains("09")) {
-            StringBuilder sb = new StringBuilder();
-            String[] words = message.split(" ");
-            for (String word : words) {
-                if (sb.length() + word.length() + 1 > MAX_SMS_LENGTH) {
-                    parts.add(sb.toString());
-                    sb = new StringBuilder();
-                }
-                sb.append(word).append(" ");
-            }
-
-            if (sb.length() > 0) {
-                parts.add(sb.toString());
-            }
-
-            SmsManager smsManager = SmsManager.getDefault();
-            for (String part : parts) {
-                smsManager.sendTextMessage(phoneNumber, null, part, null, null);
-            }
-
-            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "Invalid cellphone number", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
 
     private void DisplayMap(String address){

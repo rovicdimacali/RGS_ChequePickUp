@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,20 +31,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import SessionPackage.LocationManagement;
 import SessionPackage.cancelManagement;
 import SessionPackage.cancelSession;
@@ -56,13 +49,12 @@ public class CancelActivity extends AppCompatActivity {
     Button datepicker, submit, timepicker1, timepicker2;
     TextView back_button;
     LinearLayout datefield, proof, timefield;
-    RadioButton absentRB, reschedRB, diffRB, longRB, othersRB, noChequeRB, cutoffRB, collRB;
+    RadioButton absentRB, reschedRB, diffRB, longRB, othersRB, noChequeRB, collRB;
     EditText cancelText, point, timeFrom, timeTo;
     String cancelStatus;
     String reason;
     FusedLocationProviderClient fspc;
     Intent i;
-    int hour, minute;
 
     private final static int REQUEST_CODE = 100;
 
@@ -78,32 +70,32 @@ public class CancelActivity extends AppCompatActivity {
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
         //LAYOUT FOR DATEFIELD
-        datefield = (LinearLayout) findViewById(R.id.date_field);
-        timefield = (LinearLayout) findViewById(R.id.time_field);
+        datefield = findViewById(R.id.date_field);
+        timefield = findViewById(R.id.time_field);
         //timefieldTo = (LinearLayout) findViewById(R.id.time_field_to);
-        proof = (LinearLayout) findViewById(R.id.proof_field);
-        point = (EditText) findViewById(R.id.point);
+        proof = findViewById(R.id.proof_field);
+        point = findViewById(R.id.point);
         //timeFrom = (EditText) findViewById(R.id.time_from);
         //timeTo = (EditText) findViewById(R.id.time_to);
 
         //RADIO BUTTONS
-        absentRB = (RadioButton) findViewById(R.id.client_not_around);
-        noChequeRB = (RadioButton) findViewById(R.id.no_cheque);
-        collRB = (RadioButton) findViewById(R.id.collected);
-        reschedRB = (RadioButton) findViewById(R.id.reschedule);
-            datepicker = (Button) findViewById(R.id.datePickerButton);
-            timepicker1 = (Button) findViewById(R.id.timePickerButton1);
-            timepicker2 = (Button) findViewById(R.id.timePickerButton2);
-        diffRB = (RadioButton) findViewById(R.id.wrong_add);
-        longRB = (RadioButton) findViewById(R.id.unvisited);
+        absentRB = findViewById(R.id.client_not_around);
+        noChequeRB = findViewById(R.id.no_cheque);
+        collRB = findViewById(R.id.collected);
+        reschedRB = findViewById(R.id.reschedule);
+        datepicker = findViewById(R.id.datePickerButton);
+        timepicker1 = findViewById(R.id.timePickerButton1);
+        timepicker2 = findViewById(R.id.timePickerButton2);
+        diffRB = findViewById(R.id.wrong_add);
+        longRB = findViewById(R.id.unvisited);
         //cutoffRB = (RadioButton) findViewById(R.id.cut_off);
-        othersRB = (RadioButton) findViewById(R.id.others);
-        cancelText = (EditText) findViewById(R.id.other_reason);
+        othersRB = findViewById(R.id.others);
+        cancelText = findViewById(R.id.other_reason);
 
         //absentRB.setText(lm.getAdd());
         //BUTTONS
-        back_button = (TextView) findViewById(R.id.back_button);
-        submit = (Button) findViewById(R.id.submit_btn);
+        back_button = findViewById(R.id.back_button);
+        submit = findViewById(R.id.submit_btn);
         datepicker.setText(getTodayDate());
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
@@ -205,7 +197,6 @@ public class CancelActivity extends AppCompatActivity {
                 || collRB.isChecked() || diffRB.isChecked()) {
                     getCurrentLocation();
                 } else if (reschedRB.isChecked()) {
-                    LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
                     cancelSession cs = new cancelSession("Rescheduled By Client: " + datepicker.getText().toString() + ", " + timepicker1.getText().toString() + " - " +
@@ -215,7 +206,6 @@ public class CancelActivity extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 } else if (longRB.isChecked()) {
-                    LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
                     cancelSession cs = new cancelSession("Unattended By Rider", "none");
@@ -225,7 +215,6 @@ public class CancelActivity extends AppCompatActivity {
                     finish();
                 } else if (othersRB.isChecked() && !(cancelText.getText().toString().isEmpty())) {
                     cancelStatus = cancelText.getText().toString();
-                    LocationManagement lm = new LocationManagement(CancelActivity.this);
                     Intent i = new Intent(CancelActivity.this, Failed.class);
                     cancelManagement cm = new cancelManagement(CancelActivity.this);
                     cancelSession cs = new cancelSession(cancelStatus, "none");
@@ -246,9 +235,6 @@ public class CancelActivity extends AppCompatActivity {
                         longRB.isChecked() || othersRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked())) {
                     Toast.makeText(CancelActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }
-                //else if()
-                //Intent intent = new Intent(CancelActivity.this, Failed.class);
-                //startActivity(intent);
             }
         });
     }
@@ -423,9 +409,6 @@ public class CancelActivity extends AppCompatActivity {
                                 cancelManagement cm = new cancelManagement(CancelActivity.this);
                                 cancelSession cs = new cancelSession(reason,point.getText().toString());
                                 cm.saveCancel(cs);
-                                //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
-                                /*i.putExtra("cancel", "Client/Customer Not Around");
-                                i.putExtra("pointPerson", point.getText().toString());*/
                                 startActivity(i);
                                 finish();
                             } else {
@@ -465,7 +448,7 @@ public class CancelActivity extends AppCompatActivity {
     }
 
     private void NoSignalPopupWindow() {
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
+        RelativeLayout layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_unstable, null);
 
@@ -480,7 +463,7 @@ public class CancelActivity extends AppCompatActivity {
             }
         });
 
-        Button retry = (Button) popUpView.findViewById(R.id.retry);
+        Button retry = popUpView.findViewById(R.id.retry);
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
