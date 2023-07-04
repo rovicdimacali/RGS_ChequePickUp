@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class accountManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_ACCNO = "session_accno";
-    String SESSION_ENTITY = "session_entity";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_ACCNO = "session_accno";
+    final String SESSION_ENTITY = "session_entity";
 
     public accountManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -24,9 +24,6 @@ public class accountManagement {
     }
     public String getAccno(){ //return saved session
         return sp.getString(SESSION_ACCNO, "none");
-    }
-    public String getEntity(){ //return saved session
-        return sp.getString(SESSION_ENTITY, "none");
     }
     public void removeAcc(){ //Logout
         editor.putString(SESSION_ACCNO, "none").commit();

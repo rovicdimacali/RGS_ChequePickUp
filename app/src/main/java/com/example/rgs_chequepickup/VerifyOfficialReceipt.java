@@ -3,11 +3,8 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -21,27 +18,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.ReceiptManagement;
 import SessionPackage.accountManagement;
 import SessionPackage.chequeManagement;
-import SessionPackage.scenarioManagement;
 
 public class VerifyOfficialReceipt extends AppCompatActivity {
-    private static final int GALLERY_REQUEST_CODE = 150;
     LinearLayout parentLayout;
-    TextView compname, tinname, accname, payeename, orname, amname;
     TextView compin, tinin, accin, payeein, orin, amin;
     ImageView chequeImg;
     LinearLayout layout;
@@ -58,7 +48,6 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
 
         ReceiptManagement rm = new ReceiptManagement(VerifyOfficialReceipt.this);
         LocationManagement lm = new LocationManagement(VerifyOfficialReceipt.this);
-        scenarioManagement sm = new scenarioManagement(VerifyOfficialReceipt.this);
         accountManagement am = new accountManagement(VerifyOfficialReceipt.this);
         chequeManagement cm = new chequeManagement(VerifyOfficialReceipt.this);
 
@@ -77,40 +66,27 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         imgArr = img.split(",");
 
         ArrayList<String> list = new ArrayList<>(Arrays.asList(payArr));
-        Iterator<String> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            String element = iterator.next();
-            if (element.isEmpty() || element.equals("") || element.equals(" ") || element.equals("---PAYEE---")) {
-                iterator.remove();
-            }
-        }
+        list.removeIf(element -> element.isEmpty() || element.equals(" ") || element.equals("---PAYEE---"));
         payArr = list.toArray(new String[0]);
         size = payArr.length;
 
-        parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
-        editBtn = (Button) findViewById(R.id.edit_button);
-        chequeImg = (ImageView) findViewById(R.id.cheque_img);
-        submit = (Button) findViewById(R.id.submit_button);
-        back_button = (TextView) findViewById(R.id.back_button);
+        parentLayout = findViewById(R.id.parentLayout);
+        editBtn = findViewById(R.id.edit_button);
+        chequeImg = findViewById(R.id.cheque_img);
+        submit = findViewById(R.id.submit_button);
+        back_button = findViewById(R.id.back_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         back_button.setTypeface(font);
         back_button.setText("\uf060");
 
-        compname = (TextView) findViewById(R.id.label_companyName);
-        tinname = (TextView) findViewById(R.id.label_tinNumber);
-        accname = (TextView) findViewById(R.id.label_accountNumber);
-        payeename = (TextView) findViewById(R.id.label_payee);
-        orname = (TextView) findViewById(R.id.label_orNumber);
-        amname = (TextView) findViewById(R.id.label_chequeAmount);
-
-        compin = (TextView) findViewById(R.id.companyname);
-        tinin = (TextView) findViewById(R.id.tinNumber);
-        accin = (TextView) findViewById(R.id.accountNumber);
-        payeein = (TextView) findViewById(R.id.payee);
-        orin = (TextView) findViewById(R.id.orNumber);
-        amin = (TextView) findViewById(R.id.chequeAmount);
+        compin = findViewById(R.id.companyname);
+        tinin = findViewById(R.id.tinNumber);
+        accin = findViewById(R.id.accountNumber);
+        payeein = findViewById(R.id.payee);
+        orin = findViewById(R.id.orNumber);
+        amin = findViewById(R.id.chequeAmount);
 
         compin.setText(company);
         tinin.setText(tin);
@@ -128,12 +104,7 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         else{
             Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show();
         }
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InvalidChequePopupWindow();
-            }
-        });
+        submit.setOnClickListener(v -> InvalidChequePopupWindow());
 
         for(int i = 1; i < size; i++){
             //LINE
@@ -326,23 +297,6 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             );
             title.setLayoutParams(title_params);
 
-            //EDIT
-            /*ImageView editBtn = new ImageView(VerifyOfficialReceipt.this);
-            editBtn.setImageDrawable(getResources().getDrawable(R.drawable.edit));
-
-            RelativeLayout.LayoutParams edit_params = new RelativeLayout.LayoutParams(
-                    28,
-                    44
-            );
-            edit_params.addRule(RelativeLayout.END_OF, title.getId());
-            edit_params.addRule(RelativeLayout.ALIGN_TOP, title.getId());
-            edit_params.addRule(RelativeLayout.ALIGN_BOTTOM, title.getId());
-            edit_params.setMargins(dpToPx(8),0,0,0);
-            /*edit_params.topMargin = -60;
-            edit_params.rightMargin = -120;
-
-            editBtn.setLayoutParams(edit_params);*/
-
             parentLayout.addView(title);
             //parentLayout.addView(editBtn);
             parentLayout.addView(tv_comp);
@@ -368,82 +322,46 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
             }
         }
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VerifyOfficialReceipt.this, OfficialReceipt.class);
-                startActivity(intent);
-                finish();
-            }
+        back_button.setOnClickListener(v -> {
+            Intent intent = new Intent(VerifyOfficialReceipt.this, OfficialReceipt.class);
+            startActivity(intent);
+            finish();
         });
 
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VerifyOfficialReceipt.this, OfficialReceipt.class);
-                startActivity(intent);
-            }
+        editBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(VerifyOfficialReceipt.this, OfficialReceipt.class);
+            startActivity(intent);
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InvalidChequePopupWindow();
-            }
-        });
-    }
-    private int dpToPx(int dp) {
-        float scale = getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+        submit.setOnClickListener(v -> InvalidChequePopupWindow());
     }
 
     private void InvalidChequePopupWindow() {
-        layout = (LinearLayout) findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_invalid_cheque, null);
 
-        Button yesbtn = (Button) popUpView.findViewById(R.id.yes_button);
-        Button nobtn = (Button) popUpView.findViewById(R.id.no_button);
+        Button yesbtn = popUpView.findViewById(R.id.yes_button);
+        Button nobtn = popUpView.findViewById(R.id.no_button);
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-            }
+        layout.post(() -> popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0));
+
+        RelativeLayout overlay = popUpView.findViewById(R.id.overlay);
+
+        layout.post(() -> overlay.setOnClickListener(v -> popupWindow.dismiss()));
+
+        yesbtn.setOnClickListener(v -> {
+            Intent i = new Intent(VerifyOfficialReceipt.this, CaptureCheque.class);
+            startActivity(i);
         });
 
-        RelativeLayout overlay = (RelativeLayout) popUpView.findViewById(R.id.overlay);
-
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                overlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-            }
-        });
-
-        yesbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(VerifyOfficialReceipt.this, CaptureCheque.class);
-                startActivity(i);
-            }
-        });
-
-        nobtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(VerifyOfficialReceipt.this, ChequeReceived.class);
-                startActivity(i);
-            }
+        nobtn.setOnClickListener(v -> {
+            Intent i = new Intent(VerifyOfficialReceipt.this, ChequeReceived.class);
+            startActivity(i);
         });
     }
 }

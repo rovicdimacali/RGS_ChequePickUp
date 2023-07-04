@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class chequeManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_CHEQUE = "session_check";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_CHEQUE = "session_check";
 
     public chequeManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

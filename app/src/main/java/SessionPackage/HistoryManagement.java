@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class HistoryManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_TRANS = "session_trans";
-    String SESSION_COMP = "session_comp";
-    String SESSION_ADD = "session_add";
-    String SESSION_STAT = "session_stat";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_TRANS = "session_trans";
+    final String SESSION_COMP = "session_comp";
+    final String SESSION_ADD = "session_add";
+    final String SESSION_STAT = "session_stat";
     public HistoryManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sp.edit();

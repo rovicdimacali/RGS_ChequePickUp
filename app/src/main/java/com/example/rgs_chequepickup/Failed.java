@@ -8,7 +8,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -20,7 +19,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.UserManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -38,22 +36,16 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 import SessionPackage.LocationManagement;
-import SessionPackage.ReceiptManagement;
 import SessionPackage.SessionManagement;
 import SessionPackage.SignatureManagement;
-import SessionPackage.UserSession;
-import SessionPackage.accountManagement;
 import SessionPackage.cancelManagement;
 import SessionPackage.chequeManagement;
-import SessionPackage.remarkManagement;
-import SessionPackage.scenarioManagement;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -64,19 +56,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Failed extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     FusedLocationProviderClient fspc;
     double cur_lat, cur_long;
     private final static int REQUEST_CODE = 100;
     OkHttpClient client;
-
     Button back_button;
     String responseData, riderID;
-    String status;
-    String pointPerson;
-    Intent i;
     SessionManagement sm;
     TextView comp;
     @Override
@@ -89,8 +74,8 @@ public class Failed extends AppCompatActivity {
         riderID = sm.getSession();
 
         client = new OkHttpClient();
-        back_button = (Button) findViewById(R.id.back_button);
-        comp = (TextView) findViewById(R.id.complete);
+        back_button = findViewById(R.id.back_button);
+        comp = findViewById(R.id.complete);
         fspc = LocationServices.getFusedLocationProviderClient(Failed.this);
 
         //comp.setText(lm.getComp());
@@ -98,8 +83,6 @@ public class Failed extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
-                //Intent intent = new Intent(Failed.this, MainActivity.class);
-                //startActivity(intent);
             }
         });
     }
@@ -111,8 +94,7 @@ public class Failed extends AppCompatActivity {
                 public void onSuccess(Location location) {
                     if(location != null){
                         Geocoder gc = new Geocoder(Failed.this, Locale.getDefault());
-                        List<Address> sadd = null;
-                        List<Address> dadd = null;
+                        List<Address> sadd;
                         try {
                             //CURRENT LOCATION
                             sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -169,13 +151,9 @@ public class Failed extends AppCompatActivity {
                 can_m.getCancel().equals("Cheque Already Collected")){
             Random ran = new Random();
             int transNum = ran.nextInt(900000) + 100000;
-            Date currDate = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = sdf.format(currDate);
 
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-            String transaction = "CPU" + String.valueOf(transNum);
+            String transaction = "CPU" + transNum;
 
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM);
@@ -209,13 +187,8 @@ public class Failed extends AppCompatActivity {
         else{
             Random ran = new Random();
             int transNum = ran.nextInt(900000) + 100000;
-            Date currDate = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = sdf.format(currDate);
-
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-            String transaction = "CPU" + String.valueOf(transNum);
+            String transaction = "CPU" + transNum;
 
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM);
@@ -250,8 +223,6 @@ public class Failed extends AppCompatActivity {
 
     private void sendAPI(RequestBody rbody){
         LocationManagement loc_m = new LocationManagement(Failed.this);
-        SignatureManagement sign_m = new SignatureManagement(Failed.this);
-        chequeManagement cs = new chequeManagement(Failed.this);
         cancelManagement can_m = new cancelManagement(Failed.this);
 
         Request req = new Request.Builder().url("http://203.177.49.26:28110/tracker/api/remarks").post(rbody).build();
@@ -273,13 +244,13 @@ public class Failed extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            responseData = response.body().string();
+                            responseData = Objects.requireNonNull(response.body()).string();
                             String value = specificValue(responseData);
                             //value.replace("<br />", "");
                             if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
                                 Toast.makeText(Failed.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
 
-                                String messageFailed = "Good Day! This is your Rider from RGS, I\'m messaging to inform you that the Pick-Up was cancelled due to a reason.";
+                                String messageFailed = "Good Day! This is your Rider from RGS, I'm messaging to inform you that the Pick-Up was cancelled due to a reason.";
                                 if (ContextCompat.checkSelfPermission(Failed.this, Manifest.permission.SEND_SMS)
                                         != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
                                     ActivityCompat.requestPermissions(Failed.this, new String[]{Manifest.permission.SEND_SMS},
@@ -336,7 +307,7 @@ public class Failed extends AppCompatActivity {
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName);
         if (!file.mkdirs()) {
-            Log.e("SignaturePad", "Directory not created");
+            Log.e("RGS_Express Signs", "Directory not created");
         }
         return file;
     }

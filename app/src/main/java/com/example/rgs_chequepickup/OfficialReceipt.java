@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -38,7 +37,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -52,9 +50,7 @@ import SessionPackage.chequeSession;
 import SessionPackage.scenarioManagement;
 
 public class OfficialReceipt extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     private String currentPhotoPath;
     int cameraTurn;
     int cameraDel;
@@ -82,31 +78,31 @@ public class OfficialReceipt extends AppCompatActivity {
     String company, tin, accno, payee, or, amount, img;
     String[] accArr, payArr, ornumArr, amoArr, imgArr;
     CheckBox cbox1, cbox2, cbox3, cbox4, cbox5, cbox6;
-    ArrayList<String> pics = new ArrayList<>();
-    ArrayList<TextView> chktitle = new ArrayList<>();
+    final ArrayList<String> pics = new ArrayList<>();
+    final ArrayList<TextView> chktitle = new ArrayList<>();
     //--
     LinearLayout parentL;
 
     TextView back_button, checkTitle;
-    Button addBtn, datepicker, date, confirm_btn;
+    Button addBtn, confirm_btn;
     String remark;
-    String payeeList[];
+    String[] payeeList;
     String imageArr = "";
     String payeeArr = "", orArr = "", amArr = "", accnoArr = "", images = "";
     int count = 1;
     int delete = 0;
-    ArrayList<LinearLayout> deleted = new ArrayList<>();
+    final ArrayList<LinearLayout> deleted = new ArrayList<>();
     ArrayList<ImageView> iv = new ArrayList<>();
-    ArrayList<EditText> tv = new ArrayList<>();
-    ArrayList<EditText> acc = new ArrayList<>();
+    final ArrayList<EditText> tv = new ArrayList<>();
+    final ArrayList<EditText> acc = new ArrayList<>();
 
     //EDITTEXTS
-    ArrayList<EditText> companyInput = new ArrayList<>();
-    ArrayList<EditText> tinInput = new ArrayList<>();
-    ArrayList<EditText> accInput = new ArrayList<>();
-    ArrayList<Spinner> payeeInput = new ArrayList<>();
-    ArrayList<EditText> orInput = new ArrayList<>();
-    ArrayList<EditText> amInput = new ArrayList<>();
+    final ArrayList<EditText> companyInput = new ArrayList<>();
+    final ArrayList<EditText> tinInput = new ArrayList<>();
+    final ArrayList<EditText> accInput = new ArrayList<>();
+    final ArrayList<Spinner> payeeInput = new ArrayList<>();
+    final ArrayList<EditText> orInput = new ArrayList<>();
+    final ArrayList<EditText> amInput = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,119 +116,119 @@ public class OfficialReceipt extends AppCompatActivity {
 
         remark = sm.getScene();
 
-        addBtn = (Button) findViewById(R.id.addCheque_button);
+        addBtn = findViewById(R.id.addCheque_button);
 
-        parentL = (LinearLayout) findViewById(R.id.Llayout);
-        checkTitle = (TextView) findViewById(R.id.checkTitle);
+        parentL = findViewById(R.id.Llayout);
+        checkTitle = findViewById(R.id.checkTitle);
 
         //INPUT 1
-        l1 = (LinearLayout) findViewById(R.id.form1);
-        card1 = (CardView) findViewById(R.id.cardView_spinner);
-        capt1 = (Button) findViewById(R.id.capture_button1);
-        chk1 = (ImageView) findViewById(R.id.cheqepic1);
-        comp1 = (EditText) findViewById(R.id.inputcompany);
-        tin1 = (EditText) findViewById(R.id.inputtin);
-        or1 = (EditText) findViewById(R.id.inputOR);
-        acc1 = (EditText) findViewById(R.id.inputacc);
-        am1 = (EditText) findViewById(R.id.inputChequeAmount);
-        pay1 = (Spinner) findViewById(R.id.spinner);
-        accT1 = (TextView) findViewById(R.id.accNumber);
-        cbox1 = (CheckBox) findViewById(R.id.checkboxAcc1);
+        l1 = findViewById(R.id.form1);
+        card1 = findViewById(R.id.cardView_spinner);
+        capt1 = findViewById(R.id.capture_button1);
+        chk1 = findViewById(R.id.cheqepic1);
+        comp1 = findViewById(R.id.inputcompany);
+        tin1 = findViewById(R.id.inputtin);
+        or1 =  findViewById(R.id.inputOR);
+        acc1 = findViewById(R.id.inputacc);
+        am1 = findViewById(R.id.inputChequeAmount);
+        pay1 = findViewById(R.id.spinner);
+        accT1 = findViewById(R.id.accNumber);
+        cbox1 = findViewById(R.id.checkboxAcc1);
 
         //INPUT 2
-        chktitle2 = (TextView) findViewById(R.id.chktitle2);
-        l2 = (LinearLayout) findViewById(R.id.form2);
-        card2 = (CardView) findViewById(R.id.cardView_spinner2);
-        capt2 = (Button) findViewById(R.id.capture_button2);
-        chk2 = (ImageView) findViewById(R.id.cheqepic2);
-        comp2 = (EditText) findViewById(R.id.inputcompany2);
-        tin2 = (EditText) findViewById(R.id.inputtin2);
-        or2 = (EditText) findViewById(R.id.inputOR2);
+        chktitle2 = findViewById(R.id.chktitle2);
+        l2 = findViewById(R.id.form2);
+        card2 = findViewById(R.id.cardView_spinner2);
+        capt2 = findViewById(R.id.capture_button2);
+        chk2 = findViewById(R.id.cheqepic2);
+        comp2 = findViewById(R.id.inputcompany2);
+        tin2 = findViewById(R.id.inputtin2);
+        or2 = findViewById(R.id.inputOR2);
         or2.setInputType(InputType.TYPE_CLASS_NUMBER);
-        acc2 = (EditText) findViewById(R.id.inputacc2);
+        acc2 = findViewById(R.id.inputacc2);
         acc2.setInputType(InputType.TYPE_CLASS_NUMBER);
-        am2 = (EditText) findViewById(R.id.inputChequeAmount2);
+        am2 = findViewById(R.id.inputChequeAmount2);
         am2.setInputType(InputType.TYPE_CLASS_NUMBER);
-        pay2 = (Spinner) findViewById(R.id.spinner2);
-        accT2 = (TextView) findViewById(R.id.accNumber2);
-        del2 = (Button) findViewById(R.id.delete_button2);
-        cbox2 = (CheckBox) findViewById(R.id.checkboxAcc2);
+        pay2 = findViewById(R.id.spinner2);
+        accT2 = findViewById(R.id.accNumber2);
+        del2 = findViewById(R.id.delete_button2);
+        cbox2 = findViewById(R.id.checkboxAcc2);
 
         //INPUT 3
-        chktitle3 = (TextView) findViewById(R.id.chktitle3);
-        l3 = (LinearLayout) findViewById(R.id.form3);
-        card3 = (CardView) findViewById(R.id.cardView_spinner3);
-        capt3 = (Button) findViewById(R.id.capture_button3);
-        chk3 = (ImageView) findViewById(R.id.cheqepic3);
-        comp3 = (EditText) findViewById(R.id.inputcompany3);
-        tin3 = (EditText) findViewById(R.id.inputtin3);
-        or3 = (EditText) findViewById(R.id.inputOR3);
+        chktitle3 = findViewById(R.id.chktitle3);
+        l3 = findViewById(R.id.form3);
+        card3 = findViewById(R.id.cardView_spinner3);
+        capt3 = findViewById(R.id.capture_button3);
+        chk3 = findViewById(R.id.cheqepic3);
+        comp3 = findViewById(R.id.inputcompany3);
+        tin3 = findViewById(R.id.inputtin3);
+        or3 = findViewById(R.id.inputOR3);
         or3.setInputType(InputType.TYPE_CLASS_NUMBER);
-        acc3 = (EditText) findViewById(R.id.inputacc3);
+        acc3 = findViewById(R.id.inputacc3);
         acc3.setInputType(InputType.TYPE_CLASS_NUMBER);
-        am3 = (EditText) findViewById(R.id.inputChequeAmount3);
+        am3 = findViewById(R.id.inputChequeAmount3);
         am3.setInputType(InputType.TYPE_CLASS_NUMBER);
-        pay3 = (Spinner) findViewById(R.id.spinner3);
-        accT3 = (TextView) findViewById(R.id.accNumber3);
-        del3 = (Button) findViewById(R.id.delete_button3);
-        cbox3 = (CheckBox) findViewById(R.id.checkboxAcc3);
+        pay3 = findViewById(R.id.spinner3);
+        accT3 = findViewById(R.id.accNumber3);
+        del3 = findViewById(R.id.delete_button3);
+        cbox3 = findViewById(R.id.checkboxAcc3);
 
         //INPUT 4
-        chktitle4 = (TextView) findViewById(R.id.chktitle4);
-        l4 = (LinearLayout) findViewById(R.id.form4);
-        card4 = (CardView) findViewById(R.id.cardView_spinner4);
-        capt4= (Button) findViewById(R.id.capture_button4);
-        chk4 = (ImageView) findViewById(R.id.cheqepic4);
-        comp4 = (EditText) findViewById(R.id.inputcompany4);
-        tin4 = (EditText) findViewById(R.id.inputtin4);
-        or4 = (EditText) findViewById(R.id.inputOR4);
+        chktitle4 = findViewById(R.id.chktitle4);
+        l4 = findViewById(R.id.form4);
+        card4 = findViewById(R.id.cardView_spinner4);
+        capt4= findViewById(R.id.capture_button4);
+        chk4 = findViewById(R.id.cheqepic4);
+        comp4 = findViewById(R.id.inputcompany4);
+        tin4 = findViewById(R.id.inputtin4);
+        or4 = findViewById(R.id.inputOR4);
         or4.setInputType(InputType.TYPE_CLASS_NUMBER);
-        acc4 = (EditText) findViewById(R.id.inputacc4);
+        acc4 = findViewById(R.id.inputacc4);
         acc4.setInputType(InputType.TYPE_CLASS_NUMBER);
-        am4 = (EditText) findViewById(R.id.inputChequeAmount4);
+        am4 = findViewById(R.id.inputChequeAmount4);
         am4.setInputType(InputType.TYPE_CLASS_NUMBER);
-        pay4 = (Spinner) findViewById(R.id.spinner4);
-        accT4 = (TextView) findViewById(R.id.accNumber4);
-        del4 = (Button) findViewById(R.id.delete_button4);
-        cbox4 = (CheckBox) findViewById(R.id.checkboxAcc4);
+        pay4 = findViewById(R.id.spinner4);
+        accT4 = findViewById(R.id.accNumber4);
+        del4 = findViewById(R.id.delete_button4);
+        cbox4 = findViewById(R.id.checkboxAcc4);
 
         //INPUT 5
-        chktitle5 = (TextView) findViewById(R.id.chktitle5);
-        l5 = (LinearLayout) findViewById(R.id.form5);
-        card5 = (CardView) findViewById(R.id.cardView_spinner5);
-        capt5= (Button) findViewById(R.id.capture_button5);
-        chk5 = (ImageView) findViewById(R.id.cheqepic5);
-        comp5 = (EditText) findViewById(R.id.inputcompany5);
-        tin5 = (EditText) findViewById(R.id.inputtin5);
-        or5 = (EditText) findViewById(R.id.inputOR5);
+        chktitle5 = findViewById(R.id.chktitle5);
+        l5 = findViewById(R.id.form5);
+        card5 = findViewById(R.id.cardView_spinner5);
+        capt5= findViewById(R.id.capture_button5);
+        chk5 = findViewById(R.id.cheqepic5);
+        comp5 = findViewById(R.id.inputcompany5);
+        tin5 = findViewById(R.id.inputtin5);
+        or5 = findViewById(R.id.inputOR5);
         or5.setInputType(InputType.TYPE_CLASS_NUMBER);
-        acc5 = (EditText) findViewById(R.id.inputacc5);
+        acc5 = findViewById(R.id.inputacc5);
         acc5.setInputType(InputType.TYPE_CLASS_NUMBER);
-        am5 = (EditText) findViewById(R.id.inputChequeAmount5);
+        am5 = findViewById(R.id.inputChequeAmount5);
         am5.setInputType(InputType.TYPE_CLASS_NUMBER);
-        pay5 = (Spinner) findViewById(R.id.spinner5);
-        accT5 = (TextView) findViewById(R.id.accNumber5);
-        del5 = (Button) findViewById(R.id.delete_button5);
-        cbox5 = (CheckBox) findViewById(R.id.checkboxAcc5);
+        pay5 = findViewById(R.id.spinner5);
+        accT5 = findViewById(R.id.accNumber5);
+        del5 = findViewById(R.id.delete_button5);
+        cbox5 = findViewById(R.id.checkboxAcc5);
 
         //INPUT 6
-        chktitle6 = (TextView) findViewById(R.id.chktitle6);
-        l6 = (LinearLayout) findViewById(R.id.form6);
-        card6 = (CardView) findViewById(R.id.cardView_spinner6);
-        capt6= (Button) findViewById(R.id.capture_button6);
-        chk6 = (ImageView) findViewById(R.id.cheqepic6);
-        comp6 = (EditText) findViewById(R.id.inputcompany6);
-        tin6 = (EditText) findViewById(R.id.inputtin6);
-        or6 = (EditText) findViewById(R.id.inputOR6);
+        chktitle6 = findViewById(R.id.chktitle6);
+        l6 = findViewById(R.id.form6);
+        card6 = findViewById(R.id.cardView_spinner6);
+        capt6= findViewById(R.id.capture_button6);
+        chk6 = findViewById(R.id.cheqepic6);
+        comp6 = findViewById(R.id.inputcompany6);
+        tin6 = findViewById(R.id.inputtin6);
+        or6 = findViewById(R.id.inputOR6);
         or6.setInputType(InputType.TYPE_CLASS_NUMBER);
-        acc6 = (EditText) findViewById(R.id.inputacc6);
+        acc6 = findViewById(R.id.inputacc6);
         acc6.setInputType(InputType.TYPE_CLASS_NUMBER);
-        am6 = (EditText) findViewById(R.id.inputChequeAmount6);
+        am6 = findViewById(R.id.inputChequeAmount6);
         am6.setInputType(InputType.TYPE_CLASS_NUMBER);
-        pay6 = (Spinner) findViewById(R.id.spinner6);
-        accT6 = (TextView) findViewById(R.id.accNumber6);
-        del6 = (Button) findViewById(R.id.delete_button6);
-        cbox6 = (CheckBox) findViewById(R.id.checkboxAcc6);
+        pay6 = findViewById(R.id.spinner6);
+        accT6 = findViewById(R.id.accNumber6);
+        del6 = findViewById(R.id.delete_button6);
+        cbox6 = findViewById(R.id.checkboxAcc6);
 
         comp1.setText(lm.getComp());
         comp2.setText(lm.getComp());
@@ -258,8 +254,8 @@ public class OfficialReceipt extends AppCompatActivity {
 
         addLists();
 
-        back_button = (TextView) findViewById(R.id.back_button);
-        confirm_btn = (Button) findViewById(R.id.confirm_button);
+        back_button = findViewById(R.id.back_button);
+        confirm_btn = findViewById(R.id.confirm_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -283,237 +279,197 @@ public class OfficialReceipt extends AppCompatActivity {
             amoArr = amount.split(",");
             imgArr = img.split(",");
 
-            /*if (accArr.length == 1) {
-                acc1.setVisibility(View.GONE);
-                acc2.setVisibility(View.GONE);
-                acc3.setVisibility(View.GONE);
-                acc4.setVisibility(View.GONE);
-                acc5.setVisibility(View.GONE);
-                acc6.setVisibility(View.GONE);
-
-                acc1.setText("");
-                acc2.setText("");
-                acc3.setText("");
-                acc4.setText("");
-                acc5.setText("");
-                ;
-                acc6.setText("");
-
-                accT1.setVisibility(View.GONE);
-                accT2.setVisibility(View.GONE);
-                accT3.setVisibility(View.GONE);
-                accT4.setVisibility(View.GONE);
-                accT5.setVisibility(View.GONE);
-                accT6.setVisibility(View.GONE);
-            } else {
-                acc1.setVisibility(View.VISIBLE);
-                acc2.setVisibility(View.VISIBLE);
-                acc3.setVisibility(View.VISIBLE);
-                acc4.setVisibility(View.VISIBLE);
-                acc5.setVisibility(View.VISIBLE);
-                acc6.setVisibility(View.VISIBLE);
-
-                accT1.setVisibility(View.VISIBLE);
-                accT2.setVisibility(View.VISIBLE);
-                accT3.setVisibility(View.VISIBLE);
-                accT4.setVisibility(View.VISIBLE);
-                accT5.setVisibility(View.VISIBLE);
-                accT6.setVisibility(View.VISIBLE);
-            }*/
-                for (int i = 0; i < payArr.length; i++) {
-                    try {
-                        if (i == 0) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            comp1.setText(lm.getComp());
-                            tin1.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc1.setText("Multiple Accounts");
-                                cbox1.setChecked(true);
-                                acc1.setEnabled(false);
-                            } else {
-                                acc1.setText(accArr[i]);
-                                cbox1.setChecked(false);
-                                acc1.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay1.setSelection(0);
-                            } else {
-                                pay1.setSelection(pos);
-                            }
-                            or1.setText(ornumArr[i]);
-                            am1.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk1.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            //count = count + 1;
-                        } else if (i == 1) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            l2.setVisibility(View.VISIBLE);
-                            comp2.setText(lm.getComp());
-                            tin2.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc2.setText("Multiple Accounts");
-                                cbox2.setChecked(true);
-                                acc2.setEnabled(false);
-                            } else {
-                                acc2.setText(accArr[i]);
-                                cbox2.setChecked(false);
-                                acc2.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay2.setSelection(0);
-                            } else {
-                                pay2.setSelection(pos);
-                            }
-                            or2.setText(ornumArr[i]);
-                            am2.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk2.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            count = count + 1;
-                            //chktitle2.setText("Cheque " + count);
-                        } else if (i == 2) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            l3.setVisibility(View.VISIBLE);
-                            comp3.setText(lm.getComp());
-                            tin3.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc3.setText("Multiple Accounts");
-                                cbox3.setChecked(true);
-                                acc3.setEnabled(false);
-                            } else {
-                                acc3.setText(accArr[i]);
-                                cbox3.setChecked(false);
-                                acc3.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay3.setSelection(0);
-                            } else {
-                                pay3.setSelection(pos);
-                            }
-                            or3.setText(ornumArr[i]);
-                            am3.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk3.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            count = count + 1;
-                            //chktitle3.setText("Cheque " + count);
-                        } else if (i == 3) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            l4.setVisibility(View.VISIBLE);
-                            comp4.setText(lm.getComp());
-                            tin4.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc4.setText("Multiple Accounts");
-                                cbox4.setChecked(true);
-                                acc4.setEnabled(false);
-                            } else {
-                                acc4.setText(accArr[i]);
-                                cbox4.setChecked(false);
-                                acc4.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay4.setSelection(0);
-                            } else {
-                                pay4.setSelection(pos);
-                            }
-                            or4.setText(ornumArr[i]);
-                            am4.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk4.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            count = count + 1;
-                            //chktitle4.setText("Cheque " + count);
-                        } else if (i == 4) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            l5.setVisibility(View.VISIBLE);
-                            comp5.setText(lm.getComp());
-                            tin5.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc5.setText("Multiple Accounts");
-                                cbox5.setChecked(true);
-                                acc5.setEnabled(false);
-                            } else {
-                                acc5.setText(accArr[i]);
-                                cbox5.setChecked(false);
-                                acc5.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay5.setSelection(0);
-                            } else {
-                                pay5.setSelection(pos);
-                            }
-                            or5.setText(ornumArr[i]);
-                            am5.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk5.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            count = count + 1;
-                            //chktitle5.setText("Cheque " + count);
-                            addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                            addBtn.setActivated(false);
-                        } else if (i == 5) {
-                            int pos = adapter.getPosition(payArr[i]);
-                            l6.setVisibility(View.VISIBLE);
-                            comp6.setText(lm.getComp());
-                            tin6.setText(rm.getTin());
-                            if (accArr[i].equals("Multiple Accounts")){
-                                acc6.setText("Multiple Accounts");
-                                cbox6.setChecked(true);
-                                acc6.setEnabled(false);
-                            } else {
-                                acc6.setText(accArr[i]);
-                                cbox6.setChecked(false);
-                                acc6.setEnabled(true);
-                            }
-                            if (payArr[i].isEmpty() || payArr[i].equals("")) {
-                                pay6.setSelection(0);
-                            } else {
-                                pay6.setSelection(pos);
-                            }
-                            or6.setText(ornumArr[i]);
-                            am6.setText(amoArr[i]);
-                            File img = new File(imgArr[i]);
-                            if (img.exists()) {
-                                Uri imageUri = Uri.fromFile(img);
-
-                                chk6.setImageURI(imageUri);
-                                pics.add(imgArr[i]);
-                            }
-                            count = count + 1;
-                            //chktitle6.setText("Cheque " + count);
-                            //addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
-                            //addBtn.setActivated(false);
+            for (int i = 0; i < payArr.length; i++) {
+                try {
+                    if (i == 0) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        comp1.setText(lm.getComp());
+                        tin1.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc1.setText("Multiple Accounts");
+                            cbox1.setChecked(true);
+                            acc1.setEnabled(false);
+                        } else {
+                            acc1.setText(accArr[i]);
+                            cbox1.setChecked(false);
+                            acc1.setEnabled(true);
                         }
-                        //count++;
+                        if (payArr[i].isEmpty()) {
+                            pay1.setSelection(0);
+                        } else {
+                            pay1.setSelection(pos);
+                        }
+                        or1.setText(ornumArr[i]);
+                        am1.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk1.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        //count = count + 1;
+                    } else if (i == 1) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        l2.setVisibility(View.VISIBLE);
+                        comp2.setText(lm.getComp());
+                        tin2.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc2.setText("Multiple Accounts");
+                            cbox2.setChecked(true);
+                            acc2.setEnabled(false);
+                        } else {
+                            acc2.setText(accArr[i]);
+                            cbox2.setChecked(false);
+                            acc2.setEnabled(true);
+                        }
+                        if (payArr[i].isEmpty()) {
+                            pay2.setSelection(0);
+                        } else {
+                            pay2.setSelection(pos);
+                        }
+                        or2.setText(ornumArr[i]);
+                        am2.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk2.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        count = count + 1;
+                        //chktitle2.setText("Cheque " + count);
+                    } else if (i == 2) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        l3.setVisibility(View.VISIBLE);
+                        comp3.setText(lm.getComp());
+                        tin3.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc3.setText("Multiple Accounts");
+                            cbox3.setChecked(true);
+                            acc3.setEnabled(false);
+                        } else {
+                            acc3.setText(accArr[i]);
+                            cbox3.setChecked(false);
+                            acc3.setEnabled(true);
+                        }
+                        if (payArr[i].isEmpty()) {
+                            pay3.setSelection(0);
+                        } else {
+                            pay3.setSelection(pos);
+                        }
+                        or3.setText(ornumArr[i]);
+                        am3.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk3.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        count = count + 1;
+                        //chktitle3.setText("Cheque " + count);
+                    } else if (i == 3) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        l4.setVisibility(View.VISIBLE);
+                        comp4.setText(lm.getComp());
+                        tin4.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc4.setText("Multiple Accounts");
+                            cbox4.setChecked(true);
+                            acc4.setEnabled(false);
+                        } else {
+                            acc4.setText(accArr[i]);
+                            cbox4.setChecked(false);
+                            acc4.setEnabled(true);
+                        }
+                        if (payArr[i].isEmpty()) {
+                            pay4.setSelection(0);
+                        } else {
+                            pay4.setSelection(pos);
+                        }
+                        or4.setText(ornumArr[i]);
+                        am4.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk4.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        count = count + 1;
+                        //chktitle4.setText("Cheque " + count);
+                    } else if (i == 4) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        l5.setVisibility(View.VISIBLE);
+                        comp5.setText(lm.getComp());
+                        tin5.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc5.setText("Multiple Accounts");
+                            cbox5.setChecked(true);
+                            acc5.setEnabled(false);
+                        } else {
+                            acc5.setText(accArr[i]);
+                            cbox5.setChecked(false);
+                            acc5.setEnabled(true);
+                        }
+                        if (payArr[i].isEmpty()) {
+                            pay5.setSelection(0);
+                        } else {
+                            pay5.setSelection(pos);
+                        }
+                        or5.setText(ornumArr[i]);
+                        am5.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk5.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        count = count + 1;
+                        //chktitle5.setText("Cheque " + count);
+                        addBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                        addBtn.setActivated(false);
+                    } else if (i == 5) {
+                        int pos = adapter.getPosition(payArr[i]);
+                        l6.setVisibility(View.VISIBLE);
+                        comp6.setText(lm.getComp());
+                        tin6.setText(rm.getTin());
+                        if (accArr[i].equals("Multiple Accounts")){
+                            acc6.setText("Multiple Accounts");
+                            cbox6.setChecked(true);
+                            acc6.setEnabled(false);
+                        } else {
+                            acc6.setText(accArr[i]);
+                            cbox6.setChecked(false);
+                            acc6.setEnabled(true);
+                        }
+                        if (payArr[i].isEmpty()) {
+                            pay6.setSelection(0);
+                        } else {
+                            pay6.setSelection(pos);
+                        }
+                        or6.setText(ornumArr[i]);
+                        am6.setText(amoArr[i]);
+                        File img = new File(imgArr[i]);
+                        if (img.exists()) {
+                            Uri imageUri = Uri.fromFile(img);
+
+                            chk6.setImageURI(imageUri);
+                            pics.add(imgArr[i]);
+                        }
+                        count = count + 1;
                     }
-                    catch (IndexOutOfBoundsException e) {
-                        //Toast.makeText(OfficialReceipt.this, "i - " + i + " s - " + payArr.length, Toast.LENGTH_SHORT).show();
-                        for(int x = 0; i < payArr.length; i++){
-                            Log.d("Result", "Result" + x + ": " + payArr[x]);
-                        }
+                    //count++;
+                }
+                catch (IndexOutOfBoundsException e) {
+                    //Toast.makeText(OfficialReceipt.this, "i - " + i + " s - " + payArr.length, Toast.LENGTH_SHORT).show();
+                    for(int x = 0; i < payArr.length; i++){
+                        Log.d("Result", "Result" + x + ": " + payArr[x]);
                     }
                 }
+            }
 
         }
 
@@ -521,50 +477,6 @@ public class OfficialReceipt extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                /*if(multAcc.isChecked()){
-                    acc1.setVisibility(View.GONE);
-                    acc2.setVisibility(View.GONE);
-                    acc3.setVisibility(View.GONE);
-                    acc4.setVisibility(View.GONE);
-                    acc5.setVisibility(View.GONE);
-                    acc6.setVisibility(View.GONE);
-
-                    acc1.setText("");
-                    acc2.setText("");
-                    acc3.setText("");
-                    acc4.setText("");
-                    acc5.setText("");;
-                    acc6.setText("");
-
-                    accT1.setVisibility(View.GONE);
-                    accT2.setVisibility(View.GONE);
-                    accT3.setVisibility(View.GONE);
-                    accT4.setVisibility(View.GONE);
-                    accT5.setVisibility(View.GONE);
-                    accT6.setVisibility(View.GONE);
-                }
-                else if(!(multAcc.isChecked())){
-                    acc1.setVisibility(View.VISIBLE);
-                    acc2.setVisibility(View.VISIBLE);
-                    acc3.setVisibility(View.VISIBLE);
-                    acc4.setVisibility(View.VISIBLE);
-                    acc5.setVisibility(View.VISIBLE);
-                    acc6.setVisibility(View.VISIBLE);
-
-                    acc1.setText("");
-                    acc2.setText("");
-                    acc3.setText("");
-                    acc4.setText("");
-                    acc5.setText("");;
-                    acc6.setText("");
-
-                    accT1.setVisibility(View.VISIBLE);
-                    accT2.setVisibility(View.VISIBLE);
-                    accT3.setVisibility(View.VISIBLE);
-                    accT4.setVisibility(View.VISIBLE);
-                    accT5.setVisibility(View.VISIBLE);
-                    accT6.setVisibility(View.VISIBLE);
-                }*/
             }
         };
 
@@ -619,12 +531,11 @@ public class OfficialReceipt extends AppCompatActivity {
                         //chktitle6.setText("Cheque " + count);
                     }
                 }
-                else if(deleted.size() > 0){
+                else {
+                    deleted.size();
                     if(deleted.size() == 1){
                         deleted.get(0).setVisibility(View.VISIBLE);
                         tv.get(0).setText(tin1.getText().toString());
-                        //acc.get(0).setText(acc1.getText().toString());
-                        //chktitle.get(0).setText("Cheque " + String.valueOf(count));
                         deleted.remove(0);
                         tv.remove(0);
                         acc.remove(0);
@@ -633,8 +544,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     else{
                         deleted.get(deleted.size() - 1).setVisibility(View.VISIBLE);
                         tv.get(tv.size() - 1).setText(tin1.getText().toString());
-                        //acc.get(acc.size() - 1).setText(acc1.getText().toString());
-                        //chktitle.get(chktitle.size() - 1).setText("Cheque " + String.valueOf(count));
                         deleted.remove(deleted.size() - 1);
                         tv.remove(tv.size() - 1);
                         acc.remove(acc.size() - 1);
@@ -647,26 +556,6 @@ public class OfficialReceipt extends AppCompatActivity {
                         addBtn.setEnabled(false);
                     }
                 }
-                /*
-                chktitle3.setText("Cheque 3");
-                chktitle4.setText("Cheque 4");
-                chktitle5.setText("Cheque 5");
-                chktitle6.setText("Cheque 6");
-
-                String title3 = chktitle3.getText().toString();
-                String title4 = chktitle4.getText().toString();
-                String title5 = chktitle5.getText().toString();
-                String title6 = chktitle6.getText().toString();
-
-                int t3 = Integer.parseInt(String.valueOf(title3.charAt(title3.length() - 1)));
-                int t4 = Integer.parseInt(String.valueOf(title4.charAt(title4.length() - 1)));
-                int t5 = Integer.parseInt(String.valueOf(title5.charAt(title5.length() - 1)));
-                int t6 = Integer.parseInt(String.valueOf(title6.charAt(title6.length() - 1)));
-
-                chktitle3.setText("Cheque 3");
-                chktitle4.setText("Cheque 4");
-                chktitle5.setText("Cheque 5");
-                chktitle6.setText("Cheque 6");*/
 
             }
         });
@@ -794,21 +683,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                     count--;
 
-                    /*
-                    String title3 = chktitle3.getText().toString();
-                    String title4 = chktitle4.getText().toString();
-                    String title5 = chktitle5.getText().toString();
-                    String title6 = chktitle6.getText().toString();
-
-                    int t3 = Integer.parseInt(String.valueOf(title3.charAt(title3.length() - 1))) - 1;
-                    int t4 = Integer.parseInt(String.valueOf(title4.charAt(title4.length() - 1))) - 1;
-                    int t5 = Integer.parseInt(String.valueOf(title5.charAt(title5.length() - 1))) - 1;
-                    int t6 = Integer.parseInt(String.valueOf(title6.charAt(title6.length() - 1))) - 1;
-
-                    chktitle3.setText("Cheque " + t3);
-                    chktitle4.setText("Cheque " + t4);
-                    chktitle5.setText("Cheque " + t5);
-                    chktitle6.setText("Cheque " + t6);*/
                 }
                 else if(buttonID == R.id.delete_button3){
                     l3.setVisibility(View.GONE);
@@ -839,20 +713,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                     count--;
 
-                    /*String title3 = chktitle3.getText().toString();
-                    String title4 = chktitle4.getText().toString();
-                    String title5 = chktitle5.getText().toString();
-                    String title6 = chktitle6.getText().toString();
-
-                    //int t3 = Integer.parseInt(String.valueOf(title3.charAt(title3.length() - 1))) - 1;
-                    int t4 = Integer.parseInt(String.valueOf(title4.charAt(title4.length() - 1))) - 1;
-                    int t5 = Integer.parseInt(String.valueOf(title5.charAt(title5.length() - 1))) - 1;
-                    int t6 = Integer.parseInt(String.valueOf(title6.charAt(title6.length() - 1))) - 1;
-
-                    //chktitle3.setText("Cheque " + t3);
-                    chktitle4.setText("Cheque " + t4);
-                    chktitle5.setText("Cheque " + t5);
-                    chktitle6.setText("Cheque " + t6);*/
                 }
                 else if(buttonID == R.id.delete_button4){
                     l4.setVisibility(View.GONE);
@@ -883,20 +743,6 @@ public class OfficialReceipt extends AppCompatActivity {
                     }
                     count--;
 
-                    /*String title3 = chktitle3.getText().toString();
-                    //String title4 = chktitle4.getText().toString();
-                    String title5 = chktitle5.getText().toString();
-                    String title6 = chktitle6.getText().toString();
-
-                    //int t3 = Integer.parseInt(String.valueOf(title3.charAt(title3.length() - 1))) - 1;
-                    //int t4 = Integer.parseInt(String.valueOf(title4.charAt(title4.length() - 1))) - 1;
-                    int t5 = Integer.parseInt(String.valueOf(title5.charAt(title5.length() - 1))) - 1;
-                    int t6 = Integer.parseInt(String.valueOf(title6.charAt(title6.length() - 1))) - 1;
-
-                    //chktitle3.setText("Cheque " + t3);
-                    //chktitle4.setText("Cheque " + t4);
-                    chktitle5.setText("Cheque " + t5);
-                    chktitle6.setText("Cheque " + t6);*/
                 }
                 else if(buttonID == R.id.delete_button5){
                     l5.setVisibility(View.GONE);
@@ -926,20 +772,6 @@ public class OfficialReceipt extends AppCompatActivity {
                         }
                     }
                     count--;
-                    /*String title3 = chktitle3.getText().toString();
-                    //String title4 = chktitle4.getText().toString();
-                    //String title5 = chktitle5.getText().toString();
-                    String title6 = chktitle6.getText().toString();
-
-                    //int t3 = Integer.parseInt(String.valueOf(title3.charAt(title3.length() - 1))) - 1;
-                    //int t4 = Integer.parseInt(String.valueOf(title4.charAt(title4.length() - 1))) - 1;
-                    //int t5 = Integer.parseInt(String.valueOf(title5.charAt(title5.length() - 1))) - 1;
-                    int t6 = Integer.parseInt(String.valueOf(title6.charAt(title6.length() - 1))) - 1;
-
-                    //chktitle3.setText("Cheque " + t3);
-                    //chktitle4.setText("Cheque " + t4);
-                    //chktitle5.setText("Cheque " + t5);
-                    chktitle6.setText("Cheque " + t6);*/
                 }
                 else if(buttonID == R.id.delete_button6){
                     l6.setVisibility(View.GONE);
@@ -978,161 +810,6 @@ public class OfficialReceipt extends AppCompatActivity {
         del4.setOnClickListener(bcl);
         del5.setOnClickListener(bcl);
         del6.setOnClickListener(bcl);
-
-        /*
-        del2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                l2.setVisibility(View.GONE);
-                pay2.setSelection(0);
-                tin2.setText("");
-                acc2.setText("");
-                or2.setText("");
-                am2.setText("");
-                deleted.add(l2);
-                tv.add(tin2);
-                chk2.setImageDrawable(null);
-                cameraDel = 2;
-                if(count >= 5){
-                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
-                    addBtn.setEnabled(true);
-                }
-                String name = "IMG-Cheque"+cameraDel;
-
-                Iterator<String> iterator = pics.iterator();
-                while(iterator.hasNext()){
-                    String elem = iterator.next();
-                    if(elem.contains(name)){
-                        iterator.remove();
-                    }
-                }
-                count--;
-            }
-        });
-        del3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                l3.setVisibility(View.GONE);
-                pay3.setSelection(0);
-                tin3.setText("");
-                acc3.setText("");
-                or3.setText("");
-                am3.setText("");
-                deleted.add(l3);
-                tv.add(tin3);
-                chk3.setImageDrawable(null);
-                cameraDel = 3;
-                if(count >= 5){
-                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
-                    addBtn.setEnabled(true);
-                }
-
-                String name = "IMG-Cheque"+cameraDel;
-
-                Iterator<String> iterator = pics.iterator();
-                while(iterator.hasNext()){
-                    String elem = iterator.next();
-                    if(elem.contains(name)){
-                        iterator.remove();
-                    }
-                }
-                count--;
-                //chktitle2.setText("Cheque " + count);
-            }
-        });
-        del4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                l4.setVisibility(View.GONE);
-                pay4.setSelection(0);
-                tin4.setText("");
-                acc4.setText("");
-                or4.setText("");
-                am4.setText("");
-                deleted.add(l4);
-                tv.add(tin4);
-                chk4.setImageDrawable(null);
-                cameraDel = 4;
-                if(count >= 5){
-                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
-                    addBtn.setEnabled(true);
-                }
-
-                String name = "IMG-Cheque"+cameraDel;
-
-                Iterator<String> iterator = pics.iterator();
-                while(iterator.hasNext()){
-                    String elem = iterator.next();
-                    if(elem.contains(name)){
-                        iterator.remove();
-                    }
-                }
-                count--;
-                //chktitle3.setText("Cheque " + count);
-            }
-        });
-        del5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                l5.setVisibility(View.GONE);
-                pay5.setSelection(0);
-                tin5.setText("");
-                or5.setText("");
-                acc5.setText("");
-                am5.setText("");
-                deleted.add(l5);
-                tv.add(tin5);
-                chk5.setImageDrawable(null);
-                cameraDel = 5;
-                if(count >= 5){
-                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
-                    addBtn.setEnabled(true);
-                }
-
-                String name = "IMG-Cheque"+cameraDel;
-
-                Iterator<String> iterator = pics.iterator();
-                while(iterator.hasNext()){
-                    String elem = iterator.next();
-                    if(elem.contains(name)){
-                        iterator.remove();
-                    }
-                }
-                count--;
-                //chktitle4.setText("Cheque " + count);
-            }
-        });
-        del6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                l6.setVisibility(View.GONE);
-                pay6.setSelection(0);
-                tin6.setText("");
-                acc6.setText("");
-                or6.setText("");
-                am6.setText("");
-                deleted.add(l6);
-                tv.add(tin6);
-                chk6.setImageDrawable(null);
-                cameraDel = 6;
-                if(count >= 5){
-                    addBtn.setBackground(getResources().getDrawable(R.drawable.btn_secondary));
-                    addBtn.setEnabled(true);
-                }
-
-                String name = "IMG-Cheque"+cameraDel;
-
-                Iterator<String> iterator = pics.iterator();
-                while(iterator.hasNext()){
-                    String elem = iterator.next();
-                    if(elem.contains(name)){
-                        iterator.remove();
-                    }
-                }
-                count--;
-                //chktitle5.setText("Cheque " + count);
-            }
-        });*/
 
         capt1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1221,7 +898,8 @@ public class OfficialReceipt extends AppCompatActivity {
                 if (pics.size() == 0 || pics.size() != count) {
                     Toast.makeText(OfficialReceipt.this, "Cheque Pictures Missing", Toast.LENGTH_SHORT).show();
                 }
-                else if (pics.size() == count) {
+                else {
+                    pics.size();
                     try {
                         for (int i = 0; i < count; i++) {
                             if(companyInput.get(i).getText().toString().isEmpty() || tinInput.get(i).getText().toString().isEmpty()
@@ -1355,8 +1033,6 @@ public class OfficialReceipt extends AppCompatActivity {
         String comp = lm.getComp();
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";
-        //String imageName = "IMG-Cheque_"+ comp + "_" + time;
         String imageCheck = "IMG-Cheque" + cameraTurn;
         String imageName = "IMG-Cheque" + cameraTurn + "_"+ comp + "_" + time;
 
@@ -1388,14 +1064,14 @@ public class OfficialReceipt extends AppCompatActivity {
             if(isUpdate == true){
                 isUpdate = false;
             }
-            else if(isUpdate == false){
+            else{
                 for(int i = 0; i < pics.size(); i++){
                     String item = pics.get(i);
                     if(item.equals(imageArr)){
-                       int indexUpdate = pics.indexOf(item);
-                       pics.set(indexUpdate, imageArr);
-                       isSet1 = true;
-                       break;
+                        int indexUpdate = pics.indexOf(item);
+                        pics.set(indexUpdate, imageArr);
+                        isSet1 = true;
+                        break;
                     }
                 }
 
@@ -1425,12 +1101,6 @@ public class OfficialReceipt extends AppCompatActivity {
                 isSet2 = false;
             }
         }
-        /*String[] explode = imageArr.split(",");
-        Arrays.sort(explode);
-        for(int i = 0; i<explode.length; i++){
-            imageArr += explode[i] + ",";
-        }
-        imageArr = imageArr.substring(0, imageArr.length() - 1);*/
 
         currentPhotoPath = imageFile.getAbsolutePath();
         return imageFile;
@@ -1439,11 +1109,6 @@ public class OfficialReceipt extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == RESULT_OK) {
-                /*captured_image = (ImageView) findViewById(R.id.captured_image);
-                Bitmap bitmapDisplay = (Bitmap) data.getExtras().get("data");
-                captured_image.setImageBitmap(bitmapDisplay);
-
-                saveImageToGallery(bitmapDisplay);*/
             if(cameraTurn == 1){
                 //Toast.makeText(this, "" + currentPhotoPath, Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(currentPhotoPath), 700, 900, false);
@@ -1515,8 +1180,6 @@ public class OfficialReceipt extends AppCompatActivity {
             isEdit = false;
             isUpdate = false;
             ReceiptManagement rm = new ReceiptManagement(OfficialReceipt.this);
-            //LocationManagement lm = new LocationManagement(OfficialReceipt.this);
-            //lm.removeLocation();
             rm.removeReceipt();
         }
     }

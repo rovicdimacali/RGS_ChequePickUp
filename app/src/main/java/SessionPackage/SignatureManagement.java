@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SignatureManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_SIGN = "session_sign";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_SIGN = "session_sign";
 
     public SignatureManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

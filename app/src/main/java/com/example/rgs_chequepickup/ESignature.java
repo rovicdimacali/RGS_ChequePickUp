@@ -16,24 +16,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.SignatureManagement;
@@ -41,19 +37,16 @@ import SessionPackage.SignatureSession;
 import SessionPackage.cancelManagement;
 
 public class ESignature extends AppCompatActivity {
-    Intent cancel;
     int hasCancel = 0;
 
     //String pointPerson, cancel;
-    private Button clear_img, save_image, next_btn;
+    private Button clear_img, save_image;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private SignaturePad signature_pad;
 
-    private ImageView imageView;
-
-    private TextView back_button;
+    TextView back_button;
     String cancelStatus;
     EditText name;
     @Override
@@ -65,13 +58,13 @@ public class ESignature extends AppCompatActivity {
         cancelManagement cm = new cancelManagement(ESignature.this);
         cancelStatus = cm.getCancel();
 
-        name = (EditText) findViewById(R.id.name);
+        name = findViewById(R.id.name);
 
-        clear_img = (Button) findViewById(R.id.clear_img);
+        clear_img = findViewById(R.id.clear_img);
 
-        save_image = (Button) findViewById(R.id.save_image);
+        save_image = findViewById(R.id.save_image);
 
-        back_button = (TextView) findViewById(R.id.back_button);
+        back_button = findViewById(R.id.back_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -81,36 +74,24 @@ public class ESignature extends AppCompatActivity {
         if(!cancelStatus.equals("none")){
             hasCancel = 1;
             name.setText(cm.getPoint());
-            //save_image.setEnabled(false);
-            //clear_img.setEnabled(false);
-            //Toast.makeText(ESignature.this, "" + cm.getCancel(), Toast.LENGTH_SHORT).show();
-        }
-        else if(cancelStatus.equals("none")){
-            hasCancel = 0;
         }
 
-        //next_btn = (Button) findViewById(R.id.next_btn);
-        //imageView = (ImageView) findViewById(R.id.imageView);
-
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                if(hasCancel == 1){
-                    cancelManagement cm = new cancelManagement(ESignature.this);
-                    cm.removeCancel();
-                    intent = new Intent(ESignature.this, CancelActivity.class);
-                }
-                else{
-                    intent = new Intent(ESignature.this, RemarksActivity.class);
-                }
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+        back_button.setOnClickListener(v -> {
+            Intent intent;
+            if(hasCancel == 1){
+                cancelManagement cm1 = new cancelManagement(ESignature.this);
+                cm1.removeCancel();
+                intent = new Intent(ESignature.this, CancelActivity.class);
             }
+            else{
+                intent = new Intent(ESignature.this, RemarksActivity.class);
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
 
-        signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
+        signature_pad = findViewById(R.id.signature_pad);
         signature_pad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
             public void onStartSigning() {
@@ -125,51 +106,34 @@ public class ESignature extends AppCompatActivity {
 
             @Override
             public void onClear() {
-                //save_image.setEnabled(false);
-                //clear_img.setEnabled(false);
             }
         });
 
-        clear_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signature_pad.clear();
-            }
-        });
+        clear_img.setOnClickListener(v -> signature_pad.clear());
 
-        save_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
-                if (addJpgSignatureToGallery(signatureBitmap) == true) {
-                    Intent intent;
-                    if(hasCancel == 1){
-                        intent = new Intent(ESignature.this, Failed.class);
-                        /*intent.putExtra("pointPerson", cancel.getStringExtra("pointPerson"));
-                        intent.putExtra("cancel", cancel.getStringExtra("cancel"));*/
-                    }
-                    else{
-                        intent = new Intent(ESignature.this, OfficialReceipt.class);
-                    }
-                    startActivity(intent);
-                    finish();
-                    //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(ESignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
+        save_image.setOnClickListener(view -> {
+            Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
+            if (addJpgSignatureToGallery(signatureBitmap)) {
+                Intent intent;
+                if(hasCancel == 1){
+                    intent = new Intent(ESignature.this, Failed.class);
                 }
-                /*if (addSvgSignatureToGallery(signature_pad.getSignatureSvg())) {
-                    Toast.makeText(ESignature.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ESignature.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
-                }*/
+                else{
+                    intent = new Intent(ESignature.this, OfficialReceipt.class);
+                }
+                startActivity(intent);
+                finish();
+                //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(ESignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],@NonNull int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_EXTERNAL_STORAGE: {
@@ -197,9 +161,12 @@ public class ESignature extends AppCompatActivity {
         Canvas canvas = new Canvas(newBitmap);
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, 0, 0, null);
-        OutputStream stream = new FileOutputStream(photo);
+        OutputStream stream = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            stream = Files.newOutputStream(photo.toPath());
+        }
         newBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-        stream.close();
+        Objects.requireNonNull(stream).close();
     }
 
     public boolean addJpgSignatureToGallery(Bitmap signature) {
@@ -225,15 +192,10 @@ public class ESignature extends AppCompatActivity {
         sm.saveSign(ss);
 
         try {
-            if(signature == null){
-                result = false;
-            }
-            else{
-                File photo = new File(getAlbumStorageDir("RGS_Express Signs"), String.format(fileName, System.currentTimeMillis()));
-                saveBitmapToJPG(signature, photo);
-                scanMediaFile(photo);
-                result = true;
-            }
+            File photo = new File(getAlbumStorageDir("RGS_Express Signs"), String.format(fileName, System.currentTimeMillis()));
+            saveBitmapToJPG(signature, photo);
+            scanMediaFile(photo);
+            result = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -246,24 +208,6 @@ public class ESignature extends AppCompatActivity {
         mediaScanIntent.setData(contentUri);
         ESignature.this.sendBroadcast(mediaScanIntent);
     }
-
-    /*public boolean addSvgSignatureToGallery(String signatureSvg) {
-        boolean result = false;
-        try {
-            File svgFile = new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.svg", System.currentTimeMillis()));
-            OutputStream stream = new FileOutputStream(svgFile);
-            OutputStreamWriter writer = new OutputStreamWriter(stream);
-            writer.write(signatureSvg);
-            writer.close();
-            stream.flush();
-            stream.close();
-            scanMediaFile(svgFile);
-            result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }*/
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission

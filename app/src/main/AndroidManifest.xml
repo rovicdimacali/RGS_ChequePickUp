@@ -91,34 +91,7 @@
             android:name=".ChequePickUp"
             android:exported="false" />
         <activity
-            android:name=".ChangePassword"
-            android:exported="false" />
-        <activity
-            android:name=".EnterNewPassForgot"
-            android:exported="false" />
-        <activity
-            android:name=".EnterNewPassword"
-            android:exported="false" />
-        <activity
-            android:name=".OneTimePassChangePass"
-            android:exported="false" />
-        <activity
-            android:name=".OneTimePassForgotPass"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPassword"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotEmail"
-            android:exported="false" />
-        <activity
-            android:name=".OneTimePass"
-            android:exported="false" />
-        <activity
             android:name=".Congratulations"
-            android:exported="false" />
-        <activity
-            android:name=".SignUp"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -138,13 +111,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
-            android:name=".Shutdown"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-            </intent-filter>
-        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.rgs_chequepickup.fileprovider"

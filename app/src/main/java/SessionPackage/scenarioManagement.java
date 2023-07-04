@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class scenarioManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_SCENARIO = "session_scenario";
-    String SESSION_STAT = "session_stat";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_SCENARIO = "session_scenario";
+    final String SESSION_STAT = "session_stat";
 
     public scenarioManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

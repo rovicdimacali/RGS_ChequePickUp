@@ -1,11 +1,11 @@
 package SessionPackage;
 
 public class LocationSession {
-    String company;
-    String person;
-    String address;
-    String contact;
-    String code;
+    final String company;
+    final String person;
+    final  String address;
+    final String contact;
+    final String code;
 
     public LocationSession(String company, String person, String address, String contact, String code) {
         this.company = company;
@@ -19,39 +19,21 @@ public class LocationSession {
         return company;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
     public String getPerson() {
         return person;
-    }
-
-    public void setPerson(String person) {
-        this.person = person;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getContact() {
         return contact;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.company = company;
-    }
 }

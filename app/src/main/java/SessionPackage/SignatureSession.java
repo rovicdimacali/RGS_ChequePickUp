@@ -1,7 +1,7 @@
 package SessionPackage;
 
 public class SignatureSession {
-    String sign;
+    final String sign;
 
     public SignatureSession(String sign) {
         this.sign = sign;
@@ -11,7 +11,4 @@ public class SignatureSession {
         return sign;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
 }

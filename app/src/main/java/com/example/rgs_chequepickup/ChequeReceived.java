@@ -16,7 +16,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,26 +31,21 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 import SessionPackage.LocationManagement;
 import SessionPackage.ReceiptManagement;
 import SessionPackage.SessionManagement;
 import SessionPackage.SignatureManagement;
-import SessionPackage.SignatureSession;
-import SessionPackage.UserSession;
 import SessionPackage.accountManagement;
 import SessionPackage.chequeManagement;
 import SessionPackage.remarkManagement;
 import SessionPackage.scenarioManagement;
-import Database.sqlPickUp;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -61,7 +55,7 @@ import okhttp3.Response;
 
 public class ChequeReceived extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     Button back_button;
     FusedLocationProviderClient fspc;
@@ -70,10 +64,8 @@ public class ChequeReceived extends AppCompatActivity {
     OkHttpClient client;
     boolean isAdded = false;
     String responseData;
-    String imagePath;
     TextView comp;
     Drawable defaultPic;
-    File imageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,27 +73,15 @@ public class ChequeReceived extends AppCompatActivity {
         setContentView(R.layout.activity_cheque_received);
 
         client = new OkHttpClient();
-        back_button = (Button) findViewById(R.id.back_button);
+        back_button = findViewById(R.id.back_button);
         fspc = LocationServices.getFusedLocationProviderClient(ChequeReceived.this);
-        comp = (TextView) findViewById(R.id.complete);
+        comp = findViewById(R.id.complete);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
-                //Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                /*LocationManagement lm = new LocationManagement(ChequeReceived.this);
-                lm.removeLocation();
-                startActivity(intent);*/
             }
         });
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 3000);*/
     }
 
     private void getCurrentLocation(){
@@ -112,8 +92,7 @@ public class ChequeReceived extends AppCompatActivity {
                 public void onSuccess(Location location) {
                     if(location != null){
                         Geocoder gc = new Geocoder(ChequeReceived.this, Locale.getDefault());
-                        List<Address> sadd = null;
-                        List<Address> dadd = null;
+                        List<Address> sadd;
                         try {
                             //CURRENT LOCATION
                             sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -144,8 +123,6 @@ public class ChequeReceived extends AppCompatActivity {
 
     //SEND RESULTS TO THE API
     public void postResults(String longitude, String latitude){
-        MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
-
         ReceiptManagement rm = new ReceiptManagement(ChequeReceived.this);
         SessionManagement sess_m = new SessionManagement(ChequeReceived.this);
         scenarioManagement scene_m = new scenarioManagement(ChequeReceived.this);
@@ -157,14 +134,6 @@ public class ChequeReceived extends AppCompatActivity {
 
         String chequePath = cs.getCheck();
         String[] explodePaths = chequePath.split(",");
-        File chequeFile = new File(chequePath);
-
-        /*if(!(chequeFile.exists())){
-            Toast.makeText(ChequeReceived.this, "Cheque Image Missing", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(ChequeReceived.this, CaptureCheque.class);
-            i.putExtra("retake", 1);
-            startActivity(i);
-        }*/
 
         RequestBody rbody;
         MediaType mediaType = MediaType.parse("image/jpeg");
@@ -175,13 +144,9 @@ public class ChequeReceived extends AppCompatActivity {
 
             Random ran = new Random();
             int transNum = ran.nextInt(900000) + 100000;
-            Date currDate = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = sdf.format(currDate);
 
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-            String transaction = "PU" + String.valueOf(transNum);
+            String transaction = "PU" + transNum;
 
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM);
@@ -189,13 +154,6 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_status", scene_m.getStat());
             builder.addFormDataPart("cancel_name", "none");
             builder.addFormDataPart("chk_sign", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
-            //builder.addFormDataPart("chk_pic", "", RequestBody.create(MediaType.parse("image/jpeg"),defaultPic.toString()));
-            /*for(int i = 0; i < explodePaths.length; i++){
-                if(explodePaths[i].contains("INVALID-Cheque")){
-                    File file = new File(explodePaths[i]);
-                    builder.addFormDataPart("chk_pic"+i, cs.getCheck(), RequestBody.create(mediaType, file));
-                }
-            }*/
             for(int i = 0; i < explodePaths.length; i++){
                 if(!(explodePaths[i].contains("IMG-Cheque0"))){
                     File file = new File(explodePaths[i]);
@@ -228,13 +186,9 @@ public class ChequeReceived extends AppCompatActivity {
 
             Random ran = new Random();
             int transNum = ran.nextInt(900000) + 100000;
-            Date currDate = new Date();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = sdf.format(currDate);
 
             //String transaction = "PU" + String.valueOf(transNum) + "_" + dateString;
-            String transaction = "PU" + String.valueOf(transNum);
+            String transaction = "PU" + transNum;
 
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM);
@@ -302,33 +256,22 @@ public class ChequeReceived extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            responseData = response.body().
+                            responseData = Objects.requireNonNull(response.body()).
                                     string();
                             String value = specificValue(responseData);
-                            //value.replace("<br />", "");
                             if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                //sqlPickUp spu = new sqlPickUp(ChequeReceived.this);
-                                //int res = spu.addHistory(loc_m.getComp(), loc_m.getPer(), loc_m.getAdd(), loc_m.getCont(), loc_m.getCode());
-                                //if(res == 1){
-                                    Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
-                                    //Toast.makeText(ChequeReceived.this, "Transaction added to Pick Up history", Toast.LENGTH_SHORT).show();
-                                    //Toast.makeText(ChequeReceived.this, imagePath, Toast.LENGTH_SHORT).show();
-                                    //sess_m.removeSession();
-                                    scene_m.removeScene();
-                                    acc_m.removeAcc();
-                                    rem_m.removeRemark();
-                                    loc_m.removeLocation();
-                                    sign_m.removeSign();
-                                    cs.removeCheck();
-                                    rm.removeReceipt();
-                                    Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                //}
-                                //else{
-                                    //Toast.makeText(ChequeReceived.this, "Error in transaction", Toast.LENGTH_SHORT).show();
-                                //}
+                                Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
+                                scene_m.removeScene();
+                                acc_m.removeAcc();
+                                rem_m.removeRemark();
+                                loc_m.removeLocation();
+                                sign_m.removeSign();
+                                cs.removeCheck();
+                                rm.removeReceipt();
+                                Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
                             } else {
                                 scene_m.removeScene();
                                 acc_m.removeAcc();
@@ -361,7 +304,7 @@ public class ChequeReceived extends AppCompatActivity {
     }
 
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],@NonNull int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_EXTERNAL_STORAGE: {

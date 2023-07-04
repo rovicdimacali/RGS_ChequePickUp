@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,18 +27,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import SessionPackage.HistoryManagement;
-import SessionPackage.LocationManagement;
 import SessionPackage.SessionManagement;
-import SessionPackage.SignatureManagement;
-import SessionPackage.SignatureSession;
-import SessionPackage.cancelManagement;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -51,11 +47,11 @@ import okhttp3.Response;
 
 public class DSignature extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String responseData, name, cheques, img, signPath;
     Button clear, submit;
-    TextView back, caption;;
+    TextView back, caption;
     OkHttpClient client;
     private SignaturePad signature_pad;
     Intent i;
@@ -72,31 +68,28 @@ public class DSignature extends AppCompatActivity {
         cheques = i.getStringExtra("cheques");
         img = i.getStringExtra("img");
 
-        clear = (Button) findViewById(R.id.clear_img);
-        submit = (Button) findViewById(R.id.save_image);
+        clear = findViewById(R.id.clear_img);
+        submit = findViewById(R.id.save_image);
 
-        back = (TextView) findViewById(R.id.back_button);
+        back = findViewById(R.id.back_button);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         back.setTypeface(font);
         back.setText("\uf060");
 
-        caption = (TextView) findViewById(R.id.caption);
+        caption = findViewById(R.id.caption);
         //caption.setText(img);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
+        back.setOnClickListener(v -> {
+            Intent intent;
 
-                intent = new Intent(DSignature.this, TransactionHistory.class);
-                i.putExtra("cheques", cheques);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
+            intent = new Intent(DSignature.this, TransactionHistory.class);
+            i.putExtra("cheques", cheques);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
 
-        signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
+        signature_pad = findViewById(R.id.signature_pad);
         signature_pad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
             public void onStartSigning() {
@@ -116,29 +109,16 @@ public class DSignature extends AppCompatActivity {
             }
         });
 
-        clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signature_pad.clear();
-            }
-        });
+        clear.setOnClickListener(v -> signature_pad.clear());
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
-                if (addJpgSignatureToGallery(signatureBitmap) == true) {
-                    postResults();
-                    //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
+        submit.setOnClickListener(view -> {
+            Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
+            if (addJpgSignatureToGallery(signatureBitmap)) {
+                postResults();
+                //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    Toast.makeText(DSignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
-                }
-                /*if (addSvgSignatureToGallery(signature_pad.getSignatureSvg())) {
-                    Toast.makeText(ESignature.this, "SVG Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ESignature.this, "Unable to store the SVG signature", Toast.LENGTH_SHORT).show();
-                }*/
+            } else {
+                Toast.makeText(DSignature.this, "Empty Signature/Unable to store the signature", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -169,39 +149,31 @@ public class DSignature extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(DSignature.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(DSignature.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            responseData = response.body().
-                                    string();
-                            String value = specificValue(responseData);
-                            if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
-                                Toast.makeText(DSignature.this, "Deposit Sign Success", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(DSignature.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                his_m.removeLocation();
-                                startActivity(intent);
-                                finish();
+                runOnUiThread(() -> {
+                    try {
+                        responseData = Objects.requireNonNull(response.body()).
+                                string();
+                        String value = specificValue(responseData);
+                        if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
+                            Toast.makeText(DSignature.this, "Deposit Sign Success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DSignature.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            his_m.removeLocation();
+                            startActivity(intent);
+                            finish();
 
-                            } else {
-                                caption.setText(value);
-                                Toast.makeText(DSignature.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (IOException e) {
-                            //comp.setText(e.getMessage());
-                            throw new RuntimeException(e);
+                        } else {
+                            caption.setText(value);
+                            Toast.makeText(DSignature.this, "Error: Data not sent to API", Toast.LENGTH_SHORT).show();
                         }
+                    } catch (IOException e) {
+                        //comp.setText(e.getMessage());
+                        throw new RuntimeException(e);
                     }
                 });
             }
@@ -210,8 +182,7 @@ public class DSignature extends AppCompatActivity {
     private String specificValue(String responseData){
         try{
             JSONObject json = new JSONObject(responseData);
-            String value = json.getString("success");
-            return value;
+            return json.getString("success");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -219,15 +190,13 @@ public class DSignature extends AppCompatActivity {
     }
 
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],@NonNull int[] grantResults) {
+                                           @NonNull String[] permissions,@NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //Toast.makeText(ESignature.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
-                }
+        if(requestCode == REQUEST_EXTERNAL_STORAGE){
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length <= 0
+                    || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                //Toast.makeText(DSignature.this, "Cannot write images to external storage", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -247,9 +216,12 @@ public class DSignature extends AppCompatActivity {
         Canvas canvas = new Canvas(newBitmap);
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, 0, 0, null);
-        OutputStream stream = new FileOutputStream(photo);
+        OutputStream stream = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            stream = Files.newOutputStream(photo.toPath());
+        }
         newBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-        stream.close();
+        Objects.requireNonNull(stream).close();
     }
 
     public boolean addJpgSignatureToGallery(Bitmap signature) {
@@ -265,16 +237,11 @@ public class DSignature extends AppCompatActivity {
         fileName = "DepositSign_"+ comp + "_"+currentTime+".jpg";
 
         try {
-            if(signature == null){
-                result = false;
-            }
-            else{
-                File photo = new File(getAlbumStorageDir("DepositSigns"), String.format(fileName, System.currentTimeMillis()));
-                saveBitmapToJPG(signature, photo);
-                scanMediaFile(photo);
-                signPath = String.valueOf(photo);
-                result = true;
-            }
+            File photo = new File(getAlbumStorageDir("DepositSigns"), String.format(fileName, System.currentTimeMillis()));
+            saveBitmapToJPG(signature, photo);
+            scanMediaFile(photo);
+            signPath = String.valueOf(photo);
+            result = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class LocationManagement {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    String SHARED_PREF_NAME = "session";
-    String SESSION_COMP = "session_loc";
-    String SESSION_PER = "session_per";
-    String SESSION_ADD = "session_add";
-    String SESSION_CONT = "session_cont";
-    String SESSION_CODE = "session_code";
+    final SharedPreferences sp;
+    final SharedPreferences.Editor editor;
+    final String SHARED_PREF_NAME = "session";
+    final String SESSION_COMP = "session_loc";
+    final String SESSION_PER = "session_per";
+    final String SESSION_ADD = "session_add";
+    final String SESSION_CONT = "session_cont";
+    final String SESSION_CODE = "session_code";
     public LocationManagement(Context context){
         sp = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         editor = sp.edit();

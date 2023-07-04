@@ -3,7 +3,6 @@ package com.example.rgs_chequepickup;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -23,13 +22,10 @@ public class SplashActivity extends AppCompatActivity {
             // Show a dialog to the user to enable GPS
             showEnableGPSDialog();
         }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashActivity.this, StartActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(SplashActivity.this, StartActivity.class);
+                startActivity(intent);
+                finish();
             }, 3000);
         }
     }
@@ -44,19 +40,15 @@ public class SplashActivity extends AppCompatActivity {
         alertDialogBuilder.setMessage("GPS is disabled. Do you want to enable it?")
                 .setCancelable(false)
                 .setPositiveButton("Enable GPS",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Open GPS settings activity
-                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivityForResult(intent, PERMISSION_REQUEST_CODE);
-                            }
+                        (dialog, id) -> {
+                            // Open GPS settings activity
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                         });
         alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        finish();
-                    }
+                (dialog, id) -> {
+                    dialog.cancel();
+                    finish();
                 });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();

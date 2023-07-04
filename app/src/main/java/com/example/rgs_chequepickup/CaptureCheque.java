@@ -6,91 +6,52 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageCaptureException;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import SessionPackage.LocationManagement;
-import SessionPackage.ReceiptManagement;
-import SessionPackage.accountSession;
 import SessionPackage.chequeManagement;
 import SessionPackage.chequeSession;
-import SessionPackage.remarkSession;
 import SessionPackage.scenarioManagement;
 
 public class CaptureCheque extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String currentPhotoPath;
     ImageView captured_image;
     Button camera_button, next_button;
-    LinearLayout checklist;
-    Intent i;
-    String remark, cheq_stat;
-    RelativeLayout layout;
-    CardView services_list;
-    CheckBox bayan, innove, globe;
     String cheques = "";
     TextView back_button;
-    Uri image;
-    int pic = 0;
-    boolean hasRetake = false;
-    boolean isSubmit = false;
-    Intent retake;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_cheque);
 
-        retake = getIntent();
-
-
-        if(retake != null && retake.hasExtra("retake")){
-            hasRetake = true;
-        }
-        else{
-            hasRetake = false;
-        }
 
         //INTENT
         scenarioManagement sm = new scenarioManagement(CaptureCheque.this);
-        remark = sm.getScene();
-        cheq_stat = sm.getStat();
 
-        camera_button = (Button) findViewById(R.id.camera_button);
-        next_button = (Button) findViewById(R.id.next_button);
-        back_button = (TextView) findViewById(R.id.back_button);
+        camera_button = findViewById(R.id.camera_button);
+        next_button = findViewById(R.id.next_button);
+        back_button = findViewById(R.id.back_button);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -102,43 +63,30 @@ public class CaptureCheque extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 1);
         }
-        else{
-            //Toast.makeText(getApplicationContext(),"Camera Disabled/Not Found!", Toast.LENGTH_SHORT).show();
-        }
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sm.removeScene();
-                Intent intent = new Intent(CaptureCheque.this, CheckList.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
+        back_button.setOnClickListener(v -> {
+            sm.removeScene();
+            Intent intent = new Intent(CaptureCheque.this, CheckList.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
 
-        camera_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                    openCamera();
-                    next_button.setEnabled(true);
-                } else {
-                    // Request CAMERA permission
-                    ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
-                }
-                //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
+        camera_button.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(CaptureCheque.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+                next_button.setEnabled(true);
+            } else {
+                // Request CAMERA permission
+                ActivityCompat.requestPermissions(CaptureCheque.this, new String[]{Manifest.permission.CAMERA}, 101);
             }
+            //Toast.makeText(CaptureCheque.this, "Counter " + pic, Toast.LENGTH_SHORT).show();
         });
 
-        next_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
-                isSubmit = true;
-                startActivity(intent);
-                finish();
-            }
+        next_button.setOnClickListener(v -> {
+            Intent intent = new Intent(CaptureCheque.this, ChecklistInvalidCheque.class);
+            startActivity(intent);
+            finish();
         });
 
     }
@@ -190,7 +138,7 @@ public class CaptureCheque extends AppCompatActivity {
         chequeManagement cm = new chequeManagement(CaptureCheque.this);
         if(!(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none"))){
             //Toast.makeText(CaptureCheque.this,"1,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
-            cheques = cm.getCheck() + "," + String.valueOf(imageFile);
+            cheques = cm.getCheck() + "," + (imageFile);
         }
         else if(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none")){
             cheques = String.valueOf(imageFile);
@@ -206,12 +154,7 @@ public class CaptureCheque extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == RESULT_OK) {
-                /*captured_image = (ImageView) findViewById(R.id.captured_image);
-                Bitmap bitmapDisplay = (Bitmap) data.getExtras().get("data");
-                captured_image.setImageBitmap(bitmapDisplay);
-
-                saveImageToGallery(bitmapDisplay);*/
-            captured_image = (ImageView) findViewById(R.id.captured_image);
+            captured_image = findViewById(R.id.captured_image);
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
             captured_image.setImageBitmap(bitmap);
 
@@ -227,23 +170,10 @@ public class CaptureCheque extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
             fos.flush();
             fos.close();
-            chequeManagement cm = new chequeManagement(CaptureCheque.this);
-            //Toast.makeText(this, "Saved to gallery", Toast.LENGTH_SHORT).show();
-            //Toast.makeText(CaptureCheque.this,"2,"+cm.getCheck(),Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_SHORT).show();
             //throw new RuntimeException(e);
         }
         //Toast.makeText(this, "" + imageFile, Toast.LENGTH_SHORT).show();
     }
-/*
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(isSubmit == false){
-            chequeManagement cm = new chequeManagement(CaptureCheque.this);
-            cm.removeCheck();
-        }
-    }
-  */
 }

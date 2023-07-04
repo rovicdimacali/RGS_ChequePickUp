@@ -3,7 +3,7 @@ package Email;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -25,12 +25,12 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
     //Need INTERNET permission
 
     //Variables
-    private Context mContext;
-    private Session mSession;
+    final Context mContext;
+    Session mSession;
 
-    private String mEmail;
-    private String mSubject;
-    private String mMessage;
+    private final String mEmail;
+    private final String mSubject;
+    private final String mMessage;
 
     private ProgressDialog mProgressDialog;
 
@@ -96,26 +96,6 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             mm.setContent(mMessage, "text/html");
             //Sending email
             Transport.send(mm);
-
-//            BodyPart messageBodyPart = new MimeBodyPart();
-//
-//            messageBodyPart.setText(message);
-//
-//            Multipart multipart = new MimeMultipart();
-//
-//            multipart.addBodyPart(messageBodyPart);
-//
-//            messageBodyPart = new MimeBodyPart();
-//
-//            DataSource source = new FileDataSource(filePath);
-//
-//            messageBodyPart.setDataHandler(new DataHandler(source));
-//
-//            messageBodyPart.setFileName(filePath);
-//
-//            multipart.addBodyPart(messageBodyPart);
-
-//            mm.setContent(multipart);
 
         } catch (MessagingException e) {
             e.printStackTrace();

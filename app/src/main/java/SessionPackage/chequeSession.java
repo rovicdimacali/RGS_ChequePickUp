@@ -1,7 +1,7 @@
 package SessionPackage;
 
 public class chequeSession {
-    String cheque;
+    final String cheque;
 
     public chequeSession(String cheque) {
         this.cheque = cheque;
@@ -11,7 +11,4 @@ public class chequeSession {
         return cheque;
     }
 
-    public void setCheque(String cheque) {
-        this.cheque = cheque;
-    }
 }

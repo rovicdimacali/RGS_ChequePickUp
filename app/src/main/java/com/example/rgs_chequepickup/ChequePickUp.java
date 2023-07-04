@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import java.io.IOException;
@@ -66,10 +65,8 @@ public class ChequePickUp extends AppCompatActivity {
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
-        message1 = "Good Day! This is your Rider from RGS, I\'m on my way to collect the cheque(s) from your location. Thank you!";
-        message2 = "Good Day! This is your Rider from RGS, I\'ve arrived and already at your location. Thank you!";
-
-        Intent details = getIntent();
+        message1 = "Good Day! This is your Rider from RGS, I'm on my way to collect the cheque(s) from your location. Thank you!";
+        message2 = "Good Day! This is your Rider from RGS, I've arrived and already at your location. Thank you!";
 
         LocationManagement lm = new LocationManagement(ChequePickUp.this);
 
@@ -121,60 +118,43 @@ public class ChequePickUp extends AppCompatActivity {
         back_button.setText("\uf060");
 
 
-        contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + contact.getText().toString()));
-                startActivity(intent);
-            }
+        contact.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + contact.getText().toString()));
+            startActivity(intent);
         });
-        cancel_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChequePickUp.this, CancelActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        cancel_button.setOnClickListener(v -> {
+            Intent intent = new Intent(ChequePickUp.this, CancelActivity.class);
+            startActivity(intent);
+            finish();
         });
-        arrived_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCurrentLocation();
-            }
-        });
+        arrived_button.setOnClickListener(v -> getCurrentLocation());
 
         //LAUNCH GMAPS BASED ON ADDRESS
-        go_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String add = addr.getText().toString();
-                if(add.equals("")){
-                    Toast.makeText(getApplicationContext(),"No location found", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
-                            != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
-                        ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
-                                PERMISSION_SEND_SMS_GO);
-                    } else {// PERMISSION GRANTED
-                        sendSMS(cont, message1);
-                        DisplayMap(add);
-                    }
+        go_button.setOnClickListener(v -> {
+            String add = addr.getText().toString();
+            if(add.equals("")){
+                Toast.makeText(getApplicationContext(),"No location found", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
+                        != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
+                    ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
+                            PERMISSION_SEND_SMS_GO);
+                } else {// PERMISSION GRANTED
+                    sendSMS(cont, message1);
+                    DisplayMap(add);
                 }
             }
         });
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocationManagement lm = new LocationManagement(ChequePickUp.this);
-                lm.removeLocation();
-                Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                //finish();
-            }
+        back_button.setOnClickListener(v -> {
+            LocationManagement lm1 = new LocationManagement(ChequePickUp.this);
+            lm1.removeLocation();
+            Intent intent = new Intent(ChequePickUp.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            //finish();
         });
     }
 
@@ -219,50 +199,43 @@ public class ChequePickUp extends AppCompatActivity {
     private void getCurrentLocation(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED){
-            fspc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if(location != null){
-                        Geocoder gc = new Geocoder(ChequePickUp.this, Locale.getDefault());
-                        List<Address> sadd = null;
-                        List<Address> dadd = null;
-                        try {
-                            //CURRENT LOCATION
-                            sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            Location sp = new Location("currLoc");
-                            cur_lat = sadd.get(0).getLatitude();
-                            cur_long = sadd.get(0).getLongitude();
-                            sp.setLatitude(cur_lat);
-                            sp.setLongitude(cur_long);
-                            //DESTINATION
-                            dadd = gc.getFromLocationName(addr.getText().toString(), 1);
-                            Location ep = new Location("destination");
-                            des_lat = dadd.get(0).getLatitude();
-                            des_long = dadd.get(0).getLongitude();
-                            ep.setLatitude(des_lat);
-                            ep.setLongitude(des_long);
+            fspc.getLastLocation().addOnSuccessListener(location -> {
+                if(location != null){
+                    Geocoder gc = new Geocoder(ChequePickUp.this, Locale.getDefault());
+                    List<Address> sadd;
+                    List<Address> dadd;
+                    try {
+                        //CURRENT LOCATION
+                        sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        Location sp = new Location("currLoc");
+                        cur_lat = sadd.get(0).getLatitude();
+                        cur_long = sadd.get(0).getLongitude();
+                        sp.setLatitude(cur_lat);
+                        sp.setLongitude(cur_long);
+                        //DESTINATION
+                        dadd = gc.getFromLocationName(addr.getText().toString(), 1);
+                        Location ep = new Location("destination");
+                        des_lat = dadd.get(0).getLatitude();
+                        des_long = dadd.get(0).getLongitude();
+                        ep.setLatitude(des_lat);
+                        ep.setLongitude(des_long);
 
-                            double distance = sp.distanceTo(ep);
-                            //double distance = 30.01;
-                            //address.setText(String.valueOf(distance));
-                            if(distance < 99999){
-                                ArrivedPopupWindow();
-                                //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
-                                arrived_button.setActivated(true);
-                                //arrived_button.setBackground(ContextCompat.getDrawable(ChequePickUp.this, R.drawable.btn_secondary));
-                                //openCapturecheque();
-                            }
-                            else{
-                                NotArrivedPopupWindow(distance);
-                                arrived_button.setActivated(false);
-                                //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
-                            }
-                         } catch (IOException e) {
-                            NoSignalPopupWindow();
-                            //throw new RuntimeException(e); //RUNTIME ERROR
+                        double distance = sp.distanceTo(ep);
+                        if(distance < 99999){
+                            ArrivedPopupWindow();
+                            //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
+                            arrived_button.setActivated(true);
                         }
-
+                        else{
+                            NotArrivedPopupWindow(distance);
+                            arrived_button.setActivated(false);
+                            //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
+                        }
+                     } catch (IOException e) {
+                        NoSignalPopupWindow();
+                        //throw new RuntimeException(e); //RUNTIME ERROR
                     }
+
                 }
             });
         }
@@ -270,11 +243,6 @@ public class ChequePickUp extends AppCompatActivity {
             askPermission();
         }
     }
-    public void openCapturecheque(){
-        Intent intent = new Intent(this, CaptureCheque.class);
-        startActivity(intent);
-    }
-
     private void askPermission(){
         ActivityCompat.requestPermissions(ChequePickUp.this,new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
@@ -283,11 +251,8 @@ public class ChequePickUp extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_CODE){
-            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                //getCurrentLocation();
-            }
-            else{
-                Toast.makeText(ChequePickUp.this,"Required Permission", Toast.LENGTH_SHORT).show();
+            if(!(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+               Toast.makeText(ChequePickUp.this,"Required Permission", Toast.LENGTH_SHORT).show();
             }
         }
         else if (requestCode == PERMISSION_SEND_SMS_GO) {
@@ -314,87 +279,55 @@ public class ChequePickUp extends AppCompatActivity {
     }
 
     private void ArrivedPopupWindow() {
-        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_arrived, null);
-        //TextView text = (TextView) popUpView.findViewById(R.id.textPick);
-        //text.setText(String.valueOf(d));
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        layout.post(() -> popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0));
+
+        Button capture = popUpView.findViewById(R.id.capture_button);
+        RelativeLayout overlay = popUpView.findViewById(R.id.overlay);
+        capture.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
+                    != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
+                ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
+                        PERMISSION_SEND_SMS_ARRIVED);
+            } else {// PERMISSION GRANTED
+                sendSMS(cont, message2);
+                Intent intent = new Intent(ChequePickUp.this, CheckList.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        Button capture = (Button) popUpView.findViewById(R.id.capture_button);
-        RelativeLayout overlay = (RelativeLayout) popUpView.findViewById(R.id.overlay);
-        capture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(ChequePickUp.this, Manifest.permission.SEND_SMS)
-                        != PackageManager.PERMISSION_GRANTED) { // ASK PERMISSION
-                    ActivityCompat.requestPermissions(ChequePickUp.this, new String[]{Manifest.permission.SEND_SMS},
-                            PERMISSION_SEND_SMS_ARRIVED);
-                } else {// PERMISSION GRANTED
-                    //sendSMS(cont, "Hello, this is a test message!");
-                    //Toast.makeText(ChequePickUp.this, "SMS Sent", Toast.LENGTH_SHORT).show();
-                    sendSMS(cont, message2);
-                    Intent intent = new Intent(ChequePickUp.this, CheckList.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                overlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-            }
-        });
+        layout.post(() -> overlay.setOnClickListener(v -> popupWindow.dismiss()));
     }
 
     private void NotArrivedPopupWindow(double d) {
         DecimalFormat df = new DecimalFormat("#.##");
         String distance = df.format(d);
-        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
 
-        TextView text = (TextView) popUpView.findViewById(R.id.distanceTrack);
+        TextView text = popUpView.findViewById(R.id.distanceTrack);
         text.setText("Distance must be less than 20 meters\nCurrent Distance: " + distance + " meters");
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-            }
-        });
+        layout.post(() -> popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0));
 
-        Button dismiss = (Button) popUpView.findViewById(R.id.dismiss_button);
-        dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    popupWindow.dismiss();
-            }
-        });
+        Button dismiss = popUpView.findViewById(R.id.dismiss_button);
+        dismiss.setOnClickListener(v -> popupWindow.dismiss());
     }
 
     private void NoSignalPopupWindow() {
-        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_unstable, null);
 
@@ -402,25 +335,17 @@ public class ChequePickUp extends AppCompatActivity {
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.post(new Runnable() {
-            @Override
-            public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-            }
-        });
+        layout.post(() -> popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0));
 
-        Button retry = (Button) popUpView.findViewById(R.id.retry);
-        retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recreate();
-                popupWindow.dismiss();
-            }
+        Button retry = popUpView.findViewById(R.id.retry);
+        retry.setOnClickListener(v -> {
+            recreate();
+            popupWindow.dismiss();
         });
     }
 
     private void Loading(){
-        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popUpView = inflater.inflate(R.layout.popup_loading, null);
 
@@ -429,21 +354,13 @@ public class ChequePickUp extends AppCompatActivity {
         int duration = 3000;
         boolean focusable = true;
         PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
-        layout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Display the popup view
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        layout.postDelayed(() -> {
+            // Display the popup view
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                // Delayed post to hide the popup after the specified duration
-                layout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Hide the popup view
-                        popupWindow.dismiss();
-                    }
-                }, duration);
-            }
+            // Delayed post to hide the popup after the specified duration
+            // Hide the popup view
+            layout.postDelayed(popupWindow::dismiss, duration);
         }, 0);
     }
 }
