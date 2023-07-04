@@ -65,11 +65,19 @@ public class CaptureCheque extends AppCompatActivity {
         }
 
         back_button.setOnClickListener(v -> {
-            sm.removeScene();
-            Intent intent = new Intent(CaptureCheque.this, CheckList.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+            chequeManagement cm = new chequeManagement(CaptureCheque.this);
+            if(!(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none"))){
+                Intent intent = new Intent(CaptureCheque.this, VerifyOfficialReceipt.class);
+                startActivity(intent);
+                finish();
+            }
+            else{
+                sm.removeScene();
+                Intent intent = new Intent(CaptureCheque.this, CheckList.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
         });
 
         camera_button.setOnClickListener(v -> {

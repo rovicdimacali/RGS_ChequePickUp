@@ -2,6 +2,7 @@ package com.example.rgs_chequepickup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,7 +35,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TransactionHistory extends AppCompatActivity {
-    String tin, accno, payee, ornum, amount;
+    String tin, accno, payee, ornum, amount, depStat;
     TextView back_button;
     Button signBtn;
     TextView tnum, company, address, status;
@@ -158,8 +159,16 @@ public class TransactionHistory extends AppCompatActivity {
                                 payee = item.getString("chk_payee");
                                 ornum = item.getString("or_no");
                                 amount = item.getString("chk_amount");
+                                depStat = item.getString("chk_deposited_by");
                                 break;
                             }
+                        }
+
+                        if(!depStat.equals("null")){
+                            signBtn.setEnabled(false);
+                            signBtn.setText("Deposited");
+                            signBtn.setTextColor(Color.BLACK);
+                            signBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         }
 
                         //String[] tinArr = tin.split(",");

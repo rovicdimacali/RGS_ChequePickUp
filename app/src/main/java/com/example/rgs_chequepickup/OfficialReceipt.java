@@ -238,7 +238,7 @@ public class OfficialReceipt extends AppCompatActivity {
         comp6.setText(lm.getComp());
 
         payeeList = new String[]{"---PAYEE---","Globe Telecom Inc.", "Innove Communications Inc.", "Bayan Communications Inc."}; //PAYEE LIST
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(OfficialReceipt.this, R.layout.simple_spinner_item, payeeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(OfficialReceipt.this, R.layout.simple_spinner_item, payeeList);
         adapter.setDropDownViewResource(R.layout.simple_spinner_item);
         pay1.setAdapter(adapter);
         pay2.setAdapter(adapter);
@@ -928,9 +928,9 @@ public class OfficialReceipt extends AppCompatActivity {
                                     pay3.getSelectedItem().toString(), pay4.getSelectedItem().toString(),
                                     pay5.getSelectedItem().toString(), pay6.getSelectedItem().toString()};
 
-                            for (int i = 0; i < pay.length; i++) {
-                                if (!(pay[i].equals("") || pay[i].equals(" ") || pay[i].equals("---PAYEE---") || pay[i].equals("none") || pay[i].isEmpty())) {
-                                    payeeArr += pay[i] + ",";
+                            for (String s : pay) {
+                                if (!(s.equals("") || s.equals(" ") || s.equals("---PAYEE---") || s.equals("none") || s.isEmpty())) {
+                                    payeeArr += s + ",";
                                 }
                             }
 
@@ -1024,9 +1024,6 @@ public class OfficialReceipt extends AppCompatActivity {
                 startActivityForResult(intent, 101);
             }
         }
-        else{
-
-        }
     }
     private File createImageFile() throws IOException{
         LocationManagement lm = new LocationManagement(OfficialReceipt.this);
@@ -1043,22 +1040,16 @@ public class OfficialReceipt extends AppCompatActivity {
         imageArr = String.valueOf(imageFile);
         // && isEdit == true
         if(pics.size() > 0){
-            Iterator<String> iterator = pics.iterator();
-            while(iterator.hasNext()){
-                String elem = iterator.next();
-                if(elem.contains(imageCheck)){
+            for (String elem : pics) {
+                if (elem.contains(imageCheck)) {
                     imageIndex = pics.indexOf(elem);
-                    if(imageIndex != -1){
+                    if (imageIndex != -1) {
                         pics.set(imageIndex, imageArr);
                         isUpdate = true;
                         break;
-                    }
-                    else{
+                    } else {
                         Toast.makeText(OfficialReceipt.this, "Error Updating Image", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else{
-                    //Do Nothing
                 }
             }
             if(isUpdate == true){

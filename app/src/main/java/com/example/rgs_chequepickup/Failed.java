@@ -318,7 +318,7 @@ public class Failed extends AppCompatActivity {
                 phoneNumber.substring(0,4).contains("09")){
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-            Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "SMS sent!", Toast.LENGTH_SHORT).show();
         }
         else if(cpFirst == '9'){
             phoneNumber = "0" + phoneNumber;

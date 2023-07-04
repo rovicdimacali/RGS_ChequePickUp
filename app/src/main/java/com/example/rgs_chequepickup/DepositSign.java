@@ -90,11 +90,17 @@ public class DepositSign extends AppCompatActivity {
                 Toast.makeText(DepositSign.this, "Enter a name", Toast.LENGTH_SHORT).show();
             }
             else{
-                Intent i1 = new Intent(DepositSign.this, DSignature.class);
-                i1.putExtra("cheques", cheques.getText().toString());
-                i1.putExtra("name", name.getText().toString());
-                i1.putExtra("img", photoPath);
-                startActivity(i1);
+                if(photoPath == null){
+                    Toast.makeText(DepositSign.this, "Picture is missing", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent i1 = new Intent(DepositSign.this, DSignature.class);
+                    i1.putExtra("cheques", cheques.getText().toString());
+                    i1.putExtra("name", name.getText().toString());
+                    i1.putExtra("img", photoPath);
+                    //Toast.makeText(DepositSign.this, photoPath, Toast.LENGTH_LONG).show();
+                    startActivity(i1);
+                }
             }
 
             //postResults();
@@ -159,6 +165,7 @@ public class DepositSign extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
+            photoPath = null;
         }
     }
     private void saveImageToGallery(Bitmap bitmap) {
