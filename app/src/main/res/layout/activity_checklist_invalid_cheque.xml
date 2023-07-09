@@ -89,15 +89,34 @@
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/submit_button"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginVertical="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:text="Submit"
-            android:background="@color/rgs_green"/>
+            android:background="@color/white"
+            android:paddingTop="20dp"
+            >
+
+            <EditText
+                android:id="@+id/total_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Total Amount"
+                android:layout_marginHorizontal="20dp"
+                />
+
+            <Button
+                android:id="@+id/submit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:text="Submit"
+                android:background="@color/rgs_green"/>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 
