@@ -35,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import SessionPackage.LocationManagement;
@@ -230,9 +231,12 @@ public class CancelActivity extends AppCompatActivity {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
+        Date fromDate = cal.getTime();
+
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month,day);
+        datePickerDialog.getDatePicker().setMinDate(fromDate.getTime());
     }
 
     private String makeDateString(int day, int month, int year){

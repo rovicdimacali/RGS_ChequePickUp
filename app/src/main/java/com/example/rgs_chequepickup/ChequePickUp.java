@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -117,7 +118,6 @@ public class ChequePickUp extends AppCompatActivity {
         icon_code.setText("\uf25d");
         back_button.setText("\uf060");
 
-
         contact.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + contact.getText().toString()));
@@ -128,6 +128,7 @@ public class ChequePickUp extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
         arrived_button.setOnClickListener(v -> getCurrentLocation());
 
         //LAUNCH GMAPS BASED ON ADDRESS
@@ -194,7 +195,6 @@ public class ChequePickUp extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 
     private void getCurrentLocation(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
