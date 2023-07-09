@@ -49,7 +49,7 @@ public class CancelActivity extends AppCompatActivity {
     TextView back_button;
     LinearLayout datefield, proof, timefield;
     RadioButton absentRB, reschedRB, diffRB, longRB, othersRB, noChequeRB, collRB;
-    EditText cancelText, point;
+    EditText cancelText, point, nocheck;
     String cancelStatus;
     String reason;
     FusedLocationProviderClient fspc;
@@ -74,6 +74,7 @@ public class CancelActivity extends AppCompatActivity {
         //timefieldTo = (LinearLayout) findViewById(R.id.time_field_to);
         proof = findViewById(R.id.proof_field);
         point = findViewById(R.id.point);
+        nocheck = findViewById(R.id.nocheck_text);
 
         //RADIO BUTTONS
         absentRB = findViewById(R.id.client_not_around);
@@ -105,37 +106,60 @@ public class CancelActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener cbl = (buttonView, isChecked) -> {
             if (absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() || longRB.isChecked() ||
                     noChequeRB.isChecked() || collRB.isChecked() || othersRB.isChecked()) {
-                if (absentRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked()) {
+                if (absentRB.isChecked() || collRB.isChecked()) {
+                    nocheck.setVisibility(View.GONE);
+                    nocheck.setHint("Enter additional details");
+                    nocheck.setText("");
                     datefield.setVisibility(View.GONE);
                     timefield.setVisibility(View.GONE);
                     proof.setVisibility(View.VISIBLE);
                     cancelText.setEnabled(false);
                     cancelText.setHint(" ");
-                    cancelText.setText(" ");
-                } else if (reschedRB.isChecked()) { // DISPLAY DATE PICKER WHEN SELECTED
+                    cancelText.setText("");
+                }
+                else if(noChequeRB.isChecked()){
+                    nocheck.setVisibility(View.VISIBLE);
+                    nocheck.setHint("Enter additional details");
+                    proof.setVisibility(View.VISIBLE);
+                    datefield.setVisibility(View.GONE);
+                    timefield.setVisibility(View.GONE);
+                    cancelText.setEnabled(false);
+                    cancelText.setHint(" ");
+                    cancelText.setText("");
+                }
+                else if (reschedRB.isChecked()) { // DISPLAY DATE PICKER WHEN SELECTED
+                    nocheck.setVisibility(View.GONE);
+                    nocheck.setHint("Enter additional details");
+                    nocheck.setText("");
                     datefield.setVisibility(View.VISIBLE);
                     timefield.setVisibility(View.VISIBLE);
                     proof.setVisibility(View.GONE);
-                    point.setText(" ");
+                    point.setText("");
                     cancelText.setEnabled(false);
                     cancelText.setHint(" ");
-                    cancelText.setText(" ");
+                    cancelText.setText("");
                     //cancelText.setHint("Enter Reason Here");
                 } else if (othersRB.isChecked()) {
+                    nocheck.setVisibility(View.GONE);
+                    nocheck.setHint("Enter additional details");
+                    nocheck.setText("");
                     datefield.setVisibility(View.GONE);
                     timefield.setVisibility(View.GONE);
                     proof.setVisibility(View.GONE);
-                    point.setText(" ");
+                    point.setText("");
                     cancelText.setEnabled(true);
-                    cancelText.setHint("Enter Reason Here");
+                    cancelText.setHint("Enter reason");
                 } else { // HIDE DATE PICKER AND TEXT FIELD WHEN NOT SELECTED
+                    nocheck.setVisibility(View.GONE);
+                    nocheck.setHint("Enter additional details");
+                    nocheck.setText("");
                     datefield.setVisibility(View.GONE);
                     timefield.setVisibility(View.GONE);
                     proof.setVisibility(View.GONE);
-                    point.setText(" ");
+                    point.setText("");
                     cancelText.setEnabled(false);
                     cancelText.setHint(" ");
-                    cancelText.setText(" ");
+                    cancelText.setText("");
                     //cancelText.setHint("Enter Reason Here");
                 }
                 submit.setEnabled(true);
@@ -200,7 +224,7 @@ public class CancelActivity extends AppCompatActivity {
                     longRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked()) && (absentRB.isChecked() && point.getText().toString().isEmpty())) {
                 Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
             } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
-                    longRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty())) {
+                    longRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked()) && (othersRB.isChecked() && cancelText.getText().toString().isEmpty() || cancelText.getText().toString().equals(" "))) {
                 Toast.makeText(CancelActivity.this, "Please fill up the field", Toast.LENGTH_SHORT).show();
             } else if (!(absentRB.isChecked() || reschedRB.isChecked() || diffRB.isChecked() ||
                     longRB.isChecked() || othersRB.isChecked() || noChequeRB.isChecked() || collRB.isChecked())) {
@@ -355,7 +379,7 @@ public class CancelActivity extends AppCompatActivity {
                                 i = new Intent(CancelActivity.this, ESignature.class);
                             }
                             else if(noChequeRB.isChecked()){
-                                reason = "Cheque Not Available";
+                                reason = "Cheque Not Available: " + nocheck.getText().toString();
                                 i = new Intent(CancelActivity.this, ESignature.class);
                             }
                             else if(collRB.isChecked()){

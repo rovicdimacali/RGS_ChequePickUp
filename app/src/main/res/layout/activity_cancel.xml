@@ -65,11 +65,10 @@
 
         <EditText
             android:visibility="gone"
-            android:id="@+id/total_amount"
+            android:id="@+id/nocheck_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:enabled="false"
-            android:hint="" />
+            android:hint="Enter additional details" />
 
         <RadioButton
             android:id="@+id/collected"
@@ -234,7 +233,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:enabled="false"
-            android:hint="Please state the reason" />
+            android:hint="" />
 
     </RadioGroup>
 
