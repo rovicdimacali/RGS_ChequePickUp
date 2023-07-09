@@ -63,6 +63,14 @@
             android:text="Cheque N/A"
             android:textSize="20dp" />
 
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/total_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:enabled="false"
+            android:hint="" />
+
         <RadioButton
             android:id="@+id/collected"
             android:layout_width="wrap_content"
@@ -226,7 +234,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:enabled="false"
-            android:hint="" />
+            android:hint="Please state the reason" />
 
     </RadioGroup>
 
