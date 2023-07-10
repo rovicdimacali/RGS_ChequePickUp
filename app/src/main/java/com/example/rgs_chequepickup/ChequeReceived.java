@@ -173,7 +173,7 @@ public class ChequeReceived extends AppCompatActivity {
             builder.addFormDataPart("chk_date", "none");
             builder.addFormDataPart("chk_bcode", "none");
             builder.addFormDataPart("transaction_num", transaction);
-            builder.addFormDataPart("chk_amount", "none");
+            builder.addFormDataPart("chk_amount", rm.getAmount());
             builder.addFormDataPart("chk_number", "none");
             builder.addFormDataPart("latitude", latitude);
             builder.addFormDataPart("longitude", longitude);
@@ -205,7 +205,7 @@ public class ChequeReceived extends AppCompatActivity {
                         builder.addFormDataPart("chk_accno", acc_m.getAccno()+",none");
                         builder.addFormDataPart("chk_or", rm.getOR()+",none");
                         builder.addFormDataPart("chk_payee", rm.getPayee()+",none");
-                        builder.addFormDataPart("chk_amount", rm.getAmount()+",none");
+                        builder.addFormDataPart("chk_amount", rm.getAmount());
                         isAdded = true;
                     }
                     else{

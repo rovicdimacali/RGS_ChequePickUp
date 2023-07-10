@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
+import SessionPackage.ReceiptManagement;
+import SessionPackage.ReceiptSession;
 import SessionPackage.chequeManagement;
 import SessionPackage.remarkManagement;
 import SessionPackage.remarkSession;
@@ -23,7 +25,7 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
     TextView back_button;
     Button submit;
     CheckBox wrongSpellBox, erasuresBox, noSignBox, dateDisBox, othersBox;
-    EditText othersText;
+    EditText othersText, totalAmount;
     final ArrayList<CheckBox> checkboxes = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
 
         othersText = findViewById(R.id.others_content);
         back_button = findViewById(R.id.back_button);
-
+        totalAmount = findViewById(R.id.total_amount);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         back_button.setTypeface(font);
@@ -55,9 +57,16 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
         checkboxes.add(dateDisBox);
         checkboxes.add(othersBox);
 
+        othersText.setEnabled(false);
         CompoundButton.OnCheckedChangeListener cbl = (buttonView, isChecked) -> {
             if(wrongSpellBox.isChecked() || erasuresBox.isChecked() || noSignBox.isChecked() || dateDisBox.isChecked()
             || othersBox.isChecked()){
+                if(othersBox.isChecked()){
+                    othersText.setEnabled(true);
+                }
+                else if(!(othersBox.isChecked())){
+                    othersText.setEnabled(false);
+                }
                 //WRONG SPELLING INSERT
                 submit.setEnabled(true);
                 submit.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_green));
@@ -83,7 +92,7 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
         });
         submit.setOnClickListener(v -> {
             if((wrongSpellBox.isChecked() || erasuresBox.isChecked() || noSignBox.isChecked() || dateDisBox.isChecked())
-                    && (othersBox.isChecked() && (othersText.getText().toString().isEmpty() || othersText.getText().toString().equals(" ")))){
+                    && (othersBox.isChecked() && (othersText.getText().toString().isEmpty() || othersText.getText().toString().equals("")))){
                 Toast.makeText(ChecklistInvalidCheque.this, "Please enter a reason", Toast.LENGTH_SHORT).show();
             }
             else if(!(wrongSpellBox.isChecked() || erasuresBox.isChecked() || noSignBox.isChecked() || dateDisBox.isChecked()
@@ -91,11 +100,11 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
                 Toast.makeText(ChecklistInvalidCheque.this, "Please select an option", Toast.LENGTH_SHORT).show();
             }
             else if(!(wrongSpellBox.isChecked() || erasuresBox.isChecked() || noSignBox.isChecked() || dateDisBox.isChecked())
-                    && (othersBox.isChecked() && (othersText.getText().toString().isEmpty() || othersText.getText().toString().equals(" ")))){
+                    && (othersBox.isChecked() && (othersText.getText().toString().isEmpty() || othersText.getText().toString().equals("")))){
                 Toast.makeText(ChecklistInvalidCheque.this, "Please enter a reason", Toast.LENGTH_SHORT).show();
             }
             else if(wrongSpellBox.isChecked() || erasuresBox.isChecked() || noSignBox.isChecked() || dateDisBox.isChecked()
-                    || (othersBox.isChecked() && !(othersText.getText().toString().isEmpty() || othersText.getText().toString().equals(" ")))){
+                    || (othersBox.isChecked() && !(othersText.getText().toString().isEmpty() || othersText.getText().toString().equals("")))){
 
                 String remarks = "";
 
@@ -120,6 +129,28 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
                 remarkManagement rm = new remarkManagement(ChecklistInvalidCheque.this);
                 remarkSession rs = new remarkSession(remarks);
                 rm.saveRemark(rs);
+
+                chequeManagement cm = new chequeManagement(ChecklistInvalidCheque.this);
+                ReceiptManagement rec_m = new ReceiptManagement(ChecklistInvalidCheque.this);
+
+                String tin = "", am = "", or = "", pay = "";
+                String[] check = cm.getCheck().split(",");
+                if(check[0].contains("INVALID-Cheque")){
+                    am = totalAmount.getText().toString();
+                    ReceiptSession rec_s = new ReceiptSession("", am, "", "", "",
+                            "", "");
+                    rec_m.saveReceipt(rec_s);
+                }
+                else{
+                    am = rec_m.getAmount() + "," + totalAmount.getText().toString();
+                    tin = rec_m.getTin();
+                    or = rec_m.getOR();
+                    pay = rec_m.getPayee();
+
+                    ReceiptSession rec_s = new ReceiptSession(tin, am, "", pay, "",
+                            or, "");
+                    rec_m.saveReceipt(rec_s);
+                }
 
                 Intent i = new Intent(ChecklistInvalidCheque.this, ChequeReceived.class);
                 startActivity(i);

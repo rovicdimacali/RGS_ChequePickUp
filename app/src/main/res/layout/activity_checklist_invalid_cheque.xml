@@ -102,7 +102,7 @@
                 android:id="@+id/total_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Total Amount"
+                android:hint="Total Amount of Invalid Cheques"
                 android:layout_marginHorizontal="20dp"
                 />
 
