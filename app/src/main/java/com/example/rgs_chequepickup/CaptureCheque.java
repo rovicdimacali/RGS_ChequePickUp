@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import SessionPackage.LocationManagement;
@@ -35,9 +36,12 @@ import SessionPackage.scenarioManagement;
 
 public class CaptureCheque extends AppCompatActivity {
     private String currentPhotoPath;
+    boolean isPictured = false;
     ImageView captured_image;
     Button camera_button, next_button;
     String cheques = "";
+    String newchecks = "";
+    String backchecks = "";
     TextView back_button;
 
     @Override
@@ -66,6 +70,20 @@ public class CaptureCheque extends AppCompatActivity {
 
         back_button.setOnClickListener(v -> {
             chequeManagement cm = new chequeManagement(CaptureCheque.this);
+            if(isPictured){
+                String[] checks = cm.getCheck().split(",");
+                if(checks.length == 1){
+                    backchecks = "";
+                }
+                else{
+                    for(int i = 0; i < checks.length - 1; i++){
+                        backchecks += checks[i] +",";
+                    }
+                }
+                chequeSession cs = new chequeSession(backchecks);
+                cm.saveCheck(cs);
+            }
+
             if(!(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none"))){
                 Intent intent = new Intent(CaptureCheque.this, VerifyOfficialReceipt.class);
                 startActivity(intent);
@@ -78,6 +96,7 @@ public class CaptureCheque extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+            //cm.removeCheck();
         });
 
         camera_button.setOnClickListener(v -> {
@@ -169,6 +188,19 @@ public class CaptureCheque extends AppCompatActivity {
             saveImageToGallery(bitmap);
         }
         else{
+            chequeManagement cm = new chequeManagement(CaptureCheque.this);
+            String[] checks = cm.getCheck().split(",");
+
+            if(!(cm.getCheck().isEmpty() || cm.getCheck().equals("") || cm.getCheck().equals(" ") || cm.getCheck().equals("none"))){
+                for(int i = 0; i < checks.length - 1; i++){
+                    newchecks += checks[i] +",";
+                }
+            }
+            else{
+               newchecks = "";
+            }
+            chequeSession cs = new chequeSession(newchecks);
+            cm.saveCheck(cs);
             Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
         }
     }
@@ -178,6 +210,7 @@ public class CaptureCheque extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
             fos.flush();
             fos.close();
+            isPictured = true;
         } catch (IOException e) {
             Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_SHORT).show();
             //throw new RuntimeException(e);

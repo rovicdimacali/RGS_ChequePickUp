@@ -149,7 +149,7 @@ public class TransactionHistory extends AppCompatActivity {
                     address.setText(hm.getAdd());
                     status.setText(hm.getStat());
 
-                    if (stat.equals("SUCCESS - Valid Cheque/s")) {
+                    if (stat.equals("SUCCESS - Valid Cheque/s") || stat.equals("UNSUCCESSFUL - Invalid Cheque/s")) {
                         for (int i = 0; i < associativeArray.length(); i++) {
                             JSONObject item = associativeArray.getJSONObject(i);
 

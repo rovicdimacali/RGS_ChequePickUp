@@ -485,6 +485,7 @@ public class OfficialReceipt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 rm.removeReceipt();
+                cm.removeCheck();
                 openChecklist();
             }
         });
