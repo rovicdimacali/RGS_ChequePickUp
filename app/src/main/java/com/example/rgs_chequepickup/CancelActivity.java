@@ -373,7 +373,7 @@ public class CancelActivity extends AppCompatActivity {
 
                         double distance = sp.distanceTo(ep);
                         //address.setText(String.valueOf(distance));
-                        if (distance < 99999) {
+                        if (distance < 20) {
                             if(absentRB.isChecked()){
                                 reason = "Person in Charge Not Available";
                                 i = new Intent(CancelActivity.this, ESignature.class);
