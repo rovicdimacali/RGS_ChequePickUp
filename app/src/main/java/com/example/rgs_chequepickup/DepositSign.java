@@ -139,7 +139,7 @@ public class DepositSign extends AppCompatActivity {
     }
     private File createImageFile() throws IOException{
         HistoryManagement hm = new HistoryManagement(DepositSign.this);
-        String comp = hm.getComp();
+        String comp = hm.getComp().replace(" ", "-").replace(",","_");;
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";

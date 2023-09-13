@@ -231,7 +231,7 @@ public class DSignature extends AppCompatActivity {
         String currentTime = timeForm.format(currentDate);
 
         HistoryManagement hm = new HistoryManagement(DSignature.this);
-        String comp = hm.getComp();
+        String comp = hm.getComp().replace(" ", "-").replace(",","_");;
         String fileName;
 
         fileName = "DepositSign_"+ comp + "_"+currentTime+".jpg";

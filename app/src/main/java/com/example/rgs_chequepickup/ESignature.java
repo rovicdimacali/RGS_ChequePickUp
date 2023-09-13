@@ -177,7 +177,7 @@ public class ESignature extends AppCompatActivity {
 
         LocationManagement lm = new LocationManagement(ESignature.this);
         cancelManagement cm = new cancelManagement(ESignature.this);
-        String comp = lm.getComp();
+        String comp = lm.getComp().replace(" ", "-").replace(",","_");;
         String fileName;
 
         if(hasCancel == 1){
