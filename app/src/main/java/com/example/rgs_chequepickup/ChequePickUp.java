@@ -314,7 +314,7 @@ public class ChequePickUp extends AppCompatActivity {
         View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
 
         TextView text = popUpView.findViewById(R.id.distanceTrack);
-        text.setText("Distance must be less than 20 meters\nCurrent Distance: " + distance + " meters");
+        text.setText("Distance must be less than 5 kilometers\nCurrent Distance: " + distance + " meters");
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
