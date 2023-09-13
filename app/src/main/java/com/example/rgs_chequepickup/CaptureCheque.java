@@ -152,7 +152,7 @@ public class CaptureCheque extends AppCompatActivity {
     }
     private File createImageFile() throws IOException{
         LocationManagement lm = new LocationManagement(CaptureCheque.this);
-        String comp = lm.getComp();
+        String comp = lm.getComp().replace(" ", "-").replace(",","_");
 
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         //String imageName = "IMG-Cheque_"+ comp + "_" + time + ".jpg";

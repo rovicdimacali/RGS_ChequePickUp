@@ -971,7 +971,7 @@ public class OfficialReceipt extends AppCompatActivity {
                             chequeManagement cm = new chequeManagement(OfficialReceipt.this);
                             chequeSession cs = new chequeSession(images);
                             cm.saveCheck(cs);
-
+                            Toast.makeText(OfficialReceipt.this, "images: " + images, Toast.LENGTH_SHORT).show();
 
                             isEdit = false;
                             isSubmit = true;
@@ -1028,12 +1028,11 @@ public class OfficialReceipt extends AppCompatActivity {
     }
     private File createImageFile() throws IOException{
         LocationManagement lm = new LocationManagement(OfficialReceipt.this);
-        String comp = lm.getComp();
-
+        String comp = lm.getComp().replace(" ", "-").replace(",","_");
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageCheck = "IMG-Cheque" + cameraTurn;
         String imageName = "IMG-Cheque" + cameraTurn + "_"+ comp + "_" + time;
-
+        Log.d("IMAGE NAME", "Image Name: " + imageName);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         //File imageFile = new File(storageDir, imageName);
         File imageFile = File.createTempFile(imageName,".jpg",storageDir);

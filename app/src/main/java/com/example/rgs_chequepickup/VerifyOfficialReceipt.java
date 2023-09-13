@@ -95,7 +95,8 @@ public class VerifyOfficialReceipt extends AppCompatActivity {
         orin.setText(orArr[0]);
         amin.setText(amArr[0]);
         File img = new File(imgArr[0]);
-        //Toast.makeText(VerifyOfficialReceipt.this, "Size" + size, Toast.LENGTH_LONG).show();
+        //Toast.makeText(VerifyOfficialReceipt.this, "Image: " + img, Toast.LENGTH_LONG).show();\
+        Log.d("IMAGE", String.valueOf(img));
         if(img.exists()){
             Uri imageUri = Uri.fromFile(img);
 
