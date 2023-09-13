@@ -221,7 +221,7 @@ public class ChequePickUp extends AppCompatActivity {
                         ep.setLongitude(des_long);
 
                         double distance = sp.distanceTo(ep);
-                        if(distance < 5000){
+                        if(distance < 6000){
                             ArrivedPopupWindow();
                             //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
                             arrived_button.setActivated(true);
@@ -314,7 +314,7 @@ public class ChequePickUp extends AppCompatActivity {
         View popUpView = inflater.inflate(R.layout.popup_not_arrived, null);
 
         TextView text = popUpView.findViewById(R.id.distanceTrack);
-        text.setText("Distance must be less than 5 kilometers\nCurrent Distance: " + distance + " meters");
+        text.setText("Distance must be less than 6 kilometers\nCurrent Distance: " + distance + " meters");
 
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;

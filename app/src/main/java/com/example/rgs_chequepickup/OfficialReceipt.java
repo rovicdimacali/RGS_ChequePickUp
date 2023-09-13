@@ -971,7 +971,6 @@ public class OfficialReceipt extends AppCompatActivity {
                             chequeManagement cm = new chequeManagement(OfficialReceipt.this);
                             chequeSession cs = new chequeSession(images);
                             cm.saveCheck(cs);
-                            Toast.makeText(OfficialReceipt.this, "images: " + images, Toast.LENGTH_SHORT).show();
 
                             isEdit = false;
                             isSubmit = true;
