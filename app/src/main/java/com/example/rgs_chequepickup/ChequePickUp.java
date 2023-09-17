@@ -203,7 +203,6 @@ public class ChequePickUp extends AppCompatActivity {
                 if(location != null){
                     Geocoder gc = new Geocoder(ChequePickUp.this, Locale.getDefault());
                     List<Address> sadd;
-                    List<Address> dadd;
                     try {
                         //CURRENT LOCATION
                         sadd = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -212,25 +211,9 @@ public class ChequePickUp extends AppCompatActivity {
                         cur_long = sadd.get(0).getLongitude();
                         sp.setLatitude(cur_lat);
                         sp.setLongitude(cur_long);
-                        //DESTINATION
-                        dadd = gc.getFromLocationName(addr.getText().toString(), 1);
-                        Location ep = new Location("destination");
-                        des_lat = dadd.get(0).getLatitude();
-                        des_long = dadd.get(0).getLongitude();
-                        ep.setLatitude(des_lat);
-                        ep.setLongitude(des_long);
 
-                        double distance = sp.distanceTo(ep);
-                        if(distance < 6000){
-                            ArrivedPopupWindow();
-                            //Toast.makeText(ChequePickUp.this, "You're 100m near at your destination", Toast.LENGTH_SHORT).show();
-                            arrived_button.setActivated(true);
-                        }
-                        else{
-                            NotArrivedPopupWindow(distance);
-                            arrived_button.setActivated(false);
-                            //Toast.makeText(ChequePickUp.this, "Must be near the destination first", Toast.LENGTH_SHORT).show();
-                        }
+                        ArrivedPopupWindow();
+                        arrived_button.setActivated(true);
                      } catch (IOException e) {
                         NoSignalPopupWindow();
                         //throw new RuntimeException(e); //RUNTIME ERROR

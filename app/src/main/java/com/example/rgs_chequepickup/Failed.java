@@ -19,10 +19,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +63,7 @@ import okhttp3.Response;
 
 public class Failed extends AppCompatActivity {
     FusedLocationProviderClient fspc;
+    RelativeLayout layout;
     double cur_lat, cur_long;
     private final static int REQUEST_CODE = 100;
     OkHttpClient client;
@@ -70,6 +77,8 @@ public class Failed extends AppCompatActivity {
         setContentView(R.layout.activity_failed);
         //LocationManagement lm = new LocationManagement(Failed.this);
 
+        Handler handler = new Handler();
+
         sm  = new SessionManagement(Failed.this);
         riderID = sm.getSession();
 
@@ -82,7 +91,18 @@ public class Failed extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                back_button.setEnabled(false);
+                back_button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                Loading();
                 getCurrentLocation();
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        back_button.setEnabled(false);
+                        back_button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                    }
+                },3000);
             }
         });
     }
@@ -331,4 +351,23 @@ public class Failed extends AppCompatActivity {
         }
     }
 
+    private void Loading(){
+        layout = findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_loading, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        int duration = 3000;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.postDelayed(() -> {
+            // Display the popup view
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            // Delayed post to hide the popup after the specified duration
+            // Hide the popup view
+            layout.postDelayed(popupWindow::dismiss, duration);
+        }, 0);
+    }
 }

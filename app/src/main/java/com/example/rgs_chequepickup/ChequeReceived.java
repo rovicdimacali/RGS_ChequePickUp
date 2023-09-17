@@ -16,9 +16,15 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +69,7 @@ public class ChequeReceived extends AppCompatActivity {
     private final static int REQUEST_CODE = 100;
     OkHttpClient client;
     boolean isAdded = false;
+    RelativeLayout layout;
     String responseData;
     TextView comp;
     Drawable defaultPic;
@@ -72,6 +79,8 @@ public class ChequeReceived extends AppCompatActivity {
         verifyStoragePermissions(this);
         setContentView(R.layout.activity_cheque_received);
 
+        Handler handler = new Handler();
+
         client = new OkHttpClient();
         back_button = findViewById(R.id.back_button);
         fspc = LocationServices.getFusedLocationProviderClient(ChequeReceived.this);
@@ -79,7 +88,18 @@ public class ChequeReceived extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                back_button.setEnabled(false);
+                back_button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                Loading();
                 getCurrentLocation();
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        back_button.setEnabled(false);
+                        back_button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
+                    }
+                }, 3000);
             }
         });
     }
@@ -259,6 +279,7 @@ public class ChequeReceived extends AppCompatActivity {
                             responseData = Objects.requireNonNull(response.body()).
                                     string();
                             String value = specificValue(responseData);
+
                             if (value.equals("1")) { //DATA SENT BACK TO API SUCCESSFULLY
                                 Toast.makeText(ChequeReceived.this, "Transaction Success", Toast.LENGTH_SHORT).show();
                                 scene_m.removeScene();
@@ -268,6 +289,7 @@ public class ChequeReceived extends AppCompatActivity {
                                 sign_m.removeSign();
                                 cs.removeCheck();
                                 rm.removeReceipt();
+
                                 Intent intent = new Intent(ChequeReceived.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -316,15 +338,6 @@ public class ChequeReceived extends AppCompatActivity {
             }
         }
     }
-    public File getAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-            Log.e("RGS_Express Signs", "Directory not created");
-        }
-        return file;
-    }
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
@@ -338,5 +351,25 @@ public class ChequeReceived extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    private void Loading(){
+        layout = findViewById(R.id.layout);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_loading, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        int duration = 3000;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.postDelayed(() -> {
+            // Display the popup view
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            // Delayed post to hide the popup after the specified duration
+            // Hide the popup view
+            layout.postDelayed(popupWindow::dismiss, duration);
+        }, 0);
     }
 }

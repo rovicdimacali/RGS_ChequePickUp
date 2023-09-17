@@ -12,7 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +58,7 @@ public class DSignature extends AppCompatActivity {
     String responseData, name, cheques, img, signPath;
     Button clear, submit;
     TextView back, caption;
+    RelativeLayout layout;
     OkHttpClient client;
     private SignaturePad signature_pad;
     Intent i;
@@ -114,6 +121,7 @@ public class DSignature extends AppCompatActivity {
         submit.setOnClickListener(view -> {
             Bitmap signatureBitmap = signature_pad.getSignatureBitmap();
             if (addJpgSignatureToGallery(signatureBitmap)) {
+                Loading(3000);
                 postResults();
                 //Toast.makeText(ESignature.this, "Signature saved into the Gallery", Toast.LENGTH_SHORT).show();
 
@@ -267,5 +275,24 @@ public class DSignature extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    private void Loading(int duration){
+        layout = findViewById(R.id.relative);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_loading, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.postDelayed(() -> {
+            // Display the popup view
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            // Delayed post to hide the popup after the specified duration
+            // Hide the popup view
+            layout.postDelayed(popupWindow::dismiss, duration);
+        }, 0);
     }
 }

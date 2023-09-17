@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.Objects;
 
+import SessionPackage.LocationManagement;
 import SessionPackage.SessionManagement;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Loading(3000);
         layout = findViewById(R.id.relative);
 
         SessionManagement sm = new SessionManagement(MainActivity.this);
@@ -81,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
         icon_profile = findViewById(R.id.icon_profile);
         text_profile = findViewById(R.id.text_profile);
         text_priority = findViewById(R.id.text_priority);
+
         home_btn.setOnClickListener(view -> {
+            Loading(500);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, HomeFragment.class, null)
@@ -103,9 +108,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         priority_btn.setOnClickListener(view -> {
+            Loading(500);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, PriorityFragment.class, null)
+                     .replace(R.id.fragmentContainerView, PriorityFragment.class, null)
                     .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         profile_btn.setOnClickListener(view -> {
+            Loading(200);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, ProfileFragment.class, null)
@@ -237,5 +244,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void Loading(int duration){
+        layout = findViewById(R.id.relative);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = inflater.inflate(R.layout.popup_loading, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.postDelayed(() -> {
+            // Display the popup view
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            // Delayed post to hide the popup after the specified duration
+            // Hide the popup view
+            layout.postDelayed(popupWindow::dismiss, duration);
+        }, 0);
     }
 }

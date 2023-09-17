@@ -363,44 +363,30 @@ public class CancelActivity extends AppCompatActivity {
                         cur_long = sadd.get(0).getLongitude();
                         sp.setLatitude(cur_lat);
                         sp.setLongitude(cur_long);
-                        //DESTINATION
-                        dadd = gc.getFromLocationName(lm.getAdd(), 1);
-                        Location ep = new Location("destination");
-                        des_lat = dadd.get(0).getLatitude();
-                        des_long = dadd.get(0).getLongitude();
-                        ep.setLatitude(des_lat);
-                        ep.setLongitude(des_long);
 
-                        double distance = sp.distanceTo(ep);
-                        //address.setText(String.valueOf(distance));
-                        if (distance < 6000) {
-                            if(absentRB.isChecked()){
-                                reason = "Person in Charge Not Available";
-                                i = new Intent(CancelActivity.this, ESignature.class);
-                            }
-                            else if(noChequeRB.isChecked()){
-                                reason = "Cheque Not Available: " + nocheck.getText().toString();
-                                i = new Intent(CancelActivity.this, ESignature.class);
-                            }
-                            else if(collRB.isChecked()){
-                                reason = "Cheque Already Collected";
-                                i = new Intent(CancelActivity.this, ESignature.class);
-                            }
-                            else if(diffRB.isChecked()){
-                                reason = "Wrong Collection Address";
-                                point.setText("none");
-                                i = new Intent(CancelActivity.this, Failed.class);
-                            }
-
-                            cancelManagement cm = new cancelManagement(CancelActivity.this);
-                            cancelSession cs = new cancelSession(reason,point.getText().toString());
-                            cm.saveCancel(cs);
-                            startActivity(i);
-                            finish();
-                        } else {
-                            //NotArrivedPopupWindow();
-                            Toast.makeText(CancelActivity.this, "Must be at the destination first", Toast.LENGTH_SHORT).show();
+                        if(absentRB.isChecked()){
+                            reason = "Person in Charge Not Available";
+                            i = new Intent(CancelActivity.this, ESignature.class);
                         }
+                        else if(noChequeRB.isChecked()){
+                            reason = "Cheque Not Available: " + nocheck.getText().toString();
+                            i = new Intent(CancelActivity.this, ESignature.class);
+                        }
+                        else if(collRB.isChecked()){
+                            reason = "Cheque Already Collected";
+                            i = new Intent(CancelActivity.this, ESignature.class);
+                        }
+                        else if(diffRB.isChecked()){
+                            reason = "Wrong Collection Address";
+                            point.setText("none");
+                            i = new Intent(CancelActivity.this, Failed.class);
+                        }
+
+                        cancelManagement cm = new cancelManagement(CancelActivity.this);
+                        cancelSession cs = new cancelSession(reason,point.getText().toString());
+                        cm.saveCancel(cs);
+                        startActivity(i);
+                        finish();
                     } catch (IOException e) {
                         NoSignalPopupWindow();
                         //throw new RuntimeException(e);

@@ -137,12 +137,18 @@ public class ChecklistInvalidCheque extends AppCompatActivity {
                 String[] check = cm.getCheck().split(",");
                 if(check[0].contains("INVALID-Cheque")){
                     am = totalAmount.getText().toString();
+                    if(am.isEmpty()){
+                        am = "0";
+                    }
                     ReceiptSession rec_s = new ReceiptSession("", am, "", "", "",
                             "", "");
                     rec_m.saveReceipt(rec_s);
                 }
                 else{
                     am = rec_m.getAmount() + "," + totalAmount.getText().toString();
+                    if(totalAmount.getText().toString().isEmpty()){
+                        am = rec_m.getAmount() + ",0";
+                    }
                     tin = rec_m.getTin();
                     or = rec_m.getOR();
                     pay = rec_m.getPayee();

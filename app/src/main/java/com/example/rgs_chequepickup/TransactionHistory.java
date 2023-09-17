@@ -181,6 +181,12 @@ public class TransactionHistory extends AppCompatActivity {
 
                         int size = payArr.length;
 
+                        for(int i = 0; i < payArr.length; i ++){
+                            if(!payArr[i].equalsIgnoreCase("none")){
+
+                            }
+                        }
+
                         for (int i = 0; i < size; i++) {
                             cheques = cheques + 1;
                             View line = new View(TransactionHistory.this);
