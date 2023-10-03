@@ -66,8 +66,8 @@ public class ChequePickUp extends AppCompatActivity {
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
-        message1 = "Good Day! This is your Rider from RGS, I'm on my way to collect the cheque(s) from your location. Thank you!";
-        message2 = "Good Day! This is your Rider from RGS, I've arrived and already at your location. Thank you!";
+        message1 = "Your courier is currently on the way to the designated pick-up point. Please ensure to have your check and payment breakdown prepared to prevent cancellations or rescheduling.";
+        message2 = "Your courier has arrived at the designated pick-up point. Kindly note that the courier will only wait for a maximum of fifteen (15) minutes at the meeting location. ";
 
         LocationManagement lm = new LocationManagement(ChequePickUp.this);
 
