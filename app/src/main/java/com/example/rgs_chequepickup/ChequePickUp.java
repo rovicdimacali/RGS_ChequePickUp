@@ -66,10 +66,8 @@ public class ChequePickUp extends AppCompatActivity {
 
         fspc = LocationServices.getFusedLocationProviderClient(this);
 
-        message1 = "Your courier is currently on the way to the designated pick-up point. Please ensure to have your check " +
-                "and payment breakdown prepared to prevent cancellations and rescheduling";
-        message2 = "Your courier has arrived at the designated pick-up point. Kindly note that the courier will only wait for " +
-                "a maximum of fifteen(15) minutes at the meeting location";
+        message1 = "Your courier is currently on the way to the designated pick-up point. Please ensure to have your check and payment breakdown prepared to prevent cancellations or rescheduling.";
+        message2 = "Your courier has arrived at the designated pick-up point. Kindly note that the courier will only wait for a maximum of fifteen (15) minutes at the meeting location. ";
 
         LocationManagement lm = new LocationManagement(ChequePickUp.this);
 
