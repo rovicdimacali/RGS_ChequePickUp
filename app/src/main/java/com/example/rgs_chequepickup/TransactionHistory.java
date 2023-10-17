@@ -171,26 +171,12 @@ public class TransactionHistory extends AppCompatActivity {
                             signBtn.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.rgs_gray1));
                         }
 
-                        Log.d("Result", "Result AccNo: " + accno);
-                        //String[] tinArr = tin.split(",");
                         String[] accArr = accno.split(",");
                         String[] payArr = payee.split(",");
                         String[] orArr = ornum.split(",");
                         String[] amArr = amount.split(",");
 
-                        Log.d("Result", "Result Pay: " + payArr.length);
-                        for(int i = 0; i < accArr.length; i++){
-                            Log.d("Result", "Result Acc: " + accArr[i]);
-                        }
-
-
                         int size = payArr.length;
-
-                        for(int i = 0; i < payArr.length; i ++){
-                            if(!payArr[i].equalsIgnoreCase("none")){
-
-                            }
-                        }
 
                         for (int i = 0; i < size; i++) {
                             cheques = cheques + 1;
